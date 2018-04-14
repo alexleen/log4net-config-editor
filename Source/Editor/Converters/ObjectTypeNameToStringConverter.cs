@@ -8,7 +8,7 @@ namespace Editor.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? value.GetType().Name : null;
+            return value?.GetType().Name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
