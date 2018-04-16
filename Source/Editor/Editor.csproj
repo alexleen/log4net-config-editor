@@ -56,6 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\RefSelectionConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
+    <Compile Include="Enums\FilterType.cs" />
     <Compile Include="Models\AppenderModel.cs" />
     <Compile Include="Enums\AppenderType.cs" />
     <Compile Include="Descriptors\FilterDescriptor.cs" />
