@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
@@ -51,9 +52,12 @@ namespace Editor
             Load(Settings.Default.LastConfig);
         }
 
-        //TODO no Save? Save on the fly?
         private void SaveOnClick(object sender, RoutedEventArgs e)
-        {            
+        {
+            using (XmlTextWriter xtw = new XmlTextWriter(Settings.Default.LastConfig, Encoding.UTF8) { Formatting = Formatting.Indented })
+            {
+                mConfigXml.Save(xtw);
+            }
         }
 
         private void Load(string fileName)
@@ -72,7 +76,7 @@ namespace Editor
                 return;
             }
 
-            //TODO does this only select appenders under the log4net node or the hole file?
+            //TODO does this only select appenders under the log4net node or the whole file?
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
             if (appenderList != null)

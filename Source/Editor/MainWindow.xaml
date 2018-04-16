@@ -18,7 +18,7 @@
     </Window.Resources>
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
-            <TextBox x:Name="xConfigTextBox" Width="300" VerticalAlignment="Center" IsReadOnly="True" />
+            <TextBox x:Name="xConfigTextBox" Width="500" VerticalAlignment="Center" IsReadOnly="True" />
             <Button Click="OpenOnClick">Open</Button>
             <Button Click="ReloadOnClick">Reload</Button>
         </StackPanel>
@@ -29,6 +29,13 @@
                     <Setter Property="Width" Value="100" />
                 </Style>
             </StackPanel.Resources>
+            <ComboBox Width="100" Margin="5" SelectedIndex="0">
+                <ComboBoxItem>Console</ComboBoxItem>
+                <ComboBoxItem>Async</ComboBoxItem>
+                <ComboBoxItem>File</ComboBoxItem>
+                <ComboBoxItem IsEnabled="False">Rolling File</ComboBoxItem>
+                <ComboBoxItem>Event Log</ComboBoxItem>
+            </ComboBox>
             <Button>Add Appender</Button>
             <Button IsEnabled="false">Add Logger</Button>
             <Button IsEnabled="false">Add Renderer</Button>

@@ -4,15 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Editor.Windows"
+        xmlns:Converters="clr-namespace:Editor.Converters"
         mc:Ignorable="d"
-        Height="360" 
-        Width="640"
+        Height="432" 
+        Width="768"
         WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Converters:RefSelectionConverter x:Key="xRefSelectionConverter"/>
+    </Window.Resources>
     <DockPanel>
         <Label DockPanel.Dock="Top">The following is a list of locations where this appender is referenced. References can be added or removed.</Label>
-        <StackPanel DockPanel.Dock="Right">
-            <Button Width="100" Margin="5">Add Ref</Button>
+        <StackPanel DockPanel.Dock="Right" Width="150">
+            <ComboBox x:Name="xRefComboBox" Margin="5" SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Padding="0" Content="{Binding Converter={StaticResource xRefSelectionConverter}}"></Label>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Margin="5" Click="AddRefOnClick">Add Ref</Button>
         </StackPanel>
+        <Button DockPanel.Dock="Bottom" Width="50" Margin="5" Click="CloseOnClick">Close</Button>
         <DataGrid x:Name="xRefsGrid" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Element" Binding="{Binding ElementName}"/>
@@ -31,3 +43,4 @@
         </DataGrid>
     </DockPanel>
 </Window>
+

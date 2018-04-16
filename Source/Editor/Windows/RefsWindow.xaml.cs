@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
-using Editor.Properties;
 
 namespace Editor.Windows
 {
@@ -26,11 +26,38 @@ namespace Editor.Windows
             mLog4NetNode = log4NetNode;
             mAppenderName = appenderName;
             LoadRefs();
+            LoadAvailableRefLocations();
         }
 
         private void LoadRefs()
         {
             xRefsGrid.ItemsSource = FindAppenderRefs(mLog4NetNode, mAppenderName);
+        }
+
+        private void LoadAvailableRefLocations()
+        {
+            XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
+            ICollection<XmlNode> items = new List<XmlNode>();
+
+            if (appenderList != null)
+            {
+                foreach (XmlNode node in appenderList)
+                {
+                    if (node.Attributes?["type"]?.Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async")
+                    {
+                        items.Add(node);
+                    }
+                }
+            }
+
+            XmlNode root = mLog4NetNode.SelectSingleNode("root");
+
+            if (root != null)
+            {
+                items.Add(root);
+            }
+
+            xRefComboBox.ItemsSource = items;
         }
 
         private static IEnumerable FindAppenderRefs(XmlNode log4NetNode, string appenderName)
@@ -66,8 +93,26 @@ namespace Editor.Windows
         {
             RefModel refModel = (RefModel)((Button)sender).DataContext;
             refModel.AppenderRef.ParentNode.RemoveChild(refModel.AppenderRef);
-            mConfigXml.Save(Settings.Default.LastConfig);
             LoadRefs();
+        }
+
+        private void AddRefOnClick(object sender, RoutedEventArgs e)
+        {
+            XmlAttribute refAttribute = mConfigXml.CreateAttribute("ref");
+            refAttribute.Value = mAppenderName;
+
+            XmlNode newAppenderRef = mConfigXml.CreateNode(XmlNodeType.Element, null, "appender-ref", null);
+            newAppenderRef.Attributes.Append(refAttribute);
+
+            XmlNode selected = (XmlNode)xRefComboBox.SelectionBoxItem;
+            selected.AppendChild(newAppenderRef);
+
+            LoadRefs();
+        }
+
+        private void CloseOnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
