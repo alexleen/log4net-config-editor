@@ -55,10 +55,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\RefSelectionConverter.cs" />
+    <Compile Include="Descriptors\AppenderDescriptor.cs" />
+    <Compile Include="Models\AppenderModel.cs" />
+    <Compile Include="Enums\AppenderType.cs" />
+    <Compile Include="Descriptors\FilterDescriptor.cs" />
+    <Compile Include="Descriptors\LayoutDescriptor.cs" />
+    <Compile Include="Enums\LayoutType.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddFileAppenderWindow.xaml.cs">
+      <DependentUpon>AddFileAppenderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\RefsWindow.xaml.cs">
       <DependentUpon>RefsWindow.xaml</DependentUpon>
@@ -76,6 +85,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\AddFileAppenderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\RefsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

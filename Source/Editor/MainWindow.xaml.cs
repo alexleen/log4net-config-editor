@@ -6,6 +6,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Enums;
+using Editor.Models;
 using Editor.Properties;
 using Editor.Windows;
 using Microsoft.Win32;
@@ -23,6 +26,15 @@ namespace Editor
         public MainWindow()
         {
             InitializeComponent();
+
+            xAppenderComboBox.ItemsSource = new[]
+            {
+                AppenderDescriptor.Console,
+                AppenderDescriptor.File,
+                AppenderDescriptor.RollingFile,
+                AppenderDescriptor.EventLog,
+                AppenderDescriptor.Async
+            };
         }
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
@@ -92,39 +104,16 @@ namespace Editor
             }
         }
 
-        //TODO factory
         private static AppenderModel Create(XmlNode appender)
         {
             string type = appender.Attributes?["type"].Value;
-            string name = appender.Attributes?["name"].Value;
 
-            switch (type)
+            if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
-                case "log4net.Appender.ConsoleAppender":
-                    return new AppenderModel(true, "Console Appender", name);
-                case "log4net.Appender.EventLogAppender":
-                    return new AppenderModel(true, "Event Log Appender", name);
-                case "log4net.Appender.FileAppender":
-                    return new AppenderModel(true, "File Appender", name);
-                case "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async":
-                    return new AppenderModel(true, "Async Forwarding Appender", name);
-                default:
-                    throw new ArgumentException($"Unsupported appender type: {appender.GetType().Name}");
-            }
-        }
-
-        private class AppenderModel
-        {
-            public AppenderModel(bool enabled, string appenderType, string name)
-            {
-                Enabled = enabled;
-                AppenderType = appenderType;
-                Name = name;
+                return new AppenderModel(descriptor, appender);
             }
 
-            public bool Enabled { get; set; }
-            public string AppenderType { get; }
-            public string Name { get; }
+            throw new InvalidOperationException("Unknown appender: " + type);
         }
 
         private void RefsOnClick(object sender, RoutedEventArgs e)
@@ -132,6 +121,38 @@ namespace Editor
             AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
             RefsWindow refsWindow = new RefsWindow(this, mConfigXml, mLog4NetNode, appenderModel.Name);
             refsWindow.ShowDialog();
+        }
+
+        private void AddAppenderOnClick(object sender, RoutedEventArgs e)
+        {
+            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type);
+        }
+
+        private void EditAppenderOnClick(object sender, RoutedEventArgs e)
+        {
+            AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
+            OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node);
+        }
+
+        private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode = null)
+        {
+            switch (appenderType)
+            {
+                case AppenderType.Console:
+                    break;
+                case AppenderType.File:
+                    AddFileAppenderWindow afaw = new AddFileAppenderWindow(this, appenderNode);
+                    afaw.ShowDialog();
+                    break;
+                case AppenderType.RollingFile:
+                    break;
+                case AppenderType.EventLog:
+                    break;
+                case AppenderType.Async:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
+            }
         }
     }
 }
