@@ -1,4 +1,4 @@
-﻿<Window x:Class="Editor.MainWindow"
+<Window x:Class="Editor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,7 +24,7 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
             <TextBox x:Name="xConfigTextBox" Width="300" VerticalAlignment="Center" IsReadOnly="True" />
             <Button Click="OpenOnClick">Open</Button>
-            <Button>Reload</Button>
+            <Button Click="ReloadOnClick">Reload</Button>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Right">
@@ -39,7 +39,7 @@
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom">
-            <Button>Save</Button>
+            <Button Click="SaveOnClick">Save</Button>
         </StackPanel>
         <DockPanel>
             <StackPanel DockPanel.Dock="Bottom">

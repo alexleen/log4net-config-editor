@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,57 +46,49 @@ namespace Editor
             }
         }
 
+        private void ReloadOnClick(object sender, RoutedEventArgs e)
+        {
+            Load(Settings.Default.LastConfig);
+        }
+
+        private void SaveOnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Load(string fileName)
         {
             xConfigTextBox.Text = fileName;
-                /*XmlConfigurator.Configure(new FileInfo(ofd.FileName));
-                
-                Hierarchy loggerRepository = LogManager.GetRepository() as Hierarchy;
-                IAppender[] appenders = loggerRepository.Root.Appenders.ToArray();
-                xChildren.ItemsSource = appenders.Select(Create);*/
 
             XmlDocument configXml = new XmlDocument();
             configXml.Load(fileName);
 
-            if (configXml.DocumentElement?.Name == "log4net")
+            XmlNode log4netNode = configXml.SelectSingleNode("//log4net");
+
+            if (log4netNode == null)
             {
-                //TODO can we create an XPath that doesn't care if it's nested?
-                XmlNodeList appenderList = configXml.SelectNodes("/log4net/appender");
-
-                if (appenderList != null)
-                {
-                    ICollection<AppenderModel> appenderModels = new List<AppenderModel>();
-
-                    foreach (XmlNode node in appenderList)
-                    {
-                        appenderModels.Add(Create(node));
-                    }
-
-                    xChildren.ItemsSource = appenderModels;
-                }
+                MessageBox.Show(this, "Could not fin log4net configuration.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            else
+            
+            XmlNodeList appenderList = log4netNode.SelectNodes("appender");
+
+            if (appenderList != null)
             {
-                //TODO find
-            }            
+                ICollection<AppenderModel> appenderModels = new List<AppenderModel>();
+
+                foreach (XmlNode node in appenderList)
+                {
+                    AppenderModel appenderModel = Create(node);
+                    appenderModels.Add(appenderModel);
+                    IEnumerable<XmlNode> appenderRefs = FindAppenderRefs(log4netNode, appenderModel.Name);
+                }
+
+                xChildren.ItemsSource = appenderModels;
+            }
         }
 
         //TODO factory
-        private static AppenderModel Create(IAppender appender)
-        {
-            switch (appender)
-            {
-                case ConsoleAppender console:
-                    return new AppenderModel(true, "Console Appender", console.Name);
-                case EventLogAppender eventLog:
-                    return new AppenderModel(true, "Event Log Appender", eventLog.Name);
-                case FileAppender file:
-                    return new AppenderModel(true, "File Appender", file.Name);
-                default:
-                    throw new ArgumentException($"Unsupported appender type: {appender.GetType().Name}");
-            }
-        }
-
         private static AppenderModel Create(XmlNode appender)
         {
             string type = appender.Attributes?["type"].Value;
@@ -114,6 +106,19 @@ namespace Editor
                     return new AppenderModel(true, "Async Forwarding Appender", name);
                 default:
                     throw new ArgumentException($"Unsupported appender type: {appender.GetType().Name}");
+            }
+        }
+
+        private IEnumerable<XmlNode> FindAppenderRefs(XmlNode log4netNode, string appenderName)
+        {
+            XmlNodeList appenderRefs = log4netNode.SelectNodes("//appender-ref");
+
+            foreach (XmlNode appenderRef in appenderRefs)
+            {
+                if (appenderRef.Attributes?["ref"].Value == appenderName)
+                {
+                    yield return appenderRef;
+                }
             }
         }
 
