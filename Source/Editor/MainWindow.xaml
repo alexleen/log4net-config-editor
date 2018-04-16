@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Editor"
-        xmlns:converters="clr-namespace:Editor.Converters"
         mc:Ignorable="d"
         Title="log4net Configuration Editor"
         MinHeight="350"
@@ -13,8 +11,6 @@
         Width="960"
         Loaded="MainWindowOnLoaded">
     <Window.Resources>
-        <converters:ObjectTypeNameToStringConverter x:Key="otntsc" />
-
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5" />
             <Setter Property="Width" Value="50" />
@@ -36,18 +32,19 @@
             <Button>Add Appender</Button>
             <Button IsEnabled="false">Add Logger</Button>
             <Button IsEnabled="false">Add Renderer</Button>
+            <Button IsEnabled="false">Add Root</Button>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom">
             <Button Click="SaveOnClick">Save</Button>
         </StackPanel>
         <DockPanel>
-            <StackPanel DockPanel.Dock="Bottom">
+            <!--<StackPanel DockPanel.Dock="Bottom">
                 <Label FontWeight="Bold">Root</Label>
                 <StackPanel Orientation="Horizontal" ToolTip="Defines the logging level for this logger. This logger will only accept events that are at this level or above.">
                     <Label>Level:</Label>
                     <ComboBox Width="80" VerticalAlignment="Center">
-                        <ComboBoxItem></ComboBoxItem>
+                        <ComboBoxItem />
                         <ComboBoxItem>DEBUG</ComboBoxItem>
                         <ComboBoxItem>INFO</ComboBoxItem>
                         <ComboBoxItem>NOTICE</ComboBoxItem>
@@ -73,16 +70,16 @@
                         <DataGridTextColumn Header="Type" />
                     </DataGrid.Columns>
                 </DataGrid>
-            </StackPanel>
+            </StackPanel>-->
             <DataGrid x:Name="xChildren" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}" />
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Type" Binding="{Binding AppenderType}" />
                     <DataGridTemplateColumn Header="Options">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
+                                    <Button Click="RefsOnClick">Refs</Button>
                                     <Button>Edit</Button>
                                     <Button>Remove</Button>
                                 </StackPanel>

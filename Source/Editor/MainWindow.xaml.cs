@@ -1,15 +1,12 @@
+// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Xml;
 using Editor.Properties;
-using log4net;
-using log4net.Appender;
-using log4net.Config;
-using log4net.Repository;
-using log4net.Repository.Hierarchy;
+using Editor.Windows;
 using Microsoft.Win32;
 
 namespace Editor
@@ -19,6 +16,9 @@ namespace Editor
     /// </summary>
     public partial class MainWindow
     {
+        private XmlDocument mConfigXml;
+        private XmlNode mLog4NetNode;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace Editor
 
         private void OpenOnClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog {Filter = "Config Files (*.xml, *.config) | *.xml; *.config"};
+            OpenFileDialog ofd = new OpenFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
 
             bool? showDialog = ofd.ShowDialog(this);
 
@@ -51,27 +51,29 @@ namespace Editor
             Load(Settings.Default.LastConfig);
         }
 
+        //TODO no Save? Save on the fly?
         private void SaveOnClick(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
+        {            
         }
 
         private void Load(string fileName)
         {
             xConfigTextBox.Text = fileName;
 
-            XmlDocument configXml = new XmlDocument();
-            configXml.Load(fileName);
+            mConfigXml = new XmlDocument();
+            mConfigXml.Load(fileName);
 
-            XmlNode log4netNode = configXml.SelectSingleNode("//log4net");
+            //TODO if > 1 node abort
+            mLog4NetNode = mConfigXml.SelectSingleNode("//log4net");
 
-            if (log4netNode == null)
+            if (mLog4NetNode == null)
             {
-                MessageBox.Show(this, "Could not fin log4net configuration.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "Could not find log4net configuration.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
-            XmlNodeList appenderList = log4netNode.SelectNodes("appender");
+
+            //TODO does this only select appenders under the log4net node or the hole file?
+            XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
             if (appenderList != null)
             {
@@ -79,9 +81,7 @@ namespace Editor
 
                 foreach (XmlNode node in appenderList)
                 {
-                    AppenderModel appenderModel = Create(node);
-                    appenderModels.Add(appenderModel);
-                    IEnumerable<XmlNode> appenderRefs = FindAppenderRefs(log4netNode, appenderModel.Name);
+                    appenderModels.Add(Create(node));
                 }
 
                 xChildren.ItemsSource = appenderModels;
@@ -109,19 +109,6 @@ namespace Editor
             }
         }
 
-        private IEnumerable<XmlNode> FindAppenderRefs(XmlNode log4netNode, string appenderName)
-        {
-            XmlNodeList appenderRefs = log4netNode.SelectNodes("//appender-ref");
-
-            foreach (XmlNode appenderRef in appenderRefs)
-            {
-                if (appenderRef.Attributes?["ref"].Value == appenderName)
-                {
-                    yield return appenderRef;
-                }
-            }
-        }
-
         private class AppenderModel
         {
             public AppenderModel(bool enabled, string appenderType, string name)
@@ -134,6 +121,13 @@ namespace Editor
             public bool Enabled { get; set; }
             public string AppenderType { get; }
             public string Name { get; }
+        }
+
+        private void RefsOnClick(object sender, RoutedEventArgs e)
+        {
+            AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
+            RefsWindow refsWindow = new RefsWindow(this, mConfigXml, mLog4NetNode, appenderModel.Name);
+            refsWindow.ShowDialog();
         }
     }
 }

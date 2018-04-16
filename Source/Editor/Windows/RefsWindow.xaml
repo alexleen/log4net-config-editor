@@ -1,0 +1,33 @@
+﻿<Window x:Class="Editor.Windows.RefsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Editor.Windows"
+        mc:Ignorable="d"
+        Height="360" 
+        Width="640"
+        WindowStartupLocation="CenterOwner">
+    <DockPanel>
+        <Label DockPanel.Dock="Top">The following is a list of locations where this appender is referenced. References can be added or removed.</Label>
+        <StackPanel DockPanel.Dock="Right">
+            <Button Width="100" Margin="5">Add Ref</Button>
+        </StackPanel>
+        <DataGrid x:Name="xRefsGrid" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Element" Binding="{Binding ElementName}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding AppenderType}"/>
+                <DataGridTemplateColumn Header="Options">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Width="50" Margin="5" Click="RemoveRefOnClick">Remove</Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>
