@@ -83,7 +83,7 @@
             </DataGrid>
         </DockPanel>
 
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
             <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
         </StackPanel>

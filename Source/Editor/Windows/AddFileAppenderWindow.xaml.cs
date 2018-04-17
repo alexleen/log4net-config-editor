@@ -64,6 +64,12 @@ namespace Editor.Windows
                 MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            
+            if (string.IsNullOrEmpty(xFileTextBox.Text))
+            {
+                MessageBox.Show(this, "A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             if (string.IsNullOrEmpty(xPatternTextBox.Text))
             {
@@ -83,11 +89,33 @@ namespace Editor.Windows
                 appenderNode.Attributes.Append(nameAttribute);
                 appenderNode.Attributes.Append(appenderTypeAttribute);
 
-                XmlNode layoutNode = mConfigXml.CreateNode(XmlNodeType.Element, "layout", null);
+                XmlAttribute fileValueAttr = mConfigXml.CreateAttribute("value");
+                fileValueAttr.Value = xFileTextBox.Text;
+                XmlElement fileElement = mConfigXml.CreateElement("file");
+                fileElement.Attributes.Append(fileValueAttr);
+                appenderNode.AppendChild(fileElement);
+
+                if (xOverwriteRb.IsChecked.HasValue && xOverwriteRb.IsChecked.Value)
+                {
+                    XmlAttribute appendToFileValueAttr = mConfigXml.CreateAttribute("value");
+                    appendToFileValueAttr.Value = "false";
+                    XmlElement appendToFileElement = mConfigXml.CreateElement("appendToFile");
+                    appendToFileElement.Attributes.Append(appendToFileValueAttr);
+                    appenderNode.AppendChild(appendToFileElement);
+                }
+
+                XmlNode layoutNode = mConfigXml.CreateElement("layout");
 
                 XmlAttribute layoutTypeAttribute = mConfigXml.CreateAttribute("type");
                 layoutTypeAttribute.Value = ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace;
                 layoutNode.Attributes.Append(layoutTypeAttribute);
+
+                XmlAttribute convPatternValueAttr = mConfigXml.CreateAttribute("value");
+                convPatternValueAttr.Value = xPatternTextBox.Text;
+
+                XmlElement convPatternElement = mConfigXml.CreateElement("conversionPattern");
+                convPatternElement.Attributes.Append(convPatternValueAttr);
+                layoutNode.AppendChild(convPatternElement);
 
                 appenderNode.AppendChild(layoutNode);
 
