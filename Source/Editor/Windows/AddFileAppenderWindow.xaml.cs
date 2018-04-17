@@ -13,13 +13,18 @@ namespace Editor.Windows
     /// </summary>
     public partial class AddFileAppenderWindow : Window
     {
+        private readonly XmlDocument mConfigXml;
+        private readonly XmlNode mLog4NetNode;
         private readonly XmlNode mAppenderNode;
 
-        public AddFileAppenderWindow(Window owner, XmlNode appenderNode)
+        public AddFileAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
         {
             InitializeComponent();
             Owner = owner;
+            mConfigXml = configXml;
+            mLog4NetNode = log4NetNode;
             mAppenderNode = appenderNode;
+
             xLayoutComboBox.ItemsSource = new[]
             {
                 LayoutDescriptor.Simple,
@@ -50,6 +55,46 @@ namespace Editor.Windows
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
+        }
+
+        private void SaveOnClick(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(xNameTextBox.Text))
+            {
+                MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(xPatternTextBox.Text))
+            {
+                MessageBox.Show(this, "A pattern must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (mAppenderNode == null) //New appender
+            {
+                XmlAttribute nameAttribute = mConfigXml.CreateAttribute("name");
+                nameAttribute.Value = xNameTextBox.Text;
+
+                XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
+                appenderTypeAttribute.Value = AppenderDescriptor.File.TypeNamespace;
+
+                XmlNode appenderNode = mConfigXml.CreateNode(XmlNodeType.Element, "appender", null);
+                appenderNode.Attributes.Append(nameAttribute);
+                appenderNode.Attributes.Append(appenderTypeAttribute);
+
+                XmlNode layoutNode = mConfigXml.CreateNode(XmlNodeType.Element, "layout", null);
+
+                XmlAttribute layoutTypeAttribute = mConfigXml.CreateAttribute("type");
+                layoutTypeAttribute.Value = ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace;
+                layoutNode.Attributes.Append(layoutTypeAttribute);
+
+                appenderNode.AppendChild(layoutNode);
+
+                mLog4NetNode.AppendChild(appenderNode);
+            }
+
+            Close();
         }
 
         private void CloseOnClick(object sender, RoutedEventArgs e)

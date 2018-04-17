@@ -83,7 +83,11 @@
             </DataGrid>
         </DockPanel>
 
-        <Button Grid.Row="4" Grid.ColumnSpan="2" Width="50" Margin="5" Click="CloseOnClick">Close</Button>
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
+            <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
+        </StackPanel>
+        
     </Grid>
 </Window>
 

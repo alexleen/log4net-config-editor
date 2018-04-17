@@ -61,10 +61,20 @@ namespace Editor
 
         private void ReloadOnClick(object sender, RoutedEventArgs e)
         {
+            Reload();
+        }
+
+        private void Reload()
+        {
             Load(Settings.Default.LastConfig);
         }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Save()
         {
             using (XmlTextWriter xtw = new XmlTextWriter(Settings.Default.LastConfig, Encoding.UTF8) { Formatting = Formatting.Indented })
             {
@@ -106,7 +116,7 @@ namespace Editor
 
         private static AppenderModel Create(XmlNode appender)
         {
-            string type = appender.Attributes?["type"].Value;
+            string type = appender.Attributes?["type"]?.Value;
 
             if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
@@ -134,6 +144,16 @@ namespace Editor
             OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node);
         }
 
+        private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
+        {
+            //TODO confirm
+            AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
+            mLog4NetNode.RemoveChild(appenderModel.Node);
+
+            Save();
+            Reload();
+        }
+
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode = null)
         {
             switch (appenderType)
@@ -141,7 +161,7 @@ namespace Editor
                 case AppenderType.Console:
                     break;
                 case AppenderType.File:
-                    AddFileAppenderWindow afaw = new AddFileAppenderWindow(this, appenderNode);
+                    AddFileAppenderWindow afaw = new AddFileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     afaw.ShowDialog();
                     break;
                 case AppenderType.RollingFile:
@@ -153,6 +173,9 @@ namespace Editor
                 default:
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
             }
+
+            Save();
+            Reload();
         }
     }
 }

@@ -81,14 +81,14 @@
             <DataGrid x:Name="xChildren" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Type" Binding="{Binding AppenderType}" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}" />
                     <DataGridTemplateColumn Header="Options">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Click="RefsOnClick">Refs</Button>
                                     <Button Click="EditAppenderOnClick">Edit</Button>
-                                    <Button>Remove</Button>
+                                    <Button Click="RemoveAppenderOnClick">Remove</Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

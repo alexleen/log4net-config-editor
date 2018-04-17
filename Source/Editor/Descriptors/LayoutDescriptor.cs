@@ -1,46 +1,49 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using Editor.Enums;
-using Editor.Models;
 
 namespace Editor.Descriptors
 {
     public class LayoutDescriptor
     {
-        public static LayoutDescriptor Simple, Pattern;
+        public static readonly LayoutDescriptor Simple, Pattern;
+        private static readonly IDictionary<string, LayoutDescriptor> sDescriptorsByTypeNamespace;
 
         static LayoutDescriptor()
         {
-            Simple = new LayoutDescriptor("Simple", LayoutType.Simple);
-            Pattern = new LayoutDescriptor("Pattern", LayoutType.Pattern);
+            Simple = new LayoutDescriptor("Simple", LayoutType.Simple, "log4net.Layout.SimpleLayout");
+            Pattern = new LayoutDescriptor("Pattern", LayoutType.Pattern, "log4net.Layout.PatternLayout");
+
+            sDescriptorsByTypeNamespace = new Dictionary<string, LayoutDescriptor>
+            {
+                { Simple.TypeNamespace, Simple },
+                { Pattern.TypeNamespace, Pattern }
+            };
         }
 
-        public LayoutDescriptor(string name, LayoutType type)
+        private LayoutDescriptor(string name, LayoutType type, string typeNamespace)
         {
             Name = name;
             Type = type;
+            TypeNamespace = typeNamespace;
         }
 
         public static bool TryFindByTypeNamespace(string typeNamespace, out LayoutDescriptor layout)
         {
-            switch (typeNamespace)
+            if (typeNamespace == null)
             {
-                case "log4net.Layout.PatternLayout":
-                    layout = Pattern;
-                    break;
-                case "log4net.Layout.SimpleLayout":
-                    layout = Simple;
-                    break;
-                default:
-                    layout = null;
-                    return false;
+                layout = null;
+                return false;
             }
 
-            return true;
+            return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out layout);
         }
 
         public string Name { get; }
 
         public LayoutType Type { get; }
+
+        public string TypeNamespace { get; }
     }
 }
