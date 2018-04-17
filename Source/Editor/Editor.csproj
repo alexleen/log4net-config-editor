@@ -70,6 +70,9 @@
     <Compile Include="Windows\AddFileAppenderWindow.xaml.cs">
       <DependentUpon>AddFileAppenderWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\FilterWindow.xaml.cs">
+      <DependentUpon>FilterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\RefsWindow.xaml.cs">
       <DependentUpon>RefsWindow.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\AddFileAppenderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\FilterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

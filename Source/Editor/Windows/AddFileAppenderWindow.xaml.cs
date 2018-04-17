@@ -1,10 +1,14 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Enums;
 
 namespace Editor.Windows
 {
@@ -31,6 +35,18 @@ namespace Editor.Windows
                 LayoutDescriptor.Pattern
             };
 
+            xFilterComboBox.ItemsSource = new[]
+            {
+                FilterDescriptor.DenyAll,
+                FilterDescriptor.LevelMatch,
+                FilterDescriptor.LevelRange,
+                FilterDescriptor.LoggerMatch,
+                FilterDescriptor.Mdc,
+                FilterDescriptor.Ndc,
+                FilterDescriptor.Property,
+                FilterDescriptor.String
+            };
+
             Load();
         }
 
@@ -49,6 +65,20 @@ namespace Editor.Windows
 
             string conversionPattern = mAppenderNode?.SelectSingleNode("//conversionPattern")?.Attributes?["value"]?.Value;
             xPatternTextBox.Text = conversionPattern;
+
+            XmlNodeList filterNodes = mAppenderNode?.SelectNodes("filter");
+
+            ICollection<FilterDescriptor> filters = new Collection<FilterDescriptor>();
+
+            foreach (XmlNode filterNode in filterNodes)
+            {
+                if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
+                {
+                    filters.Add(filterDescriptor);
+                }
+            }
+
+            xFilterDataGrid.ItemsSource = filters;
         }
 
         private void HyperlinkOnRequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -64,7 +94,7 @@ namespace Editor.Windows
                 MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+
             if (string.IsNullOrEmpty(xFileTextBox.Text))
             {
                 MessageBox.Show(this, "A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -85,7 +115,7 @@ namespace Editor.Windows
                 XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
                 appenderTypeAttribute.Value = AppenderDescriptor.File.TypeNamespace;
 
-                XmlNode appenderNode = mConfigXml.CreateNode(XmlNodeType.Element, "appender", null);
+                XmlNode appenderNode = mConfigXml.CreateElement("appender");
                 appenderNode.Attributes.Append(nameAttribute);
                 appenderNode.Attributes.Append(appenderTypeAttribute);
 
@@ -128,6 +158,21 @@ namespace Editor.Windows
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void EditFilterOnClick(object sender, RoutedEventArgs e)
+        {
+            FilterDescriptor filterDescriptor = (FilterDescriptor)((Button)sender).DataContext;
+
+            if (filterDescriptor.Type != FilterType.DenyAll)
+            {
+                FilterWindow fw = new FilterWindow(this, filterDescriptor);
+                fw.ShowDialog();
+            }
+        }
+
+        private void RemoveFilterOnClick(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
