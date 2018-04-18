@@ -69,14 +69,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AppenderWindow.xaml.cs">
+    <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ConsoleAppenderWindow.cs" />
-    <Compile Include="Windows\FileAppenderWindow.cs" />
-    <Compile Include="Windows\FilterWindow.xaml.cs">
-      <DependentUpon>FilterWindow.xaml</DependentUpon>
+    <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
+    <Compile Include="Windows\Filters\FilterWindow.xaml.cs">
+      <DependentUpon>FilterWindowBase.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Filters\LevelMatchFilterWindow.cs" />
+    <Compile Include="Windows\Filters\LevelRangeFilterWindow.cs" />
+    <Compile Include="Windows\Filters\LoggerMatchFilterWindow.cs" />
+    <Compile Include="Windows\Filters\StringMatchFilterWindow.cs" />
     <Compile Include="Windows\RefsWindow.xaml.cs">
       <DependentUpon>RefsWindow.xaml</DependentUpon>
     </Compile>
@@ -93,11 +97,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\AppenderWindow.xaml">
+    <Page Include="Windows\Appenders\AppenderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\FilterWindow.xaml">
+    <Page Include="Windows\Filters\FilterWindowBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

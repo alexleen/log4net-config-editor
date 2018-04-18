@@ -11,6 +11,7 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Properties;
 using Editor.Windows;
+using Editor.Windows.Appenders;
 using Microsoft.Win32;
 
 namespace Editor

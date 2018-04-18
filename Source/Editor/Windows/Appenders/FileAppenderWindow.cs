@@ -3,7 +3,7 @@
 using System.Windows;
 using System.Xml;
 
-namespace Editor.Windows
+namespace Editor.Windows.Appenders
 {
     public class FileAppenderWindow : AppenderWindow
     {

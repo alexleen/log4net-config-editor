@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -10,8 +11,9 @@ using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Models;
+using Editor.Windows.Filters;
 
-namespace Editor.Windows
+namespace Editor.Windows.Appenders
 {
     /// <summary>
     /// Interaction logic for AddFileAppenderWindow.xaml
@@ -160,14 +162,8 @@ namespace Editor.Windows
         private void EditFilterOnClick(object sender, RoutedEventArgs e)
         {
             FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
-
-            //TODO disable Edit button on DenyAll
-            if (filterModel.Descriptor.Type != FilterType.DenyAll)
-            {
-                FilterWindow fw = new FilterWindow(this, filterModel, mAppenderNode, mConfigXml);
-                fw.ShowDialog();
-                Load();
-            }
+            ShowFilterWindow(filterModel);
+            Load();
         }
 
         private void RemoveFilterOnClick(object sender, RoutedEventArgs e)
@@ -183,8 +179,7 @@ namespace Editor.Windows
 
             if (selectedFilter != FilterDescriptor.DenyAll)
             {
-                FilterWindow fw = new FilterWindow(this, new FilterModel(selectedFilter, null), mAppenderNode, mConfigXml);
-                fw.ShowDialog();
+                ShowFilterWindow(new FilterModel(selectedFilter, null));
             }
             else
             {
@@ -198,6 +193,40 @@ namespace Editor.Windows
             }
 
             Load();
+        }
+
+        private void ShowFilterWindow(FilterModel filterModel)
+        {
+            Window filterWindow = null;
+
+            switch (filterModel.Descriptor.Type)
+            {
+                case FilterType.DenyAll:
+                    //TODO disable Edit button on DenyAll
+                    break;
+                case FilterType.LevelMatch:
+                    filterWindow = new LevelMatchFilterWindow(this, filterModel, mAppenderNode, mConfigXml);
+                    break;
+                case FilterType.LevelRange:
+                    filterWindow = new LevelRangeFilterWindow(this, filterModel, mAppenderNode, mConfigXml);
+                    break;
+                case FilterType.LoggerMatch:
+                    filterWindow = new LoggerMatchFilterWindow(this, filterModel, mAppenderNode, mConfigXml);
+                    break;
+                case FilterType.Mdc:
+                    break;
+                case FilterType.Ndc:
+                    break;
+                case FilterType.Property:
+                    break;
+                case FilterType.String:
+                    filterWindow = new StringMatchFilterWindow(this, filterModel, mAppenderNode, mConfigXml);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            filterWindow?.ShowDialog();
         }
 
         private void InformationOnClick(object sender, RoutedEventArgs e)
