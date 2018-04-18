@@ -41,7 +41,7 @@ namespace Editor
         {
             if (!string.IsNullOrEmpty(Settings.Default.LastConfig))
             {
-                Load(Settings.Default.LastConfig);
+                LoadFromFile(Settings.Default.LastConfig);
             }
         }
 
@@ -55,26 +55,32 @@ namespace Editor
             {
                 Settings.Default.LastConfig = ofd.FileName;
                 Settings.Default.Save();
-                Load(ofd.FileName);
+                LoadFromFile(ofd.FileName);
             }
         }
 
         private void ReloadOnClick(object sender, RoutedEventArgs e)
         {
-            Reload();
-        }
-
-        private void Reload()
-        {
-            Load(Settings.Default.LastConfig);
+            ReloadFromFile();
         }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            Save();
+            SaveToFile();
         }
 
-        private void Save()
+        private void SandAndCloseOnClick(object sender, RoutedEventArgs e)
+        {
+            SaveToFile();
+            Close();
+        }
+
+        private void CloseOnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void SaveToFile()
         {
             using (XmlTextWriter xtw = new XmlTextWriter(Settings.Default.LastConfig, Encoding.UTF8) { Formatting = Formatting.Indented })
             {
@@ -82,13 +88,23 @@ namespace Editor
             }
         }
 
-        private void Load(string fileName)
+        private void ReloadFromFile()
+        {
+            LoadFromFile(Settings.Default.LastConfig);
+        }
+
+        private void LoadFromFile(string fileName)
         {
             xConfigTextBox.Text = fileName;
 
             mConfigXml = new XmlDocument();
             mConfigXml.Load(fileName);
 
+            LoadFromRam();
+        }
+
+        private void LoadFromRam()
+        {
             //TODO if > 1 node abort
             mLog4NetNode = mConfigXml.SelectSingleNode("//log4net");
 
@@ -150,8 +166,7 @@ namespace Editor
             AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
             mLog4NetNode.RemoveChild(appenderModel.Node);
 
-            Save();
-            Reload();
+            LoadFromRam();
         }
 
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode = null)
@@ -174,8 +189,7 @@ namespace Editor
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
             }
 
-            Save();
-            Reload();
+            LoadFromRam();
         }
     }
 }

@@ -70,11 +70,14 @@ namespace Editor.Windows
 
             ICollection<FilterDescriptor> filters = new Collection<FilterDescriptor>();
 
-            foreach (XmlNode filterNode in filterNodes)
+            if (filterNodes != null)
             {
-                if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
+                foreach (XmlNode filterNode in filterNodes)
                 {
-                    filters.Add(filterDescriptor);
+                    if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
+                    {
+                        filters.Add(filterDescriptor);
+                    }
                 }
             }
 
