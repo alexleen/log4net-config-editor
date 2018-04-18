@@ -30,10 +30,10 @@ namespace Editor
             xAppenderComboBox.ItemsSource = new[]
             {
                 AppenderDescriptor.Console,
-                AppenderDescriptor.File,
-                AppenderDescriptor.RollingFile,
-                AppenderDescriptor.EventLog,
-                AppenderDescriptor.Async
+                AppenderDescriptor.File
+                //AppenderDescriptor.RollingFile,
+                //AppenderDescriptor.EventLog,
+                //AppenderDescriptor.Async
             };
         }
 
@@ -163,6 +163,7 @@ namespace Editor
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
             //TODO confirm
+            //TODO remove ref
             AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
             mLog4NetNode.RemoveChild(appenderModel.Node);
 

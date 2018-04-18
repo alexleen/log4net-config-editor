@@ -9,6 +9,7 @@ using System.Windows.Navigation;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
+using Editor.Models;
 
 namespace Editor.Windows
 {
@@ -21,7 +22,7 @@ namespace Editor.Windows
         private readonly XmlNode mLog4NetNode;
         private readonly XmlNode mAppenderNode;
 
-        public AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
+        protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
         {
             InitializeComponent();
             Owner = owner;
@@ -47,28 +48,30 @@ namespace Editor.Windows
                 FilterDescriptor.String
             };
 
-            Load();
+            if (appenderNode != null)
+            {
+                Load();
+            }
         }
 
         private void Load()
         {
-            xNameTextBox.Text = mAppenderNode?.Attributes?["name"]?.Value;
-            xFileTextBox.Text = mAppenderNode?.SelectSingleNode("file")?.Attributes?["value"]?.Value;
-            string appendToFile = mAppenderNode?.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
-            xOverwriteRb.IsChecked = appendToFile == "false";
+            xNameTextBox.Text = mAppenderNode.Attributes?["name"]?.Value;
 
-            string layoutType = mAppenderNode?.SelectSingleNode("layout")?.Attributes?["type"]?.Value;
+            LoadAppenderSpecificItems(mAppenderNode);
+
+            string layoutType = mAppenderNode.SelectSingleNode("layout")?.Attributes?["type"]?.Value;
             if (LayoutDescriptor.TryFindByTypeNamespace(layoutType, out LayoutDescriptor descriptor))
             {
                 xLayoutComboBox.SelectedItem = descriptor;
             }
 
-            string conversionPattern = mAppenderNode?.SelectSingleNode("//conversionPattern")?.Attributes?["value"]?.Value;
+            string conversionPattern = mAppenderNode.SelectSingleNode("//conversionPattern")?.Attributes?["value"]?.Value;
             xPatternTextBox.Text = conversionPattern;
 
-            XmlNodeList filterNodes = mAppenderNode?.SelectNodes("filter");
+            XmlNodeList filterNodes = mAppenderNode.SelectNodes("filter");
 
-            ICollection<FilterDescriptor> filters = new Collection<FilterDescriptor>();
+            ICollection<FilterModel> filters = new Collection<FilterModel>();
 
             if (filterNodes != null)
             {
@@ -76,13 +79,15 @@ namespace Editor.Windows
                 {
                     if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
                     {
-                        filters.Add(filterDescriptor);
+                        filters.Add(new FilterModel(filterDescriptor, filterNode));
                     }
                 }
             }
 
             xFilterDataGrid.ItemsSource = filters;
         }
+
+        protected abstract void LoadAppenderSpecificItems(XmlNode appenderNode);
 
         private void HyperlinkOnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
@@ -122,20 +127,7 @@ namespace Editor.Windows
                 appenderNode.Attributes.Append(nameAttribute);
                 appenderNode.Attributes.Append(appenderTypeAttribute);
 
-                XmlAttribute fileValueAttr = mConfigXml.CreateAttribute("value");
-                fileValueAttr.Value = xFileTextBox.Text;
-                XmlElement fileElement = mConfigXml.CreateElement("file");
-                fileElement.Attributes.Append(fileValueAttr);
-                appenderNode.AppendChild(fileElement);
-
-                if (xOverwriteRb.IsChecked.HasValue && xOverwriteRb.IsChecked.Value)
-                {
-                    XmlAttribute appendToFileValueAttr = mConfigXml.CreateAttribute("value");
-                    appendToFileValueAttr.Value = "false";
-                    XmlElement appendToFileElement = mConfigXml.CreateElement("appendToFile");
-                    appendToFileElement.Attributes.Append(appendToFileValueAttr);
-                    appenderNode.AppendChild(appendToFileElement);
-                }
+                SaveAppenderSpecificItems(mConfigXml, appenderNode);
 
                 XmlNode layoutNode = mConfigXml.CreateElement("layout");
 
@@ -158,6 +150,8 @@ namespace Editor.Windows
             Close();
         }
 
+        protected abstract void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode);
+
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -165,17 +159,54 @@ namespace Editor.Windows
 
         private void EditFilterOnClick(object sender, RoutedEventArgs e)
         {
-            FilterDescriptor filterDescriptor = (FilterDescriptor)((Button)sender).DataContext;
+            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
 
-            if (filterDescriptor.Type != FilterType.DenyAll)
+            //TODO disable Edit button on DenyAll
+            if (filterModel.Descriptor.Type != FilterType.DenyAll)
             {
-                FilterWindow fw = new FilterWindow(this, filterDescriptor);
+                FilterWindow fw = new FilterWindow(this, filterModel, mAppenderNode, mConfigXml);
                 fw.ShowDialog();
+                Load();
             }
         }
 
         private void RemoveFilterOnClick(object sender, RoutedEventArgs e)
         {
+            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
+            mAppenderNode.RemoveChild(filterModel.Node);
+            Load();
+        }
+
+        private void AddFilterOnClick(object sender, RoutedEventArgs e)
+        {
+            FilterDescriptor selectedFilter = (FilterDescriptor)xFilterComboBox.SelectionBoxItem;
+
+            if (selectedFilter != FilterDescriptor.DenyAll)
+            {
+                FilterWindow fw = new FilterWindow(this, new FilterModel(selectedFilter, null), mAppenderNode, mConfigXml);
+                fw.ShowDialog();
+            }
+            else
+            {
+                XmlAttribute filterTypeAttribute = mConfigXml.CreateAttribute("type");
+                filterTypeAttribute.Value = FilterDescriptor.DenyAll.TypeNamespace;
+
+                XmlElement filterElement = mConfigXml.CreateElement("filter");
+                filterElement.Attributes.Append(filterTypeAttribute);
+
+                mAppenderNode.AppendChild(filterElement);
+            }
+
+            Load();
+        }
+
+        private void InformationOnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(this,
+                            "Filters form a chain that the event has to pass through. Any filter along the way can accept the event and stop processing, deny the event and stop processing, or allow the event on to the next filter. If the event gets to the end of the filter chain without being denied it is implicitly accepted and will be logged. To reorder filters, click either '↑' or '↓'.",
+                            "Information",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
         }
     }
 }

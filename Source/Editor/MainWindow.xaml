@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="log4net Configuration Editor"
         MinHeight="350"
@@ -12,7 +13,6 @@
         Loaded="MainWindowOnLoaded">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="5" />
             <Setter Property="Width" Value="50" />
         </Style>
     </Window.Resources>
@@ -36,10 +36,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Click="AddAppenderOnClick">Add Appender</Button>
-            <Button IsEnabled="false">Add Logger</Button>
-            <Button IsEnabled="false">Add Renderer</Button>
-            <Button IsEnabled="false">Add Root</Button>
+            <Button Margin="5,5,5,0" Click="AddAppenderOnClick">Add Appender</Button>
+            <Button Margin="5,5,5,0" IsEnabled="false">Add Logger</Button>
+            <Button Margin="5,5,5,0" IsEnabled="false">Add Renderer</Button>
+            <Button Margin="5,5,5,0" IsEnabled="false">Add Root</Button>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -48,9 +48,9 @@
                     <Setter Property="Width" Value="85" />
                 </Style>
             </StackPanel.Resources>
-            <Button Click="SaveOnClick">Save</Button>
-            <Button Click="SandAndCloseOnClick">Save &amp; Close</Button>
-            <Button Click="CloseOnClick">Close</Button>
+            <Button Margin="5,5,0,5" Click="SaveOnClick">Save</Button>
+            <Button Margin="5,5,0,5" Click="SandAndCloseOnClick">Save &amp; Close</Button>
+            <Button Margin="5,5,0,5" Click="CloseOnClick">Close</Button>
         </StackPanel>
         <DockPanel>
             <!--<StackPanel DockPanel.Dock="Bottom">
@@ -93,9 +93,9 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Click="RefsOnClick">Refs</Button>
-                                    <Button Click="EditAppenderOnClick">Edit</Button>
-                                    <Button Click="RemoveAppenderOnClick">Remove</Button>
+                                    <Button Margin="5,5,0,5" Click="RefsOnClick">Refs</Button>
+                                    <Button Margin="5,5,0,5" Click="EditAppenderOnClick">Edit</Button>
+                                    <Button Margin="5,5,5,5" Click="RemoveAppenderOnClick">Remove</Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

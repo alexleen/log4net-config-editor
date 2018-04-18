@@ -10,7 +10,34 @@ namespace Editor.Windows
         public FileAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
             : base(owner, configXml, log4NetNode, appenderNode)
         {
+            Title = "File Appender";
             xTargetRow.Height = new GridLength(0);
+        }
+
+        protected override void LoadAppenderSpecificItems(XmlNode appenderNode)
+        {
+            xFileTextBox.Text = appenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
+            string appendToFile = appenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
+            xOverwriteRb.IsChecked = appendToFile == "false";
+        }
+
+        protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
+        {
+            XmlAttribute fileValueAttr = configXml.CreateAttribute("value");
+            fileValueAttr.Value = xFileTextBox.Text;
+            XmlElement fileElement = configXml.CreateElement("file");
+            fileElement.Attributes.Append(fileValueAttr);
+            appenderNode.AppendChild(fileElement);
+
+            //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
+            if (xOverwriteRb.IsChecked.HasValue && xOverwriteRb.IsChecked.Value)
+            {
+                XmlAttribute appendToFileValueAttr = configXml.CreateAttribute("value");
+                appendToFileValueAttr.Value = "false";
+                XmlElement appendToFileElement = configXml.CreateElement("appendToFile");
+                appendToFileElement.Attributes.Append(appendToFileValueAttr);
+                appenderNode.AppendChild(appendToFileElement);
+            }
         }
     }
 }

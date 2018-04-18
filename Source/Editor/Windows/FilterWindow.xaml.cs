@@ -3,8 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using Editor.Descriptors;
+using System.Xml;
 using Editor.Enums;
+using Editor.Models;
 using log4net.Core;
 
 namespace Editor.Windows
@@ -14,7 +15,9 @@ namespace Editor.Windows
     /// </summary>
     public partial class FilterWindow : Window
     {
-        private readonly FilterDescriptor mFilterDescriptor;
+        private readonly FilterModel mFilterModel;
+        private readonly XmlNode mAppenderNode;
+        private readonly XmlDocument mConfigXml;
 
         private readonly IDictionary<string, Level> mLevelsByName = new Dictionary<string, Level>
         {
@@ -32,13 +35,16 @@ namespace Editor.Windows
             { Level.All.Name, Level.All }
         };
 
-        public FilterWindow(Window owner, FilterDescriptor filterDescriptor)
+        public FilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
         {
             InitializeComponent();
             Owner = owner;
-            mFilterDescriptor = filterDescriptor;
+            mFilterModel = filterModel;
+            mAppenderNode = appenderNode;
+            mConfigXml = configXml;
             PopulateComboBoxes();
             Configure();
+            Load();
         }
 
         private void PopulateComboBoxes()
@@ -54,7 +60,7 @@ namespace Editor.Windows
         {
             GridLength zeroGridLength = new GridLength(0);
 
-            switch (mFilterDescriptor.Type)
+            switch (mFilterModel.Descriptor.Type)
             {
                 case FilterType.DenyAll:
                     throw new InvalidOperationException("The filter window should not be shown for a Deny All filter.");
@@ -96,8 +102,55 @@ namespace Editor.Windows
             }
         }
 
+        private void Load()
+        {
+            if (mFilterModel.Node == null)
+            {
+                return;
+            }
+
+            foreach (XmlNode childNode in mFilterModel.Node.ChildNodes)
+            {
+                string value = childNode.Attributes?["value"]?.Value;
+
+                switch (childNode.Name)
+                {
+                    case "loggerToMatch":
+                        xLoggerToMatchTextBox.Text = value;
+                        break;
+                    case "levelMatch":
+                        xLevelToMatchComboBox.SelectedItem = value;
+                        break;
+                    case "levelMin":
+                        xMinLevelComboBox.SelectedItem = value;
+                        break;
+                    case "levelMax":
+                        xMaxLevelComboBox.SelectedItem = value;
+                        break;
+                    case "regexToMatch":
+                        xRegexToMatchTextBox.Text = value;
+                        break;
+                    case "stringToMatch":
+                        xStringToMatchTextBox.Text = value;
+                        break;
+                }
+            }
+        }
+
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
+            if (mFilterModel.Node == null) //New filter
+            {
+                XmlAttribute filterTypeAttribute = mConfigXml.CreateAttribute("type");
+                filterTypeAttribute.Value = mFilterModel.Descriptor.TypeNamespace;
+
+                XmlElement filterElement = mConfigXml.CreateElement("filter");
+                filterElement.Attributes.Append(filterTypeAttribute);
+
+                mAppenderNode.AppendChild(filterElement);
+            }
+            
+            Close();
         }
 
         private void CloseOnClick(object sender, RoutedEventArgs e)

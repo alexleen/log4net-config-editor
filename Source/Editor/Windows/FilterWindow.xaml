@@ -41,7 +41,7 @@
         </Grid.ColumnDefinitions>
 
         <Label>Logger to Match:</Label>
-        <TextBox Grid.Row="0" Grid.Column="1" />
+        <TextBox x:Name="xLoggerToMatchTextBox" Grid.Row="0" Grid.Column="1" />
 
         <Label Grid.Row="1" Grid.Column="0">Level to Match:</Label>
         <ComboBox x:Name="xLevelToMatchComboBox" Grid.Row="1" Grid.Column="1"/>
@@ -53,10 +53,10 @@
         <ComboBox x:Name="xMaxLevelComboBox" Grid.Row="3" Grid.Column="1"/>
 
         <Label Grid.Row="4" Grid.Column="0">Regex to Match:</Label>
-        <TextBox Grid.Row="4" Grid.Column="1" />
+        <TextBox x:Name="xRegexToMatchTextBox" Grid.Row="4" Grid.Column="1" />
 
         <Label Grid.Row="5" Grid.Column="0">String to Match:</Label>
-        <TextBox Grid.Row="5" Grid.Column="1" />
+        <TextBox x:Name="xStringToMatchTextBox" Grid.Row="5" Grid.Column="1" />
 
         <Label Grid.Row="6" Grid.Column="0">Accept on Match:</Label>
         <CheckBox  Grid.Row="6" Grid.Column="1" IsChecked="True" VerticalAlignment="Center" />
