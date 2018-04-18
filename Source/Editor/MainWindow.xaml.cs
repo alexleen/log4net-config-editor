@@ -174,10 +174,12 @@ namespace Editor
             switch (appenderType)
             {
                 case AppenderType.Console:
+                    ConsoleAppenderWindow caw = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    caw.ShowDialog();
                     break;
                 case AppenderType.File:
-                    AddFileAppenderWindow afaw = new AddFileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    afaw.ShowDialog();
+                    FileAppenderWindow faw = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    faw.ShowDialog();
                     break;
                 case AppenderType.RollingFile:
                     break;

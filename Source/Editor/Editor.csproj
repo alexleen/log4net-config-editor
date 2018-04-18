@@ -67,9 +67,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddFileAppenderWindow.xaml.cs">
-      <DependentUpon>AddFileAppenderWindow.xaml</DependentUpon>
+    <Compile Include="Windows\AppenderWindow.xaml.cs">
+      <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ConsoleAppenderWindow.cs" />
+    <Compile Include="Windows\FileAppenderWindow.cs" />
     <Compile Include="Windows\FilterWindow.xaml.cs">
       <DependentUpon>FilterWindow.xaml</DependentUpon>
     </Compile>
@@ -89,7 +91,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\AddFileAppenderWindow.xaml">
+    <Page Include="Windows\AppenderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
