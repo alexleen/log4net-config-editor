@@ -106,16 +106,22 @@ namespace Editor
 
         private void LoadFromRam()
         {
-            //TODO if > 1 node abort
-            mLog4NetNode = mConfigXml.SelectSingleNode("//log4net");
+            XmlNodeList log4NetNodes = mConfigXml.SelectNodes("//log4net");
 
-            if (mLog4NetNode == null)
+            if (log4NetNodes == null || log4NetNodes.Count == 0)
             {
                 MessageBox.Show(this, "Could not find log4net configuration.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            //TODO does this only select appenders under the log4net node or the whole file?
+            if (log4NetNodes.Count > 1)
+            {
+                MessageBox.Show(this, "More than one 'log4net' element was found in the specified file. Using the first occurrence.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            mLog4NetNode = log4NetNodes[0];
+
+            //Only selects appenders under this log4net element
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
             if (appenderList != null)
@@ -163,7 +169,6 @@ namespace Editor
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            //TODO confirm
             //TODO remove ref
             AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
             mLog4NetNode.RemoveChild(appenderModel.Node);

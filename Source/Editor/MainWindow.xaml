@@ -18,9 +18,9 @@
     </Window.Resources>
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
-            <TextBox x:Name="xConfigTextBox" Width="500" VerticalAlignment="Center" IsReadOnly="True" />
-            <Button Click="OpenOnClick">Open</Button>
-            <Button Click="ReloadOnClick">Reload</Button>
+            <TextBox x:Name="xConfigTextBox" Width="500" Height="21" VerticalAlignment="Center" IsReadOnly="True" Margin="5"/>
+            <Button Margin="0,5,5,5" Click="OpenOnClick">Open</Button>
+            <Button Margin="0,5,5,5" Click="ReloadOnClick">Reload</Button>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Right">
