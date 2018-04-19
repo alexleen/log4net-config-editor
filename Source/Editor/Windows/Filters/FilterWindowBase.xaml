@@ -44,7 +44,7 @@
         <TextBox x:Name="xLoggerToMatchTextBox" Grid.Row="0" Grid.Column="1" />
 
         <Label Grid.Row="1" Grid.Column="0">Level to Match:</Label>
-        <ComboBox x:Name="xLevelToMatchComboBox" Grid.Row="1" Grid.Column="1"/>
+        <ComboBox x:Name="xLevelToMatchComboBox" Grid.Row="1" Grid.Column="1" SelectedIndex="0"/>
 
         <Label Grid.Row="2" Grid.Column="0">Min Level:</Label>
         <ComboBox x:Name="xMinLevelComboBox" Grid.Row="2" Grid.Column="1"/>

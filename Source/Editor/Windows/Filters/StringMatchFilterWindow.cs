@@ -29,6 +29,17 @@ namespace Editor.Windows.Filters
             xStringToMatchTextBox.Text = value;
         }
 
+        protected override bool TryValidateInputs()
+        {
+            if (string.IsNullOrEmpty(xStringToMatchTextBox.Text))
+            {
+                MessageBox.Show(this, "'String to Match' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
             XmlAttribute valueAttr = configXml.CreateAttribute("value");

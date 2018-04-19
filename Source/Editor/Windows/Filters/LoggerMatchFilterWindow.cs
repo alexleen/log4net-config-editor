@@ -29,6 +29,17 @@ namespace Editor.Windows.Filters
             xLoggerToMatchTextBox.Text = value;
         }
 
+        protected override bool TryValidateInputs()
+        {
+            if (string.IsNullOrEmpty(xLoggerToMatchTextBox.Text))
+            {
+                MessageBox.Show(this, "'Logger to Match' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
             XmlAttribute valueAttr = configXml.CreateAttribute("value");

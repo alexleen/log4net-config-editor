@@ -29,6 +29,12 @@ namespace Editor.Windows.Filters
             xLevelToMatchComboBox.SelectedItem = value;
         }
 
+        protected override bool TryValidateInputs()
+        {
+            //A value is always selected (xLevelToMatchComboBox)
+            return true;
+        }
+
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
             XmlAttribute valueAttr = configXml.CreateAttribute("value");

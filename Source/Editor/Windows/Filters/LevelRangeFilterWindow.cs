@@ -31,6 +31,20 @@ namespace Editor.Windows.Filters
             xMaxLevelComboBox.SelectedItem = levelMax;
         }
 
+        protected override bool TryValidateInputs()
+        {
+            bool minValueChosen = !string.IsNullOrEmpty((string)xMinLevelComboBox.SelectedItem);
+            bool mavValueChosen = !string.IsNullOrEmpty((string)xMaxLevelComboBox.SelectedItem);
+
+            if (minValueChosen || mavValueChosen)
+            {
+                return true;
+            }
+
+            MessageBox.Show(this, "At least one value must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
             //TODO these comboboxes can be left "empty"

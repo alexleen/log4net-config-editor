@@ -72,7 +72,11 @@ namespace Editor.Windows.Filters
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            //TODO validate inputs
+            if (!TryValidateInputs())
+            {
+                return;
+            }
+            
             XmlNode filterNode;
 
             if (mFilterModel.Node == null) //New filter
@@ -95,6 +99,14 @@ namespace Editor.Windows.Filters
             Save(mConfigXml, filterNode);
             Close();
         }
+
+        /// <summary>
+        /// Validates necessary inputs.
+        /// Returns true if inputs are successfully validated.
+        /// False otherwise.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract bool TryValidateInputs();
 
         /// <summary>
         /// Saves filter to configuration.
