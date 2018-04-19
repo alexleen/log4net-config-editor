@@ -22,15 +22,25 @@ namespace Editor.Windows.Appenders
     {
         private readonly XmlDocument mConfigXml;
         private readonly XmlNode mLog4NetNode;
+
+        /// <summary>
+        /// Appender node this window is referencing.
+        /// Never null. Could be an existing appender for editing or it may be "empty" -
+        /// i.e. a new new appender element with no attributes or children.
+        /// </summary>
         private readonly XmlNode mAppenderNode;
 
-        protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
+        private readonly ChangeType mChangeType;
+
+        protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode, ChangeType changeType)
         {
             InitializeComponent();
-            Owner = owner;
-            mConfigXml = configXml;
-            mLog4NetNode = log4NetNode;
-            mAppenderNode = appenderNode;
+
+            Owner = owner ?? throw new ArgumentException(nameof(owner));
+            mConfigXml = configXml ?? throw new ArgumentException(nameof(configXml));
+            mLog4NetNode = log4NetNode ?? throw new ArgumentException(nameof(log4NetNode));
+            mAppenderNode = appenderNode ?? throw new ArgumentException(nameof(appenderNode));
+            mChangeType = changeType;
 
             xLayoutComboBox.ItemsSource = new[]
             {
@@ -50,15 +60,12 @@ namespace Editor.Windows.Appenders
                 FilterDescriptor.String
             };
 
-            if (appenderNode != null)
-            {
-                Load();
-            }
+            Load();
         }
 
         private void Load()
         {
-            xNameTextBox.Text = mAppenderNode.Attributes?["name"]?.Value;
+            ReplaceIfNotNullOrEmpty(mAppenderNode.Attributes?["name"]?.Value, xNameTextBox);
 
             LoadAppenderSpecificItems(mAppenderNode);
 
@@ -68,8 +75,7 @@ namespace Editor.Windows.Appenders
                 xLayoutComboBox.SelectedItem = descriptor;
             }
 
-            string conversionPattern = mAppenderNode.SelectSingleNode("//conversionPattern")?.Attributes?["value"]?.Value;
-            xPatternTextBox.Text = conversionPattern;
+            ReplaceIfNotNullOrEmpty(mAppenderNode.SelectSingleNode("//conversionPattern")?.Attributes?["value"]?.Value, xPatternTextBox);
 
             XmlNodeList filterNodes = mAppenderNode.SelectNodes("filter");
 
@@ -87,6 +93,19 @@ namespace Editor.Windows.Appenders
             }
 
             xFilterDataGrid.ItemsSource = filters;
+        }
+
+        /// <summary>
+        /// Sets the destination string to the source string iff source string it not null or empty.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        protected static void ReplaceIfNotNullOrEmpty(string source, TextBox destination)
+        {
+            if (!string.IsNullOrEmpty(source))
+            {
+                destination.Text = source;
+            }
         }
 
         protected abstract void LoadAppenderSpecificItems(XmlNode appenderNode);
@@ -110,7 +129,8 @@ namespace Editor.Windows.Appenders
             XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
             appenderTypeAttribute.Value = AppenderDescriptor.File.TypeNamespace;
 
-            XmlNode appenderNode = mConfigXml.CreateElement("appender");
+            //If we're editing, just replace the existing appender with a new one
+            XmlNode appenderNode = mChangeType == ChangeType.Add ? mAppenderNode : mConfigXml.CreateElement("appender");
             appenderNode.Attributes.Append(nameAttribute);
             appenderNode.Attributes.Append(appenderTypeAttribute);
 
@@ -122,16 +142,19 @@ namespace Editor.Windows.Appenders
             layoutTypeAttribute.Value = ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace;
             layoutNode.Attributes.Append(layoutTypeAttribute);
 
-            XmlAttribute convPatternValueAttr = mConfigXml.CreateAttribute("value");
-            convPatternValueAttr.Value = xPatternTextBox.Text;
+            if ((LayoutDescriptor)xLayoutComboBox.SelectedItem != LayoutDescriptor.Simple)
+            {
+                XmlAttribute convPatternValueAttr = mConfigXml.CreateAttribute("value");
+                convPatternValueAttr.Value = xPatternTextBox.Text;
 
-            XmlElement convPatternElement = mConfigXml.CreateElement("conversionPattern");
-            convPatternElement.Attributes.Append(convPatternValueAttr);
-            layoutNode.AppendChild(convPatternElement);
+                XmlElement convPatternElement = mConfigXml.CreateElement("conversionPattern");
+                convPatternElement.Attributes.Append(convPatternValueAttr);
+                layoutNode.AppendChild(convPatternElement);
+            }
 
             appenderNode.AppendChild(layoutNode);
-            
-            if (mAppenderNode == null) //New appender
+
+            if (mChangeType == ChangeType.Add)
             {
                 mLog4NetNode.AppendChild(appenderNode);
             }
@@ -145,6 +168,7 @@ namespace Editor.Windows.Appenders
 
         protected virtual bool TryValidateInputs()
         {
+            //TODO name uniqueness
             if (string.IsNullOrEmpty(xNameTextBox.Text))
             {
                 MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

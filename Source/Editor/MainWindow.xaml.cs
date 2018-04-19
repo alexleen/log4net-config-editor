@@ -159,13 +159,13 @@ namespace Editor
 
         private void AddAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type);
+            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type, mConfigXml.CreateElement("appender"), ChangeType.Add);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
         {
             AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
-            OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node);
+            OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node, ChangeType.Edit);
         }
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
@@ -182,16 +182,16 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode = null)
+        private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode, ChangeType changeType)
         {
             switch (appenderType)
             {
                 case AppenderType.Console:
-                    ConsoleAppenderWindow caw = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    ConsoleAppenderWindow caw = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     caw.ShowDialog();
                     break;
                 case AppenderType.File:
-                    FileAppenderWindow faw = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    FileAppenderWindow faw = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     faw.ShowDialog();
                     break;
                 case AppenderType.RollingFile:

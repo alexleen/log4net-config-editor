@@ -2,13 +2,14 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Enums;
 
 namespace Editor.Windows.Appenders
 {
     public class ConsoleAppenderWindow : AppenderWindow
     {
-        public ConsoleAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
-            : base(owner, configXml, log4NetNode, appenderNode)
+        public ConsoleAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode, ChangeType changeType)
+            : base(owner, configXml, log4NetNode, appenderNode, changeType)
         {
             Title = "Console Appender";
             xFileRow.Height = new GridLength(0);

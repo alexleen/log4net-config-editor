@@ -2,13 +2,14 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Enums;
 
 namespace Editor.Windows.Appenders
 {
     public class FileAppenderWindow : AppenderWindow
     {
-        public FileAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
-            : base(owner, configXml, log4NetNode, appenderNode)
+        public FileAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode, ChangeType changeType)
+            : base(owner, configXml, log4NetNode, appenderNode, changeType)
         {
             Title = "File Appender";
             xTargetRow.Height = new GridLength(0);
@@ -16,9 +17,13 @@ namespace Editor.Windows.Appenders
 
         protected override void LoadAppenderSpecificItems(XmlNode appenderNode)
         {
-            xFileTextBox.Text = appenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
+            ReplaceIfNotNullOrEmpty(appenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value, xFileTextBox);
+
             string appendToFile = appenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
-            xOverwriteRb.IsChecked = appendToFile == "false";
+            if (!string.IsNullOrEmpty(appendToFile))
+            {
+                xOverwriteRb.IsChecked = appendToFile == "false";
+            }
         }
 
         protected override bool TryValidateInputs()
