@@ -1,8 +1,10 @@
-﻿using System.Xml;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Xml;
 
 namespace Editor.Models
 {
-    internal class RefModel
+    public class RefModel
     {
         public RefModel(XmlNode appenderRef)
         {

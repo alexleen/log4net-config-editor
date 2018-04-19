@@ -10,6 +10,7 @@ using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Models;
 using Editor.Properties;
+using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.Appenders;
 using Microsoft.Win32;
@@ -169,9 +170,14 @@ namespace Editor
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            //TODO remove ref
             AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
             mLog4NetNode.RemoveChild(appenderModel.Node);
+
+            //Remove all appender refs
+            foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+            {
+                refModel.AppenderRef.ParentNode.RemoveChild(refModel.AppenderRef);
+            }
 
             LoadFromRam();
         }

@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using Editor.Models;
+using Editor.Utilities;
 
 namespace Editor.Windows
 {
@@ -32,7 +32,7 @@ namespace Editor.Windows
 
         private void LoadRefs()
         {
-            xRefsGrid.ItemsSource = FindAppenderRefs(mLog4NetNode, mAppenderName);
+            xRefsGrid.ItemsSource = XmlUtilities.FindAppenderRefs(mLog4NetNode, mAppenderName);
         }
 
         private void LoadAvailableRefLocations()
@@ -59,19 +59,6 @@ namespace Editor.Windows
             }
 
             xRefComboBox.ItemsSource = items;
-        }
-
-        private static IEnumerable FindAppenderRefs(XmlNode log4NetNode, string appenderName)
-        {
-            XmlNodeList appenderRefs = log4NetNode.SelectNodes("//appender-ref");
-
-            foreach (XmlNode appenderRef in appenderRefs)
-            {
-                if (appenderRef.Attributes?["ref"].Value == appenderName)
-                {
-                    yield return new RefModel(appenderRef);
-                }
-            }
         }
 
         private void RemoveRefOnClick(object sender, RoutedEventArgs e)
