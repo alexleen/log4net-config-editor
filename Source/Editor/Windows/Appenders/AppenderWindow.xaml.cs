@@ -201,9 +201,6 @@ namespace Editor.Windows.Appenders
 
             switch (filterModel.Descriptor.Type)
             {
-                case FilterType.DenyAll:
-                    //TODO disable Edit button on DenyAll
-                    break;
                 case FilterType.LevelMatch:
                     filterWindow = new LevelMatchFilterWindow(this, filterModel, mAppenderNode, mConfigXml);
                     break;

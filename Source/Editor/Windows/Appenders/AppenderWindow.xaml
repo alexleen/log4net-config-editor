@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Converters="clr-namespace:Editor.Converters"
         mc:Ignorable="d"
         Height="450" 
         MinHeight="350" 
@@ -10,6 +11,9 @@
         MinWidth="500"
         MaxWidth="500"
         WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>    
+    </Window.Resources>
     <Grid>
         <Grid.Resources>
             <Style TargetType="Label">
@@ -97,7 +101,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Width="50" Margin="5,5,0,5" Click="EditFilterOnClick">Edit</Button>
+                                    <Button Width="50" Margin="5,5,0,5" Click="EditFilterOnClick" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
                                     <Button Width="50" Margin="5,5,0,5" Click="RemoveFilterOnClick">Remove</Button>
                                     <Button Width="25" Margin="5,5,0,5">↑</Button>
                                     <Button Width="25" Margin="5,5,0,5">↓</Button>
