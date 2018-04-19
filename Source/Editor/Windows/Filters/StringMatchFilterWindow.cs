@@ -3,6 +3,7 @@
 using System.Windows;
 using System.Xml;
 using Editor.Models;
+using Editor.Utilities;
 
 namespace Editor.Windows.Filters
 {
@@ -48,7 +49,7 @@ namespace Editor.Windows.Filters
             XmlElement stringToMatchElement = configXml.CreateElement("stringToMatch");
             stringToMatchElement.Attributes.Append(valueAttr);
 
-            AddOrUpdate(filterNode, stringToMatchElement);
+            XmlUtilities.AddOrUpdate(filterNode, stringToMatchElement);
         }
     }
 }

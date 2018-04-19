@@ -104,36 +104,40 @@ namespace Editor.Windows.Appenders
                 return;
             }
 
+            XmlAttribute nameAttribute = mConfigXml.CreateAttribute("name");
+            nameAttribute.Value = xNameTextBox.Text;
+
+            XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
+            appenderTypeAttribute.Value = AppenderDescriptor.File.TypeNamespace;
+
+            XmlNode appenderNode = mConfigXml.CreateElement("appender");
+            appenderNode.Attributes.Append(nameAttribute);
+            appenderNode.Attributes.Append(appenderTypeAttribute);
+
+            SaveAppenderSpecificItems(mConfigXml, appenderNode);
+
+            XmlNode layoutNode = mConfigXml.CreateElement("layout");
+
+            XmlAttribute layoutTypeAttribute = mConfigXml.CreateAttribute("type");
+            layoutTypeAttribute.Value = ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace;
+            layoutNode.Attributes.Append(layoutTypeAttribute);
+
+            XmlAttribute convPatternValueAttr = mConfigXml.CreateAttribute("value");
+            convPatternValueAttr.Value = xPatternTextBox.Text;
+
+            XmlElement convPatternElement = mConfigXml.CreateElement("conversionPattern");
+            convPatternElement.Attributes.Append(convPatternValueAttr);
+            layoutNode.AppendChild(convPatternElement);
+
+            appenderNode.AppendChild(layoutNode);
+            
             if (mAppenderNode == null) //New appender
             {
-                XmlAttribute nameAttribute = mConfigXml.CreateAttribute("name");
-                nameAttribute.Value = xNameTextBox.Text;
-
-                XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
-                appenderTypeAttribute.Value = AppenderDescriptor.File.TypeNamespace;
-
-                XmlNode appenderNode = mConfigXml.CreateElement("appender");
-                appenderNode.Attributes.Append(nameAttribute);
-                appenderNode.Attributes.Append(appenderTypeAttribute);
-
-                SaveAppenderSpecificItems(mConfigXml, appenderNode);
-
-                XmlNode layoutNode = mConfigXml.CreateElement("layout");
-
-                XmlAttribute layoutTypeAttribute = mConfigXml.CreateAttribute("type");
-                layoutTypeAttribute.Value = ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace;
-                layoutNode.Attributes.Append(layoutTypeAttribute);
-
-                XmlAttribute convPatternValueAttr = mConfigXml.CreateAttribute("value");
-                convPatternValueAttr.Value = xPatternTextBox.Text;
-
-                XmlElement convPatternElement = mConfigXml.CreateElement("conversionPattern");
-                convPatternElement.Attributes.Append(convPatternValueAttr);
-                layoutNode.AppendChild(convPatternElement);
-
-                appenderNode.AppendChild(layoutNode);
-
                 mLog4NetNode.AppendChild(appenderNode);
+            }
+            else
+            {
+                mLog4NetNode.ReplaceChild(appenderNode, mAppenderNode);
             }
 
             Close();
@@ -145,7 +149,7 @@ namespace Editor.Windows.Appenders
             {
                 MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
-            }            
+            }
 
             if (string.IsNullOrEmpty(xPatternTextBox.Text))
             {

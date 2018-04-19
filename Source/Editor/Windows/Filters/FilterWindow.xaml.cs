@@ -121,25 +121,6 @@ namespace Editor.Windows.Filters
         /// <param name="filterNode"></param>
         protected abstract void Save(XmlDocument configXml, XmlNode filterNode);
 
-        protected static void AddOrUpdate(XmlNode filterNode, XmlNode filterChild)
-        {
-            XmlNode childMatch = filterNode.SelectSingleNode(filterChild.Name);
-
-            if (childMatch == null)
-            {
-                filterNode.AppendChild(filterChild);
-            }
-            else
-            {
-                childMatch.Attributes?.RemoveAll();
-
-                foreach (XmlAttribute childNodeAttribute in filterChild.Attributes)
-                {
-                    childMatch.Attributes.Append(childNodeAttribute);
-                }
-            }
-        }
-
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
             Close();

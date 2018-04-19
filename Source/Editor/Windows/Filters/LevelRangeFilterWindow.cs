@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Xml;
 using Editor.Models;
+using Editor.Utilities;
 
 namespace Editor.Windows.Filters
 {
@@ -64,7 +65,7 @@ namespace Editor.Windows.Filters
                 XmlElement levelElement = configXml.CreateElement(elementName);
                 levelElement.Attributes.Append(levelValueAttr);
 
-                AddOrUpdate(filterNode, levelElement);
+                XmlUtilities.AddOrUpdate(filterNode, levelElement);
             }
             else
             {
