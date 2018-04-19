@@ -20,7 +20,7 @@
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
             <Style TargetType="ComboBox">
-                <Setter Property="Width" Value="95" />
+                <Setter Property="Width" Value="100" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>

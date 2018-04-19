@@ -99,21 +99,8 @@ namespace Editor.Windows.Appenders
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(xNameTextBox.Text))
+            if (!TryValidateInputs())
             {
-                MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(xFileTextBox.Text))
-            {
-                MessageBox.Show(this, "A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(xPatternTextBox.Text))
-            {
-                MessageBox.Show(this, "A pattern must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -150,6 +137,23 @@ namespace Editor.Windows.Appenders
             }
 
             Close();
+        }
+
+        protected virtual bool TryValidateInputs()
+        {
+            if (string.IsNullOrEmpty(xNameTextBox.Text))
+            {
+                MessageBox.Show(this, "A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }            
+
+            if (string.IsNullOrEmpty(xPatternTextBox.Text))
+            {
+                MessageBox.Show(this, "A pattern must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
         }
 
         protected abstract void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode);

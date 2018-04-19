@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Models;
@@ -19,7 +20,12 @@ namespace Editor.Windows.Filters
 
         private readonly IDictionary<string, Level> mLevelsByName = new Dictionary<string, Level>
         {
-            { Level.Off.Name, Level.Off },
+            { Level.All.Name, Level.All },
+            { Level.Finest.Name, Level.Finest },
+            { Level.Verbose.Name, Level.Verbose },
+            { Level.Finer.Name, Level.Finer },
+            { Level.Trace.Name, Level.Trace },
+            { Level.Fine.Name, Level.Fine },
             { Level.Debug.Name, Level.Debug },
             { Level.Info.Name, Level.Info },
             { Level.Notice.Name, Level.Notice },
@@ -30,7 +36,7 @@ namespace Editor.Windows.Filters
             { Level.Alert.Name, Level.Alert },
             { Level.Fatal.Name, Level.Fatal },
             { Level.Emergency.Name, Level.Emergency },
-            { Level.All.Name, Level.All }
+            { Level.Off.Name, Level.Off }
         };
 
         protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
@@ -55,7 +61,7 @@ namespace Editor.Windows.Filters
 
         private void PopulateComboBoxes()
         {
-            IEnumerable<string> levelNames = mLevelsByName.Keys;
+            IEnumerable<string> levelNames = new[] { string.Empty }.Concat(mLevelsByName.Keys);
 
             xLevelToMatchComboBox.ItemsSource = levelNames;
             xMinLevelComboBox.ItemsSource = levelNames;
@@ -76,7 +82,7 @@ namespace Editor.Windows.Filters
             {
                 return;
             }
-            
+
             XmlNode filterNode;
 
             if (mFilterModel.Node == null) //New filter

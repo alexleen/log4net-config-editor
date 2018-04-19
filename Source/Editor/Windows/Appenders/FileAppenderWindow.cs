@@ -21,6 +21,17 @@ namespace Editor.Windows.Appenders
             xOverwriteRb.IsChecked = appendToFile == "false";
         }
 
+        protected override bool TryValidateInputs()
+        {
+            if (string.IsNullOrEmpty(xFileTextBox.Text))
+            {
+                MessageBox.Show(this, "A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return base.TryValidateInputs();
+        }
+
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {
             XmlAttribute fileValueAttr = configXml.CreateAttribute("value");

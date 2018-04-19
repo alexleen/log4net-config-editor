@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Xml;
 using Editor.Models;
 
@@ -34,9 +35,9 @@ namespace Editor.Windows.Filters
         protected override bool TryValidateInputs()
         {
             bool minValueChosen = !string.IsNullOrEmpty((string)xMinLevelComboBox.SelectedItem);
-            bool mavValueChosen = !string.IsNullOrEmpty((string)xMaxLevelComboBox.SelectedItem);
+            bool maxValueChosen = !string.IsNullOrEmpty((string)xMaxLevelComboBox.SelectedItem);
 
-            if (minValueChosen || mavValueChosen)
+            if (minValueChosen || maxValueChosen)
             {
                 return true;
             }
@@ -47,22 +48,33 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            //TODO these comboboxes can be left "empty"
-            XmlAttribute levelMinValueAttr = configXml.CreateAttribute("value");
-            levelMinValueAttr.Value = (string)xMinLevelComboBox.SelectedItem;
+            Process(configXml, filterNode, xMinLevelComboBox, "levelMin");
+            Process(configXml, filterNode, xMaxLevelComboBox, "levelMax");
+        }
 
-            XmlElement levelMinElement = configXml.CreateElement("levelMin");
-            levelMinElement.Attributes.Append(levelMinValueAttr);
+        private static void Process(XmlDocument configXml, XmlNode filterNode, Selector comboBox, string elementName)
+        {
+            bool valueChosen = !string.IsNullOrEmpty((string)comboBox.SelectedItem);
 
-            AddOrUpdate(filterNode, levelMinElement);
+            if (valueChosen)
+            {
+                XmlAttribute levelValueAttr = configXml.CreateAttribute("value");
+                levelValueAttr.Value = (string)comboBox.SelectedItem;
 
-            XmlAttribute levelMaxValueAttr = configXml.CreateAttribute("value");
-            levelMaxValueAttr.Value = (string)xMaxLevelComboBox.SelectedItem;
+                XmlElement levelElement = configXml.CreateElement(elementName);
+                levelElement.Attributes.Append(levelValueAttr);
 
-            XmlElement levelMaxElement = configXml.CreateElement("levelMax");
-            levelMaxElement.Attributes.Append(levelMaxValueAttr);
+                AddOrUpdate(filterNode, levelElement);
+            }
+            else
+            {
+                XmlNode existingLevel = filterNode.SelectSingleNode(elementName);
 
-            AddOrUpdate(filterNode, levelMaxElement);
+                if (existingLevel != null)
+                {
+                    filterNode.RemoveChild(existingLevel);
+                }
+            }
         }
     }
 }
