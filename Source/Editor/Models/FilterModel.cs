@@ -15,6 +15,6 @@ namespace Editor.Models
 
         public FilterDescriptor Descriptor { get; }
 
-        public XmlNode Node { get; }
+        public XmlNode Node { get; set; }
     }
 }

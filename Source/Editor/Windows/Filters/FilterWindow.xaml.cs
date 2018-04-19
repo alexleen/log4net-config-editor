@@ -83,8 +83,6 @@ namespace Editor.Windows.Filters
                 return;
             }
 
-            XmlNode filterNode;
-
             if (mFilterModel.Node == null) //New filter
             {
                 XmlAttribute filterTypeAttribute = mConfigXml.CreateAttribute("type");
@@ -95,14 +93,10 @@ namespace Editor.Windows.Filters
 
                 mAppenderNode.AppendChild(filterElement);
 
-                filterNode = filterElement;
-            }
-            else
-            {
-                filterNode = mFilterModel.Node;
+                mFilterModel.Node = filterElement;
             }
 
-            Save(mConfigXml, filterNode);
+            Save(mConfigXml, mFilterModel.Node);
             Close();
         }
 

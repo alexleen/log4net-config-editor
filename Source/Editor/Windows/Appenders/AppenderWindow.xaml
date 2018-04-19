@@ -93,7 +93,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Button Width="110" Margin="5,0,5,5" Click="AddFilterOnClick">Add</Button>
-                <Button Width="110" Margin="5,0,5,5" Click="InformationOnClick">Information</Button>
+                <Button Width="110" Margin="5,0,5,5" Click="HelpOnClick">Help</Button>
             </StackPanel>
             <DataGrid x:Name="xFilterDataGrid" AutoGenerateColumns="false">
                 <DataGrid.Columns>

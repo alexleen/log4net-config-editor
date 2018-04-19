@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
@@ -32,6 +31,8 @@ namespace Editor.Windows.Appenders
 
         private readonly ChangeType mChangeType;
 
+        public ObservableCollection<FilterModel> Filters { get; }
+
         protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode, ChangeType changeType)
         {
             InitializeComponent();
@@ -41,6 +42,7 @@ namespace Editor.Windows.Appenders
             mLog4NetNode = log4NetNode ?? throw new ArgumentException(nameof(log4NetNode));
             mAppenderNode = appenderNode ?? throw new ArgumentException(nameof(appenderNode));
             mChangeType = changeType;
+            Filters = new ObservableCollection<FilterModel>();
 
             xLayoutComboBox.ItemsSource = new[]
             {
@@ -79,20 +81,18 @@ namespace Editor.Windows.Appenders
 
             XmlNodeList filterNodes = mAppenderNode.SelectNodes("filter");
 
-            ICollection<FilterModel> filters = new Collection<FilterModel>();
-
             if (filterNodes != null)
             {
                 foreach (XmlNode filterNode in filterNodes)
                 {
                     if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
                     {
-                        filters.Add(new FilterModel(filterDescriptor, filterNode));
+                        Filters.Add(new FilterModel(filterDescriptor, filterNode));
                     }
                 }
             }
 
-            xFilterDataGrid.ItemsSource = filters;
+            xFilterDataGrid.ItemsSource = Filters;
         }
 
         /// <summary>
@@ -154,6 +154,11 @@ namespace Editor.Windows.Appenders
 
             appenderNode.AppendChild(layoutNode);
 
+            foreach (FilterModel filter in Filters)
+            {
+                appenderNode.AppendChild(filter.Node);
+            }
+
             if (mChangeType == ChangeType.Add)
             {
                 mLog4NetNode.AppendChild(appenderNode);
@@ -201,17 +206,18 @@ namespace Editor.Windows.Appenders
         private void RemoveFilterOnClick(object sender, RoutedEventArgs e)
         {
             FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
-            mAppenderNode.RemoveChild(filterModel.Node);
-            Load();
+            Filters.Remove(filterModel);
         }
 
         private void AddFilterOnClick(object sender, RoutedEventArgs e)
         {
             FilterDescriptor selectedFilter = (FilterDescriptor)xFilterComboBox.SelectionBoxItem;
+            FilterModel filterModel;
 
             if (selectedFilter != FilterDescriptor.DenyAll)
             {
-                ShowFilterWindow(new FilterModel(selectedFilter, null));
+                filterModel = new FilterModel(selectedFilter, null);
+                ShowFilterWindow(filterModel);
             }
             else
             {
@@ -221,10 +227,10 @@ namespace Editor.Windows.Appenders
                 XmlElement filterElement = mConfigXml.CreateElement("filter");
                 filterElement.Attributes.Append(filterTypeAttribute);
 
-                mAppenderNode.AppendChild(filterElement);
+                filterModel = new FilterModel(FilterDescriptor.DenyAll, filterElement);
             }
 
-            Load();
+            Filters.Add(filterModel);
         }
 
         private void ShowFilterWindow(FilterModel filterModel)
@@ -258,11 +264,11 @@ namespace Editor.Windows.Appenders
             filterWindow?.ShowDialog();
         }
 
-        private void InformationOnClick(object sender, RoutedEventArgs e)
+        private void HelpOnClick(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(this,
                             "Filters form a chain that the event has to pass through. Any filter along the way can accept the event and stop processing, deny the event and stop processing, or allow the event on to the next filter. If the event gets to the end of the filter chain without being denied it is implicitly accepted and will be logged. To reorder filters, click either '↑' or '↓'.",
-                            "Information",
+                            "Help",
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);
         }
