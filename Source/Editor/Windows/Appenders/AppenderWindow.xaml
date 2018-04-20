@@ -10,7 +10,8 @@
         Width="500"
         MinWidth="500"
         MaxWidth="500"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" 
+        Icon="../../Images/list-add.png">
     <Window.Resources>
         <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>    
     </Window.Resources>

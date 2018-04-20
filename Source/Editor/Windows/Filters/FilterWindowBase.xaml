@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Editor.Windows"
         mc:Ignorable="d"
         Title="Filter" 
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner" Loaded="WindowLoaded">
+        WindowStartupLocation="CenterOwner" 
+        Loaded="WindowLoaded" Icon="../../Images/view-filter.png">
     <Grid Margin="5">
         <Grid.Resources>
             <Style TargetType="Label">
