@@ -2,6 +2,7 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Enums;
 
 namespace Editor.Windows.Appenders
@@ -12,7 +13,7 @@ namespace Editor.Windows.Appenders
             : base(owner, configXml, log4NetNode, appenderNode, changeType)
         {
             Title = "File Appender";
-            xTargetRow.Height = new GridLength(0);
+            xFileRow.Height = AutoGridRowHeight;
         }
 
         protected override void LoadAppenderSpecificItems(XmlNode appenderNode)
@@ -25,6 +26,8 @@ namespace Editor.Windows.Appenders
                 xOverwriteRb.IsChecked = appendToFile == "false";
             }
         }
+
+        protected override AppenderDescriptor Descriptor => AppenderDescriptor.File;
 
         protected override bool TryValidateInputs()
         {

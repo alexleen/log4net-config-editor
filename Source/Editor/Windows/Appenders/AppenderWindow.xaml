@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Height="450" 
         MinHeight="350" 
-        Width="500"
-        MinWidth="500"
-        MaxWidth="500"
+        Width="550"
+        MinWidth="550"
+        MaxWidth="550"
         WindowStartupLocation="CenterOwner" 
         Icon="../../Images/list-add.png">
     <Window.Resources>
@@ -20,12 +20,20 @@
             <Style TargetType="Label">
                 <Setter Property="FontWeight" Value="Bold" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
-            </Style>            
+            </Style>   
+            <Style TargetType="TextBox">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Width" Value="300" />
+                <Setter Property="Height" Value="21" />
+            </Style>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition x:Name="xTargetRow" Height="Auto" />
-            <RowDefinition x:Name="xFileRow" Height="Auto" />
+            <RowDefinition x:Name="xLogNameRow" Height="0" />
+            <RowDefinition x:Name="xApplicationNameRow" Height="0" />
+            <RowDefinition x:Name="xTargetRow" Height="0" />
+            <RowDefinition x:Name="xFileRow" Height="0" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -37,20 +45,28 @@
 
         <!--Name-->
         <Label>Name:</Label>
-        <TextBox x:Name="xNameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Width="300" Height="21" />
+        <TextBox x:Name="xNameTextBox" Grid.Row="0" Grid.Column="1" />
+        
+        <!--Log Name-->
+        <Label Grid.Row="1" Grid.Column="0">Log Name:</Label>
+        <TextBox x:Name="xLogNameTextBox" Grid.Row="1" Grid.Column="1" />
 
+        <!--Application Name-->
+        <Label Grid.Row="2" Grid.Column="0">Application Name:</Label>
+        <TextBox x:Name="xApplicationNameTextBox" Grid.Row="2" Grid.Column="1" />
+        
         <!--Target-->
-        <Label Grid.Row="1" Grid.Column="0">Target:</Label>
-        <ComboBox x:Name="xTargetComboBox" Grid.Row="1" Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedIndex="0">
+        <Label Grid.Row="3" Grid.Column="0">Target:</Label>
+        <ComboBox x:Name="xTargetComboBox" Grid.Row="3" Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedIndex="0">
             <ComboBoxItem>Console.Out</ComboBoxItem>
             <ComboBoxItem>Console.Error</ComboBoxItem>
         </ComboBox>
         
         <!--File-->
-        <Label Grid.Row="2" Grid.Column="0">File:</Label>
-        <StackPanel Grid.Row="2" Grid.Column="1">
+        <Label Grid.Row="4" Grid.Column="0">File:</Label>
+        <StackPanel Grid.Row="4" Grid.Column="1">
             <StackPanel  Orientation="Horizontal">
-                <TextBox x:Name="xFileTextBox" VerticalAlignment="Center" Width="300" Height="21" />
+                <TextBox x:Name="xFileTextBox" />
                 <Button Width="50" Margin="5">Open</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -60,19 +76,27 @@
         </StackPanel>
 
         <!--Layout-->
-        <Label Grid.Row="3" Grid.Column="0">Layout:</Label>
-        <StackPanel Grid.Row="3" Grid.Column="1">
-            <StackPanel Orientation="Horizontal">
-                <ComboBox x:Name="xLayoutComboBox" Width="75" Height="21" Margin="0,5" SelectedIndex="0" SelectionChanged="LayoutComboBoxOnSelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Label Padding="0" Content="{Binding Name}" FontWeight="Normal"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <Label VerticalAlignment="Center" FontWeight="Normal">Pattern:</Label>
-                <TextBox x:Name="xPatternTextBox" Width="300" Height="21" FontFamily="Courier New" VerticalContentAlignment="Center"/>
-            </StackPanel>
+        <Label Grid.Row="5" Grid.Column="0">Layout:</Label>
+        <StackPanel Grid.Row="5" Grid.Column="1">
+<!--            <StackPanel Orientation="Horizontal">-->
+<!--                <ComboBox x:Name="xLayoutComboBox" Width="75" Height="21" Margin="0,5" SelectedIndex="0" SelectionChanged="LayoutComboBoxOnSelectionChanged">-->
+<!--                    <ComboBox.ItemTemplate>-->
+<!--                        <DataTemplate>-->
+<!--                            <Label Padding="0" Content="{Binding Name}" FontWeight="Normal"/>-->
+<!--                        </DataTemplate>-->
+<!--                    </ComboBox.ItemTemplate>-->
+<!--                </ComboBox>-->
+<!--                <Label VerticalAlignment="Center" FontWeight="Normal">Pattern:</Label>-->
+<!--                <TextBox x:Name="xPatternTextBox" FontFamily="Courier New" VerticalContentAlignment="Center"/>-->
+<!--            </StackPanel>-->
+            <ComboBox x:Name="xLayoutComboBox" Width="75" Height="21" Margin="0,5" SelectedIndex="0" SelectionChanged="LayoutComboBoxOnSelectionChanged" HorizontalAlignment="Left">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Padding="0" Content="{Binding Name}" FontWeight="Normal"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox x:Name="xPatternTextBox" FontFamily="Courier New" VerticalContentAlignment="Center" ToolTip="Enter pattern here"/>
             <TextBlock>  
                 For more information regarding patterns, see
                 <Hyperlink NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Layout_PatternLayout.htm" RequestNavigate="HyperlinkOnRequestNavigate">
@@ -82,8 +106,8 @@
         </StackPanel>
         
         <!--Filters-->
-        <Label Grid.Row="4" Grid.Column="0">Filters:</Label>
-        <DockPanel Grid.Row="4" Grid.Column="1" Margin="0,5,0,0">
+        <Label Grid.Row="6" Grid.Column="0">Filters:</Label>
+        <DockPanel Grid.Row="6" Grid.Column="1" Margin="0,5,0,0">
             <StackPanel DockPanel.Dock="Right">
                 <ComboBox x:Name="xFilterComboBox" Width="110" Margin="5,0,5,5" SelectedIndex="0">
                     <ComboBox.ItemTemplate>
@@ -114,7 +138,7 @@
             </DataGrid>
         </DockPanel>
 
-        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
             <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
         </StackPanel>        

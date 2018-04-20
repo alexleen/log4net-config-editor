@@ -20,6 +20,8 @@ namespace Editor.Windows.Appenders
     /// </summary>
     public abstract partial class AppenderWindow : Window
     {
+        public static readonly GridLength AutoGridRowHeight = GridLength.Auto;
+        
         private readonly XmlDocument mConfigXml;
         private readonly XmlNode mLog4NetNode;
 
@@ -133,7 +135,7 @@ namespace Editor.Windows.Appenders
             nameAttribute.Value = xNameTextBox.Text;
 
             XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
-            appenderTypeAttribute.Value = AppenderDescriptor.File.TypeNamespace;
+            appenderTypeAttribute.Value = Descriptor.TypeNamespace;
 
             //If we're editing, just replace the existing appender with a new one
             XmlNode appenderNode = mChangeType == ChangeType.Add ? mAppenderNode : mConfigXml.CreateElement("appender");
@@ -176,6 +178,8 @@ namespace Editor.Windows.Appenders
 
             Close();
         }
+        
+        protected abstract AppenderDescriptor Descriptor { get; }
 
         protected virtual bool TryValidateInputs()
         {

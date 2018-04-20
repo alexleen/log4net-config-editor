@@ -32,9 +32,9 @@ namespace Editor
             xAppenderComboBox.ItemsSource = new[]
             {
                 AppenderDescriptor.Console,
-                AppenderDescriptor.File
+                AppenderDescriptor.File,
                 //AppenderDescriptor.RollingFile,
-                //AppenderDescriptor.EventLog,
+                AppenderDescriptor.EventLog,
                 //AppenderDescriptor.Async
             };
         }
@@ -184,19 +184,20 @@ namespace Editor
 
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode, ChangeType changeType)
         {
+            AppenderWindow appenderWindow = null;
+
             switch (appenderType)
             {
                 case AppenderType.Console:
-                    ConsoleAppenderWindow caw = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
-                    caw.ShowDialog();
+                    appenderWindow = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     break;
                 case AppenderType.File:
-                    FileAppenderWindow faw = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
-                    faw.ShowDialog();
+                    appenderWindow = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     break;
                 case AppenderType.RollingFile:
                     break;
                 case AppenderType.EventLog:
+                    appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     break;
                 case AppenderType.Async:
                     break;
@@ -204,6 +205,7 @@ namespace Editor
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
             }
 
+            appenderWindow?.ShowDialog();
             LoadFromRam();
         }
     }

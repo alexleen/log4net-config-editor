@@ -2,6 +2,7 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Enums;
 
 namespace Editor.Windows.Appenders
@@ -12,7 +13,7 @@ namespace Editor.Windows.Appenders
             : base(owner, configXml, log4NetNode, appenderNode, changeType)
         {
             Title = "Console Appender";
-            xFileRow.Height = new GridLength(0);
+            xTargetRow.Height = AutoGridRowHeight;
         }
 
         protected override void LoadAppenderSpecificItems(XmlNode appenderNode)
@@ -24,6 +25,8 @@ namespace Editor.Windows.Appenders
                 xTargetComboBox.SelectedItem = target;
             }
         }
+
+        protected override AppenderDescriptor Descriptor => AppenderDescriptor.Console;
 
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {

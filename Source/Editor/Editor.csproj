@@ -76,6 +76,7 @@
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
     <Compile Include="Windows\Filters\FilterWindow.xaml.cs">
       <DependentUpon>FilterWindowBase.xaml</DependentUpon>
