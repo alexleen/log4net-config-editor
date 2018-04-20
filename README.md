@@ -9,15 +9,13 @@ Currently under construction. log4net configuration files can be quite large and
 | AdoNetAppender                |           |
 | AnsiColorTerminalAppender     |           |
 | AspNetTraceAppender           |           |
+| [AsyncForwardingAppender](https://github.com/cjbhaines/Log4Net.Async)       | ✓         |
 | BufferingForwardingAppender   |           |
 | ColoredConsoleAppender        |           |
 | ConsoleAppender               | ✓         |
 | DebugAppender                 |           |
-| EventLogAppender              |           |
+| EventLogAppender              | ✓         |
 | FileAppender                  | ✓         |
-| FileAppender.ExclusiveLock    |           |
-| FileAppender.InterProcessLock |           |
-| FileAppender.MinimalLock      |           |
 | ForwardingAppender            |           |
 | LocalSyslogAppender           |           |
 | ManagedColoredConsoleAppender |           |
@@ -42,7 +40,7 @@ Currently under construction. log4net configuration files can be quite large and
 | LoggerMatchFilter |     ✓     |                                       |
 | MdcFilter         |           | Deprecated in favor of PropertyFilter |
 | NdcFilter         |           | Deprecated in favor of PropertyFilter  |
-| PropertyFilter    |     ✓     |                                       |
+| PropertyFilter    |           |                                       |
 | StringMatchFilter |     ✓     |                                       |
 #### Layouts
 | Layout                  | Supported |
