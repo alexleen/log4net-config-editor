@@ -75,6 +75,7 @@
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Appenders\AsyncAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />

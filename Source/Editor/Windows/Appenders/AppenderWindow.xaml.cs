@@ -144,6 +144,27 @@ namespace Editor.Windows.Appenders
 
             SaveAppenderSpecificItems(mConfigXml, appenderNode);
 
+            SaveLayout(appenderNode);
+
+            foreach (FilterModel filter in Filters)
+            {
+                appenderNode.AppendChild(filter.Node);
+            }
+
+            if (mChangeType == ChangeType.Add)
+            {
+                mLog4NetNode.AppendChild(appenderNode);
+            }
+            else
+            {
+                mLog4NetNode.ReplaceChild(appenderNode, mAppenderNode);
+            }
+
+            Close();
+        }
+
+        protected virtual void SaveLayout(XmlNode appenderNode)
+        {
             XmlNode layoutNode = mConfigXml.CreateElement("layout");
 
             XmlAttribute layoutTypeAttribute = mConfigXml.CreateAttribute("type");
@@ -161,22 +182,6 @@ namespace Editor.Windows.Appenders
             }
 
             appenderNode.AppendChild(layoutNode);
-
-            foreach (FilterModel filter in Filters)
-            {
-                appenderNode.AppendChild(filter.Node);
-            }
-
-            if (mChangeType == ChangeType.Add)
-            {
-                mLog4NetNode.AppendChild(appenderNode);
-            }
-            else
-            {
-                mLog4NetNode.ReplaceChild(appenderNode, mAppenderNode);
-            }
-
-            Close();
         }
 
         protected abstract AppenderDescriptor Descriptor { get; }

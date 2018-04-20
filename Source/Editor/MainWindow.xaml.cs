@@ -35,7 +35,7 @@ namespace Editor
                 AppenderDescriptor.File,
                 //AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
-                //AppenderDescriptor.Async
+                AppenderDescriptor.Async
             };
         }
 
@@ -200,6 +200,7 @@ namespace Editor
                     appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     break;
                 case AppenderType.Async:
+                    appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
