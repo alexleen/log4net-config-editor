@@ -10,7 +10,8 @@
         Height="540"
         MinWidth="328"
         Width="960"
-        Loaded="MainWindowOnLoaded">
+        Loaded="MainWindowOnLoaded" 
+        Icon="Images\Settings-icon.png">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Width" Value="50" />

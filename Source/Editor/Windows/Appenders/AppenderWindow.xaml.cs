@@ -200,7 +200,6 @@ namespace Editor.Windows.Appenders
         {
             FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
             ShowFilterWindow(filterModel);
-            Load();
         }
 
         private void RemoveFilterOnClick(object sender, RoutedEventArgs e)
