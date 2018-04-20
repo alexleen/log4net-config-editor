@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -71,13 +72,13 @@ namespace Editor.Windows.Appenders
 
             LoadAppenderSpecificItems(mAppenderNode);
 
-            string layoutType = mAppenderNode.SelectSingleNode("layout")?.Attributes?["type"]?.Value;
+            string layoutType = mAppenderNode["layout"]?.Attributes["type"]?.Value;
             if (LayoutDescriptor.TryFindByTypeNamespace(layoutType, out LayoutDescriptor descriptor))
             {
                 xLayoutComboBox.SelectedItem = descriptor;
             }
 
-            ReplaceIfNotNullOrEmpty(mAppenderNode.SelectSingleNode("//conversionPattern")?.Attributes?["value"]?.Value, xPatternTextBox);
+            LoadConversionPattern();
 
             XmlNodeList filterNodes = mAppenderNode.SelectNodes("filter");
 
@@ -93,6 +94,11 @@ namespace Editor.Windows.Appenders
             }
 
             xFilterDataGrid.ItemsSource = Filters;
+        }
+
+        private void LoadConversionPattern()
+        {
+            ReplaceIfNotNullOrEmpty(mAppenderNode["layout"]?["conversionPattern"]?.Attributes["value"]?.Value, xPatternTextBox);
         }
 
         /// <summary>
@@ -270,6 +276,25 @@ namespace Editor.Windows.Appenders
                             "Help",
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);
+        }
+
+        private void LayoutComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LayoutDescriptor layoutDescriptor = (LayoutDescriptor)((ComboBox)sender).SelectedItem;
+
+            switch (layoutDescriptor.Type)
+            {
+                case LayoutType.Simple:
+                    xPatternTextBox.Text = "%level - %message%newline";
+                    xPatternTextBox.IsEnabled = false;
+                    break;
+                case LayoutType.Pattern:
+                    xPatternTextBox.IsEnabled = true;
+                    LoadConversionPattern();
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException(nameof(layoutDescriptor.Type), (int)layoutDescriptor.Type, typeof(LayoutType));
+            }
         }
     }
 }
