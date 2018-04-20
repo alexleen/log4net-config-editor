@@ -128,8 +128,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button Width="50" Margin="5,5,0,5" Click="EditFilterOnClick" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
                                     <Button Width="50" Margin="5,5,0,5" Click="RemoveFilterOnClick">Remove</Button>
-                                    <Button Width="25" Margin="5,5,0,5">↑</Button>
-                                    <Button Width="25" Margin="5,5,0,5">↓</Button>
+                                    <Button Width="25" Margin="5,5,0,5" Click="MoveFilterUpOnClick">↑</Button>
+                                    <Button Width="25" Margin="5,5,0,5" Click="MoveFilterDownOnClick">↓</Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

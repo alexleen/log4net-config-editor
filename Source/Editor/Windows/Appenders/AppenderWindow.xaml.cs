@@ -21,7 +21,7 @@ namespace Editor.Windows.Appenders
     public abstract partial class AppenderWindow : Window
     {
         public static readonly GridLength AutoGridRowHeight = GridLength.Auto;
-        
+
         private readonly XmlDocument mConfigXml;
         private readonly XmlNode mLog4NetNode;
 
@@ -178,7 +178,7 @@ namespace Editor.Windows.Appenders
 
             Close();
         }
-        
+
         protected abstract AppenderDescriptor Descriptor { get; }
 
         protected virtual bool TryValidateInputs()
@@ -299,6 +299,22 @@ namespace Editor.Windows.Appenders
                 default:
                     throw new InvalidEnumArgumentException(nameof(layoutDescriptor.Type), (int)layoutDescriptor.Type, typeof(LayoutType));
             }
+        }
+
+        private void MoveFilterUpOnClick(object sender, RoutedEventArgs e)
+        {
+            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
+            int oldIndex = Filters.IndexOf(filterModel);
+            int newIndex = oldIndex == 0 ? 0 : oldIndex - 1;
+            Filters.Move(oldIndex, newIndex);
+        }
+
+        private void MoveFilterDownOnClick(object sender, RoutedEventArgs e)
+        {
+            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
+            int oldIndex = Filters.IndexOf(filterModel);
+            int newIndex = oldIndex == Filters.Count - 1 ? Filters.Count - 1 : oldIndex + 1;
+            Filters.Move(oldIndex, newIndex);
         }
     }
 }
