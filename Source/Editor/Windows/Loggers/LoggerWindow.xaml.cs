@@ -1,8 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Enums;
+using Editor.Models;
 using Editor.Utilities;
 
 namespace Editor.Windows.Loggers
@@ -40,6 +43,21 @@ namespace Editor.Windows.Loggers
                 {
                     xLevelsComboBox.SelectedItem = level;
                 }
+
+                XmlNodeList appenderRefs = mRootLoggerNode.SelectNodes("appender-ref");
+
+                if (appenderRefs != null)
+                {
+                    ICollection<AppenderRefModel> appenderRefModels = new List<AppenderRefModel>();
+
+                    foreach (XmlNode appenderRef in appenderRefs)
+                    {
+                        string refValue = appenderRef.Attributes["ref"].Value;
+                        appenderRefModels.Add(new AppenderRefModel(refValue));
+                    }
+
+                    xRefsListBox.ItemsSource = appenderRefModels;
+                }
             }
         }
 
@@ -47,6 +65,11 @@ namespace Editor.Windows.Loggers
         {
             XmlNode rootLoggerNode = mChangeType == ChangeType.Add ? mRootLoggerNode : mConfigXml.CreateElement("root");
             mConfigXml.CreateElementWithAttribute("level", "value", (string)xLevelsComboBox.SelectedItem).AppentTo(rootLoggerNode);
+
+            foreach (AppenderRefModel appenderRefModel in xRefsListBox.ItemsSource.Cast<AppenderRefModel>().Where(appenderRefModel => appenderRefModel.IsEnabled))
+            {
+                mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderRefModel.Ref).AppentTo(rootLoggerNode);
+            }
 
             if (mChangeType == ChangeType.Add)
             {
