@@ -43,12 +43,7 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            XmlAttribute valueAttr = configXml.CreateAttribute("value");
-            valueAttr.Value = xLoggerToMatchTextBox.Text;
-
-            XmlElement loggerToMatchElement = configXml.CreateElement("loggerToMatch");
-            loggerToMatchElement.Attributes.Append(valueAttr);
-
+            XmlElement loggerToMatchElement = configXml.CreateElementWithAttribute("loggerToMatch", "value", xLoggerToMatchTextBox.Text);
             XmlUtilities.AddOrUpdate(filterNode, loggerToMatchElement);
         }
     }

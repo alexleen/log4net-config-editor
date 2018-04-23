@@ -29,6 +29,7 @@
                     <Setter Property="Width" Value="100" />
                 </Style>
             </StackPanel.Resources>
+
             <ComboBox x:Name="xAppenderComboBox" Width="100" Margin="5,0" SelectedIndex="0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -36,10 +37,19 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
             <Button Margin="5,5,5,0" Click="AddAppenderOnClick">Add Appender</Button>
-            <Button Margin="5,5,5,0" IsEnabled="false">Add Logger</Button>
+
+            <ComboBox x:Name="xLoggerComboBox" Width="100" Margin="5,5,5,0" SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Padding="0" Content="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button Margin="5,5,5,0" Click="AddLoggerOnClick">Add Logger</Button>
             <Button Margin="5,5,5,0" IsEnabled="false">Add Renderer</Button>
-            <Button Margin="5,5,5,0" IsEnabled="false">Add Root</Button>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">

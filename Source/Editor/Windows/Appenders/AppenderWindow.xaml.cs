@@ -11,6 +11,7 @@ using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Models;
+using Editor.Utilities;
 using Editor.Windows.Filters;
 
 namespace Editor.Windows.Appenders
@@ -131,16 +132,10 @@ namespace Editor.Windows.Appenders
                 return;
             }
 
-            XmlAttribute nameAttribute = mConfigXml.CreateAttribute("name");
-            nameAttribute.Value = xNameTextBox.Text;
-
-            XmlAttribute appenderTypeAttribute = mConfigXml.CreateAttribute("type");
-            appenderTypeAttribute.Value = Descriptor.TypeNamespace;
-
             //If we're editing, just replace the existing appender with a new one
             XmlNode appenderNode = mChangeType == ChangeType.Add ? mAppenderNode : mConfigXml.CreateElement("appender");
-            appenderNode.Attributes.Append(nameAttribute);
-            appenderNode.Attributes.Append(appenderTypeAttribute);
+            appenderNode.AppendAttribute(mConfigXml, "name", xNameTextBox.Text);
+            appenderNode.AppendAttribute(mConfigXml, "type", Descriptor.TypeNamespace);
 
             SaveAppenderSpecificItems(mConfigXml, appenderNode);
 
@@ -165,20 +160,11 @@ namespace Editor.Windows.Appenders
 
         protected virtual void SaveLayout(XmlNode appenderNode)
         {
-            XmlNode layoutNode = mConfigXml.CreateElement("layout");
-
-            XmlAttribute layoutTypeAttribute = mConfigXml.CreateAttribute("type");
-            layoutTypeAttribute.Value = ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace;
-            layoutNode.Attributes.Append(layoutTypeAttribute);
+            XmlNode layoutNode = mConfigXml.CreateElementWithAttribute("layout", "type", ((LayoutDescriptor)xLayoutComboBox.SelectionBoxItem).TypeNamespace);
 
             if ((LayoutDescriptor)xLayoutComboBox.SelectedItem != LayoutDescriptor.Simple)
             {
-                XmlAttribute convPatternValueAttr = mConfigXml.CreateAttribute("value");
-                convPatternValueAttr.Value = xPatternTextBox.Text;
-
-                XmlElement convPatternElement = mConfigXml.CreateElement("conversionPattern");
-                convPatternElement.Attributes.Append(convPatternValueAttr);
-                layoutNode.AppendChild(convPatternElement);
+                mConfigXml.CreateElementWithAttribute("conversionPattern", "value", xPatternTextBox.Text).AppentTo(layoutNode);
             }
 
             appenderNode.AppendChild(layoutNode);
@@ -235,12 +221,7 @@ namespace Editor.Windows.Appenders
             }
             else
             {
-                XmlAttribute filterTypeAttribute = mConfigXml.CreateAttribute("type");
-                filterTypeAttribute.Value = FilterDescriptor.DenyAll.TypeNamespace;
-
-                XmlElement filterElement = mConfigXml.CreateElement("filter");
-                filterElement.Attributes.Append(filterTypeAttribute);
-
+                XmlElement filterElement = mConfigXml.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
                 filterModel = new FilterModel(FilterDescriptor.DenyAll, filterElement);
             }
 

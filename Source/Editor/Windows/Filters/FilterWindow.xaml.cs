@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Models;
-using log4net.Core;
+using Editor.Utilities;
 
 namespace Editor.Windows.Filters
 {
@@ -17,27 +17,6 @@ namespace Editor.Windows.Filters
         private readonly FilterModel mFilterModel;
         private readonly XmlNode mAppenderNode;
         private readonly XmlDocument mConfigXml;
-
-        private readonly IDictionary<string, Level> mLevelsByName = new Dictionary<string, Level>
-        {
-            { Level.All.Name, Level.All },
-            { Level.Finest.Name, Level.Finest },
-            { Level.Verbose.Name, Level.Verbose },
-            { Level.Finer.Name, Level.Finer },
-            { Level.Trace.Name, Level.Trace },
-            { Level.Fine.Name, Level.Fine },
-            { Level.Debug.Name, Level.Debug },
-            { Level.Info.Name, Level.Info },
-            { Level.Notice.Name, Level.Notice },
-            { Level.Warn.Name, Level.Warn },
-            { Level.Error.Name, Level.Error },
-            { Level.Severe.Name, Level.Severe },
-            { Level.Critical.Name, Level.Critical },
-            { Level.Alert.Name, Level.Alert },
-            { Level.Fatal.Name, Level.Fatal },
-            { Level.Emergency.Name, Level.Emergency },
-            { Level.Off.Name, Level.Off }
-        };
 
         protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
         {
@@ -61,7 +40,7 @@ namespace Editor.Windows.Filters
 
         private void PopulateComboBoxes()
         {
-            IEnumerable<string> levelNames = new[] { string.Empty }.Concat(mLevelsByName.Keys);
+            IEnumerable<string> levelNames = new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys);
 
             xLevelToMatchComboBox.ItemsSource = levelNames;
             xMinLevelComboBox.ItemsSource = levelNames;
@@ -85,14 +64,8 @@ namespace Editor.Windows.Filters
 
             if (mFilterModel.Node == null) //New filter
             {
-                XmlAttribute filterTypeAttribute = mConfigXml.CreateAttribute("type");
-                filterTypeAttribute.Value = mFilterModel.Descriptor.TypeNamespace;
-
-                XmlElement filterElement = mConfigXml.CreateElement("filter");
-                filterElement.Attributes.Append(filterTypeAttribute);
-
+                XmlElement filterElement = mConfigXml.CreateElementWithAttribute("filter", "type", mFilterModel.Descriptor.TypeNamespace);
                 mAppenderNode.AppendChild(filterElement);
-
                 mFilterModel.Node = filterElement;
             }
 

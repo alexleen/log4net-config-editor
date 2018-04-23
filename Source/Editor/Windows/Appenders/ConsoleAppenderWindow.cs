@@ -4,6 +4,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
+using Editor.Utilities;
 
 namespace Editor.Windows.Appenders
 {
@@ -35,13 +36,7 @@ namespace Editor.Windows.Appenders
             //Target is "Console.Out" by default, so we only need a target element if "Console.Error"
             if ((string)xTargetComboBox.SelectedItem == consoleError)
             {
-                XmlAttribute targetValueAttr = configXml.CreateAttribute("value");
-                targetValueAttr.Value = consoleError;
-
-                XmlElement targetElement = configXml.CreateElement("target");
-                targetElement.Attributes.Append(targetValueAttr);
-
-                appenderNode.AppendChild(targetElement);
+                configXml.CreateElementWithAttribute("target", "value", consoleError).AppentTo(appenderNode);
             }
         }
     }

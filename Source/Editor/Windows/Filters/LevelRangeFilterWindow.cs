@@ -59,12 +59,7 @@ namespace Editor.Windows.Filters
 
             if (valueChosen)
             {
-                XmlAttribute levelValueAttr = configXml.CreateAttribute("value");
-                levelValueAttr.Value = (string)comboBox.SelectedItem;
-
-                XmlElement levelElement = configXml.CreateElement(elementName);
-                levelElement.Attributes.Append(levelValueAttr);
-
+                XmlElement levelElement = configXml.CreateElementWithAttribute(elementName, "value", (string)comboBox.SelectedItem);
                 XmlUtilities.AddOrUpdate(filterNode, levelElement);
             }
             else

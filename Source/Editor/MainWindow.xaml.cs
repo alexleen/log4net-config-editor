@@ -13,6 +13,7 @@ using Editor.Properties;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.Appenders;
+using Editor.Windows.Loggers;
 using Microsoft.Win32;
 
 namespace Editor
@@ -36,6 +37,11 @@ namespace Editor
                 //AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async
+            };
+
+            xLoggerComboBox.ItemsSource = new[]
+            {
+                LoggerDescriptor.Root
             };
         }
 
@@ -208,6 +214,12 @@ namespace Editor
 
             appenderWindow?.ShowDialog();
             LoadFromRam();
+        }
+
+        private void AddLoggerOnClick(object sender, RoutedEventArgs e)
+        {
+            LoggerWindow lw = new LoggerWindow(this, mConfigXml, mLog4NetNode, mConfigXml.CreateElement("root"), ChangeType.Add);
+            lw.ShowDialog();
         }
     }
 }

@@ -46,5 +46,41 @@ namespace Editor.Utilities
                 parentNode.ReplaceChild(childNode, childMatch);
             }
         }
+
+        public static void AppendAttribute(this XmlNode element, XmlDocument xmlDoc, string name, string value)
+        {
+            XmlAttribute attr = xmlDoc.CreateAttribute(name);
+            attr.Value = value;
+            element.Attributes.Append(attr);
+        }
+
+        public static XmlElement CreateElementWithAttribute(this XmlDocument xmlDoc, string elementName, string attributeName, string attributeValue)
+        {
+            XmlElement element = xmlDoc.CreateElement(elementName);
+            element.AppendAttribute(xmlDoc, attributeName, attributeValue);
+            return element;
+        }
+
+        public static XmlElement CreateElementWithAttributes(this XmlDocument xmlDoc, string elementName, IEnumerable<(string Name, string Value)> attributes)
+        {
+            XmlElement element = xmlDoc.CreateElement(elementName);
+
+            foreach ((string name, string value) in attributes)
+            {
+                element.AppendAttribute(xmlDoc, name, value);
+            }
+
+            return element;
+        }
+
+        /// <summary>
+        /// Appends this node to the specified parent.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="parent"></param>
+        public static void AppentTo(this XmlNode node, XmlNode parent)
+        {
+            parent.AppendChild(node);
+        }
     }
 }

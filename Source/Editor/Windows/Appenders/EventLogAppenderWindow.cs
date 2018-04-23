@@ -4,6 +4,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
+using Editor.Utilities;
 
 namespace Editor.Windows.Appenders
 {
@@ -50,23 +51,21 @@ namespace Editor.Windows.Appenders
 
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {
-            XmlAttribute logNameNameAttr = configXml.CreateAttribute("name");
-            logNameNameAttr.Value = LogName;
-            XmlAttribute logNameValueAttr = configXml.CreateAttribute("value");
-            logNameValueAttr.Value = xLogNameTextBox.Text;
-            XmlElement logNameElement = configXml.CreateElement("param");
-            logNameElement.Attributes.Append(logNameNameAttr);
-            logNameElement.Attributes.Append(logNameValueAttr);
-            appenderNode.AppendChild(logNameElement);
+            configXml.CreateElementWithAttributes("param",
+                                                  new[]
+                                                  {
+                                                      (Name: "name", Value: LogName),
+                                                      (Name: "value", Value: xLogNameTextBox.Text)
+                                                  })
+                     .AppentTo(appenderNode);
 
-            XmlAttribute appNameNameAttr = configXml.CreateAttribute("name");
-            appNameNameAttr.Value = ApplicationName;
-            XmlAttribute appNameValueAttr = configXml.CreateAttribute("value");
-            appNameValueAttr.Value = xApplicationNameTextBox.Text;
-            XmlElement applicationNameElement = configXml.CreateElement("param");
-            applicationNameElement.Attributes.Append(appNameNameAttr);
-            applicationNameElement.Attributes.Append(appNameValueAttr);
-            appenderNode.AppendChild(applicationNameElement);
+            configXml.CreateElementWithAttributes("param",
+                                                  new[]
+                                                  {
+                                                      (Name: "name", Value: ApplicationName),
+                                                      (Name: "value", Value: xApplicationNameTextBox.Text)
+                                                  })
+                     .AppentTo(appenderNode);
         }
     }
 }

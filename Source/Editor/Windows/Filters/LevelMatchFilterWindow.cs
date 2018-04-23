@@ -38,12 +38,7 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            XmlAttribute valueAttr = configXml.CreateAttribute("value");
-            valueAttr.Value = (string)xLevelToMatchComboBox.SelectedItem;
-
-            XmlElement levelToMatchElement = configXml.CreateElement("levelToMatch");
-            levelToMatchElement.Attributes.Append(valueAttr);
-
+            XmlElement levelToMatchElement = configXml.CreateElementWithAttribute("levelToMatch", "value", (string)xLevelToMatchComboBox.SelectedItem);
             XmlUtilities.AddOrUpdate(filterNode, levelToMatchElement);
         }
     }

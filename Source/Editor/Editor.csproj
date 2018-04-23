@@ -57,6 +57,7 @@
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\RefSelectionConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
+    <Compile Include="Descriptors\LoggerDescriptor.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="Models\AppenderModel.cs" />
@@ -71,6 +72,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Log4NetUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
@@ -86,6 +88,9 @@
     <Compile Include="Windows\Filters\LevelRangeFilterWindow.cs" />
     <Compile Include="Windows\Filters\LoggerMatchFilterWindow.cs" />
     <Compile Include="Windows\Filters\StringMatchFilterWindow.cs" />
+    <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
+      <DependentUpon>LoggerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\RefsWindow.xaml.cs">
       <DependentUpon>RefsWindow.xaml</DependentUpon>
     </Compile>
@@ -106,6 +111,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Filters\FilterWindowBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Loggers\LoggerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +157,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\configure.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\text-x-log.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
+using Editor.Utilities;
 
 namespace Editor.Windows.Appenders
 {
@@ -42,20 +43,12 @@ namespace Editor.Windows.Appenders
 
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {
-            XmlAttribute fileValueAttr = configXml.CreateAttribute("value");
-            fileValueAttr.Value = xFileTextBox.Text;
-            XmlElement fileElement = configXml.CreateElement("file");
-            fileElement.Attributes.Append(fileValueAttr);
-            appenderNode.AppendChild(fileElement);
+            configXml.CreateElementWithAttribute("file", "value", xFileTextBox.Text).AppentTo(appenderNode);
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (xOverwriteRb.IsChecked.HasValue && xOverwriteRb.IsChecked.Value)
             {
-                XmlAttribute appendToFileValueAttr = configXml.CreateAttribute("value");
-                appendToFileValueAttr.Value = "false";
-                XmlElement appendToFileElement = configXml.CreateElement("appendToFile");
-                appendToFileElement.Attributes.Append(appendToFileValueAttr);
-                appenderNode.AppendChild(appendToFileElement);
+                configXml.CreateElementWithAttribute("appendToFile", "value", "false").AppentTo(appenderNode);
             }
         }
     }

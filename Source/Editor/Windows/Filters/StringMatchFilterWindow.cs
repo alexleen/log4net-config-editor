@@ -43,12 +43,7 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            XmlAttribute valueAttr = configXml.CreateAttribute("value");
-            valueAttr.Value = xStringToMatchTextBox.Text;
-
-            XmlElement stringToMatchElement = configXml.CreateElement("stringToMatch");
-            stringToMatchElement.Attributes.Append(valueAttr);
-
+            XmlElement stringToMatchElement = configXml.CreateElementWithAttribute("stringToMatch", "value", xStringToMatchTextBox.Text);
             XmlUtilities.AddOrUpdate(filterNode, stringToMatchElement);
         }
     }

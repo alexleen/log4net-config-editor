@@ -6,6 +6,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
+using Editor.Utilities;
 using log4net.Core;
 
 namespace Editor.Windows.Appenders
@@ -66,19 +67,11 @@ namespace Editor.Windows.Appenders
 
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {
-            XmlAttribute fixValueAttr = configXml.CreateAttribute("value");
-            fixValueAttr.Value = ((int)xFixComboBox.SelectedItem).ToString();
-            XmlElement fixElement = configXml.CreateElement("Fix");
-            fixElement.Attributes.Append(fixValueAttr);
-            appenderNode.AppendChild(fixElement);
+            configXml.CreateElementWithAttribute("Fix", "value", ((int)xFixComboBox.SelectedItem).ToString()).AppentTo(appenderNode);
 
             if (xBufferSizeTextBox.Text != DefaultBufferSize)
             {
-                XmlAttribute bufferSizeValueAttr = configXml.CreateAttribute("value");
-                bufferSizeValueAttr.Value = xBufferSizeTextBox.Text;
-                XmlElement bufferSizeElement = configXml.CreateElement("bufferSize");
-                bufferSizeElement.Attributes.Append(bufferSizeValueAttr);
-                appenderNode.AppendChild(bufferSizeElement);
+                configXml.CreateElementWithAttribute("bufferSize", "value", xBufferSizeTextBox.Text).AppentTo(appenderNode);
             }
         }
 
