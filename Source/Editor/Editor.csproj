@@ -65,6 +65,7 @@
     <Compile Include="Descriptors\FilterDescriptor.cs" />
     <Compile Include="Descriptors\LayoutDescriptor.cs" />
     <Compile Include="Enums\LayoutType.cs" />
+    <Compile Include="Models\ChildModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\RefModel.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

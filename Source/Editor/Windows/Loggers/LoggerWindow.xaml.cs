@@ -30,9 +30,22 @@ namespace Editor.Windows.Loggers
             xLevelsComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
         }
 
+        private void LoggerWindowOnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (mChangeType == ChangeType.Edit)
+            {
+                string level = mRootLoggerNode["level"]?.Attributes["value"].Value;
+
+                if (!string.IsNullOrEmpty(level))
+                {
+                    xLevelsComboBox.SelectedItem = level;
+                }
+            }
+        }
+
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            XmlNode rootLoggerNode = mChangeType != ChangeType.Add ? mRootLoggerNode : mConfigXml.CreateElement("level");
+            XmlNode rootLoggerNode = mChangeType == ChangeType.Add ? mRootLoggerNode : mConfigXml.CreateElement("root");
             mConfigXml.CreateElementWithAttribute("level", "value", (string)xLevelsComboBox.SelectedItem).AppentTo(rootLoggerNode);
 
             if (mChangeType == ChangeType.Add)
@@ -43,6 +56,8 @@ namespace Editor.Windows.Loggers
             {
                 mLog4NetNode.ReplaceChild(rootLoggerNode, mRootLoggerNode);
             }
+
+            Close();
         }
 
         private void CloseOnClick(object sender, RoutedEventArgs e)

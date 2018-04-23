@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -128,20 +129,27 @@ namespace Editor
 
             mLog4NetNode = log4NetNodes[0];
 
+            ICollection<ChildModel> children = new List<ChildModel>();
+
             //Only selects appenders under this log4net element
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
             if (appenderList != null)
             {
-                ICollection<AppenderModel> appenderModels = new List<AppenderModel>();
-
                 foreach (XmlNode node in appenderList)
                 {
-                    appenderModels.Add(Create(node));
+                    children.Add(Create(node));
                 }
-
-                xChildren.ItemsSource = appenderModels;
             }
+
+            XmlNode root = mLog4NetNode.SelectSingleNode("root");
+
+            if (root != null)
+            {
+                children.Add(new ChildModel("root", root));
+            }
+
+            xChildren.ItemsSource = children;
         }
 
         private static AppenderModel Create(XmlNode appender)
@@ -170,19 +178,30 @@ namespace Editor
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
-            OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node, ChangeType.Edit);
+            object dataContext = ((Button)sender).DataContext;
+
+            if (dataContext is AppenderModel appenderModel)
+            {
+                OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node, ChangeType.Edit);
+            }
+            else if (dataContext is ChildModel childModel)
+            {
+                OpenLoggerWindow(ChangeType.Edit, childModel.Node);
+            }
         }
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
-            mLog4NetNode.RemoveChild(appenderModel.Node);
+            ChildModel childModel = (ChildModel)((Button)sender).DataContext;
+            mLog4NetNode.RemoveChild(childModel.Node);
 
-            //Remove all appender refs
-            foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+            if (childModel is AppenderModel appenderModel)
             {
-                refModel.AppenderRef.ParentNode.RemoveChild(refModel.AppenderRef);
+                //Remove all appender refs
+                foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+                {
+                    refModel.AppenderRef.ParentNode.RemoveChild(refModel.AppenderRef);
+                }
             }
 
             LoadFromRam();
@@ -218,8 +237,20 @@ namespace Editor
 
         private void AddLoggerOnClick(object sender, RoutedEventArgs e)
         {
-            LoggerWindow lw = new LoggerWindow(this, mConfigXml, mLog4NetNode, mConfigXml.CreateElement("root"), ChangeType.Add);
+            if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
+            {
+                MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            OpenLoggerWindow(ChangeType.Add, mConfigXml.CreateElement("root"));
+        }
+
+        private void OpenLoggerWindow(ChangeType changeType, XmlNode rootLoggerNode)
+        {
+            LoggerWindow lw = new LoggerWindow(this, mConfigXml, mLog4NetNode, rootLoggerNode, changeType);
             lw.ShowDialog();
+            LoadFromRam();
         }
     }
 }
