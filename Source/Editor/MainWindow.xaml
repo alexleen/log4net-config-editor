@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="log4net Configuration Editor"
-        MinHeight="350"
-        Height="540"
-        MinWidth="328"
-        Width="960"
+        MinHeight="360"
+        Height="450"
+        MinWidth="640"
+        Width="800"
         Loaded="MainWindowOnLoaded" 
         Icon="Images\configure.png">
     <Window.Resources>
@@ -17,11 +17,15 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
-            <TextBox x:Name="xConfigTextBox" Width="500" Height="21" VerticalAlignment="Center" IsReadOnly="True" Margin="5"/>
-            <Button Margin="0,5,5,5" Click="OpenOnClick">Open</Button>
-            <Button Margin="0,5,5,5" Click="ReloadOnClick">Reload</Button>
-        </StackPanel>
+        <DockPanel DockPanel.Dock="Top" >
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                <Button Margin="0,5,5,5" Click="OpenOnClick">Open</Button>
+                <Button Margin="0,5,5,5" Click="ReloadOnClick">Reload</Button>
+            </StackPanel>
+            <TextBox x:Name="xConfigTextBox"  Height="21" VerticalAlignment="Center" IsReadOnly="True" Margin="5"/>
+        </DockPanel>
+        
+        <Separator DockPanel.Dock="Top" Margin="5,0,5,5"/>
 
         <StackPanel DockPanel.Dock="Right">
             <StackPanel.Resources>
