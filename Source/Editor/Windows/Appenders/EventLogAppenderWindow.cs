@@ -57,7 +57,7 @@ namespace Editor.Windows.Appenders
                                                       (Name: "name", Value: LogName),
                                                       (Name: "value", Value: xLogNameTextBox.Text)
                                                   })
-                     .AppentTo(appenderNode);
+                     .AppendTo(appenderNode);
 
             configXml.CreateElementWithAttributes("param",
                                                   new[]
@@ -65,7 +65,7 @@ namespace Editor.Windows.Appenders
                                                       (Name: "name", Value: ApplicationName),
                                                       (Name: "value", Value: xApplicationNameTextBox.Text)
                                                   })
-                     .AppentTo(appenderNode);
+                     .AppendTo(appenderNode);
         }
     }
 }

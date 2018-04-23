@@ -68,6 +68,7 @@
     <Compile Include="Models\AppenderRefModel.cs" />
     <Compile Include="Models\ChildModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
+    <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\RefModel.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -93,9 +94,6 @@
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\RefsWindow.xaml.cs">
-      <DependentUpon>RefsWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,10 +115,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Loggers\LoggerWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\RefsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

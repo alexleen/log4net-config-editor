@@ -78,9 +78,49 @@ namespace Editor.Utilities
         /// </summary>
         /// <param name="node"></param>
         /// <param name="parent"></param>
-        public static void AppentTo(this XmlNode node, XmlNode parent)
+        public static void AppendTo(this XmlNode node, XmlNode parent)
         {
             parent.AppendChild(node);
         }
+
+        /// <summary>
+        /// Appends this node to the specified parent iff it does not already exist.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="parent"></param>
+        //public static void AppendToSafe(this XmlNode node, XmlNode parent)
+        //{
+        //    foreach (XmlNode childNode in parent.ChildNodes)
+        //    {
+        //        if (Equals(node, childNode))
+        //        {
+        //            return;
+        //        }
+        //    }
+
+        //    parent.AppendChild(node);
+        //}
+
+        /// <summary>
+        /// Removes the specified child from this node iff it exists.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="child"></param>
+        //public static void RemoveChildSafe(this XmlNode parent, XmlNode child)
+        //{
+        //    bool found = false;
+        //    foreach (XmlNode childNode in parent.ChildNodes)
+        //    {
+        //        if (Equals(child, childNode))
+        //        {
+        //            found = true;
+        //        }
+        //    }
+
+        //    if (found)
+        //    {
+        //        parent.AppendChild(child);
+        //    }
+        //}
     }
 }

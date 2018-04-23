@@ -12,7 +12,6 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Properties;
 using Editor.Utilities;
-using Editor.Windows;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
@@ -162,13 +161,6 @@ namespace Editor
             }
 
             throw new InvalidOperationException("Unknown appender: " + type);
-        }
-
-        private void RefsOnClick(object sender, RoutedEventArgs e)
-        {
-            AppenderModel appenderModel = (AppenderModel)((Button)sender).DataContext;
-            RefsWindow refsWindow = new RefsWindow(this, mConfigXml, mLog4NetNode, appenderModel.Name);
-            refsWindow.ShowDialog();
         }
 
         private void AddAppenderOnClick(object sender, RoutedEventArgs e)

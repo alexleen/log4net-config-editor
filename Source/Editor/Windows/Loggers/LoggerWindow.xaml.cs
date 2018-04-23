@@ -64,11 +64,11 @@ namespace Editor.Windows.Loggers
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
             XmlNode rootLoggerNode = mChangeType == ChangeType.Add ? mRootLoggerNode : mConfigXml.CreateElement("root");
-            mConfigXml.CreateElementWithAttribute("level", "value", (string)xLevelsComboBox.SelectedItem).AppentTo(rootLoggerNode);
+            mConfigXml.CreateElementWithAttribute("level", "value", (string)xLevelsComboBox.SelectedItem).AppendTo(rootLoggerNode);
 
             foreach (AppenderRefModel appenderRefModel in xRefsListBox.ItemsSource.Cast<AppenderRefModel>().Where(appenderRefModel => appenderRefModel.IsEnabled))
             {
-                mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderRefModel.Ref).AppentTo(rootLoggerNode);
+                mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderRefModel.Ref).AppendTo(rootLoggerNode);
             }
 
             if (mChangeType == ChangeType.Add)

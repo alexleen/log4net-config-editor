@@ -43,12 +43,12 @@ namespace Editor.Windows.Appenders
 
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {
-            configXml.CreateElementWithAttribute("file", "value", xFileTextBox.Text).AppentTo(appenderNode);
+            configXml.CreateElementWithAttribute("file", "value", xFileTextBox.Text).AppendTo(appenderNode);
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (xOverwriteRb.IsChecked.HasValue && xOverwriteRb.IsChecked.Value)
             {
-                configXml.CreateElementWithAttribute("appendToFile", "value", "false").AppentTo(appenderNode);
+                configXml.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(appenderNode);
             }
         }
     }

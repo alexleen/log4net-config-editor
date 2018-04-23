@@ -36,7 +36,7 @@ namespace Editor.Windows.Appenders
             //Target is "Console.Out" by default, so we only need a target element if "Console.Error"
             if ((string)xTargetComboBox.SelectedItem == consoleError)
             {
-                configXml.CreateElementWithAttribute("target", "value", consoleError).AppentTo(appenderNode);
+                configXml.CreateElementWithAttribute("target", "value", consoleError).AppendTo(appenderNode);
             }
         }
     }

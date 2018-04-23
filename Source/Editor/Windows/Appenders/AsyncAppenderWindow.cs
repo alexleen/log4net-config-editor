@@ -67,11 +67,11 @@ namespace Editor.Windows.Appenders
 
         protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
         {
-            configXml.CreateElementWithAttribute("Fix", "value", ((int)xFixComboBox.SelectedItem).ToString()).AppentTo(appenderNode);
+            configXml.CreateElementWithAttribute("Fix", "value", ((int)xFixComboBox.SelectedItem).ToString()).AppendTo(appenderNode);
 
             if (xBufferSizeTextBox.Text != DefaultBufferSize)
             {
-                configXml.CreateElementWithAttribute("bufferSize", "value", xBufferSizeTextBox.Text).AppentTo(appenderNode);
+                configXml.CreateElementWithAttribute("bufferSize", "value", xBufferSizeTextBox.Text).AppendTo(appenderNode);
             }
         }
 

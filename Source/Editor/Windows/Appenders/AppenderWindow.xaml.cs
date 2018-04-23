@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -97,6 +98,30 @@ namespace Editor.Windows.Appenders
             }
 
             xFilterDataGrid.ItemsSource = Filters;
+
+            ICollection<LoggerModel> appenderRefModels = new List<LoggerModel>();
+
+            XmlNodeList asyncAppenders = mLog4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
+
+            if (asyncAppenders != null)
+            {
+                foreach (XmlNode asyncAppender in asyncAppenders)
+                {
+                    XmlNode appenderRef = asyncAppender.SelectSingleNode($"appender-ref[@ref='{xNameTextBox.Text}']");
+                    string name = asyncAppender.Attributes?["name"]?.Value;
+                    appenderRefModels.Add(new LoggerModel(name, asyncAppender, appenderRef != null));
+                }
+            }
+
+            XmlNode root = mLog4NetNode.SelectSingleNode("root");
+
+            if (root != null)
+            {
+                XmlNode appenderRef = root.SelectSingleNode($"appender-ref[@ref='{xNameTextBox.Text}']");
+                appenderRefModels.Add(new LoggerModel("root", root, appenderRef != null));
+            }
+
+            xRefsListBox.ItemsSource = appenderRefModels;
         }
 
         private void LoadConversionPattern()
@@ -146,6 +171,45 @@ namespace Editor.Windows.Appenders
                 appenderNode.AppendChild(filter.Node);
             }
 
+            foreach (LoggerModel loggerModel in xRefsListBox.ItemsSource)
+            {
+                XmlNodeList appenderRefs = loggerModel.LoggerNode.SelectNodes($"appender-ref[@ref='{xNameTextBox.Text}']");
+
+                if (loggerModel.IsEnabled)
+                {
+                    if (appenderRefs == null || appenderRefs.Count == 0)
+                    {
+                        //Doesn't exist - add
+                        mConfigXml.CreateElementWithAttribute("appender-ref", "ref", xNameTextBox.Text).AppendTo(loggerModel.LoggerNode);
+                    }
+                    else if (appenderRefs.Count == 1)
+                    {
+                        //Only one - we're good
+                    }
+                    else
+                    {
+                        //More than one - remove all
+                        foreach (XmlNode appenderRef in appenderRefs)
+                        {
+                            loggerModel.LoggerNode.RemoveChild(appenderRef);
+                        }
+
+                        //Add
+                        mConfigXml.CreateElementWithAttribute("appender-ref", "ref", xNameTextBox.Text).AppendTo(loggerModel.LoggerNode);
+                    }
+                }
+                else
+                {
+                    if (appenderRefs != null && appenderRefs.Count > 0)
+                    {
+                        foreach (XmlNode appenderRef in appenderRefs)
+                        {
+                            loggerModel.LoggerNode.RemoveChild(appenderRef);
+                        }
+                    }
+                }
+            }
+
             if (mChangeType == ChangeType.Add)
             {
                 mLog4NetNode.AppendChild(appenderNode);
@@ -164,7 +228,7 @@ namespace Editor.Windows.Appenders
 
             if ((LayoutDescriptor)xLayoutComboBox.SelectedItem != LayoutDescriptor.Simple)
             {
-                mConfigXml.CreateElementWithAttribute("conversionPattern", "value", xPatternTextBox.Text).AppentTo(layoutNode);
+                mConfigXml.CreateElementWithAttribute("conversionPattern", "value", xPatternTextBox.Text).AppendTo(layoutNode);
             }
 
             appenderNode.AppendChild(layoutNode);

@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Converters="clr-namespace:Editor.Converters"
+        xmlns:Converters="clr-namespace:Editor.Converters" 
+        xmlns:Models="clr-namespace:Editor.Models"
         mc:Ignorable="d"
-        Height="450" 
-        MinHeight="350" 
+        Height="500" 
+        MinHeight="400" 
         Width="550"
         MinWidth="550"
         MaxWidth="550"
@@ -38,6 +39,7 @@
             <RowDefinition x:Name="xBufferSizeRow" Height="0" />
             <RowDefinition x:Name="xLayoutRow" Height="Auto" />
             <RowDefinition x:Name="xFiltersRow" Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -154,7 +156,19 @@
             </DataGrid>
         </DockPanel>
 
-        <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <Label Grid.Row="9" Grid.Column="0">Refs:</Label>
+        <DockPanel Grid.Row="9" Grid.Column="1">
+            <Label FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0">This appender can be referenced in the following loggers:</Label>
+            <ListBox x:Name="xRefsListBox" Margin="0,5,5,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="Models:LoggerModel">
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+        <StackPanel Grid.Row="10" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
             <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
         </StackPanel>        
