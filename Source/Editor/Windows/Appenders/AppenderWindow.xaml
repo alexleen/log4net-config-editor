@@ -61,11 +61,8 @@
         
         <!--Target-->
         <Label Grid.Row="3" Grid.Column="0">Target:</Label>
-        <ComboBox x:Name="xTargetComboBox" Grid.Row="3" Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedIndex="0">
-            <ComboBoxItem>Console.Out</ComboBoxItem>
-            <ComboBoxItem>Console.Error</ComboBoxItem>
-        </ComboBox>
-        
+        <ComboBox x:Name="xTargetComboBox" Grid.Row="3" Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
         <!--File-->
         <Label Grid.Row="4" Grid.Column="0">File:</Label>
         <StackPanel Grid.Row="4" Grid.Column="1">
