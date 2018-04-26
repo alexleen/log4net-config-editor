@@ -66,9 +66,13 @@ namespace Editor.Windows.Loggers
             XmlNode rootLoggerNode = mChangeType == ChangeType.Add ? mRootLoggerNode : mConfigXml.CreateElement("root");
             mConfigXml.CreateElementWithAttribute("level", "value", (string)xLevelsComboBox.SelectedItem).AppendTo(rootLoggerNode);
 
-            foreach (AppenderRefModel appenderRefModel in xRefsListBox.ItemsSource.Cast<AppenderRefModel>().Where(appenderRefModel => appenderRefModel.IsEnabled))
+            //xRefsListBox.ItemsSource can be null if we're adding a new logger or there are no referenced appenders
+            if (xRefsListBox.ItemsSource != null)
             {
-                mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderRefModel.Ref).AppendTo(rootLoggerNode);
+                foreach (AppenderRefModel appenderRefModel in xRefsListBox.ItemsSource.Cast<AppenderRefModel>().Where(appenderRefModel => appenderRefModel.IsEnabled))
+                {
+                    mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderRefModel.Ref).AppendTo(rootLoggerNode);
+                }
             }
 
             if (mChangeType == ChangeType.Add)
