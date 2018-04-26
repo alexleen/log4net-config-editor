@@ -1,0 +1,73 @@
+﻿<Window x:Class="Editor.Windows.Loggers.LoggerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Models="clr-namespace:Editor.Models"
+        mc:Ignorable="d"
+        Title="LoggerWindow"
+        WindowStartupLocation="CenterOwner"
+        Icon="../../Images/text-x-log.png"
+        Loaded="LoggerWindowOnLoaded"
+        Width="320"
+        MinWidth="320"
+        Height="280"
+        MinHeight="280">
+    <Grid Margin="5">
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Width" Value="100" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label>Level:</Label>
+        <ComboBox x:Name="xLevelsComboBox" Grid.Row="0" Grid.Column="1" SelectedIndex="0" />
+
+        <Label Grid.Row="1" Grid.Column="0">Refs:</Label>
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Label FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top">Appenders referenced in this logger:</Label>
+            <ListBox x:Name="xRefsListBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="Models:AppenderRefModel">
+                        <CheckBox Content="{Binding Ref}" IsChecked="{Binding IsEnabled}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
+            <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
+        </StackPanel>
+    </Grid>
+</Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

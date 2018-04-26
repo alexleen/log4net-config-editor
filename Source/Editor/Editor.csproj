@@ -54,6 +54,46 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
+    <Compile Include="Converters\RefSelectionConverter.cs" />
+    <Compile Include="Descriptors\AppenderDescriptor.cs" />
+    <Compile Include="Descriptors\LoggerDescriptor.cs" />
+    <Compile Include="Enums\ChangeType.cs" />
+    <Compile Include="Enums\FilterType.cs" />
+    <Compile Include="Models\AppenderModel.cs" />
+    <Compile Include="Enums\AppenderType.cs" />
+    <Compile Include="Descriptors\FilterDescriptor.cs" />
+    <Compile Include="Descriptors\LayoutDescriptor.cs" />
+    <Compile Include="Enums\LayoutType.cs" />
+    <Compile Include="Models\AppenderRefModel.cs" />
+    <Compile Include="Models\ChildModel.cs" />
+    <Compile Include="Models\FilterModel.cs" />
+    <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\RefModel.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Log4NetUtilities.cs" />
+    <Compile Include="Utilities\XmlUtilities.cs" />
+    <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
+      <DependentUpon>AppenderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Appenders\AsyncAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
+    <Compile Include="Windows\Filters\FilterWindow.xaml.cs">
+      <DependentUpon>FilterWindowBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Filters\LevelMatchFilterWindow.cs" />
+    <Compile Include="Windows\Filters\LevelRangeFilterWindow.cs" />
+    <Compile Include="Windows\Filters\LoggerMatchFilterWindow.cs" />
+    <Compile Include="Windows\Filters\StringMatchFilterWindow.cs" />
+    <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
+      <DependentUpon>LoggerWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -62,11 +102,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\ObjectTypeNameToStringConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\Appenders\AppenderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Filters\FilterWindowBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Loggers\LoggerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -85,6 +136,30 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\list-add.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\view-filter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\configure.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\text-x-log.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
