@@ -12,6 +12,7 @@ namespace Editor.Windows.Filters
         public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
             : base(owner, filterModel, appenderNode, configXml)
         {
+            xStringToMatchTextBox.Focus();
         }
 
         protected override void Configure()

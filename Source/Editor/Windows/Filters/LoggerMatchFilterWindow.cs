@@ -12,6 +12,7 @@ namespace Editor.Windows.Filters
         public LoggerMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
             : base(owner, filterModel, appenderNode, configXml)
         {
+            xLoggerToMatchTextBox.Focus();
         }
 
         protected override void Configure()

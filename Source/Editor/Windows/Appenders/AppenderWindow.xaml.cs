@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Xml;
 using Editor.Descriptors;
@@ -61,11 +62,10 @@ namespace Editor.Windows.Appenders
                 FilterDescriptor.LevelMatch,
                 FilterDescriptor.LevelRange,
                 FilterDescriptor.LoggerMatch,
-                FilterDescriptor.Mdc,
-                FilterDescriptor.Ndc,
-                FilterDescriptor.Property,
                 FilterDescriptor.String
             };
+
+            xNameTextBox.Focus();
 
             Load();
         }
