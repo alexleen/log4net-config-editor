@@ -1,5 +1,6 @@
 # log4net-config-editor
 A WPF GUI for editing log4net configuration files.
+![](https://github.com/atown-24/log4net-config-editor/blob/bugfix/bugfixes-for-v0.1.1/gifs/demo.gif?raw=true)
 ## Status
 Currently under construction. log4net configuration files can be quite large and complex (hence this editor), so it may take some time to fully support all of the available features. See Support section below for more information.
 ### Support
