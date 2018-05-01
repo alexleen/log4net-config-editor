@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Converters="clr-namespace:Editor.Converters" 
-        xmlns:Models="clr-namespace:Editor.Models"
+        xmlns:Appenders="clr-namespace:Editor.Windows.Appenders"
         mc:Ignorable="d"
         Height="500" 
         MinHeight="400" 
@@ -12,11 +11,33 @@
         MinWidth="550"
         MaxWidth="550"
         WindowStartupLocation="CenterOwner" 
-        Icon="../../Images/list-add.png">
-    <Window.Resources>
-        <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>    
-    </Window.Resources>
-    <Grid>
+        Icon="../../Images/list-add.png"
+        Loaded="WindowOnLoaded">
+    <StackPanel>
+
+        <ItemsControl ItemsSource="{Binding AppenderProperties}" >
+            <ItemsControl.Resources>
+                <ResourceDictionary Source="Properties/PropertyDictionary.xaml" />
+            </ItemsControl.Resources>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid Appenders:GridHelper.BindableRows="{Binding AppenderProperties}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding RowIndex}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+        <!--<Grid>
         <Grid.Resources>
             <Style TargetType="Label">
                 <Setter Property="FontWeight" Value="Bold" />
@@ -47,23 +68,23 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!--Name-->
+        --><!--Name--><!--
         <Label>Name:</Label>
         <TextBox x:Name="xNameTextBox" Grid.Row="0" Grid.Column="1" />
         
-        <!--Log Name-->
+        --><!--Log Name--><!--
         <Label Grid.Row="1" Grid.Column="0">Log Name:</Label>
         <TextBox x:Name="xLogNameTextBox" Grid.Row="1" Grid.Column="1" />
 
-        <!--Application Name-->
+        --><!--Application Name--><!--
         <Label Grid.Row="2" Grid.Column="0">Application Name:</Label>
         <TextBox x:Name="xApplicationNameTextBox" Grid.Row="2" Grid.Column="1" />
         
-        <!--Target-->
+        --><!--Target--><!--
         <Label Grid.Row="3" Grid.Column="0">Target:</Label>
         <ComboBox x:Name="xTargetComboBox" Grid.Row="3" Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
-        <!--File-->
+        --><!--File--><!--
         <Label Grid.Row="4" Grid.Column="0">File:</Label>
         <StackPanel Grid.Row="4" Grid.Column="1">
             <StackPanel  Orientation="Horizontal">
@@ -76,7 +97,7 @@
             </StackPanel>
         </StackPanel>
         
-        <!--Fix-->
+        --><!--Fix--><!--
         <Label Grid.Row="5" Grid.Column="0">Fix:</Label>
         <StackPanel Grid.Row="5" Grid.Column="1">
             <ComboBox x:Name="xFixComboBox" Width="100" Height="21" HorizontalAlignment="Left">
@@ -97,11 +118,11 @@
             </TextBlock>
         </StackPanel>        
 
-        <!--Buffer Size-->
+        --><!--Buffer Size--><!--
         <Label Grid.Row="6" Grid.Column="0">Buffer Size:</Label>
         <TextBox x:Name="xBufferSizeTextBox" Grid.Row="6" Grid.Column="1" />
 
-        <!--Layout-->
+        --><!--Layout--><!--
         <Label Grid.Row="7" Grid.Column="0">Layout:</Label>
         <StackPanel Grid.Row="7" Grid.Column="1">
             <ComboBox x:Name="xLayoutComboBox" Width="75" Height="21" Margin="0,5" SelectedIndex="0" SelectionChanged="LayoutComboBoxOnSelectionChanged" HorizontalAlignment="Left">
@@ -120,7 +141,7 @@
             </TextBlock>
         </StackPanel>        
         
-        <!--Filters-->
+        --><!--Filters--><!--
         <Label Grid.Row="8" Grid.Column="0">Filters:</Label>
         <DockPanel Grid.Row="8" Grid.Column="1" Margin="0,5,0,0">
             <StackPanel DockPanel.Dock="Right">
@@ -165,9 +186,13 @@
             </ListBox>
         </DockPanel>
 
-        <StackPanel Grid.Row="10" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                
+    </Grid>-->
+    
+    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
             <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
-        </StackPanel>        
-    </Grid>
+        </StackPanel>
+    </StackPanel>
 </Window>
+

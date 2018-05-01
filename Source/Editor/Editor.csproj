@@ -55,6 +55,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
+    <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\RefSelectionConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\RefModel.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -84,6 +86,20 @@
     <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\GridHelper.cs" />
+    <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
+    <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
+    <Compile Include="Windows\Appenders\Properties\IAppenderProperty.cs" />
+    <Compile Include="Windows\Appenders\Properties\File.cs" />
+    <Compile Include="Windows\Appenders\Properties\Filters.cs" />
+    <Compile Include="Windows\Appenders\Properties\Fix.cs" />
+    <Compile Include="Windows\Appenders\Properties\AppenderPropertyBase.cs" />
+    <Compile Include="Windows\Appenders\Properties\Layout.cs" />
+    <Compile Include="Windows\Appenders\Properties\LogName.cs" />
+    <Compile Include="Windows\Appenders\Properties\Name.cs" />
+    <Compile Include="Windows\Appenders\Properties\Refs.cs" />
+    <Compile Include="Windows\Appenders\Properties\StringValueProperty.cs" />
+    <Compile Include="Windows\Appenders\Properties\Target.cs" />
     <Compile Include="Windows\Filters\FilterWindow.xaml.cs">
       <DependentUpon>FilterWindowBase.xaml</DependentUpon>
     </Compile>
@@ -107,6 +123,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\Appenders\AppenderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Appenders\Properties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

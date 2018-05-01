@@ -4,7 +4,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
-using Editor.Utilities;
+using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Windows.Appenders
 {
@@ -14,42 +14,18 @@ namespace Editor.Windows.Appenders
             : base(owner, configXml, log4NetNode, appenderNode, changeType)
         {
             Title = "File Appender";
-            xFileRow.Height = AutoGridRowHeight;
         }
 
-        protected override void LoadAppenderSpecificItems(XmlNode appenderNode)
+        protected override void AddAppropriateProperties()
         {
-            ReplaceIfNotNullOrEmpty(appenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value, xFileTextBox);
-
-            string appendToFile = appenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
-            if (!string.IsNullOrEmpty(appendToFile))
-            {
-                xOverwriteRb.IsChecked = appendToFile == "false";
-            }
+            Name nameProperty = new Name(AppenderProperties, GridLength.Auto);
+            AppenderProperties.Add(nameProperty);
+            AppenderProperties.Add(new File(AppenderProperties, GridLength.Auto));
+            AppenderProperties.Add(new Layout(AppenderProperties, GridLength.Auto));
+            AppenderProperties.Add(new Properties.Filters(this, ConfigXml, AppenderNode, AppenderProperties, GridLength.Auto));
+            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties, GridLength.Auto));
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.File;
-
-        protected override bool TryValidateInputs()
-        {
-            if (string.IsNullOrEmpty(xFileTextBox.Text))
-            {
-                MessageBox.Show(this, "A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            return base.TryValidateInputs();
-        }
-
-        protected override void SaveAppenderSpecificItems(XmlDocument configXml, XmlNode appenderNode)
-        {
-            configXml.CreateElementWithAttribute("file", "value", xFileTextBox.Text).AppendTo(appenderNode);
-
-            //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
-            if (xOverwriteRb.IsChecked.HasValue && xOverwriteRb.IsChecked.Value)
-            {
-                configXml.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(appenderNode);
-            }
-        }
     }
 }
