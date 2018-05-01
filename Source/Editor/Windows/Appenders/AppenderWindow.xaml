@@ -134,7 +134,7 @@
                 <Button Width="110" Margin="5,0,5,5" Click="AddFilterOnClick">Add</Button>
                 <Button Width="110" Margin="5,0,5,5" Click="HelpOnClick">Help</Button>
             </StackPanel>
-            <DataGrid x:Name="xFilterDataGrid" AutoGenerateColumns="false">
+            <DataGrid x:Name="xFilterDataGrid" AutoGenerateColumns="false" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}"/>
                     <DataGridTemplateColumn Header="Options">
