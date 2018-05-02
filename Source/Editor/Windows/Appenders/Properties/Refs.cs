@@ -13,8 +13,8 @@ namespace Editor.Windows.Appenders.Properties
         private readonly XmlNode mLog4NetNode;
         private readonly Name mNameProperty;
 
-        public Refs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight)
+        public Refs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IAppenderProperty> container)
+            : base(container, new GridLength(1, GridUnitType.Star))
         {
             mLog4NetNode = log4NetNode;
             mNameProperty = nameProperty;

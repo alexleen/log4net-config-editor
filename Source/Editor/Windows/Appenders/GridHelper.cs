@@ -31,11 +31,6 @@ namespace Editor.Windows.Appenders
             if (obj is Grid grid && e.NewValue is ObservableCollection<IAppenderProperty> rows)
             {
                 new GridRowManager(grid, rows);
-
-                foreach (IAppenderProperty gridRow in rows)
-                {
-                    grid.RowDefinitions.Add(new RowDefinition { Height = gridRow.RowHeight });
-                }
             }
         }
 

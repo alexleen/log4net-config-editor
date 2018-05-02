@@ -20,8 +20,8 @@ namespace Editor.Windows.Appenders.Properties
         private readonly XmlDocument mXmlDoc;
         private readonly XmlNode mAppenderNode;
 
-        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight)
+        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IAppenderProperty> container)
+            : base(container, new GridLength(1, GridUnitType.Star))
         {
             mOwner = owner;
             mXmlDoc = xmlDoc;

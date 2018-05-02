@@ -22,7 +22,7 @@ namespace Editor.Windows.Appenders
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new Fix(AppenderProperties, GridLength.Auto));
             AppenderProperties.Add(new BufferSize(AppenderProperties, GridLength.Auto));
-            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties, GridLength.Auto));
+            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.Async;

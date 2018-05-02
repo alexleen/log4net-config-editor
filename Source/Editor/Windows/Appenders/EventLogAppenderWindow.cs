@@ -23,8 +23,8 @@ namespace Editor.Windows.Appenders
             AppenderProperties.Add(new LogName(AppenderProperties, GridLength.Auto));
             AppenderProperties.Add(new ApplicationName(AppenderProperties, GridLength.Auto));
             AppenderProperties.Add(new Layout(AppenderProperties, GridLength.Auto));
-            AppenderProperties.Add(new Properties.Filters(this, ConfigXml, AppenderNode, AppenderProperties, GridLength.Auto));
-            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties, GridLength.Auto));
+            AppenderProperties.Add(new Properties.Filters(this, ConfigXml, AppenderNode, AppenderProperties));
+            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.EventLog;
