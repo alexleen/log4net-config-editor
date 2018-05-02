@@ -2,8 +2,10 @@
 
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml;
 using Editor.Utilities;
+using Microsoft.Win32;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -12,7 +14,10 @@ namespace Editor.Windows.Appenders.Properties
         public File(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
             : base(container, GridLength.Auto, appenderNode)
         {
+            Open = new Command(OpenFile);
         }
+
+        public ICommand Open { get; }
 
         private string mFilePath;
 
@@ -45,6 +50,18 @@ namespace Editor.Windows.Appenders.Properties
 
                 mOverwrite = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private void OpenFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool? showDialog = ofd.ShowDialog();
+
+            if (showDialog.HasValue && showDialog.Value)
+            {
+                FilePath = ofd.FileName;
             }
         }
 
