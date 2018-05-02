@@ -4,6 +4,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
