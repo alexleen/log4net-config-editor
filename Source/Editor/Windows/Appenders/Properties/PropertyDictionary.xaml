@@ -90,10 +90,16 @@
                 </ComboBox>
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
                     For more information, see
-                    <Hyperlink NavigateUri="https://stackoverflow.com/q/11319319/7355697">
+                    <Hyperlink x:Name="xQuestionHyperlink" 
+                               NavigateUri="https://stackoverflow.com/q/11319319/7355697" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xQuestionHyperlink, Path=NavigateUri}">
                         this issue
                     </Hyperlink> and 
-                    <Hyperlink NavigateUri="https://logging.apache.org/log4net/release/sdk/html/P_log4net_Core_LoggingEvent_Fix.htm">
+                    <Hyperlink x:Name="xFixHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/P_log4net_Core_LoggingEvent_Fix.htm" 
+                               Command="{Binding Navigate}"
+                               CommandParameter="{Binding ElementName=xFixHyperlink, Path=NavigateUri}">
                         these docs
                     </Hyperlink>.
                 </TextBlock>
@@ -124,7 +130,10 @@
                 <TextBox Text="{Binding Pattern}" FontFamily="Courier New" VerticalContentAlignment="Center" ToolTip="Enter pattern here" IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}"/>
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
                     For more information regarding patterns, see
-                    <Hyperlink NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Layout_PatternLayout.htm">
+                    <Hyperlink x:Name="xLayoutHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Layout_PatternLayout.htm" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xLayoutHyperlink, Path=NavigateUri}">
                         Pattern Layout
                     </Hyperlink>.
                 </TextBlock>

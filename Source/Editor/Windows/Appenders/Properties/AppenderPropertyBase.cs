@@ -5,9 +5,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Navigation;
+using System.Windows.Input;
 using System.Xml;
 using Editor.Annotations;
+using Editor.Utilities;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -21,11 +22,14 @@ namespace Editor.Windows.Appenders.Properties
             mContainer = container;
             AppenderNode = appenderNode;
             RowHeight = rowHeight;
+            Navigate = new Command(HyperlinkOnRequestNavigate);
         }
 
         public int RowIndex => mContainer.IndexOf(this);
 
         public GridLength RowHeight { get; }
+
+        public ICommand Navigate { get; }
 
         public abstract void Load();
 
@@ -36,10 +40,9 @@ namespace Editor.Windows.Appenders.Properties
 
         public abstract void Save(XmlDocument xmlDoc);
 
-        protected void HyperlinkOnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        private static void HyperlinkOnRequestNavigate(object uri)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-            e.Handled = true;
+            Process.Start(new ProcessStartInfo(uri.ToString()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

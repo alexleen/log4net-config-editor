@@ -7,6 +7,7 @@ namespace Editor.Utilities
 {
     public class Command : ICommand
     {
+        private readonly Action<object> mExecuteWithParam;
         private readonly Action mExecute;
         private readonly Func<bool> mCanExecute;
 
@@ -16,6 +17,11 @@ namespace Editor.Utilities
             mCanExecute = canExecute;
         }
 
+        public Command(Action<object> executeWithParam)
+        {
+            mExecuteWithParam = executeWithParam;
+        }
+
         public bool CanExecute(object parameter)
         {
             return mCanExecute == null || mCanExecute.Invoke();
@@ -23,7 +29,14 @@ namespace Editor.Utilities
 
         public void Execute(object parameter)
         {
-            mExecute();
+            if (mExecuteWithParam != null)
+            {
+                mExecuteWithParam(parameter);
+            }
+            else
+            {
+                mExecute?.Invoke();
+            }
         }
 
         public event EventHandler CanExecuteChanged;
