@@ -3,6 +3,8 @@
                     xmlns:Properties="clr-namespace:Editor.Windows.Appenders.Properties"
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters">
+    
+    <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
     <Style TargetType="Label">
         <Setter Property="FontWeight" Value="Bold" />
@@ -58,7 +60,7 @@
                     <Button Width="50" Margin="5">Open</Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <RadioButton>Append</RadioButton>
+                    <RadioButton IsChecked="{Binding Overwrite, Converter={StaticResource BoolInvConv}}">Append</RadioButton>
                     <RadioButton IsChecked="{Binding Overwrite}" Margin="5,0">Overwrite</RadioButton>
                 </StackPanel>
             </StackPanel>

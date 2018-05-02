@@ -14,10 +14,12 @@ namespace Editor.Windows.Appenders.Properties
     public abstract class AppenderPropertyBase : IAppenderProperty, INotifyPropertyChanged
     {
         private readonly ObservableCollection<IAppenderProperty> mContainer;
+        protected readonly XmlNode AppenderNode;
 
-        protected AppenderPropertyBase(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
+        protected AppenderPropertyBase(ObservableCollection<IAppenderProperty> container, GridLength rowHeight, XmlNode appenderNode)
         {
             mContainer = container;
+            AppenderNode = appenderNode;
             RowHeight = rowHeight;
         }
 
@@ -25,14 +27,14 @@ namespace Editor.Windows.Appenders.Properties
 
         public GridLength RowHeight { get; }
 
-        public abstract void Load(XmlNode appenderNode);
+        public abstract void Load();
 
         public virtual bool TryValidate()
         {
             return true;
         }
 
-        public abstract void Save(XmlDocument xmlDoc, XmlNode appenderNode);
+        public abstract void Save(XmlDocument xmlDoc);
 
         protected void HyperlinkOnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {

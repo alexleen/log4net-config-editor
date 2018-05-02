@@ -9,8 +9,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class File : AppenderPropertyBase
     {
-        public File(ObservableCollection<IAppenderProperty> container)
-            : base(container, GridLength.Auto)
+        public File(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
+            : base(container, GridLength.Auto, appenderNode)
         {
         }
 
@@ -48,15 +48,15 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Load(XmlNode appenderNode)
+        public override void Load()
         {
-            string file = appenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
+            string file = AppenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
             if (string.IsNullOrEmpty(file))
             {
                 FilePath = file;
             }
 
-            string appendToFile = appenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
+            string appendToFile = AppenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
             if (!string.IsNullOrEmpty(appendToFile))
             {
                 Overwrite = appendToFile == "false";
@@ -74,14 +74,14 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode appenderNode)
+        public override void Save(XmlDocument xmlDoc)
         {
-            xmlDoc.CreateElementWithAttribute("file", "value", FilePath).AppendTo(appenderNode);
+            xmlDoc.CreateElementWithAttribute("file", "value", FilePath).AppendTo(AppenderNode);
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (Overwrite)
             {
-                xmlDoc.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(appenderNode);
+                xmlDoc.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(AppenderNode);
             }
         }
     }

@@ -13,8 +13,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Fix : AppenderPropertyBase
     {
-        public Fix(ObservableCollection<IAppenderProperty> container)
-            : base(container, GridLength.Auto)
+        public Fix(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
+            : base(container, GridLength.Auto, appenderNode)
         {
             Fixes = Enum.GetValues(typeof(FixFlags)).Cast<FixFlags>();
         }
@@ -23,9 +23,9 @@ namespace Editor.Windows.Appenders.Properties
 
         public FixFlags SelectedFix { get; set; }
 
-        public override void Load(XmlNode appenderNode)
+        public override void Load()
         {
-            string fixValue = appenderNode["Fix"]?.Attributes["value"].Value;
+            string fixValue = AppenderNode["Fix"]?.Attributes["value"].Value;
 
             if (int.TryParse(fixValue, out int fixValueInt) && Enum.IsDefined(typeof(FixFlags), fixValueInt))
             {
@@ -37,9 +37,9 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode appenderNode)
+        public override void Save(XmlDocument xmlDoc)
         {
-            xmlDoc.CreateElementWithAttribute("Fix", "value", ((int)SelectedFix).ToString()).AppendTo(appenderNode);
+            xmlDoc.CreateElementWithAttribute("Fix", "value", ((int)SelectedFix).ToString()).AppendTo(AppenderNode);
         }
     }
 }

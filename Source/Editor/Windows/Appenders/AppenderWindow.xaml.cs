@@ -54,11 +54,13 @@ namespace Editor.Windows.Appenders
 
             foreach (IAppenderProperty appenderProperty in AppenderProperties)
             {
-                appenderProperty.Load(AppenderNode);
+                appenderProperty.Load();
             }
         }
 
         protected abstract void AddAppropriateProperties();
+
+        protected abstract AppenderDescriptor Descriptor { get; }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
@@ -70,11 +72,12 @@ namespace Editor.Windows.Appenders
             //If we're editing, just replace the existing appender with a new one
             XmlNode appenderNode = mChangeType == ChangeType.Add ? AppenderNode : ConfigXml.CreateElement("appender");
 
+            //TODO add this as a property?
             appenderNode.AppendAttribute(ConfigXml, "type", Descriptor.TypeNamespace);
 
             foreach (IAppenderProperty appenderProperty in AppenderProperties)
             {
-                appenderProperty.Save(ConfigXml, appenderNode);
+                appenderProperty.Save(ConfigXml);
             }
 
             if (mChangeType == ChangeType.Add)
@@ -88,8 +91,6 @@ namespace Editor.Windows.Appenders
 
             Close();
         }
-
-        protected abstract AppenderDescriptor Descriptor { get; }
 
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {

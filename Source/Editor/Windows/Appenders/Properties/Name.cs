@@ -9,14 +9,14 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Name : StringValueProperty
     {
-        public Name(ObservableCollection<IAppenderProperty> container)
-            : base(container, GridLength.Auto, "Name:")
+        public Name(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
+            : base(container, GridLength.Auto, "Name:", appenderNode)
         {
         }
 
-        public override void Load(XmlNode appenderNode)
+        public override void Load()
         {
-            SetValueIfNotNullOrEmpty(appenderNode.Attributes?["name"]?.Value);
+            SetValueIfNotNullOrEmpty(AppenderNode.Attributes?["name"]?.Value);
         }
 
         public override bool TryValidate()
@@ -31,9 +31,9 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode appenderNode)
+        public override void Save(XmlDocument xmlDoc)
         {
-            appenderNode.AppendAttribute(xmlDoc, "name", Value);
+            AppenderNode.AppendAttribute(xmlDoc, "name", Value);
         }
     }
 }

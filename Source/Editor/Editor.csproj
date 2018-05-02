@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolInterverConverter.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\RefSelectionConverter.cs" />

@@ -18,14 +18,12 @@ namespace Editor.Windows.Appenders.Properties
     {
         private readonly Window mOwner;
         private readonly XmlDocument mXmlDoc;
-        private readonly XmlNode mAppenderNode;
 
         public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IAppenderProperty> container)
-            : base(container, new GridLength(1, GridUnitType.Star))
+            : base(container, new GridLength(1, GridUnitType.Star), appenderNode)
         {
             mOwner = owner;
             mXmlDoc = xmlDoc;
-            mAppenderNode = appenderNode;
 
             AvailableFilters = new[]
             {
@@ -82,13 +80,13 @@ namespace Editor.Windows.Appenders.Properties
             switch (filterModel.Descriptor.Type)
             {
                 case FilterType.LevelMatch:
-                    filterWindow = new LevelMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new LevelMatchFilterWindow(mOwner, filterModel, AppenderNode, mXmlDoc);
                     break;
                 case FilterType.LevelRange:
-                    filterWindow = new LevelRangeFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new LevelRangeFilterWindow(mOwner, filterModel, AppenderNode, mXmlDoc);
                     break;
                 case FilterType.LoggerMatch:
-                    filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, AppenderNode, mXmlDoc);
                     break;
                 case FilterType.Mdc:
                     break;
@@ -97,7 +95,7 @@ namespace Editor.Windows.Appenders.Properties
                 case FilterType.Property:
                     break;
                 case FilterType.String:
-                    filterWindow = new StringMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new StringMatchFilterWindow(mOwner, filterModel, AppenderNode, mXmlDoc);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -130,9 +128,9 @@ namespace Editor.Windows.Appenders.Properties
                             MessageBoxImage.Information);
         }
 
-        public override void Load(XmlNode appenderNode)
+        public override void Load()
         {
-            XmlNodeList filterNodes = appenderNode.SelectNodes("filter");
+            XmlNodeList filterNodes = AppenderNode.SelectNodes("filter");
 
             if (filterNodes != null)
             {
@@ -146,11 +144,11 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode appenderNode)
+        public override void Save(XmlDocument xmlDoc)
         {
             foreach (FilterModel filter in ExistingFilters)
             {
-                appenderNode.AppendChild(filter.Node);
+                AppenderNode.AppendChild(filter.Node);
             }
         }
     }
