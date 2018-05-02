@@ -195,7 +195,7 @@
             <Label>Refs:</Label>
             <DockPanel Grid.Column="1">
                 <Label FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0">This appender can be referenced in the following loggers:</Label>
-                <ListBox x:Name="xRefsListBox" Margin="0,5,5,0">
+                <ListBox x:Name="xRefsListBox" Margin="0,5,5,0" ItemsSource="{Binding RefsCollection}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="Models:LoggerModel">
                             <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}"/>
