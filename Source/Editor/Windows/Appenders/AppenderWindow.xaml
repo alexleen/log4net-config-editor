@@ -15,18 +15,13 @@
         Loaded="WindowOnLoaded">
     <StackPanel>
 
-        <ItemsControl ItemsSource="{Binding AppenderProperties}" >
+        <ItemsControl ItemsSource="{Binding AppenderProperties}" Grid.IsSharedSizeScope="True">
             <ItemsControl.Resources>
                 <ResourceDictionary Source="Properties/PropertyDictionary.xaml" />
             </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid Appenders:GridHelper.BindableRows="{Binding AppenderProperties}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
+                    <Grid Appenders:GridHelper.BindableRows="{Binding AppenderProperties}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
