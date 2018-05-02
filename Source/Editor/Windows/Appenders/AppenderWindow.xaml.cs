@@ -4,8 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
@@ -19,8 +17,6 @@ namespace Editor.Windows.Appenders
     /// </summary>
     public abstract partial class AppenderWindow : Window
     {
-        public static readonly GridLength AutoGridRowHeight = GridLength.Auto;
-
         protected readonly XmlDocument ConfigXml;
         protected readonly XmlNode Log4NetNode;
 

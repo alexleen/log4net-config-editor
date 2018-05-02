@@ -12,9 +12,8 @@
     </Style>
     <Style TargetType="TextBox">
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="Width" Value="300" />
         <Setter Property="Height" Value="21" />
+        <Setter Property="Margin" Value="0,0,5,0" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsFocused}" Value="True">
                 <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
@@ -60,10 +59,10 @@
 
             <Label>File:</Label>
             <StackPanel Grid.Column="1">
-                <StackPanel  Orientation="Horizontal">
-                    <TextBox Text="{Binding FilePath}" />
-                    <Button Width="50" Margin="5">Open</Button>
-                </StackPanel>
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Width="50" Height="21" Margin="5">Open</Button>
+                    <TextBox Text="{Binding FilePath}" />                    
+                </DockPanel>
                 <StackPanel Orientation="Horizontal">
                     <RadioButton IsChecked="{Binding Overwrite, Converter={StaticResource BoolInvConv}}">Append</RadioButton>
                     <RadioButton IsChecked="{Binding Overwrite}" Margin="5,0">Overwrite</RadioButton>
@@ -127,7 +126,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBox Text="{Binding Pattern}" FontFamily="Courier New" VerticalContentAlignment="Center" ToolTip="Enter pattern here" IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}"/>
+                <TextBox Text="{Binding Pattern}" FontFamily="Consolas" VerticalContentAlignment="Center" ToolTip="Enter pattern here" IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}" />
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
                     For more information regarding patterns, see
                     <Hyperlink x:Name="xLayoutHyperlink" 
