@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
@@ -34,7 +34,12 @@ namespace Editor.Windows.Appenders.Properties
                 FilterDescriptor.String
             };
 
+            SelectedFilter = FilterDescriptor.DenyAll;
+
             ExistingFilters = new ObservableCollection<FilterModel>();
+
+            AddFilter = new Command(AddFilterOnClick);
+            Help = new Command(HelpOnClick);
         }
 
         public IEnumerable<FilterDescriptor> AvailableFilters { get; }
@@ -43,34 +48,34 @@ namespace Editor.Windows.Appenders.Properties
 
         public ObservableCollection<FilterModel> ExistingFilters { get; }
 
-        private void EditFilterOnClick(object sender, RoutedEventArgs e)
-        {
-            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
-            ShowFilterWindow(filterModel);
-        }
+        public ICommand AddFilter { get; }
 
-        private void RemoveFilterOnClick(object sender, RoutedEventArgs e)
-        {
-            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
-            ExistingFilters.Remove(filterModel);
-        }
+        public ICommand Help { get; }
 
-        private void AddFilterOnClick(object sender, RoutedEventArgs e)
+        private void AddFilterOnClick()
         {
             FilterModel filterModel;
 
             if (SelectedFilter != FilterDescriptor.DenyAll)
             {
-                filterModel = new FilterModel(SelectedFilter, null);
+                filterModel = new FilterModel(SelectedFilter, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
                 ShowFilterWindow(filterModel);
             }
             else
             {
                 XmlElement filterElement = mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
-                filterModel = new FilterModel(FilterDescriptor.DenyAll, filterElement);
+                filterModel = new FilterModel(FilterDescriptor.DenyAll, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown);
             }
 
             ExistingFilters.Add(filterModel);
+        }
+
+        private static void HelpOnClick()
+        {
+            MessageBox.Show("Filters form a chain that the event has to pass through. Any filter along the way can accept the event and stop processing, deny the event and stop processing, or allow the event on to the next filter. If the event gets to the end of the filter chain without being denied it is implicitly accepted and will be logged. To reorder filters, click either '↑' or '↓'.",
+                            "Help",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
         }
 
         private void ShowFilterWindow(FilterModel filterModel)
@@ -104,28 +109,23 @@ namespace Editor.Windows.Appenders.Properties
             filterWindow?.ShowDialog();
         }
 
-        private void MoveFilterUpOnClick(object sender, RoutedEventArgs e)
+        private void Remove(FilterModel filterModel)
         {
-            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
+            ExistingFilters.Remove(filterModel);
+        }
+
+        private void MoveUp(FilterModel filterModel)
+        {
             int oldIndex = ExistingFilters.IndexOf(filterModel);
             int newIndex = oldIndex == 0 ? 0 : oldIndex - 1;
             ExistingFilters.Move(oldIndex, newIndex);
         }
 
-        private void MoveFilterDownOnClick(object sender, RoutedEventArgs e)
+        private void MoveDown(FilterModel filterModel)
         {
-            FilterModel filterModel = (FilterModel)((Button)sender).DataContext;
             int oldIndex = ExistingFilters.IndexOf(filterModel);
             int newIndex = oldIndex == ExistingFilters.Count - 1 ? ExistingFilters.Count - 1 : oldIndex + 1;
             ExistingFilters.Move(oldIndex, newIndex);
-        }
-
-        private void HelpOnClick(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Filters form a chain that the event has to pass through. Any filter along the way can accept the event and stop processing, deny the event and stop processing, or allow the event on to the next filter. If the event gets to the end of the filter chain without being denied it is implicitly accepted and will be logged. To reorder filters, click either '↑' or '↓'.",
-                            "Help",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
         }
 
         public override void Load()
@@ -138,7 +138,7 @@ namespace Editor.Windows.Appenders.Properties
                 {
                     if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
                     {
-                        ExistingFilters.Add(new FilterModel(filterDescriptor, filterNode));
+                        ExistingFilters.Add(new FilterModel(filterDescriptor, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
                     }
                 }
             }

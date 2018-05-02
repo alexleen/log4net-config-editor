@@ -149,8 +149,8 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Width="110" Margin="5,0,5,5">Add</Button>
-                    <Button Width="110" Margin="5,0,5,5">Help</Button>
+                    <Button Width="110" Margin="5,0,5,5" Command="{Binding AddFilter}">Add</Button>
+                    <Button Width="110" Margin="5,0,5,5" Command="{Binding Help}">Help</Button>
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True">
                     <DataGrid.Resources>
@@ -160,12 +160,12 @@
                         <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}"/>
                         <DataGridTemplateColumn Header="Options">
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="{x:Type Models:FilterModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="50" Margin="5,5,0,5" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
-                                        <Button Width="50" Margin="5,5,0,5">Remove</Button>
-                                        <Button Width="25" Margin="5,5,0,5">↑</Button>
-                                        <Button Width="25" Margin="5,5,0,5">↓</Button>
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Remove}">Remove</Button>
+                                        <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveUp}">↑</Button>
+                                        <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveDown}">↓</Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

@@ -78,6 +78,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\Log4NetUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
