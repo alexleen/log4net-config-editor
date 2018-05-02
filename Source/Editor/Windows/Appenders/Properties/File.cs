@@ -9,8 +9,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class File : AppenderPropertyBase
     {
-        public File(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight)
+        public File(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto)
         {
         }
 

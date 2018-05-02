@@ -9,8 +9,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Name : StringValueProperty
     {
-        public Name(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight, "Name:")
+        public Name(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto, "Name:")
         {
         }
 

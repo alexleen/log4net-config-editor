@@ -14,8 +14,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Layout : AppenderPropertyBase
     {
-        public Layout(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight)
+        public Layout(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto)
         {
             Layouts = new[]
             {

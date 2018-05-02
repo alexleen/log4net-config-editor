@@ -18,10 +18,10 @@ namespace Editor.Windows.Appenders
 
         protected override void AddAppropriateProperties()
         {
-            Name nameProperty = new Name(AppenderProperties, GridLength.Auto);
+            Name nameProperty = new Name(AppenderProperties);
             AppenderProperties.Add(nameProperty);
-            AppenderProperties.Add(new Fix(AppenderProperties, GridLength.Auto));
-            AppenderProperties.Add(new BufferSize(AppenderProperties, GridLength.Auto));
+            AppenderProperties.Add(new Fix(AppenderProperties));
+            AppenderProperties.Add(new BufferSize(AppenderProperties));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }
 

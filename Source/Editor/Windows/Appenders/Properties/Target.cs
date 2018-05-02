@@ -13,8 +13,8 @@ namespace Editor.Windows.Appenders.Properties
         private const string ConsoleOut = "Console.Out";
         private const string ConsoleError = "Console.Error";
 
-        public Target(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight)
+        public Target(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto)
         {
             Targets = new[] { ConsoleOut, ConsoleError };
         }

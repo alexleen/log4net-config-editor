@@ -11,8 +11,8 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string DefaultBufferSize = "1000";
 
-        public BufferSize(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight, "Buffer Size:")
+        public BufferSize(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto, "Buffer Size:")
         {
         }
 

@@ -9,8 +9,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class LogName : StringValueProperty
     {
-        public LogName(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight, "Log Name:")
+        public LogName(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto, "Log Name:")
         {
         }
 

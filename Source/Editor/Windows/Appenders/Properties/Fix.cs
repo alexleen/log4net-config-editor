@@ -13,8 +13,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Fix : AppenderPropertyBase
     {
-        public Fix(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
-            : base(container, rowHeight)
+        public Fix(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto)
         {
             Fixes = Enum.GetValues(typeof(FixFlags)).Cast<FixFlags>();
         }
