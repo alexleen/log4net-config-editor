@@ -68,7 +68,7 @@ namespace Editor.Windows.Appenders.Properties
         public override void Load()
         {
             string file = AppenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
-            if (string.IsNullOrEmpty(file))
+            if (!string.IsNullOrEmpty(file))
             {
                 FilePath = file;
             }
