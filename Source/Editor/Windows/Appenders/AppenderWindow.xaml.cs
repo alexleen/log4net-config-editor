@@ -44,8 +44,6 @@ namespace Editor.Windows.Appenders
             AppenderNode = appenderNode ?? throw new ArgumentException(nameof(appenderNode));
             mChangeType = changeType;
             AppenderProperties = new ObservableCollection<IAppenderProperty>();
-
-            //xNameTextBox.Focus(); TODO
         }
 
         private void WindowOnLoaded(object sender, EventArgs e)

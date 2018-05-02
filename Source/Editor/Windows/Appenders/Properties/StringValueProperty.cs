@@ -18,6 +18,8 @@ namespace Editor.Windows.Appenders.Properties
 
         public string Value { get; set; }
 
+        public bool IsFocused { get; set; }
+
         protected void SetValueIfNotNullOrEmpty(string value)
         {
             if (!string.IsNullOrEmpty(value))

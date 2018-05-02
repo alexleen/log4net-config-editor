@@ -15,6 +15,11 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Width" Value="300" />
         <Setter Property="Height" Value="21" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFocused}" Value="True">
+                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <DataTemplate DataType="{x:Type Properties:StringValueProperty}">

@@ -12,6 +12,7 @@ namespace Editor.Windows.Appenders.Properties
         public Name(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
             : base(container, GridLength.Auto, "Name:", appenderNode)
         {
+            IsFocused = true;
         }
 
         public override void Load()
