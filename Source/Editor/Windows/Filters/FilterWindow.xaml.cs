@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -17,14 +18,16 @@ namespace Editor.Windows.Filters
         private readonly FilterModel mFilterModel;
         private readonly XmlNode mAppenderNode;
         private readonly XmlDocument mConfigXml;
+        private readonly Action<FilterModel> mAdd;
 
-        protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
+        protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
         {
             InitializeComponent();
             Owner = owner;
             mFilterModel = filterModel;
             mAppenderNode = appenderNode;
             mConfigXml = configXml;
+            mAdd = add;
             PopulateComboBoxes();
         }
 
@@ -73,6 +76,7 @@ namespace Editor.Windows.Filters
             }
 
             Save(mConfigXml, mFilterModel.Node);
+            mAdd(mFilterModel);
             Close();
         }
 

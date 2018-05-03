@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Xml;
@@ -10,8 +11,8 @@ namespace Editor.Windows.Filters
 {
     public class LevelRangeFilterWindow : FilterWindowBase
     {
-        public LevelRangeFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
-            : base(owner, filterModel, appenderNode, configXml)
+        public LevelRangeFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+            : base(owner, filterModel, appenderNode, configXml, add)
         {
         }
 

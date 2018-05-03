@@ -56,20 +56,15 @@ namespace Editor.Windows.Appenders.Properties
 
         private void AddFilterOnClick()
         {
-            FilterModel filterModel;
-
             if (SelectedFilter != FilterDescriptor.DenyAll)
             {
-                filterModel = new FilterModel(SelectedFilter, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
-                ShowFilterWindow(filterModel);
+                ShowFilterWindow(new FilterModel(SelectedFilter, null, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
             else
             {
                 XmlElement filterElement = mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
-                filterModel = new FilterModel(FilterDescriptor.DenyAll, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown);
+                Add(new FilterModel(FilterDescriptor.DenyAll, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
-
-            ExistingFilters.Add(filterModel);
         }
 
         private static void HelpOnClick()
@@ -87,13 +82,13 @@ namespace Editor.Windows.Appenders.Properties
             switch (filterModel.Descriptor.Type)
             {
                 case FilterType.LevelMatch:
-                    filterWindow = new LevelMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new LevelMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.LevelRange:
-                    filterWindow = new LevelRangeFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new LevelRangeFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.LoggerMatch:
-                    filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.Mdc:
                     break;
@@ -102,13 +97,18 @@ namespace Editor.Windows.Appenders.Properties
                 case FilterType.Property:
                     break;
                 case FilterType.String:
-                    filterWindow = new StringMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc);
+                    filterWindow = new StringMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
             filterWindow?.ShowDialog();
+        }
+
+        private void Add(FilterModel filterModel)
+        {
+            ExistingFilters.Add(filterModel);
         }
 
         private void Remove(FilterModel filterModel)
@@ -143,7 +143,7 @@ namespace Editor.Windows.Appenders.Properties
             {
                 if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
                 {
-                    ExistingFilters.Add(new FilterModel(filterDescriptor, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
+                    Add(new FilterModel(filterDescriptor, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
                 }
             }
         }
