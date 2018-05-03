@@ -3,171 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Converters="clr-namespace:Editor.Converters" 
-        xmlns:Models="clr-namespace:Editor.Models"
+        xmlns:Appenders="clr-namespace:Editor.Windows.Appenders"
         mc:Ignorable="d"
         Height="500" 
-        MinHeight="400" 
+        MinHeight="500" 
         Width="550"
-        MinWidth="550"
-        MaxWidth="550"
+        MinWidth="550"        
         WindowStartupLocation="CenterOwner" 
-        Icon="../../Images/list-add.png">
-    <Window.Resources>
-        <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>    
-    </Window.Resources>
-    <Grid>
-        <Grid.Resources>
-            <Style TargetType="Label">
-                <Setter Property="FontWeight" Value="Bold" />
-                <Setter Property="HorizontalAlignment" Value="Right" />
-            </Style>   
-            <Style TargetType="TextBox">
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Width" Value="300" />
-                <Setter Property="Height" Value="21" />
-            </Style>
-        </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition x:Name="xLogNameRow" Height="0" />
-            <RowDefinition x:Name="xApplicationNameRow" Height="0" />
-            <RowDefinition x:Name="xTargetRow" Height="0" />
-            <RowDefinition x:Name="xFileRow" Height="0" />
-            <RowDefinition x:Name="xFixRow" Height="0" />
-            <RowDefinition x:Name="xBufferSizeRow" Height="0" />
-            <RowDefinition x:Name="xLayoutRow" Height="Auto" />
-            <RowDefinition x:Name="xFiltersRow" Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <!--Name-->
-        <Label>Name:</Label>
-        <TextBox x:Name="xNameTextBox" Grid.Row="0" Grid.Column="1" />
-        
-        <!--Log Name-->
-        <Label Grid.Row="1" Grid.Column="0">Log Name:</Label>
-        <TextBox x:Name="xLogNameTextBox" Grid.Row="1" Grid.Column="1" />
-
-        <!--Application Name-->
-        <Label Grid.Row="2" Grid.Column="0">Application Name:</Label>
-        <TextBox x:Name="xApplicationNameTextBox" Grid.Row="2" Grid.Column="1" />
-        
-        <!--Target-->
-        <Label Grid.Row="3" Grid.Column="0">Target:</Label>
-        <ComboBox x:Name="xTargetComboBox" Grid.Row="3" Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" />
-
-        <!--File-->
-        <Label Grid.Row="4" Grid.Column="0">File:</Label>
-        <StackPanel Grid.Row="4" Grid.Column="1">
-            <StackPanel  Orientation="Horizontal">
-                <TextBox x:Name="xFileTextBox" />
-                <Button Width="50" Margin="5">Open</Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <RadioButton IsChecked="True">Append</RadioButton>
-                <RadioButton x:Name="xOverwriteRb" Margin="5,0">Overwrite</RadioButton>
-            </StackPanel>
-        </StackPanel>
-        
-        <!--Fix-->
-        <Label Grid.Row="5" Grid.Column="0">Fix:</Label>
-        <StackPanel Grid.Row="5" Grid.Column="1">
-            <ComboBox x:Name="xFixComboBox" Width="100" Height="21" HorizontalAlignment="Left">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Padding="0" Content="{Binding}" FontWeight="Normal"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <TextBlock FontStyle="Italic" Foreground="Gray">  
-                For more information, see
-                <Hyperlink NavigateUri="https://stackoverflow.com/q/11319319/7355697" RequestNavigate="HyperlinkOnRequestNavigate">
-                    this issue
-                </Hyperlink> and 
-                <Hyperlink NavigateUri="https://logging.apache.org/log4net/release/sdk/html/P_log4net_Core_LoggingEvent_Fix.htm" RequestNavigate="HyperlinkOnRequestNavigate">
-                    these docs
-                </Hyperlink>.
-            </TextBlock>
-        </StackPanel>        
-
-        <!--Buffer Size-->
-        <Label Grid.Row="6" Grid.Column="0">Buffer Size:</Label>
-        <TextBox x:Name="xBufferSizeTextBox" Grid.Row="6" Grid.Column="1" />
-
-        <!--Layout-->
-        <Label Grid.Row="7" Grid.Column="0">Layout:</Label>
-        <StackPanel Grid.Row="7" Grid.Column="1">
-            <ComboBox x:Name="xLayoutComboBox" Width="75" Height="21" Margin="0,5" SelectedIndex="0" SelectionChanged="LayoutComboBoxOnSelectionChanged" HorizontalAlignment="Left">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Padding="0" Content="{Binding Name}" FontWeight="Normal"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <TextBox x:Name="xPatternTextBox" FontFamily="Courier New" VerticalContentAlignment="Center" ToolTip="Enter pattern here"/>
-            <TextBlock FontStyle="Italic" Foreground="Gray">  
-                For more information regarding patterns, see
-                <Hyperlink NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Layout_PatternLayout.htm" RequestNavigate="HyperlinkOnRequestNavigate">
-                    Pattern Layout
-                </Hyperlink>.
-            </TextBlock>
-        </StackPanel>        
-        
-        <!--Filters-->
-        <Label Grid.Row="8" Grid.Column="0">Filters:</Label>
-        <DockPanel Grid.Row="8" Grid.Column="1" Margin="0,5,0,0">
-            <StackPanel DockPanel.Dock="Right">
-                <ComboBox x:Name="xFilterComboBox" Width="110" Margin="5,0,5,5" SelectedIndex="0">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Label Padding="0" Content="{Binding Name}"  FontWeight="Normal"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <Button Width="110" Margin="5,0,5,5" Click="AddFilterOnClick">Add</Button>
-                <Button Width="110" Margin="5,0,5,5" Click="HelpOnClick">Help</Button>
-            </StackPanel>
-            <DataGrid x:Name="xFilterDataGrid" AutoGenerateColumns="false" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}"/>
-                    <DataGridTemplateColumn Header="Options">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Width="50" Margin="5,5,0,5" Click="EditFilterOnClick" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
-                                    <Button Width="50" Margin="5,5,0,5" Click="RemoveFilterOnClick">Remove</Button>
-                                    <Button Width="25" Margin="5,5,0,5" Click="MoveFilterUpOnClick">↑</Button>
-                                    <Button Width="25" Margin="5,5,0,5" Click="MoveFilterDownOnClick">↓</Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </DockPanel>
-
-        <Label Grid.Row="9" Grid.Column="0">Refs:</Label>
-        <DockPanel Grid.Row="9" Grid.Column="1">
-            <Label FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0">This appender can be referenced in the following loggers:</Label>
-            <ListBox x:Name="xRefsListBox" Margin="0,5,5,0">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="Models:LoggerModel">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </DockPanel>
-
-        <StackPanel Grid.Row="10" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        Icon="../../Images/list-add.png"
+        Loaded="WindowOnLoaded">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
             <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
-        </StackPanel>        
-    </Grid>
+        </StackPanel>
+        
+        <ItemsControl ItemsSource="{Binding AppenderProperties}" Grid.IsSharedSizeScope="True">
+            <ItemsControl.Resources>
+                <ResourceDictionary Source="Properties/PropertyDictionary.xaml" />
+            </ItemsControl.Resources>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid Appenders:GridHelper.BindableRows="{Binding AppenderProperties}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding RowIndex}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>    
+    </DockPanel>
 </Window>
+

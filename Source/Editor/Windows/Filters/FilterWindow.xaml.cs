@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -17,14 +18,16 @@ namespace Editor.Windows.Filters
         private readonly FilterModel mFilterModel;
         private readonly XmlNode mAppenderNode;
         private readonly XmlDocument mConfigXml;
+        private readonly Action<FilterModel> mAdd;
 
-        protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
+        protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
         {
             InitializeComponent();
             Owner = owner;
             mFilterModel = filterModel;
             mAppenderNode = appenderNode;
             mConfigXml = configXml;
+            mAdd = add;
             PopulateComboBoxes();
         }
 
@@ -40,13 +43,16 @@ namespace Editor.Windows.Filters
 
         private void PopulateComboBoxes()
         {
-            IEnumerable<string> levelNames = new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys);
+            IEnumerable<string> levelNames = Log4NetUtilities.LevelsByName.Keys;
 
             xLevelToMatchComboBox.ItemsSource = levelNames;
-            xMinLevelComboBox.ItemsSource = levelNames;
-            xMaxLevelComboBox.ItemsSource = levelNames;
+            xMinLevelComboBox.ItemsSource = new[] { string.Empty }.Concat(levelNames);
+            xMaxLevelComboBox.ItemsSource = new[] { string.Empty }.Concat(levelNames);
         }
 
+        /// <summary>
+        /// Configure the grid to display the appropriate filter properties.
+        /// </summary>
         protected abstract void Configure();
 
         /// <summary>
@@ -67,9 +73,10 @@ namespace Editor.Windows.Filters
                 XmlElement filterElement = mConfigXml.CreateElementWithAttribute("filter", "type", mFilterModel.Descriptor.TypeNamespace);
                 mAppenderNode.AppendChild(filterElement);
                 mFilterModel.Node = filterElement;
+                mAdd(mFilterModel);
             }
 
-            Save(mConfigXml, mFilterModel.Node);
+            Save(mConfigXml, mFilterModel.Node);            
             Close();
         }
 

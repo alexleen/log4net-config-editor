@@ -1,0 +1,207 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Properties="clr-namespace:Editor.Windows.Appenders.Properties"
+                    xmlns:Models="clr-namespace:Editor.Models"
+                    xmlns:Converters="clr-namespace:Editor.Converters">
+    
+    <Converters:BoolInterverConverter x:Key="BoolInvConv" />
+
+    <Style TargetType="Label">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+    <Style TargetType="TextBox">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Height" Value="21" />
+        <Setter Property="Margin" Value="0,0,5,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFocused}" Value="True">
+                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataTemplate DataType="{x:Type Properties:StringValueProperty}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}"/>
+            <TextBox Grid.Column="1" Text="{Binding Value}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:Target}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Target:</Label>
+            <ComboBox ItemsSource="{Binding Targets}" 
+                      SelectedItem="{Binding SelectedItem}" 
+                      Grid.Column="1" 
+                      Width="100" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:File}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>File:</Label>
+            <StackPanel Grid.Column="1">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Width="50" Height="21" Margin="0,5,5,5" Command="{Binding Open}">Open</Button>
+                    <TextBox Text="{Binding FilePath}" />                    
+                </DockPanel>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton IsChecked="{Binding Overwrite, Converter={StaticResource BoolInvConv}}">Append</RadioButton>
+                    <RadioButton IsChecked="{Binding Overwrite}" Margin="5,0">Overwrite</RadioButton>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:Fix}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Fix:</Label>
+            <StackPanel Grid.Column="1">
+                <ComboBox ItemsSource="{Binding Fixes}" SelectedItem="{Binding SelectedFix}" Width="100" Height="21" HorizontalAlignment="Left">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Padding="0" Content="{Binding}" FontWeight="Normal"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock FontStyle="Italic" Foreground="Gray">  
+                    For more information, see
+                    <Hyperlink x:Name="xQuestionHyperlink" 
+                               NavigateUri="https://stackoverflow.com/q/11319319/7355697" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xQuestionHyperlink, Path=NavigateUri}">
+                        this issue
+                    </Hyperlink> and 
+                    <Hyperlink x:Name="xFixHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/P_log4net_Core_LoggingEvent_Fix.htm" 
+                               Command="{Binding Navigate}"
+                               CommandParameter="{Binding ElementName=xFixHyperlink, Path=NavigateUri}">
+                        these docs
+                    </Hyperlink>.
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:Layout}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Layout:</Label>
+            <StackPanel Grid.Column="1">
+                <StackPanel.Resources>
+                    <Converters:LayoutToEnabledConverter x:Key="Ltec" />
+                </StackPanel.Resources>
+                <ComboBox Width="75" Height="21" Margin="0,5" HorizontalAlignment="Left"
+                          ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Padding="0" Content="{Binding Name}" FontWeight="Normal"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBox Text="{Binding Pattern}" FontFamily="Consolas" VerticalContentAlignment="Center" ToolTip="Enter pattern here" IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}" />
+                <TextBlock FontStyle="Italic" Foreground="Gray">  
+                    For more information regarding patterns, see
+                    <Hyperlink x:Name="xLayoutHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Layout_PatternLayout.htm" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xLayoutHyperlink, Path=NavigateUri}">
+                        Pattern Layout
+                    </Hyperlink>.
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:Filters}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Filters:</Label>
+            <DockPanel Grid.Column="1" Margin="0,5,0,0">
+                <StackPanel DockPanel.Dock="Right">
+                    <ComboBox ItemsSource="{Binding AvailableFilters}" Width="110" Margin="5,0,5,5" SelectedItem="{Binding SelectedFilter}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Padding="0" Content="{Binding Name}"  FontWeight="Normal"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Width="110" Margin="5,0,5,5" Command="{Binding AddFilter}">Add</Button>
+                    <Button Width="110" Margin="5,0,5,5" Command="{Binding Help}">Help</Button>
+                </StackPanel>
+                <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True">
+                    <DataGrid.Resources>
+                        <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}"/>
+                        <DataGridTemplateColumn Header="Options">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:FilterModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Remove}">Remove</Button>
+                                        <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveUp}">↑</Button>
+                                        <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveDown}">↓</Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:Refs}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Refs:</Label>
+            <DockPanel Grid.Column="1">
+                <Label FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0">This appender can be referenced in the following loggers:</Label>
+                <ListBox x:Name="xRefsListBox" Margin="0,5,5,0" ItemsSource="{Binding RefsCollection}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="Models:LoggerModel">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

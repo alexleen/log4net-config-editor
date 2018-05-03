@@ -165,7 +165,7 @@ namespace Editor
 
         private void AddAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type, mConfigXml.CreateElement("appender"), ChangeType.Add);
+            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type, null);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
@@ -174,7 +174,7 @@ namespace Editor
 
             if (dataContext is AppenderModel appenderModel)
             {
-                OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node, ChangeType.Edit);
+                OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node);
             }
             else if (dataContext is ChildModel childModel)
             {
@@ -199,25 +199,25 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode, ChangeType changeType)
+        private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode)
         {
             AppenderWindow appenderWindow = null;
 
             switch (appenderType)
             {
                 case AppenderType.Console:
-                    appenderWindow = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
+                    appenderWindow = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.File:
-                    appenderWindow = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
+                    appenderWindow = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.RollingFile:
                     break;
                 case AppenderType.EventLog:
-                    appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
+                    appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.Async:
-                    appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode, changeType);
+                    appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);

@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Windows;
 using System.Xml;
 using Editor.Models;
@@ -9,8 +10,8 @@ namespace Editor.Windows.Filters
 {
     public class LoggerMatchFilterWindow : FilterWindowBase
     {
-        public LoggerMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml)
-            : base(owner, filterModel, appenderNode, configXml)
+        public LoggerMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+            : base(owner, filterModel, appenderNode, configXml, add)
         {
             xLoggerToMatchTextBox.Focus();
         }
