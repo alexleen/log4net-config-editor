@@ -17,6 +17,7 @@ namespace Editor.Windows.Appenders.Properties
             : base(container, GridLength.Auto)
         {
             Targets = new[] { ConsoleOut, ConsoleError };
+            SelectedItem = ConsoleOut;
         }
 
         public IEnumerable<string> Targets { get; }
