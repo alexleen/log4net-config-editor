@@ -47,6 +47,9 @@ namespace Editor.Windows.Filters
             xMaxLevelComboBox.ItemsSource = levelNames;
         }
 
+        /// <summary>
+        /// Configure the grid to display the appropriate filter properties.
+        /// </summary>
         protected abstract void Configure();
 
         /// <summary>

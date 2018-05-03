@@ -9,14 +9,14 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class ApplicationName : StringValueProperty
     {
-        public ApplicationName(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
-            : base(container, GridLength.Auto, "Application Name:", appenderNode)
+        public ApplicationName(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto, "Application Name:")
         {
         }
 
-        public override void Load()
+        public override void Load(XmlNode originalAppenderNode)
         {
-            SetValueIfNotNullOrEmpty(AppenderNode.SelectSingleNode("param[@name='ApplicationName']")?.Attributes?["value"]?.Value);
+            SetValueIfNotNullOrEmpty(originalAppenderNode.SelectSingleNode("param[@name='ApplicationName']")?.Attributes?["value"]?.Value);
         }
 
         public override bool TryValidate()
@@ -30,7 +30,7 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc)
+        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
             xmlDoc.CreateElementWithAttributes("param",
                                                new[]
@@ -38,7 +38,7 @@ namespace Editor.Windows.Appenders.Properties
                                                    (Name: "name", Value: "ApplicationName"),
                                                    (Name: "value", Value: Value)
                                                })
-                  .AppendTo(AppenderNode);
+                  .AppendTo(newAppenderNode);
         }
     }
 }

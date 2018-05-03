@@ -3,26 +3,25 @@
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
-using Editor.Enums;
 using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Windows.Appenders
 {
     public class AsyncAppenderWindow : AppenderWindow
     {
-        public AsyncAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode, ChangeType changeType)
-            : base(owner, configXml, log4NetNode, appenderNode, changeType)
+        public AsyncAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
+            : base(owner, configXml, log4NetNode, appenderNode)
         {
             Title = "Async Appender";
         }
 
         protected override void AddAppropriateProperties()
         {
-            Name nameProperty = new Name(AppenderProperties, AppenderNode);
+            Name nameProperty = new Name(AppenderProperties);
             AppenderProperties.Add(nameProperty);
-            AppenderProperties.Add(new Fix(AppenderProperties, AppenderNode));
-            AppenderProperties.Add(new BufferSize(AppenderProperties, AppenderNode));
-            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties, AppenderNode));
+            AppenderProperties.Add(new Fix(AppenderProperties));
+            AppenderProperties.Add(new BufferSize(AppenderProperties));
+            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.Async;

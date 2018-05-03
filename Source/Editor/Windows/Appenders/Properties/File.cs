@@ -11,8 +11,8 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class File : AppenderPropertyBase
     {
-        public File(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
-            : base(container, GridLength.Auto, appenderNode)
+        public File(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto)
         {
             Open = new Command(OpenFile);
         }
@@ -65,15 +65,15 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Load()
+        public override void Load(XmlNode originalAppenderNode)
         {
-            string file = AppenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
+            string file = originalAppenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
             if (!string.IsNullOrEmpty(file))
             {
                 FilePath = file;
             }
 
-            string appendToFile = AppenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
+            string appendToFile = originalAppenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
             if (!string.IsNullOrEmpty(appendToFile))
             {
                 Overwrite = appendToFile == "false";
@@ -91,14 +91,14 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc)
+        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute("file", "value", FilePath).AppendTo(AppenderNode);
+            xmlDoc.CreateElementWithAttribute("file", "value", FilePath).AppendTo(newAppenderNode);
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (Overwrite)
             {
-                xmlDoc.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(AppenderNode);
+                xmlDoc.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(newAppenderNode);
             }
         }
     }

@@ -13,8 +13,8 @@ namespace Editor.Windows.Appenders.Properties
         private readonly XmlNode mLog4NetNode;
         private readonly Name mNameProperty;
 
-        public Refs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
-            : base(container, new GridLength(1, GridUnitType.Star), appenderNode)
+        public Refs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IAppenderProperty> container)
+            : base(container, new GridLength(1, GridUnitType.Star))
         {
             mLog4NetNode = log4NetNode;
             mNameProperty = nameProperty;
@@ -23,7 +23,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public ObservableCollection<LoggerModel> RefsCollection { get; set; }
 
-        public override void Load()
+        public override void Load(XmlNode originalAppenderNode)
         {
             XmlNodeList asyncAppenders = mLog4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
 
@@ -46,7 +46,7 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc)
+        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
             foreach (LoggerModel loggerModel in RefsCollection)
             {

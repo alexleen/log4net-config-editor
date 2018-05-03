@@ -9,14 +9,14 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class LogName : StringValueProperty
     {
-        public LogName(ObservableCollection<IAppenderProperty> container, XmlNode appenderNode)
-            : base(container, GridLength.Auto, "Log Name:", appenderNode)
+        public LogName(ObservableCollection<IAppenderProperty> container)
+            : base(container, GridLength.Auto, "Log Name:")
         {
         }
 
-        public override void Load()
+        public override void Load(XmlNode originalAppenderNode)
         {
-            SetValueIfNotNullOrEmpty(AppenderNode.SelectSingleNode("param[@name='LogName']")?.Attributes?["value"]?.Value);
+            SetValueIfNotNullOrEmpty(originalAppenderNode.SelectSingleNode("param[@name='LogName']")?.Attributes?["value"]?.Value);
         }
 
         public override bool TryValidate()
@@ -30,7 +30,7 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc)
+        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
             xmlDoc.CreateElementWithAttributes("param",
                                                new[]
@@ -38,7 +38,7 @@ namespace Editor.Windows.Appenders.Properties
                                                    (Name: "name", Value: "LogName"),
                                                    (Name: "value", Value: Value)
                                                })
-                  .AppendTo(AppenderNode);
+                  .AppendTo(newAppenderNode);
         }
     }
 }

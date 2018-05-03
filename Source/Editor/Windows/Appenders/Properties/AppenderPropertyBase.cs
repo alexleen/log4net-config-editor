@@ -15,12 +15,10 @@ namespace Editor.Windows.Appenders.Properties
     public abstract class AppenderPropertyBase : IAppenderProperty, INotifyPropertyChanged
     {
         private readonly ObservableCollection<IAppenderProperty> mContainer;
-        protected readonly XmlNode AppenderNode;
 
-        protected AppenderPropertyBase(ObservableCollection<IAppenderProperty> container, GridLength rowHeight, XmlNode appenderNode)
+        protected AppenderPropertyBase(ObservableCollection<IAppenderProperty> container, GridLength rowHeight)
         {
             mContainer = container;
-            AppenderNode = appenderNode;
             RowHeight = rowHeight;
             Navigate = new Command(HyperlinkOnRequestNavigate);
         }
@@ -31,14 +29,14 @@ namespace Editor.Windows.Appenders.Properties
 
         public ICommand Navigate { get; }
 
-        public abstract void Load();
+        public abstract void Load(XmlNode originalAppenderNode);
 
         public virtual bool TryValidate()
         {
             return true;
         }
 
-        public abstract void Save(XmlDocument xmlDoc);
+        public abstract void Save(XmlDocument xmlDoc, XmlNode newAppenderNode);
 
         private static void HyperlinkOnRequestNavigate(object uri)
         {

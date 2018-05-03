@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
-using Editor.Enums;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
 
@@ -21,26 +20,29 @@ namespace Editor.Windows.Appenders
         protected readonly XmlNode Log4NetNode;
 
         /// <summary>
-        /// Appender node this window is referencing.
-        /// Never null. Could be an existing appender for editing or it may be "empty" -
-        /// i.e. a new new appender element with no attributes or children.
+        /// Original appender node being edited.
+        /// Null if new appender.
         /// </summary>
-        protected readonly XmlNode AppenderNode;
+        protected readonly XmlNode OriginalAppenderNode;
 
-        private readonly ChangeType mChangeType;
+        /// <summary>
+        /// New appender node.
+        /// This will be used to overwrite the <see cref="OriginalAppenderNode"/>, if it exists.
+        /// </summary>
+        protected readonly XmlNode NewAppenderNode;
 
         public ObservableCollection<IAppenderProperty> AppenderProperties { get; }
 
-        protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode, ChangeType changeType)
+        protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
         {
             InitializeComponent();
             DataContext = this;
 
-            Owner = owner ?? throw new ArgumentException(nameof(owner));
-            ConfigXml = configXml ?? throw new ArgumentException(nameof(configXml));
-            Log4NetNode = log4NetNode ?? throw new ArgumentException(nameof(log4NetNode));
-            AppenderNode = appenderNode ?? throw new ArgumentException(nameof(appenderNode));
-            mChangeType = changeType;
+            Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            ConfigXml = configXml ?? throw new ArgumentNullException(nameof(configXml));
+            Log4NetNode = log4NetNode ?? throw new ArgumentNullException(nameof(log4NetNode));
+            OriginalAppenderNode = appenderNode;
+            NewAppenderNode = ConfigXml.CreateElement("appender");
             AppenderProperties = new ObservableCollection<IAppenderProperty>();
         }
 
@@ -48,9 +50,14 @@ namespace Editor.Windows.Appenders
         {
             AddAppropriateProperties();
 
+            if (OriginalAppenderNode == null)
+            {
+                return;
+            }
+
             foreach (IAppenderProperty appenderProperty in AppenderProperties)
             {
-                appenderProperty.Load();
+                appenderProperty.Load(OriginalAppenderNode);
             }
         }
 
@@ -65,24 +72,23 @@ namespace Editor.Windows.Appenders
                 return;
             }
 
-            //If we're editing, just replace the existing appender with a new one
-            XmlNode appenderNode = mChangeType == ChangeType.Add ? AppenderNode : ConfigXml.CreateElement("appender");
-
             //TODO add this as a property?
-            appenderNode.AppendAttribute(ConfigXml, "type", Descriptor.TypeNamespace);
+            NewAppenderNode.AppendAttribute(ConfigXml, "type", Descriptor.TypeNamespace);
 
             foreach (IAppenderProperty appenderProperty in AppenderProperties)
             {
-                appenderProperty.Save(ConfigXml);
+                appenderProperty.Save(ConfigXml, NewAppenderNode);
             }
 
-            if (mChangeType == ChangeType.Add)
+            if (OriginalAppenderNode == null)
             {
-                Log4NetNode.AppendChild(appenderNode);
+                //New appender
+                Log4NetNode.AppendChild(NewAppenderNode);
             }
             else
             {
-                Log4NetNode.ReplaceChild(appenderNode, AppenderNode);
+                //Editing appender - replace
+                Log4NetNode.ReplaceChild(NewAppenderNode, OriginalAppenderNode);
             }
 
             Close();

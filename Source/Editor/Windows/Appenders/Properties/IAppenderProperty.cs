@@ -20,7 +20,8 @@ namespace Editor.Windows.Appenders.Properties
         /// <summary>
         /// Loads existing data into property from specified appender node.
         /// </summary>
-        void Load();
+        /// <param name="originalAppenderNode"></param>
+        void Load(XmlNode originalAppenderNode);
 
         /// <summary>
         /// Validates property values. Will display a message box to the user describing any issues.
@@ -33,6 +34,7 @@ namespace Editor.Windows.Appenders.Properties
         /// Saves this property to the specified appender node.
         /// </summary>
         /// <param name="xmlDoc"></param>
-        void Save(XmlDocument xmlDoc);
+        /// <param name="newAppenderNode"></param>
+        void Save(XmlDocument xmlDoc, XmlNode newAppenderNode);
     }
 }
