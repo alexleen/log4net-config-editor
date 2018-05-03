@@ -19,11 +19,22 @@ namespace Editor.Windows.Appenders.Properties
             mLog4NetNode = log4NetNode;
             mNameProperty = nameProperty;
             RefsCollection = new ObservableCollection<LoggerModel>();
+
+            //Loading refs only requires the log4net node, which we get during construction
+            LoadRefs();
         }
 
         public ObservableCollection<LoggerModel> RefsCollection { get; set; }
 
         public override void Load(XmlNode originalAppenderNode)
+        {
+            //This will only be called if there's an original appender node, which means there's probably an appender name
+            //Refresh to hopefully pick up refs that are using the newly loaded name which was not available at construction time
+            RefsCollection.Clear();
+            LoadRefs();
+        }
+
+        private void LoadRefs()
         {
             XmlNodeList asyncAppenders = mLog4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
 

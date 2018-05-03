@@ -11,6 +11,7 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Layout : AppenderPropertyBase
     {
+        private const string SimplePattern = "%level - %message%newline";
         private string mOriginalPattern;
 
         public Layout(ObservableCollection<IAppenderProperty> container)
@@ -39,9 +40,9 @@ namespace Editor.Windows.Appenders.Properties
                     return;
                 }
 
-                if (value == LayoutDescriptor.Simple)
+                if (value == LayoutDescriptor.Simple || string.IsNullOrEmpty(mOriginalPattern))
                 {
-                    Pattern = "%level - %message%newline";
+                    Pattern = SimplePattern;
                 }
                 else
                 {
