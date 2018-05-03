@@ -43,11 +43,11 @@ namespace Editor.Windows.Filters
 
         private void PopulateComboBoxes()
         {
-            IEnumerable<string> levelNames = new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys);
+            IEnumerable<string> levelNames = Log4NetUtilities.LevelsByName.Keys;
 
             xLevelToMatchComboBox.ItemsSource = levelNames;
-            xMinLevelComboBox.ItemsSource = levelNames;
-            xMaxLevelComboBox.ItemsSource = levelNames;
+            xMinLevelComboBox.ItemsSource = new[] { string.Empty }.Concat(levelNames);
+            xMaxLevelComboBox.ItemsSource = new[] { string.Empty }.Concat(levelNames);
         }
 
         /// <summary>
