@@ -73,10 +73,10 @@ namespace Editor.Windows.Filters
                 XmlElement filterElement = mConfigXml.CreateElementWithAttribute("filter", "type", mFilterModel.Descriptor.TypeNamespace);
                 mAppenderNode.AppendChild(filterElement);
                 mFilterModel.Node = filterElement;
+                mAdd(mFilterModel);
             }
 
-            Save(mConfigXml, mFilterModel.Node);
-            mAdd(mFilterModel);
+            Save(mConfigXml, mFilterModel.Node);            
             Close();
         }
 
