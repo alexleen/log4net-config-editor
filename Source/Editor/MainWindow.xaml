@@ -67,7 +67,7 @@
             <Button Margin="5,5,0,5" Click="CloseOnClick">Close</Button>
         </StackPanel>
         <DockPanel>
-            <DataGrid x:Name="xChildren" AutoGenerateColumns="False">
+            <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Element" Binding="{Binding ElementName}" />
                     <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}" />
