@@ -34,7 +34,7 @@ namespace Editor
             {
                 AppenderDescriptor.Console,
                 AppenderDescriptor.File,
-                //AppenderDescriptor.RollingFile,
+                AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async
             };
@@ -212,6 +212,7 @@ namespace Editor
                     appenderWindow = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.RollingFile:
+                    appenderWindow = new RollingFileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.EventLog:
                     appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
@@ -223,7 +224,7 @@ namespace Editor
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
             }
 
-            appenderWindow?.ShowDialog();
+            appenderWindow.ShowDialog();
             LoadFromRam();
         }
 

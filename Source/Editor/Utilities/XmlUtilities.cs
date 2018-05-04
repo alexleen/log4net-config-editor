@@ -82,5 +82,17 @@ namespace Editor.Utilities
         {
             parent.AppendChild(node);
         }
+
+        /// <summary>
+        /// Retrieves the value for an attribute with name 'value' from a child of this node.
+        /// Returns null if not found.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="childElementName"></param>
+        /// <returns></returns>
+        public static string GetValueAttributeValueFromChildElement(this XmlNode node, string childElementName)
+        {
+            return node[childElementName]?.Attributes["value"]?.Value;
+        }
     }
 }

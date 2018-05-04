@@ -20,9 +20,18 @@ namespace Editor.Windows.Appenders
             Name nameProperty = new Name(AppenderProperties);
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new File(AppenderProperties));
+            AppenderProperties.Add(new LockingModel(AppenderProperties));
+
+            AddOtherFileAppenderProperties();
+
             AppenderProperties.Add(new Layout(AppenderProperties));
             AppenderProperties.Add(new Properties.Filters(this, ConfigXml, NewAppenderNode, AppenderProperties));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
+        }
+
+        protected virtual void AddOtherFileAppenderProperties()
+        {
+
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.File;
