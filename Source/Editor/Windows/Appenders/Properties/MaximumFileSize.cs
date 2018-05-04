@@ -10,11 +10,12 @@ namespace Editor.Windows.Appenders.Properties
     public class MaximumFileSize : StringValueProperty
     {
         private const string MaximumFileSizeName = "maximumFileSize";
+        private const string DefaultMaxFileSize = "10MB";
 
         public MaximumFileSize(ObservableCollection<IAppenderProperty> container)
             : base(container, GridLength.Auto, "Maximum File Size:")
         {
-            Value = "10MB";
+            Value = DefaultMaxFileSize;
             ToolTip = "The maximum size that the output file is allowed to reach before being rolled over to backup files. Must be suffixed with \"KB\", \"MB\", or \"GB\".";
         }
 
@@ -37,7 +38,10 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute(MaximumFileSizeName, "value", Value.Trim()).AppendTo(newAppenderNode);
+            if (Value != DefaultMaxFileSize)
+            {
+                xmlDoc.CreateElementWithAttribute(MaximumFileSizeName, "value", Value.Trim()).AppendTo(newAppenderNode);
+            }
         }
     }
 }

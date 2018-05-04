@@ -55,9 +55,11 @@ namespace Editor.Windows.Appenders
                 return;
             }
 
-            foreach (IAppenderProperty appenderProperty in AppenderProperties)
+            // Load may add additional properties - hence the for loop and not foreach
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for (int index = 0; index < AppenderProperties.Count; index++)
             {
-                appenderProperty.Load(OriginalAppenderNode);
+                AppenderProperties[index].Load(OriginalAppenderNode);
             }
         }
 
