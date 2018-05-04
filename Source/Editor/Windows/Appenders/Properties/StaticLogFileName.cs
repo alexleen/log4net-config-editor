@@ -10,12 +10,12 @@ namespace Editor.Windows.Appenders.Properties
     public class StaticLogFileName : AppenderPropertyBase
     {
         private const string StaticLogFileNameName = "staticLogFileName";
-        
+
         public StaticLogFileName(ObservableCollection<IAppenderProperty> container)
             : base(container, GridLength.Auto)
         {
         }
-        
+
         public bool Value { get; set; }
 
         public override void Load(XmlNode originalAppenderNode)
@@ -29,7 +29,11 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute(StaticLogFileNameName, "value", Value.ToString().ToLower()).AppendTo(newAppenderNode);
+            //Default is off - only save if on
+            if (Value)
+            {
+                xmlDoc.CreateElementWithAttribute(StaticLogFileNameName, "value", Value.ToString().ToLower()).AppendTo(newAppenderNode);
+            }
         }
     }
 }
