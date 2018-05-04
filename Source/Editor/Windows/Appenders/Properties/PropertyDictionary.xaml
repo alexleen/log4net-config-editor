@@ -71,6 +71,18 @@
         </Grid>
     </DataTemplate>
     
+    <DataTemplate DataType="{x:Type Properties:StaticLogFileName}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Label>Static Log File Name:</Label>
+            <CheckBox Grid.Column="1" IsChecked="{Binding Value}" VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type Properties:LockingModel}">
         <Grid>
             <Grid.ColumnDefinitions>

@@ -18,6 +18,7 @@ namespace Editor.Windows.Appenders
 
         protected override void AddOtherFileAppenderProperties()
         {
+            AppenderProperties.Add(new StaticLogFileName(AppenderProperties));
             AppenderProperties.Add(new RollingStyle(AppenderProperties));
             AppenderProperties.Add(new DatePattern(AppenderProperties));
             AppenderProperties.Add(new MaximumFileSize(AppenderProperties));

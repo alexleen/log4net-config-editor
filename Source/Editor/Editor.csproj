@@ -106,6 +106,7 @@
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
     <Compile Include="Windows\Appenders\Properties\Refs.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
+    <Compile Include="Windows\Appenders\Properties\StaticLogFileName.cs" />
     <Compile Include="Windows\Appenders\Properties\StringValueProperty.cs" />
     <Compile Include="Windows\Appenders\Properties\Target.cs" />
     <Compile Include="Windows\Appenders\RollingFileAppenderWindow.cs" />
