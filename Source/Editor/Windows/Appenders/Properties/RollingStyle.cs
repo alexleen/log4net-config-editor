@@ -24,7 +24,22 @@ namespace Editor.Windows.Appenders.Properties
 
         public IEnumerable<RollingFileAppender.RollingMode> Modes { get; }
 
-        public RollingFileAppender.RollingMode SelectedMode { get; set; }
+        private RollingFileAppender.RollingMode mSelectedMode;
+
+        public RollingFileAppender.RollingMode SelectedMode
+        {
+            get => mSelectedMode;
+            set
+            {
+                if (value == mSelectedMode)
+                {
+                    return;
+                }
+
+                mSelectedMode = value;
+                OnPropertyChanged();
+            }
+        }
 
         public override void Load(XmlNode originalAppenderNode)
         {
