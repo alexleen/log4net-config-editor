@@ -238,7 +238,7 @@
                     <Button Width="110" Margin="5,0,5,5" Command="{Binding AddFilter}">Add</Button>
                     <Button Width="110" Margin="5,0,5,5" Command="{Binding Help}">Help</Button>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
                     <DataGrid.Resources>
                         <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>
                     </DataGrid.Resources>
