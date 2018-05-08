@@ -13,6 +13,8 @@ namespace Editor.Windows.Appenders
     {
         private readonly DatePattern mDatePattern;
         private int mDatePatternIndex;
+        private readonly StaticLogFileName mStaticLogFileName;
+        private int mStaticLogFileNameIndex;
 
         public RollingFileAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
             : base(owner, configXml, log4NetNode, appenderNode)
@@ -20,6 +22,7 @@ namespace Editor.Windows.Appenders
             Title = "Rolling File Appender";
             Height = 650;
             mDatePattern = new DatePattern(AppenderProperties);
+            mStaticLogFileName = new StaticLogFileName(AppenderProperties);
         }
 
         protected override void AddOtherFileAppenderProperties()
@@ -27,10 +30,14 @@ namespace Editor.Windows.Appenders
             RollingStyle rollingStyle = new RollingStyle(AppenderProperties);
             rollingStyle.PropertyChanged += RollingStyleOnPropertyChanged;
 
-            AppenderProperties.Add(new StaticLogFileName(AppenderProperties));
             AppenderProperties.Add(rollingStyle);
+
+            mStaticLogFileNameIndex = AppenderProperties.Count;
+            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mStaticLogFileNameIndex, mStaticLogFileName);
+
             mDatePatternIndex = AppenderProperties.Count;
-            AddRemoveDatePatternBasedOnMode(rollingStyle.SelectedMode);
+            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternIndex, mDatePattern);
+
             AppenderProperties.Add(new MaximumFileSize(AppenderProperties));
             AppenderProperties.Add(new MaxSizeRollBackups(AppenderProperties));
         }
@@ -39,23 +46,25 @@ namespace Editor.Windows.Appenders
         {
             if (e.PropertyName == nameof(RollingStyle.SelectedMode))
             {
-                AddRemoveDatePatternBasedOnMode(((RollingStyle)sender).SelectedMode);
+                RollingFileAppender.RollingMode selectedMode = ((RollingStyle)sender).SelectedMode;
+                AddRemoveBasedOnMode(selectedMode, mDatePatternIndex, mDatePattern);
+                AddRemoveBasedOnMode(selectedMode, mStaticLogFileNameIndex, mStaticLogFileName);
             }
         }
 
-        private void AddRemoveDatePatternBasedOnMode(RollingFileAppender.RollingMode selectedMode)
+        private void AddRemoveBasedOnMode(RollingFileAppender.RollingMode selectedMode, int index, IAppenderProperty appenderProperty)
         {
             if (selectedMode == RollingFileAppender.RollingMode.Composite ||
                 selectedMode == RollingFileAppender.RollingMode.Date)
             {
-                if (!AppenderProperties.Contains(mDatePattern))
+                if (!AppenderProperties.Contains(appenderProperty))
                 {
-                    AppenderProperties.Insert(mDatePatternIndex, mDatePattern);
+                    AppenderProperties.Insert(index, appenderProperty);
                 }
             }
             else
             {
-                AppenderProperties.Remove(mDatePattern);
+                AppenderProperties.Remove(appenderProperty);
             }
         }
 
