@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
-using Editor.Annotations;
+using Editor.Properties;
 using Editor.Utilities;
 
 namespace Editor.Windows.Appenders.Properties
