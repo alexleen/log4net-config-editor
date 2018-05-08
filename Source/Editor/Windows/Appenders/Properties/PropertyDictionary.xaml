@@ -83,6 +83,24 @@
         </Grid>
     </DataTemplate>
     
+    <DataTemplate DataType="{x:Type Properties:CountDirection}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Label>Count Direction:</Label>
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Directions}" 
+                      SelectedItem="{Binding SelectedDirection}" 
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Center"
+                      Width="75"
+                      ToolTip="Indicates if the current file is the lowest numbered file or the highest numbered file."/>
+        </Grid>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type Properties:LockingModel}">
         <Grid>
             <Grid.ColumnDefinitions>
