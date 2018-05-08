@@ -40,6 +40,7 @@ namespace Editor.Windows.Appenders
 
             AppenderProperties.Add(new MaximumFileSize(AppenderProperties));
             AppenderProperties.Add(new MaxSizeRollBackups(AppenderProperties));
+            AppenderProperties.Add(new CountDirection(AppenderProperties));
         }
 
         private void RollingStyleOnPropertyChanged(object sender, PropertyChangedEventArgs e)

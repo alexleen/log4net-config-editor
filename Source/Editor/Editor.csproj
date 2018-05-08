@@ -92,6 +92,7 @@
     <Compile Include="Windows\Appenders\GridHelper.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
+    <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
     <Compile Include="Windows\Appenders\Properties\DatePattern.cs" />
     <Compile Include="Windows\Appenders\Properties\IAppenderProperty.cs" />
     <Compile Include="Windows\Appenders\Properties\File.cs" />
