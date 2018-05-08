@@ -36,7 +36,10 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute(CountDirectionName, "value", (SelectedDirection == Lower ? -1 : 0).ToString());
+            if (SelectedDirection == Higher)
+            {
+                xmlDoc.CreateElementWithAttribute(CountDirectionName, "value", 0.ToString()).AppendTo(newAppenderNode);
+            }
         }
     }
 }
