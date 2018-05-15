@@ -20,7 +20,8 @@ namespace Editor.Windows.Appenders
             : base(owner, configXml, log4NetNode, appenderNode)
         {
             Title = "Rolling File Appender";
-            Height = 650;
+            Height = 700;
+            MinHeight = 700;
             mDatePattern = new DatePattern(AppenderProperties);
             mStaticLogFileName = new StaticLogFileName(AppenderProperties);
         }
@@ -38,6 +39,7 @@ namespace Editor.Windows.Appenders
             mDatePatternIndex = AppenderProperties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternIndex, mDatePattern);
 
+            AppenderProperties.Add(new PreserveExtension(AppenderProperties));
             AppenderProperties.Add(new MaximumFileSize(AppenderProperties));
             AppenderProperties.Add(new MaxSizeRollBackups(AppenderProperties));
             AppenderProperties.Add(new CountDirection(AppenderProperties));

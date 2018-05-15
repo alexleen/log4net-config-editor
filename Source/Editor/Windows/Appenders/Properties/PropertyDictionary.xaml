@@ -82,7 +82,19 @@
             <CheckBox Grid.Column="1" IsChecked="{Binding Value}" VerticalAlignment="Center"/>
         </Grid>
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type Properties:PreserveExtension}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Preserve Extension:</Label>
+            <CheckBox Grid.Column="1" IsChecked="{Binding Preserve}" VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Properties:CountDirection}">
         <Grid>
             <Grid.ColumnDefinitions>

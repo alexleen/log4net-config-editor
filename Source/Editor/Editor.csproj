@@ -105,6 +105,7 @@
     <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
+    <Compile Include="Windows\Appenders\Properties\PreserveExtension.cs" />
     <Compile Include="Windows\Appenders\Properties\Refs.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
     <Compile Include="Windows\Appenders\Properties\StaticLogFileName.cs" />
