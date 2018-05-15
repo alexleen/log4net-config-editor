@@ -34,7 +34,7 @@ namespace Editor
             {
                 AppenderDescriptor.Console,
                 AppenderDescriptor.File,
-                //AppenderDescriptor.RollingFile,
+                AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async
             };
@@ -108,17 +108,29 @@ namespace Editor
             mConfigXml = new XmlDocument();
             mConfigXml.Load(fileName);
 
-            LoadFromRam();
+            bool? unrecognizedAppender = LoadFromRam();
+
+            if (unrecognizedAppender.HasValue && unrecognizedAppender.Value)
+            {
+                MessageBox.Show(this, "At least one unrecognized appender was found in this configuration.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
-        private void LoadFromRam()
+        /// <summary>
+        /// Loads current state of <see cref="mConfigXml"/> into view.
+        /// Overwrites any existing values in the view not saved to <see cref="mConfigXml"/>.
+        /// Returns true if an unrecognized/unsupported appender was found.
+        /// Returns null if configuration can not be loaded.
+        /// </summary>
+        /// <returns></returns>
+        private bool? LoadFromRam()
         {
             XmlNodeList log4NetNodes = mConfigXml.SelectNodes("//log4net");
 
             if (log4NetNodes == null || log4NetNodes.Count == 0)
             {
                 MessageBox.Show(this, "Could not find log4net configuration.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                return null;
             }
 
             if (log4NetNodes.Count > 1)
@@ -133,11 +145,20 @@ namespace Editor
             //Only selects appenders under this log4net element
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
+            bool unrecognized = false;
+
             if (appenderList != null)
             {
                 foreach (XmlNode node in appenderList)
                 {
-                    children.Add(Create(node));
+                    if (TryCreate(node, out AppenderModel model))
+                    {
+                        children.Add(model);
+                    }
+                    else
+                    {
+                        unrecognized = true;
+                    }
                 }
             }
 
@@ -149,18 +170,22 @@ namespace Editor
             }
 
             xChildren.ItemsSource = children;
+
+            return unrecognized;
         }
 
-        private static AppenderModel Create(XmlNode appender)
+        private static bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
         {
             string type = appender.Attributes?["type"]?.Value;
 
             if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
-                return new AppenderModel(descriptor, appender);
+                appenderModel = new AppenderModel(descriptor, appender);
+                return true;
             }
 
-            throw new InvalidOperationException("Unknown appender: " + type);
+            appenderModel = null;
+            return false;
         }
 
         private void AddAppenderOnClick(object sender, RoutedEventArgs e)
@@ -212,6 +237,7 @@ namespace Editor
                     appenderWindow = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.RollingFile:
+                    appenderWindow = new RollingFileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.EventLog:
                     appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
@@ -223,7 +249,7 @@ namespace Editor
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
             }
 
-            appenderWindow?.ShowDialog();
+            appenderWindow.ShowDialog();
             LoadFromRam();
         }
 

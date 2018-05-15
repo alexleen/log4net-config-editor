@@ -26,7 +26,7 @@ Currently under construction. log4net configuration files can be quite large and
 | OutputDebugStringAppender     |           |
 | RemoteSyslogAppender          |           |
 | RemotingAppender              |           |
-| RollingFileAppender           |           |
+| RollingFileAppender           | ✓         |
 | SmtpAppender                  |           |
 | SmtpPickupDirAppender         |           |
 | TelnetAppender                |           |

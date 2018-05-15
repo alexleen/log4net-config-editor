@@ -19,6 +19,8 @@ namespace Editor.Windows.Appenders.Properties
 
         public bool IsFocused { get; set; }
 
+        public string ToolTip { get; set; }
+
         protected void SetValueIfNotNullOrEmpty(string value)
         {
             if (!string.IsNullOrEmpty(value))

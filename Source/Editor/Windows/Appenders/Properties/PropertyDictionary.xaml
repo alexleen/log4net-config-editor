@@ -29,7 +29,7 @@
             </Grid.ColumnDefinitions>
 
             <Label Content="{Binding Name}"/>
-            <TextBox Grid.Column="1" Text="{Binding Value}" />
+            <TextBox Grid.Column="1" Text="{Binding Value}" ToolTip="{Binding ToolTip}"/>
         </Grid>
     </DataTemplate>
 
@@ -70,6 +70,114 @@
             </StackPanel>
         </Grid>
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type Properties:StaticLogFileName}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Label>Static Log File Name:</Label>
+            <CheckBox Grid.Column="1" IsChecked="{Binding Value}" VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:PreserveExtension}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Preserve Extension:</Label>
+            <CheckBox Grid.Column="1" IsChecked="{Binding Preserve}" VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:CountDirection}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Label>Count Direction:</Label>
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Directions}" 
+                      SelectedItem="{Binding SelectedDirection}" 
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Center"
+                      Width="75"
+                      ToolTip="Indicates if the current file is the lowest numbered file or the highest numbered file."/>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type Properties:LockingModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label>Locking Model:</Label>
+            <StackPanel Grid.Column="1">
+                <ComboBox ItemsSource="{Binding LockingModels}" 
+                          SelectedItem="{Binding SelectedModel}" 
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Center"
+                          Width="100" 
+                          Margin="0,5,0,0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Padding="0" Content="{Binding Name}" FontWeight="Normal"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock FontStyle="Italic" Foreground="Gray">See 
+                    <Hyperlink x:Name="xLockingModelHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/P_log4net_Appender_FileAppender_LockingModel.htm" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xLockingModelHyperlink, Path=NavigateUri}">
+                        Locking Model
+                    </Hyperlink> for more information.
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Properties:RollingStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Rolling Style:</Label>
+            <StackPanel Grid.Column="1">
+                <ComboBox ItemsSource="{Binding Modes}" 
+                          SelectedItem="{Binding SelectedMode}" 
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Center"
+                          Width="85"
+                          Margin="0,5,0,5"/>
+                <TextBlock FontStyle="Italic" Foreground="Gray">See 
+                    <Hyperlink x:Name="xRollingStyleHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/P_log4net_Appender_RollingFileAppender_RollingStyle.htm" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xRollingStyleHyperlink, Path=NavigateUri}">
+                        Rolling Style
+                        </Hyperlink> and 
+                    <Hyperlink x:Name="xRollingModeHyperlink" 
+                               NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Appender_RollingFileAppender_RollingMode.htm" 
+                               Command="{Binding Navigate}" 
+                               CommandParameter="{Binding ElementName=xRollingModeHyperlink, Path=NavigateUri}">
+                        Rolling Mode
+                    </Hyperlink> for more information.
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type Properties:Fix}">
         <Grid>
@@ -88,7 +196,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
-                    For more information, see
+                    See 
                     <Hyperlink x:Name="xQuestionHyperlink" 
                                NavigateUri="https://stackoverflow.com/q/11319319/7355697" 
                                Command="{Binding Navigate}" 
@@ -100,7 +208,7 @@
                                Command="{Binding Navigate}"
                                CommandParameter="{Binding ElementName=xFixHyperlink, Path=NavigateUri}">
                         these docs
-                    </Hyperlink>.
+                    </Hyperlink> for more information.
                 </TextBlock>
             </StackPanel>
         </Grid>
@@ -128,13 +236,13 @@
                 </ComboBox>
                 <TextBox Text="{Binding Pattern}" FontFamily="Consolas" VerticalContentAlignment="Center" ToolTip="Enter pattern here" IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}" />
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
-                    For more information regarding patterns, see
+                    See 
                     <Hyperlink x:Name="xLayoutHyperlink" 
                                NavigateUri="https://logging.apache.org/log4net/release/sdk/html/T_log4net_Layout_PatternLayout.htm" 
                                Command="{Binding Navigate}" 
                                CommandParameter="{Binding ElementName=xLayoutHyperlink, Path=NavigateUri}">
                         Pattern Layout
-                    </Hyperlink>.
+                    </Hyperlink> for more information.
                 </TextBlock>
             </StackPanel>
         </Grid>
@@ -160,7 +268,7 @@
                     <Button Width="110" Margin="5,0,5,5" Command="{Binding AddFilter}">Add</Button>
                     <Button Width="110" Margin="5,0,5,5" Command="{Binding Help}">Help</Button>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
                     <DataGrid.Resources>
                         <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>
                     </DataGrid.Resources>

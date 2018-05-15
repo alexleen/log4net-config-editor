@@ -10,6 +10,7 @@ namespace Editor.Windows.Appenders.Properties
     public class BufferSize : StringValueProperty
     {
         private const string DefaultBufferSize = "1000";
+        private const string BufferSizeName = "bufferSize";
 
         public BufferSize(ObservableCollection<IAppenderProperty> container)
             : base(container, GridLength.Auto, "Buffer Size:")
@@ -18,7 +19,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalAppenderNode)
         {
-            string bufferSizeStr = originalAppenderNode["bufferSize"]?.Attributes["value"].Value;
+            string bufferSizeStr = originalAppenderNode.GetValueAttributeValueFromChildElement(BufferSizeName);
 
             if (int.TryParse(bufferSizeStr, out int _))
             {
@@ -45,7 +46,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (Value != DefaultBufferSize)
             {
-                xmlDoc.CreateElementWithAttribute("bufferSize", "value", Value).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithAttribute(BufferSizeName, "value", Value).AppendTo(newAppenderNode);
             }
         }
     }

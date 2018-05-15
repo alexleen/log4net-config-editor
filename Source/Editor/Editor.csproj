@@ -59,6 +59,7 @@
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\RefSelectionConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
+    <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
@@ -91,17 +92,26 @@
     <Compile Include="Windows\Appenders\GridHelper.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
+    <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
+    <Compile Include="Windows\Appenders\Properties\DatePattern.cs" />
     <Compile Include="Windows\Appenders\Properties\IAppenderProperty.cs" />
     <Compile Include="Windows\Appenders\Properties\File.cs" />
     <Compile Include="Windows\Appenders\Properties\Filters.cs" />
     <Compile Include="Windows\Appenders\Properties\Fix.cs" />
     <Compile Include="Windows\Appenders\Properties\AppenderPropertyBase.cs" />
     <Compile Include="Windows\Appenders\Properties\Layout.cs" />
+    <Compile Include="Windows\Appenders\Properties\LockingModel.cs" />
     <Compile Include="Windows\Appenders\Properties\LogName.cs" />
+    <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
+    <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
+    <Compile Include="Windows\Appenders\Properties\PreserveExtension.cs" />
     <Compile Include="Windows\Appenders\Properties\Refs.cs" />
+    <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
+    <Compile Include="Windows\Appenders\Properties\StaticLogFileName.cs" />
     <Compile Include="Windows\Appenders\Properties\StringValueProperty.cs" />
     <Compile Include="Windows\Appenders\Properties\Target.cs" />
+    <Compile Include="Windows\Appenders\RollingFileAppenderWindow.cs" />
     <Compile Include="Windows\Filters\FilterWindow.xaml.cs">
       <DependentUpon>FilterWindowBase.xaml</DependentUpon>
     </Compile>
