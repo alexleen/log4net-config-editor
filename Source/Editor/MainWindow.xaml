@@ -6,10 +6,9 @@
         mc:Ignorable="d"
         Title="log4net Configuration Editor"
         MinHeight="360"
-        Height="450"
         MinWidth="640"
-        Width="800"
         Loaded="MainWindowOnLoaded" 
+        Closing="MainWindowOnClosing"
         Icon="Images\configure.png">
     <Window.Resources>
         <Style TargetType="Button">
