@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Properties="clr-namespace:Editor.Windows.Appenders.Properties"
                     xmlns:Models="clr-namespace:Editor.Models"
-                    xmlns:Converters="clr-namespace:Editor.Converters">
+                    xmlns:Converters="clr-namespace:Editor.Converters"
+                    xmlns:Editor="clr-namespace:Editor">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -258,15 +259,16 @@
             <Label>Filters:</Label>
             <DockPanel Grid.Column="1" Margin="0,5,0,0">
                 <StackPanel DockPanel.Dock="Right">
-                    <ComboBox ItemsSource="{Binding AvailableFilters}" Width="110" Margin="5,0,5,5" SelectedItem="{Binding SelectedFilter}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <Label Padding="0" Content="{Binding Name}"  FontWeight="Normal"/>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <Button Width="110" Margin="5,0,5,5" Command="{Binding AddFilter}">Add</Button>
-                    <Button Width="110" Margin="5,0,5,5" Command="{Binding Help}">Help</Button>
+                    <StackPanel.Resources>
+                        <!--Override the Label style defined above so that drop down button uses the default style-->
+                        <Style TargetType="Label" />
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="85" />
+                            <Setter Property="Margin" Value="5,0,5,5" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Editor:DropDownButton ButtonName="Add" ItemsSource="{Binding AvailableFilters}" Command="{Binding AddFilter}"/>
+                    <Button Command="{Binding Help}">Help</Button>
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
                     <DataGrid.Resources>

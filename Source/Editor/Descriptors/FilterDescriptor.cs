@@ -13,9 +13,9 @@ namespace Editor.Descriptors
         static FilterDescriptor()
         {
             DenyAll = new FilterDescriptor("Deny All", FilterType.DenyAll, "log4net.Filter.DenyAllFilter");
-            LevelMatch = new FilterDescriptor("Level Match", FilterType.LevelMatch, "log4net.Filter.LevelMatchFilter");
+            LevelMatch = new FilterDescriptor("Level", FilterType.LevelMatch, "log4net.Filter.LevelMatchFilter");
             LevelRange = new FilterDescriptor("Level Range", FilterType.LevelRange, "log4net.Filter.LevelRangeFilter");
-            LoggerMatch = new FilterDescriptor("Logger Match", FilterType.LoggerMatch, "log4net.Filter.LoggerMatchFilter");
+            LoggerMatch = new FilterDescriptor("Logger", FilterType.LoggerMatch, "log4net.Filter.LoggerMatchFilter");
             Mdc = new FilterDescriptor("MDC", FilterType.Mdc, "log4net.Filter.MdcFilter");
             Ndc = new FilterDescriptor("NDC", FilterType.Ndc, "log4net.Filter.NdcFilter");
             Property = new FilterDescriptor("Property", FilterType.Property, "log4net.Filter.PropertyFilter");

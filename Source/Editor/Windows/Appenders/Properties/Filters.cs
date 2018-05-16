@@ -36,8 +36,6 @@ namespace Editor.Windows.Appenders.Properties
                 FilterDescriptor.String
             };
 
-            SelectedFilter = FilterDescriptor.DenyAll;
-
             ExistingFilters = new ObservableCollection<FilterModel>();
 
             AddFilter = new Command(AddFilterOnClick);
@@ -46,19 +44,19 @@ namespace Editor.Windows.Appenders.Properties
 
         public IEnumerable<FilterDescriptor> AvailableFilters { get; }
 
-        public FilterDescriptor SelectedFilter { get; set; }
-
         public ObservableCollection<FilterModel> ExistingFilters { get; }
 
         public ICommand AddFilter { get; }
 
         public ICommand Help { get; }
 
-        private void AddFilterOnClick()
+        private void AddFilterOnClick(object filter)
         {
-            if (SelectedFilter != FilterDescriptor.DenyAll)
+            FilterDescriptor descriptor = (FilterDescriptor)filter;
+
+            if (descriptor != FilterDescriptor.DenyAll)
             {
-                ShowFilterWindow(new FilterModel(SelectedFilter, null, ShowFilterWindow, Remove, MoveUp, MoveDown));
+                ShowFilterWindow(new FilterModel(descriptor, null, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
             else
             {

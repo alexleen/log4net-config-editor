@@ -30,7 +30,7 @@ namespace Editor
         {
             InitializeComponent();
 
-            xAppenderComboBox.ItemsSource = new[]
+            xAddAppenderButton.ItemsSource = new[]
             {
                 AppenderDescriptor.Console,
                 AppenderDescriptor.File,
@@ -39,7 +39,7 @@ namespace Editor
                 AppenderDescriptor.Async
             };
 
-            xLoggerComboBox.ItemsSource = new[]
+            xAddLoggerButton.ItemsSource = new[]
             {
                 LoggerDescriptor.Root
             };
@@ -188,9 +188,9 @@ namespace Editor
             return false;
         }
 
-        private void AddAppenderOnClick(object sender, RoutedEventArgs e)
+        private void AddAppenderItemOnClick(object appender)
         {
-            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type, null);
+            OpenAppenderWindow(((AppenderDescriptor)appender).Type, null);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
@@ -253,7 +253,7 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void AddLoggerOnClick(object sender, RoutedEventArgs e)
+        private void AddLoggerOnClick(object sender)
         {
             if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
             {

@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Descriptors="clr-namespace:Editor.Descriptors" 
+        xmlns:Editor="clr-namespace:Editor"
         mc:Ignorable="d"
         Title="log4net Configuration Editor"
         MinHeight="360"
@@ -44,26 +46,11 @@
                     <Setter Property="Width" Value="100" />
                 </Style>
             </StackPanel.Resources>
+            
+            <Editor:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" Margin="5,0,5,0" ItemClick="AddAppenderItemOnClick"/>
 
-            <ComboBox x:Name="xAppenderComboBox" Width="100" Margin="5,0" SelectedIndex="0">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Padding="0" Content="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Button Margin="5,5,5,0" Click="AddAppenderOnClick">Add Appender</Button>
-
-            <ComboBox x:Name="xLoggerComboBox" Width="100" Margin="5,5,5,0" SelectedIndex="0">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Padding="0" Content="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Button Margin="5,5,5,0" Click="AddLoggerOnClick">Add Logger</Button>
+            <Editor:DropDownButton x:Name="xAddLoggerButton" ButtonName="Add Logger" Margin="5,5,5,0" ItemClick="AddLoggerOnClick"/>
+            
             <Button Margin="5,5,5,0" IsEnabled="false">Add Renderer</Button>
         </StackPanel>
 
