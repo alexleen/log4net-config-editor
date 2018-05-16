@@ -12,6 +12,8 @@ namespace Editor.Windows.Appenders.Properties
     public class Layout : AppenderPropertyBase
     {
         private const string SimplePattern = "%level - %message%newline";
+        private const string LayoutName = "layout";
+        private const string ConversionPatternName = "conversionPattern";
         private string mOriginalPattern;
 
         public Layout(ObservableCollection<IAppenderProperty> container)
@@ -73,13 +75,13 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalAppenderNode)
         {
-            string layoutType = originalAppenderNode["layout"]?.Attributes["type"]?.Value;
+            string layoutType = originalAppenderNode[LayoutName]?.Attributes["type"]?.Value;
             if (LayoutDescriptor.TryFindByTypeNamespace(layoutType, out LayoutDescriptor descriptor))
             {
                 SelectedLayout = descriptor;
             }
 
-            string pattern = originalAppenderNode["layout"]?["conversionPattern"]?.Attributes["value"]?.Value;
+            string pattern = originalAppenderNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
 
             if (!string.IsNullOrEmpty(pattern))
             {
@@ -101,11 +103,11 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            XmlNode layoutNode = xmlDoc.CreateElementWithAttribute("layout", "type", SelectedLayout.TypeNamespace);
+            XmlNode layoutNode = xmlDoc.CreateElementWithAttribute(LayoutName, "type", SelectedLayout.TypeNamespace);
 
             if (SelectedLayout != LayoutDescriptor.Simple)
             {
-                xmlDoc.CreateElementWithAttribute("conversionPattern", "value", Pattern).AppendTo(layoutNode);
+                xmlDoc.CreateElementWithValueAttribute(ConversionPatternName, Pattern).AppendTo(layoutNode);
             }
 
             newAppenderNode.AppendChild(layoutNode);

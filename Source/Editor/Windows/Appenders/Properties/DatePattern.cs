@@ -35,7 +35,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute(DatePatternName, "value", Value).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(DatePatternName, Value).AppendTo(newAppenderNode);
         }
     }
 }

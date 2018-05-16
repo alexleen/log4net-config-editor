@@ -11,6 +11,9 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class File : AppenderPropertyBase
     {
+        private const string FileName = "file";
+        private const string AppendToFileName = "appendToFile";
+
         public File(ObservableCollection<IAppenderProperty> container)
             : base(container, GridLength.Auto)
         {
@@ -67,13 +70,13 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalAppenderNode)
         {
-            string file = originalAppenderNode.SelectSingleNode("file")?.Attributes?["value"]?.Value;
+            string file = originalAppenderNode.GetValueAttributeValueFromChildElement(FileName);
             if (!string.IsNullOrEmpty(file))
             {
                 FilePath = file;
             }
 
-            string appendToFile = originalAppenderNode.SelectSingleNode("appendToFile")?.Attributes?["value"]?.Value;
+            string appendToFile = originalAppenderNode.GetValueAttributeValueFromChildElement(AppendToFileName);
             if (!string.IsNullOrEmpty(appendToFile))
             {
                 Overwrite = appendToFile == "false";
@@ -93,12 +96,12 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute("file", "value", FilePath).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(FileName, FilePath).AppendTo(newAppenderNode);
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (Overwrite)
             {
-                xmlDoc.CreateElementWithAttribute("appendToFile", "value", "false").AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(AppendToFileName, "false").AppendTo(newAppenderNode);
             }
         }
     }

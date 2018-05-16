@@ -12,6 +12,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string ConsoleOut = "Console.Out";
         private const string ConsoleError = "Console.Error";
+        private const string TargetName = "target";
 
         public Target(ObservableCollection<IAppenderProperty> container)
             : base(container, GridLength.Auto)
@@ -26,8 +27,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalAppenderNode)
         {
-            string target = originalAppenderNode["target"]?.Attributes["value"]?.Value;
-            SelectedItem = target ?? ConsoleOut;
+            SelectedItem = originalAppenderNode.GetValueAttributeValueFromChildElement(TargetName) ?? ConsoleOut;
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
@@ -35,7 +35,7 @@ namespace Editor.Windows.Appenders.Properties
             //Target is "Console.Out" by default, so we only need a target element if "Console.Error"
             if (SelectedItem == ConsoleError)
             {
-                xmlDoc.CreateElementWithAttribute("target", "value", ConsoleError).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(TargetName, ConsoleError).AppendTo(newAppenderNode);
             }
         }
     }

@@ -40,7 +40,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (Value != DefaultMaxFileSize)
             {
-                xmlDoc.CreateElementWithAttribute(MaximumFileSizeName, "value", Value.Trim()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(MaximumFileSizeName, Value.Trim()).AppendTo(newAppenderNode);
             }
         }
     }

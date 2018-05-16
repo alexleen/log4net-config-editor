@@ -31,7 +31,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (Preserve)
             {
-                xmlDoc.CreateElementWithAttribute(PreserveExtensionName, "value", Preserve.ToString().ToLower()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(PreserveExtensionName, Preserve.ToString().ToLower()).AppendTo(newAppenderNode);
             }
         }
     }

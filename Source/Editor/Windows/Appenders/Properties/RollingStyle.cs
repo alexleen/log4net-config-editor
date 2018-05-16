@@ -55,7 +55,7 @@ namespace Editor.Windows.Appenders.Properties
             //Composite is the default and does not need to be specified in the XML if chosen
             if (SelectedMode != RollingFileAppender.RollingMode.Composite)
             {
-                xmlDoc.CreateElementWithAttribute(RollingStyleName, "value", SelectedMode.ToString()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(RollingStyleName, SelectedMode.ToString()).AppendTo(newAppenderNode);
             }
         }
     }
