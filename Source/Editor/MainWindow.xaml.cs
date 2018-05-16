@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
@@ -32,7 +30,7 @@ namespace Editor
         {
             InitializeComponent();
 
-            xAddAppenderContextMenu.ItemsSource = new[]
+            xAddAppenderButton.ItemsSource = new[]
             {
                 AppenderDescriptor.Console,
                 AppenderDescriptor.File,
@@ -41,7 +39,7 @@ namespace Editor
                 AppenderDescriptor.Async
             };
 
-            xLoggerComboBox.ItemsSource = new[]
+            xAddLoggerButton.ItemsSource = new[]
             {
                 LoggerDescriptor.Root
             };
@@ -190,17 +188,9 @@ namespace Editor
             return false;
         }
 
-        private void AddAppenderOnClick(object sender, RoutedEventArgs e)
+        private void AddAppenderItemOnClick(object appender)
         {
-            xAddAppenderButton.ContextMenu.IsEnabled = true;
-            xAddAppenderButton.ContextMenu.PlacementTarget = xAddAppenderButton;
-            xAddAppenderButton.ContextMenu.Placement = PlacementMode.Bottom;
-            xAddAppenderButton.ContextMenu.IsOpen = true;
-        }
-
-        private void AddAppenderItemOnClick(object sender, MouseButtonEventArgs e)
-        {
-            OpenAppenderWindow(((AppenderDescriptor)((MenuItem)sender).DataContext).Type, null);
+            OpenAppenderWindow(((AppenderDescriptor)appender).Type, null);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
@@ -263,7 +253,7 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void AddLoggerOnClick(object sender, RoutedEventArgs e)
+        private void AddLoggerOnClick(object sender)
         {
             if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
             {
