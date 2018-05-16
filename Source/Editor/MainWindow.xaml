@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Descriptors="clr-namespace:Editor.Descriptors"
         mc:Ignorable="d"
         Title="log4net Configuration Editor"
         MinHeight="360"
@@ -45,19 +46,31 @@
                 </Style>
             </StackPanel.Resources>
 
-            <ComboBox x:Name="xAppenderComboBox" Width="100" Margin="5,0" SelectedIndex="0">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Padding="0" Content="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Button Margin="5,5,5,0" Click="AddAppenderOnClick">Add Appender</Button>
+            <Button x:Name="xAddAppenderButton" Margin="5,5,5,0" Click="AddAppenderOnClick" Content="Add Appender">
+                <Button.ContextMenu>
+                    <ContextMenu x:Name="xAddAppenderContextMenu" Width="105" >
+                        <ContextMenu.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Margin="-25,0,0,0" Background="#F5F5F5"/>
+                            </ItemsPanelTemplate>
+                        </ContextMenu.ItemsPanel>
+                        <ContextMenu.ItemTemplate>
+                            <DataTemplate DataType="{x:Type Descriptors:AppenderDescriptor}">
+                                <Label Content="{Binding Name}" />
+                            </DataTemplate>
+                        </ContextMenu.ItemTemplate>
+                        <ContextMenu.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="AddAppenderItemOnClick"></EventSetter>
+                            </Style>
+                        </ContextMenu.ItemContainerStyle>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
 
             <ComboBox x:Name="xLoggerComboBox" Width="100" Margin="5,5,5,0" SelectedIndex="0">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type Descriptors:LoggerDescriptor}">
                         <Label Padding="0" Content="{Binding Name}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

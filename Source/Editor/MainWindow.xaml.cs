@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
@@ -30,7 +32,7 @@ namespace Editor
         {
             InitializeComponent();
 
-            xAppenderComboBox.ItemsSource = new[]
+            xAddAppenderContextMenu.ItemsSource = new[]
             {
                 AppenderDescriptor.Console,
                 AppenderDescriptor.File,
@@ -190,7 +192,15 @@ namespace Editor
 
         private void AddAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            OpenAppenderWindow(((AppenderDescriptor)xAppenderComboBox.SelectionBoxItem).Type, null);
+            xAddAppenderButton.ContextMenu.IsEnabled = true;
+            xAddAppenderButton.ContextMenu.PlacementTarget = xAddAppenderButton;
+            xAddAppenderButton.ContextMenu.Placement = PlacementMode.Bottom;
+            xAddAppenderButton.ContextMenu.IsOpen = true;
+        }
+
+        private void AddAppenderItemOnClick(object sender, MouseButtonEventArgs e)
+        {
+            OpenAppenderWindow(((AppenderDescriptor)((MenuItem)sender).DataContext).Type, null);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
