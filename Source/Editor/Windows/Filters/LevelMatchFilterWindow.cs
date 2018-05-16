@@ -10,6 +10,8 @@ namespace Editor.Windows.Filters
 {
     public class LevelMatchFilterWindow : FilterWindowBase
     {
+        private const string LevelMatchName = "levelToMatch";
+
         public LevelMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
@@ -27,8 +29,7 @@ namespace Editor.Windows.Filters
 
         protected override void Load(XmlNode filterNode)
         {
-            string value = filterNode.SelectSingleNode("levelToMatch")?.Attributes?["value"]?.Value;
-            xLevelToMatchComboBox.SelectedItem = value;
+            xLevelToMatchComboBox.SelectedItem = filterNode.GetValueAttributeValueFromChildElement(LevelMatchName);
         }
 
         protected override bool TryValidateInputs()
@@ -39,7 +40,7 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            XmlElement levelToMatchElement = configXml.CreateElementWithAttribute("levelToMatch", "value", (string)xLevelToMatchComboBox.SelectedItem);
+            XmlElement levelToMatchElement = configXml.CreateElementWithValueAttribute(LevelMatchName, (string)xLevelToMatchComboBox.SelectedItem);
             XmlUtilities.AddOrUpdate(filterNode, levelToMatchElement);
         }
     }

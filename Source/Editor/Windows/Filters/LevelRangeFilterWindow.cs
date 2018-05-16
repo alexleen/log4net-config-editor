@@ -11,6 +11,9 @@ namespace Editor.Windows.Filters
 {
     public class LevelRangeFilterWindow : FilterWindowBase
     {
+        private const string LevelMinName = "levelMin";
+        private const string LevelMaxName = "levelMax";
+
         public LevelRangeFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
@@ -27,11 +30,8 @@ namespace Editor.Windows.Filters
 
         protected override void Load(XmlNode filterNode)
         {
-            string levelMin = filterNode.SelectSingleNode("levelMin")?.Attributes?["value"]?.Value;
-            xMinLevelComboBox.SelectedItem = levelMin;
-
-            string levelMax = filterNode.SelectSingleNode("levelMax")?.Attributes?["value"]?.Value;
-            xMaxLevelComboBox.SelectedItem = levelMax;
+            xMinLevelComboBox.SelectedItem = filterNode.GetValueAttributeValueFromChildElement(LevelMinName);
+            xMaxLevelComboBox.SelectedItem = filterNode.GetValueAttributeValueFromChildElement(LevelMaxName);
         }
 
         protected override bool TryValidateInputs()
@@ -50,8 +50,8 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            Process(configXml, filterNode, xMinLevelComboBox, "levelMin");
-            Process(configXml, filterNode, xMaxLevelComboBox, "levelMax");
+            Process(configXml, filterNode, xMinLevelComboBox, LevelMinName);
+            Process(configXml, filterNode, xMaxLevelComboBox, LevelMaxName);
         }
 
         private static void Process(XmlDocument configXml, XmlNode filterNode, Selector comboBox, string elementName)
@@ -60,7 +60,7 @@ namespace Editor.Windows.Filters
 
             if (valueChosen)
             {
-                XmlElement levelElement = configXml.CreateElementWithAttribute(elementName, "value", (string)comboBox.SelectedItem);
+                XmlElement levelElement = configXml.CreateElementWithValueAttribute(elementName, (string)comboBox.SelectedItem);
                 XmlUtilities.AddOrUpdate(filterNode, levelElement);
             }
             else

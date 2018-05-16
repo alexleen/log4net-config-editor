@@ -10,6 +10,8 @@ namespace Editor.Windows.Filters
 {
     public class LoggerMatchFilterWindow : FilterWindowBase
     {
+        private const string LoggerMatchName = "loggerToMatch";
+
         public LoggerMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
@@ -28,8 +30,7 @@ namespace Editor.Windows.Filters
 
         protected override void Load(XmlNode filterNode)
         {
-            string value = filterNode.SelectSingleNode("loggerToMatch")?.Attributes?["value"]?.Value;
-            xLoggerToMatchTextBox.Text = value;
+            xLoggerToMatchTextBox.Text = filterNode.GetValueAttributeValueFromChildElement(LoggerMatchName);
         }
 
         protected override bool TryValidateInputs()
@@ -45,7 +46,7 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            XmlElement loggerToMatchElement = configXml.CreateElementWithAttribute("loggerToMatch", "value", xLoggerToMatchTextBox.Text);
+            XmlElement loggerToMatchElement = configXml.CreateElementWithValueAttribute(LoggerMatchName, xLoggerToMatchTextBox.Text);
             XmlUtilities.AddOrUpdate(filterNode, loggerToMatchElement);
         }
     }
