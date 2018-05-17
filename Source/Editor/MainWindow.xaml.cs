@@ -13,6 +13,7 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Properties;
 using Editor.Utilities;
+using Editor.WindowPlacement;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
@@ -44,17 +45,6 @@ namespace Editor
             {
                 LoggerDescriptor.Root
             };
-
-            //TODO make sure this is in bounds
-            Height = Settings.Default.MainWindowHeight;
-            Width = Settings.Default.MainWindowWidth;
-            Top = Settings.Default.MainWindowTop;
-            Left = Settings.Default.MainWindowLeft;
-
-            if (Settings.Default.MainWindowMaximized)
-            {
-                WindowState = WindowState.Maximized;
-            }
         }
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
@@ -65,26 +55,14 @@ namespace Editor
             }
         }
 
+        private void MainWindowOnSourceInitialized(object sender, EventArgs e)
+        {
+            this.SetPlacement(Settings.Default.MainWindowPlacement);
+        }
+
         private void MainWindowOnClosing(object sender, CancelEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
-            {
-                // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
-                Settings.Default.MainWindowTop = RestoreBounds.Top;
-                Settings.Default.MainWindowLeft = RestoreBounds.Left;
-                Settings.Default.MainWindowHeight = RestoreBounds.Height;
-                Settings.Default.MainWindowWidth = RestoreBounds.Width;
-                Settings.Default.MainWindowMaximized = true;
-            }
-            else
-            {
-                Settings.Default.MainWindowTop = Top;
-                Settings.Default.MainWindowLeft = Left;
-                Settings.Default.MainWindowHeight = Height;
-                Settings.Default.MainWindowWidth = Width;
-                Settings.Default.MainWindowMaximized = false;
-            }
-
+            Settings.Default.MainWindowPlacement = this.GetPlacement();
             Settings.Default.Save();
         }
 
