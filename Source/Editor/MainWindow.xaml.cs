@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,6 +13,7 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Properties;
 using Editor.Utilities;
+using Editor.WindowPlacement;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
@@ -51,6 +53,17 @@ namespace Editor
             {
                 LoadFromFile(Settings.Default.LastConfig);
             }
+        }
+
+        private void MainWindowOnSourceInitialized(object sender, EventArgs e)
+        {
+            this.SetPlacement(Settings.Default.MainWindowPlacement);
+        }
+
+        private void MainWindowOnClosing(object sender, CancelEventArgs e)
+        {
+            Settings.Default.MainWindowPlacement = this.GetPlacement();
+            Settings.Default.Save();
         }
 
         private void OpenOnClick(object sender, RoutedEventArgs e)

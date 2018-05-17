@@ -85,6 +85,10 @@
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\Log4NetUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
+    <Compile Include="WindowPlacement\POINT.cs" />
+    <Compile Include="WindowPlacement\RECT.cs" />
+    <Compile Include="WindowPlacement\WINDOWPLACEMENT.cs" />
+    <Compile Include="WindowPlacement\WindowPlacementUtility.cs" />
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
