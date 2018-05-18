@@ -14,7 +14,7 @@ namespace Editor.Windows.Appenders
     /// <summary>
     /// Interaction logic for AddFileAppenderWindow.xaml
     /// </summary>
-    public abstract partial class AppenderWindow : Window
+    public abstract partial class AppenderWindow
     {
         protected readonly XmlDocument ConfigXml;
         protected readonly XmlNode Log4NetNode;
@@ -34,6 +34,7 @@ namespace Editor.Windows.Appenders
         public ObservableCollection<IAppenderProperty> AppenderProperties { get; }
 
         protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
+            : base("AppenderWindowPlacement")
         {
             InitializeComponent();
             DataContext = this;
@@ -44,6 +45,7 @@ namespace Editor.Windows.Appenders
             OriginalAppenderNode = appenderNode;
             NewAppenderNode = ConfigXml.CreateElement("appender");
             AppenderProperties = new ObservableCollection<IAppenderProperty>();
+            Loaded += WindowOnLoaded;
         }
 
         private void WindowOnLoaded(object sender, EventArgs e)

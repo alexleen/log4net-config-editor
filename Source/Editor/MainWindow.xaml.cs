@@ -27,6 +27,7 @@ namespace Editor
         private XmlNode mLog4NetNode;
 
         public MainWindow()
+            : base("MainWindowPlacement")
         {
             InitializeComponent();
 
@@ -217,7 +218,7 @@ namespace Editor
                 //Remove all appender refs
                 foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
                 {
-                    refModel.AppenderRef.ParentNode.RemoveChild(refModel.AppenderRef);
+                    refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
                 }
             }
 
@@ -226,7 +227,7 @@ namespace Editor
 
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode)
         {
-            AppenderWindow appenderWindow = null;
+            AppenderWindow appenderWindow;
 
             switch (appenderType)
             {

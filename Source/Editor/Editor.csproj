@@ -85,6 +85,10 @@
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\Log4NetUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
+    <Compile Include="WindowPlacement\POINT.cs" />
+    <Compile Include="WindowPlacement\RECT.cs" />
+    <Compile Include="WindowPlacement\WINDOWPLACEMENT.cs" />
+    <Compile Include="WindowPlacement\WindowPlacementUtility.cs" />
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
@@ -125,6 +129,7 @@
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SizeRetentionWindow.cs" />
     <Page Include="DropDownButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
