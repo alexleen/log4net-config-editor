@@ -12,7 +12,6 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Properties;
 using Editor.Utilities;
-using Editor.Windows;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
@@ -22,7 +21,7 @@ namespace Editor
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : SizeRetentionWindow
+    public partial class MainWindow
     {
         private XmlDocument mConfigXml;
         private XmlNode mLog4NetNode;
@@ -219,7 +218,7 @@ namespace Editor
                 //Remove all appender refs
                 foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
                 {
-                    refModel.AppenderRef.ParentNode.RemoveChild(refModel.AppenderRef);
+                    refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
                 }
             }
 
@@ -228,7 +227,7 @@ namespace Editor
 
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode)
         {
-            AppenderWindow appenderWindow = null;
+            AppenderWindow appenderWindow;
 
             switch (appenderType)
             {

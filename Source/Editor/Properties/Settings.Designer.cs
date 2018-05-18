@@ -46,5 +46,29 @@ namespace Editor.Properties {
                 this["MainWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppenderWindowPlacement {
+            get {
+                return ((string)(this["AppenderWindowPlacement"]));
+            }
+            set {
+                this["AppenderWindowPlacement"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LoggerWindowPlacement {
+            get {
+                return ((string)(this["LoggerWindowPlacement"]));
+            }
+            set {
+                this["LoggerWindowPlacement"] = value;
+            }
+        }
     }
 }
