@@ -129,6 +129,7 @@
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SizeRetentionWindow.cs" />
     <Page Include="DropDownButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -13,7 +13,7 @@ namespace Editor.Windows.Loggers
     /// <summary>
     /// Interaction logic for LoggerWindow.xaml
     /// </summary>
-    public partial class LoggerWindow : Window
+    public partial class LoggerWindow
     {
         private const string LevelName = "level";
         private readonly XmlDocument mConfigXml;
@@ -22,6 +22,7 @@ namespace Editor.Windows.Loggers
         private readonly ChangeType mChangeType;
 
         public LoggerWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode rootLoggerNode, ChangeType changeType)
+            : base("LoggerWindowPlacement")
         {
             InitializeComponent();
             Owner = owner;
