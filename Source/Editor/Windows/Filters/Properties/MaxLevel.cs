@@ -5,6 +5,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
 {
@@ -12,21 +13,21 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LevelMaxName = "levelMax";
 
-        public MaxLevel(ObservableCollection<IAppenderProperty> container)
+        public MaxLevel(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Max Level:", true)
         {
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SelectedLevel = originalAppenderNode.GetValueAttributeValueFromChildElement(LevelMaxName);
+            SelectedLevel = originalNode.GetValueAttributeValueFromChildElement(LevelMaxName);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (!string.IsNullOrEmpty(SelectedLevel))
             {
-                xmlDoc.CreateElementWithValueAttribute(LevelMaxName, SelectedLevel).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(LevelMaxName, SelectedLevel).AppendTo(newNode);
             }
         }
     }

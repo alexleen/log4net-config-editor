@@ -6,12 +6,13 @@ using System.Linq;
 using System.Windows;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
 {
-    public abstract class LevelPropertyBase : AppenderPropertyBase
+    public abstract class LevelPropertyBase : PropertyBase
     {
-        protected LevelPropertyBase(ObservableCollection<IAppenderProperty> container, GridLength rowHeight, string name, bool prependEmpty = false)
+        protected LevelPropertyBase(ObservableCollection<IProperty> container, GridLength rowHeight, string name, bool prependEmpty = false)
             : base(container, rowHeight)
         {
             Name = name;

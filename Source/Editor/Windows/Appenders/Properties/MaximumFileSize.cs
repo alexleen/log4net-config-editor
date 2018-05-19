@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -12,16 +13,16 @@ namespace Editor.Windows.Appenders.Properties
         private const string MaximumFileSizeName = "maximumFileSize";
         private const string DefaultMaxFileSize = "10MB";
 
-        public MaximumFileSize(ObservableCollection<IAppenderProperty> container)
+        public MaximumFileSize(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Maximum File Size:")
         {
             Value = DefaultMaxFileSize;
             ToolTip = "The maximum size that the output file is allowed to reach before being rolled over to backup files. Must be suffixed with \"KB\", \"MB\", or \"GB\".";
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalAppenderNode.GetValueAttributeValueFromChildElement(MaximumFileSizeName));
+            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(MaximumFileSizeName));
         }
 
         public override bool TryValidate()
@@ -36,11 +37,11 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (Value != DefaultMaxFileSize)
             {
-                xmlDoc.CreateElementWithValueAttribute(MaximumFileSizeName, Value.Trim()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(MaximumFileSizeName, Value.Trim()).AppendTo(newNode);
             }
         }
     }

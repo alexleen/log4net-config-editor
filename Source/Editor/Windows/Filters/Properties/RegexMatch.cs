@@ -5,6 +5,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
 {
@@ -12,14 +13,14 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string RegexToMatchName = "regexToMatch";
 
-        public RegexMatch(ObservableCollection<IAppenderProperty> container)
+        public RegexMatch(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Regex to Match:")
         {
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalAppenderNode.GetValueAttributeValueFromChildElement(RegexToMatchName));
+            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(RegexToMatchName));
         }
 
         public override bool TryValidate()
@@ -33,9 +34,9 @@ namespace Editor.Windows.Filters.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(RegexToMatchName, Value).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(RegexToMatchName, Value).AppendTo(newNode);
         }
     }
 }

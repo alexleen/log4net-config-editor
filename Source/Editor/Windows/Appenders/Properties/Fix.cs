@@ -7,15 +7,16 @@ using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 using log4net.Core;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class Fix : AppenderPropertyBase
+    public class Fix : PropertyBase
     {
         private const string FixName = "Fix";
 
-        public Fix(ObservableCollection<IAppenderProperty> container)
+        public Fix(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             Fixes = Enum.GetValues(typeof(FixFlags)).Cast<FixFlags>();
@@ -25,9 +26,9 @@ namespace Editor.Windows.Appenders.Properties
 
         public FixFlags SelectedFix { get; set; }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            string fixValue = originalAppenderNode.GetValueAttributeValueFromChildElement(FixName);
+            string fixValue = originalNode.GetValueAttributeValueFromChildElement(FixName);
 
             if (int.TryParse(fixValue, out int fixValueInt) && Enum.IsDefined(typeof(FixFlags), fixValueInt))
             {
@@ -39,9 +40,9 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(FixName, ((int)SelectedFix).ToString()).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(FixName, ((int)SelectedFix).ToString()).AppendTo(newNode);
         }
     }
 }

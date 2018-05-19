@@ -3,7 +3,8 @@
                     xmlns:Properties="clr-namespace:Editor.Windows.Appenders.Properties"
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters"
-                    xmlns:Editor="clr-namespace:Editor">
+                    xmlns:Editor="clr-namespace:Editor"
+                    xmlns:PropertyCommon="clr-namespace:Editor.Windows.PropertyCommon">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -22,7 +23,7 @@
         </Style.Triggers>
     </Style>
 
-    <DataTemplate DataType="{x:Type Properties:StringValueProperty}">
+    <DataTemplate DataType="{x:Type PropertyCommon:StringValueProperty}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>

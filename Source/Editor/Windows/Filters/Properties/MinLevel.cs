@@ -5,6 +5,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
 {
@@ -12,21 +13,21 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LevelMinName = "levelMin";
 
-        public MinLevel(ObservableCollection<IAppenderProperty> container)
+        public MinLevel(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Min Level:", true)
         {
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SelectedLevel = originalAppenderNode.GetValueAttributeValueFromChildElement(LevelMinName);
+            SelectedLevel = originalNode.GetValueAttributeValueFromChildElement(LevelMinName);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (!string.IsNullOrEmpty(SelectedLevel))
             {
-                xmlDoc.CreateElementWithValueAttribute(LevelMinName, SelectedLevel).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(LevelMinName, SelectedLevel).AppendTo(newNode);
             }
         }
     }

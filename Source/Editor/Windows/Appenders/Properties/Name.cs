@@ -4,20 +4,21 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
     public class Name : StringValueProperty
     {
-        public Name(ObservableCollection<IAppenderProperty> container)
+        public Name(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Name:")
         {
             IsFocused = true;
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalAppenderNode.Attributes?["name"]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes?["name"]?.Value);
         }
 
         public override bool TryValidate()
@@ -32,9 +33,9 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newAppenderNode.AppendAttribute(xmlDoc, "name", Value);
+            newNode.AppendAttribute(xmlDoc, "name", Value);
         }
     }
 }

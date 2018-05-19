@@ -5,30 +5,31 @@ using System.Windows;
 using System.Xml;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
 {
-    public class AcceptOnMatch : AppenderPropertyBase
+    public class AcceptOnMatch : PropertyBase
     {
         private const string AcceptOnMatchName = "acceptOnMatch";
 
-        public AcceptOnMatch(ObservableCollection<IAppenderProperty> container)
+        public AcceptOnMatch(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
         }
 
         public bool Accept { get; set; } = true;
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            string acceptStr = originalAppenderNode.GetValueAttributeValueFromChildElement(AcceptOnMatchName);
+            string acceptStr = originalNode.GetValueAttributeValueFromChildElement(AcceptOnMatchName);
             if (!string.IsNullOrEmpty(acceptStr) && bool.TryParse(acceptStr, out bool accept))
             {
                 Accept = accept;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (!Accept)
             {

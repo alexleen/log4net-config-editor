@@ -8,6 +8,7 @@ using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters
 {
@@ -21,7 +22,7 @@ namespace Editor.Windows.Filters
         private readonly XmlDocument mConfigXml;
         private readonly Action<FilterModel> mAdd;
 
-        public ObservableCollection<IAppenderProperty> FilterProperties { get; }
+        public ObservableCollection<IProperty> FilterProperties { get; }
 
         protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
         {
@@ -32,7 +33,7 @@ namespace Editor.Windows.Filters
             mAppenderNode = appenderNode;
             mConfigXml = configXml;
             mAdd = add;
-            FilterProperties = new ObservableCollection<IAppenderProperty>();
+            FilterProperties = new ObservableCollection<IProperty>();
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -44,7 +45,7 @@ namespace Editor.Windows.Filters
                 return;
             }
 
-            foreach (IAppenderProperty filterProperty in FilterProperties)
+            foreach (IProperty filterProperty in FilterProperties)
             {
                 filterProperty.Load(mFilterModel.Node);
             }
@@ -64,7 +65,7 @@ namespace Editor.Windows.Filters
 
             XmlNode filterElement = mConfigXml.CreateElementWithAttribute("filter", "type", mFilterModel.Descriptor.TypeNamespace);
 
-            foreach (IAppenderProperty filterProperty in FilterProperties)
+            foreach (IProperty filterProperty in FilterProperties)
             {
                 filterProperty.Save(mConfigXml, filterElement);
             }

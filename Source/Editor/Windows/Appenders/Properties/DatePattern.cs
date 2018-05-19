@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -11,15 +12,15 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string DatePatternName = "datePattern";
 
-        public DatePattern(ObservableCollection<IAppenderProperty> container)
+        public DatePattern(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Date Pattern:")
         {
             ToolTip = "This property determines the rollover schedule when rolling over on date.";
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalAppenderNode.GetValueAttributeValueFromChildElement(DatePatternName));
+            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(DatePatternName));
         }
 
         public override bool TryValidate()
@@ -33,9 +34,9 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(DatePatternName, Value).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(DatePatternName, Value).AppendTo(newNode);
         }
     }
 }

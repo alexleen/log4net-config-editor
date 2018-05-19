@@ -5,6 +5,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
 {
@@ -12,19 +13,19 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LevelMatchName = "levelToMatch";
 
-        public LevelToMatch(ObservableCollection<IAppenderProperty> container)
+        public LevelToMatch(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Level to Match:")
         {
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SelectedLevel = originalAppenderNode.GetValueAttributeValueFromChildElement(LevelMatchName);
+            SelectedLevel = originalNode.GetValueAttributeValueFromChildElement(LevelMatchName);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(LevelMatchName, SelectedLevel).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(LevelMatchName, SelectedLevel).AppendTo(newNode);
         }
     }
 }

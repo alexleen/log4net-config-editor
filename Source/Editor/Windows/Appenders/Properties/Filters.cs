@@ -11,16 +11,17 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.Filters;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class Filters : AppenderPropertyBase
+    public class Filters : PropertyBase
     {
         private readonly Window mOwner;
         private readonly XmlDocument mXmlDoc;
         private readonly XmlNode mAppenderNode;
 
-        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IAppenderProperty> container)
+        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IProperty> container)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
             mOwner = owner;
@@ -128,9 +129,9 @@ namespace Editor.Windows.Appenders.Properties
             ExistingFilters.Move(oldIndex, newIndex);
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            XmlNodeList filterNodes = originalAppenderNode.SelectNodes("filter");
+            XmlNodeList filterNodes = originalNode.SelectNodes("filter");
 
             if (filterNodes == null)
             {
@@ -146,11 +147,11 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             foreach (FilterModel filter in ExistingFilters)
             {
-                newAppenderNode.AppendChild(filter.Node);
+                newNode.AppendChild(filter.Node);
             }
         }
     }
