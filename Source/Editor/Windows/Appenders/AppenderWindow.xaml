@@ -30,7 +30,7 @@
 
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Grid.Row" Value="{Binding (PropertyCommon:IProperty.RowIndex)}" />
+                    <Setter Property="Grid.Row" Value="{Binding RowIndex}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
