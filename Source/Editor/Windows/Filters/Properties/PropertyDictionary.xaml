@@ -8,8 +8,14 @@
     </Style>
     <Style TargetType="TextBox">
         <Setter Property="Width" Value="250" />
+        <Setter Property="Height" Value="21" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,0,5,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFocused}" Value="True">
+                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     <Style TargetType="ComboBox">
         <Setter Property="Width" Value="100" />

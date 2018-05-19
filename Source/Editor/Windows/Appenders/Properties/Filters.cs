@@ -34,7 +34,10 @@ namespace Editor.Windows.Appenders.Properties
                 FilterDescriptor.LevelMatch,
                 FilterDescriptor.LevelRange,
                 FilterDescriptor.LoggerMatch,
-                FilterDescriptor.String
+                FilterDescriptor.String,
+                FilterDescriptor.Mdc,
+                FilterDescriptor.Ndc,
+                FilterDescriptor.Property
             };
 
             ExistingFilters = new ObservableCollection<FilterModel>();
@@ -76,7 +79,7 @@ namespace Editor.Windows.Appenders.Properties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            Window filterWindow = null;
+            Window filterWindow;
 
             switch (filterModel.Descriptor.Type)
             {
@@ -90,10 +93,9 @@ namespace Editor.Windows.Appenders.Properties
                     filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.Mdc:
-                    break;
                 case FilterType.Ndc:
-                    break;
                 case FilterType.Property:
+                    filterWindow = new PropertyFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.String:
                     filterWindow = new StringMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
@@ -102,7 +104,7 @@ namespace Editor.Windows.Appenders.Properties
                     throw new ArgumentOutOfRangeException();
             }
 
-            filterWindow?.ShowDialog();
+            filterWindow.ShowDialog();
         }
 
         private void Add(FilterModel filterModel)

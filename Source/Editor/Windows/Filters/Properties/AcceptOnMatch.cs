@@ -33,7 +33,7 @@ namespace Editor.Windows.Filters.Properties
         {
             if (!Accept)
             {
-                xmlDoc.CreateElementWithValueAttribute(AcceptOnMatchName, "false");
+                xmlDoc.CreateElementWithValueAttribute(AcceptOnMatchName, "false").AppendTo(newNode);
             }
         }
     }
