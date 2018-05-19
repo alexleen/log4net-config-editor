@@ -38,7 +38,7 @@ namespace Editor.Windows.Appenders
         {
             private readonly Grid mGrid;
 
-            public GridRowManager(Grid grid, ObservableCollection<IAppenderProperty> rows)
+            public GridRowManager(Grid grid, INotifyCollectionChanged rows)
             {
                 mGrid = grid;
                 rows.CollectionChanged += RowsOnCollectionChanged;
