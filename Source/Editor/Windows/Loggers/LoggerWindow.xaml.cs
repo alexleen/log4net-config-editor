@@ -15,6 +15,7 @@ namespace Editor.Windows.Loggers
     /// </summary>
     public partial class LoggerWindow
     {
+        private const string LevelName = "level";
         private readonly XmlDocument mConfigXml;
         private readonly XmlNode mLog4NetNode;
         private readonly XmlNode mRootLoggerNode;
@@ -38,7 +39,7 @@ namespace Editor.Windows.Loggers
         {
             if (mChangeType == ChangeType.Edit)
             {
-                string level = mRootLoggerNode["level"]?.Attributes["value"].Value;
+                string level = mRootLoggerNode.GetValueAttributeValueFromChildElement(LevelName);
 
                 if (!string.IsNullOrEmpty(level))
                 {
@@ -65,7 +66,7 @@ namespace Editor.Windows.Loggers
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
             XmlNode rootLoggerNode = mChangeType == ChangeType.Add ? mRootLoggerNode : mConfigXml.CreateElement("root");
-            mConfigXml.CreateElementWithAttribute("level", "value", (string)xLevelsComboBox.SelectedItem).AppendTo(rootLoggerNode);
+            mConfigXml.CreateElementWithValueAttribute(LevelName, (string)xLevelsComboBox.SelectedItem).AppendTo(rootLoggerNode);
 
             //xRefsListBox.ItemsSource can be null if we're adding a new logger or there are no referenced appenders
             if (xRefsListBox.ItemsSource != null)

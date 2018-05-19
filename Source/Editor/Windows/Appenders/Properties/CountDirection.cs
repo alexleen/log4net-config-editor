@@ -38,7 +38,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (SelectedDirection == Higher)
             {
-                xmlDoc.CreateElementWithAttribute(CountDirectionName, "value", 0.ToString()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(CountDirectionName, 0.ToString()).AppendTo(newAppenderNode);
             }
         }
     }

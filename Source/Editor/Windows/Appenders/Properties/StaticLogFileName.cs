@@ -32,7 +32,7 @@ namespace Editor.Windows.Appenders.Properties
             //Default is off - only save if on
             if (Value)
             {
-                xmlDoc.CreateElementWithAttribute(StaticLogFileNameName, "value", Value.ToString().ToLower()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(StaticLogFileNameName, Value.ToString().ToLower()).AppendTo(newAppenderNode);
             }
         }
     }

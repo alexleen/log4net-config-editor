@@ -46,7 +46,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (Value != DefaultBufferSize)
             {
-                xmlDoc.CreateElementWithAttribute(BufferSizeName, "value", Value).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(BufferSizeName, Value).AppendTo(newAppenderNode);
             }
         }
     }

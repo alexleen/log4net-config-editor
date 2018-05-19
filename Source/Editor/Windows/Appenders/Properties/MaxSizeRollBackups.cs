@@ -35,7 +35,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
         {
-            xmlDoc.CreateElementWithAttribute(MaxSizeRollBackupsName, "value", Value).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(MaxSizeRollBackupsName, Value).AppendTo(newAppenderNode);
         }
     }
 }

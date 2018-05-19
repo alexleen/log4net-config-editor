@@ -61,6 +61,11 @@ namespace Editor.Utilities
             return element;
         }
 
+        public static XmlElement CreateElementWithValueAttribute(this XmlDocument xmlDoc, string elementName, string attributeValue)
+        {
+            return xmlDoc.CreateElementWithAttribute(elementName, "value", attributeValue);
+        }
+
         public static XmlElement CreateElementWithAttributes(this XmlDocument xmlDoc, string elementName, IEnumerable<(string Name, string Value)> attributes)
         {
             XmlElement element = xmlDoc.CreateElement(elementName);

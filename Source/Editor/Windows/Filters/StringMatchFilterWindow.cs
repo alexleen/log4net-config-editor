@@ -10,6 +10,8 @@ namespace Editor.Windows.Filters
 {
     public class StringMatchFilterWindow : FilterWindowBase
     {
+        private const string StringMatchName = "stringToMatch";
+
         public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
@@ -28,8 +30,7 @@ namespace Editor.Windows.Filters
 
         protected override void Load(XmlNode filterNode)
         {
-            string value = filterNode.SelectSingleNode("stringToMatch")?.Attributes?["value"]?.Value;
-            xStringToMatchTextBox.Text = value;
+            xStringToMatchTextBox.Text = filterNode.GetValueAttributeValueFromChildElement(StringMatchName);
         }
 
         protected override bool TryValidateInputs()
@@ -45,7 +46,7 @@ namespace Editor.Windows.Filters
 
         protected override void Save(XmlDocument configXml, XmlNode filterNode)
         {
-            XmlElement stringToMatchElement = configXml.CreateElementWithAttribute("stringToMatch", "value", xStringToMatchTextBox.Text);
+            XmlElement stringToMatchElement = configXml.CreateElementWithValueAttribute(StringMatchName, xStringToMatchTextBox.Text);
             XmlUtilities.AddOrUpdate(filterNode, stringToMatchElement);
         }
     }
