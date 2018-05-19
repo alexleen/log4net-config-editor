@@ -16,6 +16,7 @@ namespace Editor.Windows.Filters
     /// </summary>
     public abstract partial class FilterWindowBase : Window
     {
+        protected const int TextBoxWindowMinWidth = 350;
         private readonly FilterModel mFilterModel;
         private readonly XmlNode mAppenderNode;
         private readonly XmlDocument mConfigXml;

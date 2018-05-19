@@ -13,6 +13,10 @@ namespace Editor.Windows.Filters
         public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
+            ResizeMode = ResizeMode.CanResize;
+            MinWidth = TextBoxWindowMinWidth;
+            MinHeight = 147;
+            MaxHeight = 147;
         }
 
         protected override void AddAppropriateProperties()

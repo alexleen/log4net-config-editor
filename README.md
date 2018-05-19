@@ -42,8 +42,8 @@ Currently under construction. log4net configuration files can be quite large and
 | LevelRangeFilter  |     ✓     |                                       |
 | LoggerMatchFilter |     ✓     |                                       |
 | MdcFilter         |           | Deprecated in favor of PropertyFilter |
-| NdcFilter         |           | Deprecated in favor of PropertyFilter  |
-| PropertyFilter    |           |                                       |
+| NdcFilter         |           | Deprecated in favor of PropertyFilter |
+| PropertyFilter    |     ✓     |                                       |
 | StringMatchFilter |     ✓     |                                       |
 #### Layouts
 | Layout                  | Supported |

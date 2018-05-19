@@ -13,6 +13,10 @@ namespace Editor.Windows.Filters
         public PropertyFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
+            ResizeMode = ResizeMode.CanResize;
+            MinWidth = TextBoxWindowMinWidth;
+            MinHeight = 173;
+            MaxHeight = 173;
         }
 
         protected override void AddAppropriateProperties()
