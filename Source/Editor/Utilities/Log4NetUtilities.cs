@@ -5,7 +5,7 @@ using log4net.Core;
 
 namespace Editor.Utilities
 {
-    public class Log4NetUtilities
+    public static class Log4NetUtilities
     {
         public static readonly IReadOnlyDictionary<string, Level> LevelsByName = new Dictionary<string, Level>
         {
@@ -27,5 +27,29 @@ namespace Editor.Utilities
             { Level.Emergency.Name, Level.Emergency },
             { Level.Off.Name, Level.Off }
         };
+
+        /// <summary>
+        /// Attempts to match the specified level with an official log4net level.
+        /// Protects against null or empty strings. Converts to upper case in an attempt to match.
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryParseLevel(string level, out string result)
+        {
+            if (!string.IsNullOrEmpty(level))
+            {
+                string levelUpper = level.ToUpper();
+
+                if (LevelsByName.TryGetValue(levelUpper, out Level levelMatch))
+                {
+                    result = levelMatch.Name;
+                    return true;
+                }
+            }
+
+            result = null;
+            return false;
+        }
     }
 }

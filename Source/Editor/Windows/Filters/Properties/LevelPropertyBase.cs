@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
@@ -18,6 +17,14 @@ namespace Editor.Windows.Filters.Properties
             Name = name;
             Levels = prependEmpty ? new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys) : Log4NetUtilities.LevelsByName.Keys;
             SelectedLevel = Levels.First();
+        }
+
+        protected void TryLoadSelectedLevel(string level)
+        {
+            if (Log4NetUtilities.TryParseLevel(level, out string match))
+            {
+                SelectedLevel = match;
+            }
         }
 
         public string Name { get; }

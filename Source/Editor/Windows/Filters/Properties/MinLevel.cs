@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
@@ -20,7 +19,7 @@ namespace Editor.Windows.Filters.Properties
 
         public override void Load(XmlNode originalNode)
         {
-            SelectedLevel = originalNode.GetValueAttributeValueFromChildElement(LevelMinName);
+            TryLoadSelectedLevel(originalNode.GetValueAttributeValueFromChildElement(LevelMinName));
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
