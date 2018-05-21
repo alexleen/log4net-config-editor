@@ -5,15 +5,16 @@ using System.Windows;
 using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class Refs : AppenderPropertyBase
+    public class Refs : PropertyBase
     {
         private readonly XmlNode mLog4NetNode;
         private readonly Name mNameProperty;
 
-        public Refs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IAppenderProperty> container)
+        public Refs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IProperty> container)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
             mLog4NetNode = log4NetNode;
@@ -26,7 +27,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public ObservableCollection<LoggerModel> RefsCollection { get; set; }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
             //This will only be called if there's an original appender node, which means there's probably an appender name
             //Refresh to hopefully pick up refs that are using the newly loaded name which was not available at construction time
@@ -57,7 +58,7 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             foreach (LoggerModel loggerModel in RefsCollection)
             {

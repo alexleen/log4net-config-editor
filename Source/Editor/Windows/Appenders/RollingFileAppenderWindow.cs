@@ -5,6 +5,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 using log4net.Appender;
 
 namespace Editor.Windows.Appenders
@@ -55,7 +56,7 @@ namespace Editor.Windows.Appenders
             }
         }
 
-        private void AddRemoveBasedOnMode(RollingFileAppender.RollingMode selectedMode, int index, IAppenderProperty appenderProperty)
+        private void AddRemoveBasedOnMode(RollingFileAppender.RollingMode selectedMode, int index, IProperty appenderProperty)
         {
             if (selectedMode == RollingFileAppender.RollingMode.Composite ||
                 selectedMode == RollingFileAppender.RollingMode.Date)

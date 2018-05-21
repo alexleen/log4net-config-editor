@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -11,15 +12,15 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string MaxSizeRollBackupsName = "maxSizeRollBackups";
 
-        public MaxSizeRollBackups(ObservableCollection<IAppenderProperty> container)
+        public MaxSizeRollBackups(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Max Size Roll Backups:")
         {
             ToolTip = "The maximum number of backup files that are kept before the oldest is erased.";
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalAppenderNode.GetValueAttributeValueFromChildElement(MaxSizeRollBackupsName));
+            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(MaxSizeRollBackupsName));
         }
 
         public override bool TryValidate()
@@ -33,9 +34,9 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(MaxSizeRollBackupsName, Value).AppendTo(newAppenderNode);
+            xmlDoc.CreateElementWithValueAttribute(MaxSizeRollBackupsName, Value).AppendTo(newNode);
         }
     }
 }

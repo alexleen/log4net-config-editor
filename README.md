@@ -1,4 +1,6 @@
 # log4net-config-editor
+[![Build status](https://ci.appveyor.com/api/projects/status/boirqfr14whjdmlr/branch/master?svg=true)](https://ci.appveyor.com/project/alexleen/log4net-config-editor/branch/master)
+
 A WPF GUI for editing log4net configuration files. Can edit log4net configurations saved as XML (\*.xml) or saved inside other appication configuration files (\*.config).
 
 ![](https://github.com/atown-24/log4net-config-editor/blob/master/gifs/demo.gif?raw=true)
@@ -42,8 +44,8 @@ Currently under construction. log4net configuration files can be quite large and
 | LevelRangeFilter  |     ✓     |                                       |
 | LoggerMatchFilter |     ✓     |                                       |
 | MdcFilter         |           | Deprecated in favor of PropertyFilter |
-| NdcFilter         |           | Deprecated in favor of PropertyFilter  |
-| PropertyFilter    |           |                                       |
+| NdcFilter         |           | Deprecated in favor of PropertyFilter |
+| PropertyFilter    |     ✓     |                                       |
 | StringMatchFilter |     ✓     |                                       |
 #### Layouts
 | Layout                  | Supported |

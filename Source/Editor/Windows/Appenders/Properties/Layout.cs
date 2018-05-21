@@ -6,17 +6,18 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class Layout : AppenderPropertyBase
+    public class Layout : PropertyBase
     {
         private const string SimplePattern = "%level - %message%newline";
         private const string LayoutName = "layout";
         private const string ConversionPatternName = "conversionPattern";
         private string mOriginalPattern;
 
-        public Layout(ObservableCollection<IAppenderProperty> container)
+        public Layout(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             Layouts = new[]
@@ -73,15 +74,15 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            string layoutType = originalAppenderNode[LayoutName]?.Attributes["type"]?.Value;
+            string layoutType = originalNode[LayoutName]?.Attributes["type"]?.Value;
             if (LayoutDescriptor.TryFindByTypeNamespace(layoutType, out LayoutDescriptor descriptor))
             {
                 SelectedLayout = descriptor;
             }
 
-            string pattern = originalAppenderNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
+            string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
 
             if (!string.IsNullOrEmpty(pattern))
             {
@@ -101,7 +102,7 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             XmlNode layoutNode = xmlDoc.CreateElementWithAttribute(LayoutName, "type", SelectedLayout.TypeNamespace);
 
@@ -110,7 +111,7 @@ namespace Editor.Windows.Appenders.Properties
                 xmlDoc.CreateElementWithValueAttribute(ConversionPatternName, Pattern).AppendTo(layoutNode);
             }
 
-            newAppenderNode.AppendChild(layoutNode);
+            newNode.AppendChild(layoutNode);
         }
     }
 }

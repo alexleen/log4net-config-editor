@@ -4,50 +4,42 @@ using System;
 using System.Windows;
 using System.Xml;
 using Editor.Models;
-using Editor.Utilities;
+using Editor.Windows.Filters.Properties;
 
 namespace Editor.Windows.Filters
 {
     public class StringMatchFilterWindow : FilterWindowBase
     {
-        private const string StringMatchName = "stringToMatch";
+        private readonly StringMatch mStringMatch;
+        private readonly RegexMatch mRegexMatch;
 
-        public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+        public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add, bool isFocused = true)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
-            xStringToMatchTextBox.Focus();
+            ResizeMode = ResizeMode.CanResize;
+            MinWidth = TextBoxWindowMinWidth;
+            MinHeight = 147;
+            MaxHeight = 147;
+            mStringMatch = new StringMatch(FilterProperties, Validate) { IsFocused = isFocused };
+            mRegexMatch = new RegexMatch(FilterProperties, Validate);
         }
 
-        protected override void Configure()
+        protected override void AddAppropriateProperties()
         {
-            GridLength zeroGridLength = new GridLength(0);
-            xLoggerToMatchRow.Height = zeroGridLength;
-            xLevelToMatchRow.Height = zeroGridLength;
-            xMinLevelRow.Height = zeroGridLength;
-            xMaxLevelRow.Height = zeroGridLength;
-            xRegexToMatchRow.Height = zeroGridLength;
+            FilterProperties.Add(mStringMatch);
+            FilterProperties.Add(mRegexMatch);
+            FilterProperties.Add(new AcceptOnMatch(FilterProperties));
         }
 
-        protected override void Load(XmlNode filterNode)
+        private bool Validate()
         {
-            xStringToMatchTextBox.Text = filterNode.GetValueAttributeValueFromChildElement(StringMatchName);
-        }
-
-        protected override bool TryValidateInputs()
-        {
-            if (string.IsNullOrEmpty(xStringToMatchTextBox.Text))
+            if (string.IsNullOrEmpty(mStringMatch.Value) && string.IsNullOrEmpty(mRegexMatch.Value))
             {
-                MessageBox.Show(this, "'String to Match' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Either 'String to Match' or 'Regex to Match' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
             return true;
-        }
-
-        protected override void Save(XmlDocument configXml, XmlNode filterNode)
-        {
-            XmlElement stringToMatchElement = configXml.CreateElementWithValueAttribute(StringMatchName, xStringToMatchTextBox.Text);
-            XmlUtilities.AddOrUpdate(filterNode, stringToMatchElement);
         }
     }
 }

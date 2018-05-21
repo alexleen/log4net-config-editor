@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -12,14 +13,14 @@ namespace Editor.Windows.Appenders.Properties
         private const string DefaultBufferSize = "1000";
         private const string BufferSizeName = "bufferSize";
 
-        public BufferSize(ObservableCollection<IAppenderProperty> container)
+        public BufferSize(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Buffer Size:")
         {
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            string bufferSizeStr = originalAppenderNode.GetValueAttributeValueFromChildElement(BufferSizeName);
+            string bufferSizeStr = originalNode.GetValueAttributeValueFromChildElement(BufferSizeName);
 
             if (int.TryParse(bufferSizeStr, out int _))
             {
@@ -42,11 +43,11 @@ namespace Editor.Windows.Appenders.Properties
             return base.TryValidate();
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (Value != DefaultBufferSize)
             {
-                xmlDoc.CreateElementWithValueAttribute(BufferSizeName, Value).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(BufferSizeName, Value).AppendTo(newNode);
             }
         }
     }

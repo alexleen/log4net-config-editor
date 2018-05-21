@@ -8,6 +8,7 @@ using System.Xml;
 using Editor.Descriptors;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders
 {
@@ -31,7 +32,7 @@ namespace Editor.Windows.Appenders
         /// </summary>
         protected readonly XmlNode NewAppenderNode;
 
-        public ObservableCollection<IAppenderProperty> AppenderProperties { get; }
+        public ObservableCollection<IProperty> AppenderProperties { get; }
 
         protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
             : base("AppenderWindowPlacement")
@@ -44,7 +45,7 @@ namespace Editor.Windows.Appenders
             Log4NetNode = log4NetNode ?? throw new ArgumentNullException(nameof(log4NetNode));
             OriginalAppenderNode = appenderNode;
             NewAppenderNode = ConfigXml.CreateElement("appender");
-            AppenderProperties = new ObservableCollection<IAppenderProperty>();
+            AppenderProperties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
         }
 
@@ -79,7 +80,7 @@ namespace Editor.Windows.Appenders
             //TODO add this as a property?
             NewAppenderNode.AppendAttribute(ConfigXml, "type", Descriptor.TypeNamespace);
 
-            foreach (IAppenderProperty appenderProperty in AppenderProperties)
+            foreach (IProperty appenderProperty in AppenderProperties)
             {
                 appenderProperty.Save(ConfigXml, NewAppenderNode);
             }

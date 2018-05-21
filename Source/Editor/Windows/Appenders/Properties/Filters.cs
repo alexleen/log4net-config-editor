@@ -11,16 +11,17 @@ using Editor.Enums;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.Filters;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class Filters : AppenderPropertyBase
+    public class Filters : PropertyBase
     {
         private readonly Window mOwner;
         private readonly XmlDocument mXmlDoc;
         private readonly XmlNode mAppenderNode;
 
-        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IAppenderProperty> container)
+        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IProperty> container)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
             mOwner = owner;
@@ -33,7 +34,10 @@ namespace Editor.Windows.Appenders.Properties
                 FilterDescriptor.LevelMatch,
                 FilterDescriptor.LevelRange,
                 FilterDescriptor.LoggerMatch,
-                FilterDescriptor.String
+                FilterDescriptor.String,
+                FilterDescriptor.Mdc,
+                FilterDescriptor.Ndc,
+                FilterDescriptor.Property
             };
 
             ExistingFilters = new ObservableCollection<FilterModel>();
@@ -75,7 +79,7 @@ namespace Editor.Windows.Appenders.Properties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            Window filterWindow = null;
+            Window filterWindow;
 
             switch (filterModel.Descriptor.Type)
             {
@@ -89,10 +93,9 @@ namespace Editor.Windows.Appenders.Properties
                     filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.Mdc:
-                    break;
                 case FilterType.Ndc:
-                    break;
                 case FilterType.Property:
+                    filterWindow = new PropertyFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.String:
                     filterWindow = new StringMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
@@ -101,7 +104,7 @@ namespace Editor.Windows.Appenders.Properties
                     throw new ArgumentOutOfRangeException();
             }
 
-            filterWindow?.ShowDialog();
+            filterWindow.ShowDialog();
         }
 
         private void Add(FilterModel filterModel)
@@ -128,9 +131,9 @@ namespace Editor.Windows.Appenders.Properties
             ExistingFilters.Move(oldIndex, newIndex);
         }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            XmlNodeList filterNodes = originalAppenderNode.SelectNodes("filter");
+            XmlNodeList filterNodes = originalNode.SelectNodes("filter");
 
             if (filterNodes == null)
             {
@@ -146,11 +149,11 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             foreach (FilterModel filter in ExistingFilters)
             {
-                newAppenderNode.AppendChild(filter.Node);
+                newNode.AppendChild(filter.Node);
             }
         }
     }

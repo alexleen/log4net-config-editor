@@ -5,16 +5,17 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
+using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class CountDirection : AppenderPropertyBase
+    public class CountDirection : PropertyBase
     {
         private const string Lower = "Lower";
         private const string Higher = "Higher";
         private const string CountDirectionName = "countDirection";
 
-        public CountDirection(ObservableCollection<IAppenderProperty> container)
+        public CountDirection(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             Directions = new[] { Lower, Higher };
@@ -25,20 +26,20 @@ namespace Editor.Windows.Appenders.Properties
 
         public string SelectedDirection { get; set; }
 
-        public override void Load(XmlNode originalAppenderNode)
+        public override void Load(XmlNode originalNode)
         {
-            string valueStr = originalAppenderNode.GetValueAttributeValueFromChildElement(CountDirectionName);
+            string valueStr = originalNode.GetValueAttributeValueFromChildElement(CountDirectionName);
             if (!string.IsNullOrEmpty(valueStr) && int.TryParse(valueStr, out int value))
             {
                 SelectedDirection = value >= 0 ? Higher : Lower;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newAppenderNode)
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (SelectedDirection == Higher)
             {
-                xmlDoc.CreateElementWithValueAttribute(CountDirectionName, 0.ToString()).AppendTo(newAppenderNode);
+                xmlDoc.CreateElementWithValueAttribute(CountDirectionName, 0.ToString()).AppendTo(newNode);
             }
         }
     }
