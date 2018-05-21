@@ -13,14 +13,14 @@ namespace Editor.Windows.Filters
         private readonly StringMatch mStringMatch;
         private readonly RegexMatch mRegexMatch;
 
-        public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+        public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add, bool isFocused = true)
             : base(owner, filterModel, appenderNode, configXml, add)
         {
             ResizeMode = ResizeMode.CanResize;
             MinWidth = TextBoxWindowMinWidth;
             MinHeight = 147;
             MaxHeight = 147;
-            mStringMatch = new StringMatch(FilterProperties, Validate) { IsFocused = true };
+            mStringMatch = new StringMatch(FilterProperties, Validate) { IsFocused = isFocused };
             mRegexMatch = new RegexMatch(FilterProperties, Validate);
         }
 
