@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSizeTest.cs" />
