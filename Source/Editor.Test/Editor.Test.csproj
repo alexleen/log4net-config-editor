@@ -61,6 +61,7 @@
     <Compile Include="Windows\Appenders\Properties\ApplicationNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSizeTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\CountDirectionTest.cs" />
     <Compile Include="Windows\Appenders\Properties\LogNameTest.cs" />
   </ItemGroup>
   <ItemGroup>
