@@ -27,7 +27,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (string.IsNullOrEmpty(Value))
             {
-                MessageBox.Show("A valid date pattern must be assigned.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("A valid date pattern must be assigned.");
                 return false;
             }
 
