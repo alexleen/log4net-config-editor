@@ -25,7 +25,7 @@ namespace Editor.Windows.Filters.Properties
             SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(RegexToMatchName));
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             return mValidate();
         }

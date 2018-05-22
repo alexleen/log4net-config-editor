@@ -20,15 +20,15 @@ namespace Editor.Windows.Appenders.Properties
             SetValueIfNotNullOrEmpty(originalNode.SelectSingleNode("param[@name='ApplicationName']")?.Attributes?["value"]?.Value);
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             if (string.IsNullOrEmpty(Value))
             {
-                MessageBox.Show("An application name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("An application name must be assigned to this appender.");
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

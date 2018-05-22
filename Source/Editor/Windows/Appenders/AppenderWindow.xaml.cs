@@ -7,7 +7,6 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders
@@ -15,7 +14,7 @@ namespace Editor.Windows.Appenders
     /// <summary>
     /// Interaction logic for AddFileAppenderWindow.xaml
     /// </summary>
-    public abstract partial class AppenderWindow
+    public abstract partial class AppenderWindow : IMessageBoxService
     {
         protected readonly XmlDocument ConfigXml;
         protected readonly XmlNode Log4NetNode;
@@ -72,7 +71,7 @@ namespace Editor.Windows.Appenders
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (AppenderProperties.Any(prop => !prop.TryValidate()))
+            if (AppenderProperties.Any(prop => !prop.TryValidate(this)))
             {
                 return;
             }
@@ -102,6 +101,11 @@ namespace Editor.Windows.Appenders
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        public void ShowError(string message)
+        {
+            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

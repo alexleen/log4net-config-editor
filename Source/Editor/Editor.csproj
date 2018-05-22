@@ -132,6 +132,7 @@
     <Compile Include="Windows\Filters\Properties\StringMatch.cs" />
     <Compile Include="Windows\Filters\PropertyFilterWindow.cs" />
     <Compile Include="Windows\Filters\StringMatchFilterWindow.cs" />
+    <Compile Include="Windows\IMessageBoxService.cs" />
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>

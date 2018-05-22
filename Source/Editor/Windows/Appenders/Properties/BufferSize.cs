@@ -32,15 +32,15 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             if (!int.TryParse(Value, out int _))
             {
-                MessageBox.Show("Buffer size must be a valid integer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("Buffer size must be a valid integer.");
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
