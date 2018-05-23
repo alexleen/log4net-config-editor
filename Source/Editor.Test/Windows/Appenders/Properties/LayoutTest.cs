@@ -224,7 +224,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.Save(xmlDoc, appender);
 
-            Assert.IsNull(appender[LayoutName]["conversionPattern"]);
+            Assert.IsNull(appender[LayoutName][ConversionPatternName]);
         }
 
         [Test]
@@ -237,8 +237,8 @@ namespace Editor.Test.Windows.Appenders.Properties
             mSut.Pattern = "%date{HH:mm:ss:fff} %message%newline";
             mSut.Save(xmlDoc, appender);
 
-            Assert.IsNotNull(appender[LayoutName]["conversionPattern"]);
-            Assert.AreEqual(mSut.Pattern, appender[LayoutName]["conversionPattern"].Attributes["value"].Value);
+            Assert.IsNotNull(appender[LayoutName][ConversionPatternName]);
+            Assert.AreEqual(mSut.Pattern, appender[LayoutName][ConversionPatternName].Attributes["value"].Value);
         }
     }
 }
