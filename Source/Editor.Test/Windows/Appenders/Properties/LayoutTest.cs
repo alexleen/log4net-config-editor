@@ -1,10 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Windows;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.Appenders.Properties.PatternManager;
 using Editor.Windows.PropertyCommon;
 using NSubstitute;
 using NUnit.Framework;
@@ -18,17 +20,31 @@ namespace Editor.Test.Windows.Appenders.Properties
         private const string LayoutName = "layout";
         private const string ConversionPatternName = "conversionPattern";
         private Layout mSut;
+        private IHistoricalPatternManager mHistoricalPatternManager;
 
         [SetUp]
         public void SetUp()
         {
-            mSut = new Layout(new ObservableCollection<IProperty>());
+            mHistoricalPatternManager = Substitute.For<IHistoricalPatternManager>();
+            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoricalPatternManager);
         }
 
         [Test]
         public void Ctor_ShouldInitLayoutsCorrectly()
         {
             CollectionAssert.AreEquivalent(new[] { LayoutDescriptor.Simple, LayoutDescriptor.Pattern }, mSut.Layouts);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitHistoricalLayoutsCorrectly()
+        {
+            IEnumerable<string> historicalLayouts = new[] { "layout1", "layout2" };
+
+            mHistoricalPatternManager.GetPatterns().Returns(historicalLayouts);
+
+            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoricalPatternManager);
+
+            CollectionAssert.AreEquivalent(historicalLayouts, mSut.HistoricalLayouts);
         }
 
         [Test]
@@ -239,6 +255,42 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             Assert.IsNotNull(appender[LayoutName][ConversionPatternName]);
             Assert.AreEqual(mSut.Pattern, appender[LayoutName][ConversionPatternName].Attributes["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldSavePattern_WhenNotEqualToOriginal()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "    <layout type=\"log4net.Layout.PatternLayout\">\r\n" +
+                           "      <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                           "    </layout>\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            mSut.Pattern = "%message%newline";
+
+            mSut.Save(xmlDoc, xmlDoc.CreateElement("appender"));
+
+            mHistoricalPatternManager.Received(1).SavePattern(mSut.Pattern);
+        }
+
+        [Test]
+        public void Save_ShouldNotSavePattern_WhenEqualToOriginal()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "    <layout type=\"log4net.Layout.PatternLayout\">\r\n" +
+                           "      <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                           "    </layout>\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            mSut.Save(xmlDoc, xmlDoc.CreateElement("appender"));
+
+            mHistoricalPatternManager.DidNotReceive().SavePattern(Arg.Any<string>());
         }
     }
 }
