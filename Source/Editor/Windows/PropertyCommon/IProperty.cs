@@ -30,8 +30,9 @@ namespace Editor.Windows.PropertyCommon
         /// Validates property values. Will display a message box to the user describing any issues.
         /// Returns true if successfully validated. False otherwise.
         /// </summary>
+        /// <param name="messageBoxService"></param>
         /// <returns></returns>
-        bool TryValidate();
+        bool TryValidate(IMessageBoxService messageBoxService);
 
         /// <summary>
         /// Saves this property to the specified appender node.

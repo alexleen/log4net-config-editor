@@ -25,7 +25,7 @@ namespace Editor.Windows.Appenders.Properties
             SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(MaximumFileSizeName));
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             string trimmed = Value.Trim();
             if (!(trimmed.EndsWith("KB") || trimmed.EndsWith("MB") || trimmed.EndsWith("GB")))
@@ -34,7 +34,7 @@ namespace Editor.Windows.Appenders.Properties
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

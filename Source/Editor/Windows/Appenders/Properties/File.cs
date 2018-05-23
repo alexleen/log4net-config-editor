@@ -84,7 +84,7 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             if (string.IsNullOrEmpty(FilePath))
             {
@@ -92,7 +92,7 @@ namespace Editor.Windows.Appenders.Properties
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

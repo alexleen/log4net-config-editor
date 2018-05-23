@@ -28,8 +28,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalNode)
         {
-            string valueStr = originalNode.GetValueAttributeValueFromChildElement(CountDirectionName);
-            if (!string.IsNullOrEmpty(valueStr) && int.TryParse(valueStr, out int value))
+            if (int.TryParse(originalNode.GetValueAttributeValueFromChildElement(CountDirectionName), out int value))
             {
                 SelectedDirection = value >= 0 ? Higher : Lower;
             }

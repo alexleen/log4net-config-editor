@@ -23,15 +23,15 @@ namespace Editor.Windows.Appenders.Properties
             SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(DatePatternName));
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             if (string.IsNullOrEmpty(Value))
             {
-                MessageBox.Show("A valid date pattern must be assigned.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("A valid date pattern must be assigned.");
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

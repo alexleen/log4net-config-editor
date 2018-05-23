@@ -23,7 +23,7 @@ namespace Editor.Windows.Filters.Properties
             SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(LoggerMatchName));
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             if (string.IsNullOrEmpty(Value))
             {
@@ -31,7 +31,7 @@ namespace Editor.Windows.Filters.Properties
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

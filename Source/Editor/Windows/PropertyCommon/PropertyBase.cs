@@ -31,7 +31,7 @@ namespace Editor.Windows.PropertyCommon
 
         public abstract void Load(XmlNode originalNode);
 
-        public virtual bool TryValidate()
+        public virtual bool TryValidate(IMessageBoxService messageBoxService)
         {
             return true;
         }

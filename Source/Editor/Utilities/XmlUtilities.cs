@@ -27,26 +27,6 @@ namespace Editor.Utilities
             }
         }
 
-        /// <summary>
-        /// Adds the specified child node to the specified parent node if the child node does not already exist.
-        /// If the child node already exists, it's attributes are replaced by the specified child's.
-        /// </summary>
-        /// <param name="parentNode"></param>
-        /// <param name="childNode"></param>
-        public static void AddOrUpdate(XmlNode parentNode, XmlNode childNode)
-        {
-            XmlNode childMatch = parentNode.SelectSingleNode(childNode.Name);
-
-            if (childMatch == null)
-            {
-                parentNode.AppendChild(childNode);
-            }
-            else
-            {
-                parentNode.ReplaceChild(childNode, childMatch);
-            }
-        }
-
         public static void AppendAttribute(this XmlNode element, XmlDocument xmlDoc, string name, string value)
         {
             XmlAttribute attr = xmlDoc.CreateAttribute(name);

@@ -21,7 +21,7 @@ namespace Editor.Windows.Appenders.Properties
             SetValueIfNotNullOrEmpty(originalNode.Attributes?["name"]?.Value);
         }
 
-        public override bool TryValidate()
+        public override bool TryValidate(IMessageBoxService messageBoxService)
         {
             //TODO name uniqueness
             if (string.IsNullOrEmpty(Value))
@@ -30,7 +30,7 @@ namespace Editor.Windows.Appenders.Properties
                 return false;
             }
 
-            return base.TryValidate();
+            return base.TryValidate(messageBoxService);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

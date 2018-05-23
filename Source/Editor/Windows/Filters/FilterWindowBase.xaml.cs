@@ -14,7 +14,7 @@ namespace Editor.Windows.Filters
     /// <summary>
     /// Interaction logic for FilterWindow.xaml
     /// </summary>
-    public abstract partial class FilterWindowBase : Window
+    public abstract partial class FilterWindowBase : IMessageBoxService
     {
         protected const int TextBoxWindowMinWidth = 350;
         private readonly FilterModel mFilterModel;
@@ -58,7 +58,7 @@ namespace Editor.Windows.Filters
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (FilterProperties.Any(prop => !prop.TryValidate()))
+            if (FilterProperties.Any(prop => !prop.TryValidate(this)))
             {
                 return;
             }
@@ -85,6 +85,11 @@ namespace Editor.Windows.Filters
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        public void ShowError(string message)
+        {
+            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
