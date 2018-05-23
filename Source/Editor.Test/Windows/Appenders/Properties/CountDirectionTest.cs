@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Xml;
 using Editor.Utilities;
 using Editor.Windows.Appenders.Properties;
@@ -27,9 +26,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [Test]
         public void Ctor_ShouldInitDirectionsCorrectly()
         {
-            Assert.AreEqual(2, mSut.Directions.Count());
-            CollectionAssert.Contains(mSut.Directions, Lower);
-            CollectionAssert.Contains(mSut.Directions, Higher);
+            CollectionAssert.AreEquivalent(new[] { Lower, Higher }, mSut.Directions);
         }
 
         [Test]

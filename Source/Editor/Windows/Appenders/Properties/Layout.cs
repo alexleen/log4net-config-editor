@@ -76,18 +76,17 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalNode)
         {
-            string layoutType = originalNode[LayoutName]?.Attributes["type"]?.Value;
-            if (LayoutDescriptor.TryFindByTypeNamespace(layoutType, out LayoutDescriptor descriptor))
+            if (LayoutDescriptor.TryFindByTypeNamespace(originalNode[LayoutName]?.Attributes["type"]?.Value, out LayoutDescriptor descriptor))
             {
                 SelectedLayout = descriptor;
-            }
 
-            string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
+                string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
 
-            if (!string.IsNullOrEmpty(pattern))
-            {
-                Pattern = pattern;
-                mOriginalPattern = pattern;
+                if (!string.IsNullOrEmpty(pattern))
+                {
+                    Pattern = pattern;
+                    mOriginalPattern = pattern;
+                }
             }
         }
 
@@ -95,7 +94,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (string.IsNullOrEmpty(Pattern))
             {
-                MessageBox.Show("A pattern must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("A pattern must be assigned to this appender.");
                 return false;
             }
 
