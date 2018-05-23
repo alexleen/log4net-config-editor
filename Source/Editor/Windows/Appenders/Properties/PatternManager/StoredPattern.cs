@@ -45,6 +45,7 @@ namespace Editor.Windows.Appenders.Properties.PatternManager
 
         public override int GetHashCode()
         {
+            // ReSharper disable once NonReadonlyMemberInGetHashCode - unfortunately, .NET serialization requires serializable properties to be public get and set
             return Pattern.GetHashCode();
         }
     }
