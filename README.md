@@ -3,7 +3,7 @@
 
 A WPF GUI for editing log4net configuration files. This tool can edit log4net configurations saved as XML (\*.xml) or saved inside other appication configuration files (\*.config). Features include:
 
-- An intuituive user interface
+- An intuitive user interface
 - Data validation
 - Contextual help
 - Links to log4net documentation
