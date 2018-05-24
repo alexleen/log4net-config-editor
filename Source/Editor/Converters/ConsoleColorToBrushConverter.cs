@@ -11,7 +11,7 @@ namespace Editor.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SolidColorBrush brush = Brushes.Black;
+            SolidColorBrush brush = Brushes.Transparent;
 
             if (value is ConsoleColor consoleColor)
             {

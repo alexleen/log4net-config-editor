@@ -38,7 +38,7 @@
     </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button>Add</Button>
+            <Button Click="SaveOnClick">Save</Button>
             <Button Click="CloseOnClick">Close</Button>
         </StackPanel>
         <Grid>

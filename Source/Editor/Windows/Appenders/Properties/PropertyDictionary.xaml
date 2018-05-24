@@ -228,18 +228,48 @@
                 <Button DockPanel.Dock="Right" Width="85" Command="{Binding Add}" VerticalAlignment="Top" Margin="5,0,5,5">Add</Button>
                 <DataGrid ItemsSource="{Binding Mappings}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
                     <DataGrid.Resources>
-                        <Converters:FilterTypeToBoolConverter x:Key="Fttbc"/>
+                        <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
+                        <Converters:ConsoleColorToStringConverter x:Key="Cctsc"/>
+                        
+                        <Style TargetType="Label">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Level" />
-                        <DataGridTextColumn Header="Foreground" />
-                        <DataGridTextColumn Header="Background" />
+                        <DataGridTemplateColumn Header="Level">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <Label Content="{Binding Level}" Margin="5,0,0,0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Foreground">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <StackPanel Orientation="Horizontal" Margin="5,0">
+                                        <Border BorderBrush="{Binding ForeColor, Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
+                                        <Label Content="{Binding ForeColor, Converter={StaticResource Cctsc}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Background">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <StackPanel Orientation="Horizontal" Margin="5,0">
+                                        <Border BorderBrush="{Binding BackColor, Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
+                                        <Label Content="{Binding BackColor, Converter={StaticResource Cctsc}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Options">
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="{x:Type Models:FilterModel}">
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
-                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Remove}">Remove</Button>
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}">Edit</Button>
+                                        <Button Width="50" Margin="5" Command="{Binding Remove}">Remove</Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -318,7 +348,7 @@
                                         <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
                                         <Button Width="50" Margin="5,5,0,5" Command="{Binding Remove}">Remove</Button>
                                         <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveUp}">↑</Button>
-                                        <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveDown}">↓</Button>
+                                        <Button Width="25" Margin="5" Command="{Binding MoveDown}">↓</Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
