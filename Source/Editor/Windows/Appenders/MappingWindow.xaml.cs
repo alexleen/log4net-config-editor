@@ -43,6 +43,12 @@ namespace Editor.Windows.Appenders
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
+            if (xForegroundComboBox.SelectedItem == null && xBackgroundComboBox.SelectedItem == null)
+            {
+                MessageBox.Show(this, "At least one mapping must be defined.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             mOnAdd(new MappingModel(Log4NetUtilities.LevelsByName[(string)xLevelComboBox.SelectedItem],
                                     (ConsoleColor?)xForegroundComboBox.SelectedItem,
                                     (ConsoleColor?)xBackgroundComboBox.SelectedItem,

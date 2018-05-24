@@ -1,6 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -13,6 +13,11 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Mapping : PropertyBase
     {
+        private const string MappingName = "mapping";
+        private const string LevelName = "level";
+        private const string ForeColorName = "foreColor";
+        private const string BackColorName = "backColor";
+
         private readonly Window mOwner;
 
         public Mapping(Window owner, ObservableCollection<IProperty> container)
@@ -45,16 +50,56 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalNode)
         {
-        }
+            //TODO why //?
+            XmlNodeList mappings = originalNode.SelectNodes("//mapping");
 
-        public override bool TryValidate(IMessageBoxService messageBoxService)
-        {
-            //Either foreground or background must be selected
-            return base.TryValidate(messageBoxService);
+            foreach (XmlNode mappingNode in mappings)
+            {
+                string level = mappingNode.GetValueAttributeValueFromChildElement(LevelName);
+                string foreColor = mappingNode.GetValueAttributeValueFromChildElement(ForeColorName);
+                string backColor = mappingNode.GetValueAttributeValueFromChildElement(BackColorName);
+
+                //TODO use TryParseLevel
+                if (string.IsNullOrEmpty(level) || !Log4NetUtilities.LevelsByName.ContainsKey(level))
+                {
+                    continue;
+                }
+
+                ConsoleColor? foreColorEnum = null;
+                if (Enum.TryParse(foreColor, out ConsoleColor foreParsed))
+                {
+                    foreColorEnum = foreParsed;
+                }
+
+                ConsoleColor? backColorEnum = null;
+                if (Enum.TryParse(backColor, out ConsoleColor backParsed))
+                {
+                    backColorEnum = backParsed;
+                }
+
+                Mappings.Add(new MappingModel(Log4NetUtilities.LevelsByName[level], foreColorEnum, backColorEnum, OnRemove));
+            }
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
+            foreach (MappingModel mappingModel in Mappings)
+            {
+                XmlElement mappingElement = xmlDoc.CreateElement(MappingName);
+                xmlDoc.CreateElementWithValueAttribute(LevelName, mappingModel.Level.Name).AppendTo(mappingElement);
+
+                if (mappingModel.ForeColor != null)
+                {
+                    xmlDoc.CreateElementWithValueAttribute(ForeColorName, mappingModel.ForeColor.ToString()).AppendTo(mappingElement);
+                }
+
+                if (mappingModel.BackColor != null)
+                {
+                    xmlDoc.CreateElementWithValueAttribute(BackColorName, mappingModel.BackColor.ToString()).AppendTo(mappingElement);
+                }
+
+                mappingElement.AppendTo(newNode);
+            }
         }
     }
 }
