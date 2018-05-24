@@ -31,7 +31,6 @@ namespace Editor.Windows.Appenders
 
         protected virtual void AddOtherFileAppenderProperties()
         {
-
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.File;

@@ -75,6 +75,7 @@
     <Compile Include="Models\ChildModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\MappingModel.cs" />
     <Compile Include="Models\RefModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -96,6 +97,7 @@
     <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\ManagedColoredConsoleAppender.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
     <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Windows\Appenders\Properties\Layout.cs" />
     <Compile Include="Windows\Appenders\Properties\LockingModel.cs" />
     <Compile Include="Windows\Appenders\Properties\LogName.cs" />
+    <Compile Include="Windows\Appenders\Properties\Mapping.cs" />
     <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
