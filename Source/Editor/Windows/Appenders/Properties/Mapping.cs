@@ -8,6 +8,7 @@ using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
+using log4net.Core;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -59,8 +60,7 @@ namespace Editor.Windows.Appenders.Properties
                 string foreColor = mappingNode.GetValueAttributeValueFromChildElement(ForeColorName);
                 string backColor = mappingNode.GetValueAttributeValueFromChildElement(BackColorName);
 
-                //TODO use TryParseLevel
-                if (string.IsNullOrEmpty(level) || !Log4NetUtilities.LevelsByName.ContainsKey(level))
+                if (string.IsNullOrEmpty(level) || !Log4NetUtilities.TryParseLevel(level, out Level parsedLevel))
                 {
                     continue;
                 }
@@ -77,7 +77,7 @@ namespace Editor.Windows.Appenders.Properties
                     backColorEnum = backParsed;
                 }
 
-                Mappings.Add(new MappingModel(Log4NetUtilities.LevelsByName[level], foreColorEnum, backColorEnum, OnRemove));
+                Mappings.Add(new MappingModel(parsedLevel, foreColorEnum, backColorEnum, OnRemove));
             }
         }
 

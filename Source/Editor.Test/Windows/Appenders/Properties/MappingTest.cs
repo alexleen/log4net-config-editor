@@ -39,7 +39,7 @@ namespace Editor.Test.Windows.Appenders.Properties
                            " <foreColor value=\"Yellow\" />\r\n" +
                            "</mapping>\r\n" +
                            "<mapping>\r\n" +
-                           " <level value=\"INFO\" />\r\n" +
+                           " <level value=\"info\" />\r\n" +
                            " <backColor value=\"White\" />\r\n" +
                            "</mapping>\r\n" +
                            "<mapping>\r\n" +
