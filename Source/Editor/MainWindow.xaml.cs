@@ -37,7 +37,8 @@ namespace Editor
                 AppenderDescriptor.File,
                 AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
-                AppenderDescriptor.Async
+                AppenderDescriptor.Async,
+                AppenderDescriptor.ManagedColor
             };
 
             xAddLoggerButton.ItemsSource = new[]
@@ -245,6 +246,9 @@ namespace Editor
                     break;
                 case AppenderType.Async:
                     appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    break;
+                case AppenderType.ManagedColor:
+                    appenderWindow = new ManagedColoredConsoleAppender(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);

@@ -2,6 +2,7 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Windows.Appenders
 {
@@ -14,7 +15,7 @@ namespace Editor.Windows.Appenders
 
         protected override void AddOtherConsoleAppenderProperties()
         {
-            
+            AppenderProperties.Add(new Mapping(this, AppenderProperties));
         }
     }
 }

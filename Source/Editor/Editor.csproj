@@ -55,8 +55,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolInterverConverter.cs" />
+    <Compile Include="Converters\ConsoleColorToBrushConverter.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
+    <Compile Include="Converters\ConsoleColorToStringConverter.cs" />
     <Compile Include="Converters\RefSelectionConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
@@ -98,6 +100,9 @@
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\ManagedColoredConsoleAppender.cs" />
+    <Compile Include="Windows\Appenders\MappingWindow.xaml.cs">
+      <DependentUpon>MappingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
     <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
@@ -164,6 +169,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Appenders\MappingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Appenders\Properties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -219,6 +228,9 @@
     <Resource Include="Images\text-x-log.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fill-color.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
