@@ -236,7 +236,13 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBox Text="{Binding Pattern}" FontFamily="Consolas" VerticalContentAlignment="Center" ToolTip="Enter pattern here" IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}" />
+                <ComboBox IsEditable="True" 
+                          ItemsSource="{Binding HistoricalLayouts}"
+                          Text="{Binding Pattern}" 
+                          FontFamily="Consolas"
+                          Margin="0,0,5,0"
+                          ToolTip="Enter pattern here" 
+                          IsEnabled="{Binding SelectedLayout, Converter={StaticResource Ltec}}" />
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
                     See 
                     <Hyperlink x:Name="xLayoutHyperlink" 

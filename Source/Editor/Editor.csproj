@@ -103,12 +103,16 @@
     <Compile Include="Windows\Appenders\Properties\File.cs" />
     <Compile Include="Windows\Appenders\Properties\Filters.cs" />
     <Compile Include="Windows\Appenders\Properties\Fix.cs" />
+    <Compile Include="Windows\Appenders\Properties\PatternManager\HistoricalPatternManager.cs" />
+    <Compile Include="Windows\Appenders\Properties\PatternManager\IHistoricalPatternManager.cs" />
     <Compile Include="Windows\Appenders\Properties\Layout.cs" />
     <Compile Include="Windows\Appenders\Properties\LockingModel.cs" />
     <Compile Include="Windows\Appenders\Properties\LogName.cs" />
     <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
+    <Compile Include="Windows\Appenders\Properties\PatternManager\PatternsXml.cs" />
+    <Compile Include="Windows\Appenders\Properties\PatternManager\StoredPattern.cs" />
     <Compile Include="Windows\Appenders\Properties\PreserveExtension.cs" />
     <Compile Include="Windows\Appenders\Properties\Refs.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />

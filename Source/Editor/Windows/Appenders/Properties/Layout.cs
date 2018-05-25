@@ -6,30 +6,38 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Utilities;
+using Editor.Windows.Appenders.Properties.PatternManager;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
     public class Layout : PropertyBase
     {
+        private readonly IHistoricalPatternManager mHistoricalPatternManager;
         private const string SimplePattern = "%level - %message%newline";
         private const string LayoutName = "layout";
         private const string ConversionPatternName = "conversionPattern";
         private string mOriginalPattern;
 
-        public Layout(ObservableCollection<IProperty> container)
+        public Layout(ObservableCollection<IProperty> container, IHistoricalPatternManager historicalPatternManager)
             : base(container, GridLength.Auto)
         {
+            mHistoricalPatternManager = historicalPatternManager;
+
             Layouts = new[]
             {
                 LayoutDescriptor.Simple,
                 LayoutDescriptor.Pattern
             };
 
+            HistoricalLayouts = mHistoricalPatternManager.GetPatterns();
+
             SelectedLayout = LayoutDescriptor.Simple;
         }
 
         public IEnumerable<LayoutDescriptor> Layouts { get; }
+
+        public IEnumerable<string> HistoricalLayouts { get; }
 
         private LayoutDescriptor mSelectedLayout;
 
@@ -111,6 +119,11 @@ namespace Editor.Windows.Appenders.Properties
             }
 
             newNode.AppendChild(layoutNode);
+
+            if (Pattern != mOriginalPattern)
+            {
+                mHistoricalPatternManager.SavePattern(Pattern);
+            }
         }
     }
 }
