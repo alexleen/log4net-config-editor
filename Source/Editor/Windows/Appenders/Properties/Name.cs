@@ -10,24 +10,38 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Name : StringValueProperty
     {
-        public Name(ObservableCollection<IProperty> container)
+        private readonly XmlNode mLog4NetNode;
+        private const string NameName = "name";
+
+        public Name(ObservableCollection<IProperty> container, XmlNode log4NetNode)
             : base(container, GridLength.Auto, "Name:")
         {
+            mLog4NetNode = log4NetNode;
             IsFocused = true;
         }
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes?["name"]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes?[NameName]?.Value);
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
         {
-            //TODO name uniqueness
             if (string.IsNullOrEmpty(Value))
             {
-                MessageBox.Show("A name must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("A name must be assigned to this appender.");
                 return false;
+            }
+
+            XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
+
+            foreach (XmlNode appender in appenderList)
+            {
+                if (appender.Attributes?[NameName].Value == Value)
+                {
+                    messageBoxService.ShowError("Name must be unique.");
+                    return false;
+                }
             }
 
             return base.TryValidate(messageBoxService);
@@ -35,7 +49,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newNode.AppendAttribute(xmlDoc, "name", Value);
+            newNode.AppendAttribute(xmlDoc, NameName, Value);
         }
     }
 }
