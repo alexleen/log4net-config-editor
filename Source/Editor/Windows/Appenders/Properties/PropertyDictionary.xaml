@@ -240,7 +240,7 @@
                         <DataGridTemplateColumn Header="Level">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type Models:MappingModel}">
-                                    <Label Content="{Binding Level}" Margin="5,0,0,0"/>
+                                    <Label Content="{Binding Level}" Margin="5,0"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

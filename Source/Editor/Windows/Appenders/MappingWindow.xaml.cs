@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using Editor.Models;
 using Editor.Utilities;
+using log4net.Core;
 
 namespace Editor.Windows.Appenders
 {
@@ -14,14 +15,8 @@ namespace Editor.Windows.Appenders
     /// </summary>
     public partial class MappingWindow
     {
-        //private readonly MappingModel mMappingModel;
-        private readonly Action<MappingModel> mOnAdd;
-        private readonly Action<MappingModel> mOnRemove;
-
-        public MappingWindow(Action<MappingModel> onAdd, Action<MappingModel> onRemove)
+        public MappingWindow()
         {
-            mOnAdd = onAdd;
-            mOnRemove = onRemove;
             InitializeComponent();
 
             xLevelComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
@@ -32,14 +27,13 @@ namespace Editor.Windows.Appenders
             xBackgroundComboBox.ItemsSource = consoleColors;
         }
 
-        //public MappingWindow(MappingModel mappingModel)
-        //    : this(null)
-        //{
-        //    mMappingModel = mappingModel;
-        //    xLevelComboBox.SelectedItem = mappingModel.Level.Name;
-        //    xForegroundComboBox.SelectedItem = mappingModel.ForeColor;
-        //    xBackgroundComboBox.SelectedItem = mappingModel.BackColor;
-        //}
+        public MappingWindow(MappingModel mappingModelToEdit)
+            : this()
+        {
+            xLevelComboBox.SelectedItem = mappingModelToEdit.Level.Name;
+            xForegroundComboBox.SelectedItem = mappingModelToEdit.ForeColor;
+            xBackgroundComboBox.SelectedItem = mappingModelToEdit.BackColor;
+        }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
@@ -49,12 +43,17 @@ namespace Editor.Windows.Appenders
                 return;
             }
 
-            mOnAdd(new MappingModel(Log4NetUtilities.LevelsByName[(string)xLevelComboBox.SelectedItem],
-                                    (ConsoleColor?)xForegroundComboBox.SelectedItem,
-                                    (ConsoleColor?)xBackgroundComboBox.SelectedItem,
-                                    mOnRemove));
+            Result = (Log4NetUtilities.LevelsByName[(string)xLevelComboBox.SelectedItem],
+                (ConsoleColor?)xForegroundComboBox.SelectedItem,
+                (ConsoleColor?)xBackgroundComboBox.SelectedItem);
+
             Close();
         }
+
+        /// <summary>
+        /// User chosen values. Will be null if Save was not clicked.
+        /// </summary>
+        public (Level Level, ConsoleColor? ForeColor, ConsoleColor? BackColor) Result { get; private set; }
 
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {

@@ -50,9 +50,9 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             IEnumerable<MappingModel> expectedMappings = new[]
             {
-                new MappingModel(Level.Error, ConsoleColor.DarkRed, ConsoleColor.White, null),
-                new MappingModel(Level.Warn, ConsoleColor.Yellow, null, null),
-                new MappingModel(Level.Info, null, ConsoleColor.White, null)
+                new MappingModel(null, Level.Error, ConsoleColor.DarkRed, ConsoleColor.White, null, null),
+                new MappingModel(null, Level.Warn, ConsoleColor.Yellow, null, null, null),
+                new MappingModel(null, Level.Info, null, ConsoleColor.White, null, null)
             };
 
             mSut.Load(xmlDoc.FirstChild);
@@ -63,9 +63,9 @@ namespace Editor.Test.Windows.Appenders.Properties
         [Test]
         public void Save_ShouldSaveEachMappingCorrectly()
         {
-            mSut.Mappings.Add(new MappingModel(Level.All, ConsoleColor.Black, ConsoleColor.Blue, null));
-            mSut.Mappings.Add(new MappingModel(Level.Notice, ConsoleColor.Red, null, null));
-            mSut.Mappings.Add(new MappingModel(Level.Emergency, null, ConsoleColor.Blue, null));
+            mSut.Mappings.Add(new MappingModel(null, Level.All, ConsoleColor.Black, ConsoleColor.Blue, null, null));
+            mSut.Mappings.Add(new MappingModel(null, Level.Notice, ConsoleColor.Red, null, null, null));
+            mSut.Mappings.Add(new MappingModel(null, Level.Emergency, null, ConsoleColor.Blue, null, null));
 
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");

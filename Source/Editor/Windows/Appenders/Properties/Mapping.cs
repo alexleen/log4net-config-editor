@@ -35,13 +35,20 @@ namespace Editor.Windows.Appenders.Properties
 
         private void ShowMappingWindowForAdd()
         {
-            MappingWindow mappingWindow = new MappingWindow(OnAdd, OnRemove) { Owner = mOwner };
+            MappingWindow mappingWindow = new MappingWindow { Owner = mOwner };
             mappingWindow.ShowDialog();
+
+            if (!mappingWindow.Result.Equals(default))
+            {
+                Mappings.Add(new MappingModel(mOwner, mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, OnRemove, OnReplace));
+            }
         }
 
-        private void OnAdd(MappingModel mappingModel)
+        private void OnReplace(MappingModel oldModel, MappingModel newModel)
         {
-            Mappings.Add(mappingModel);
+            int index = Mappings.IndexOf(oldModel);
+            Mappings.RemoveAt(index);
+            Mappings.Insert(index, newModel);
         }
 
         private void OnRemove(MappingModel mappingModel)
@@ -77,7 +84,7 @@ namespace Editor.Windows.Appenders.Properties
                     backColorEnum = backParsed;
                 }
 
-                Mappings.Add(new MappingModel(parsedLevel, foreColorEnum, backColorEnum, OnRemove));
+                Mappings.Add(new MappingModel(mOwner, parsedLevel, foreColorEnum, backColorEnum, OnRemove, OnReplace));
             }
         }
 

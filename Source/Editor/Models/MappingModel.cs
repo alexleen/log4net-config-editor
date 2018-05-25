@@ -1,19 +1,25 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 using Editor.Utilities;
+using Editor.Windows.Appenders;
 using log4net.Core;
 
 namespace Editor.Models
 {
     public class MappingModel : IEquatable<MappingModel>
     {
+        private readonly Window mOwner;
         private readonly Action<MappingModel> mRemove;
+        private readonly Action<MappingModel, MappingModel> mReplace;
 
-        public MappingModel(Level level, ConsoleColor? foreColor, ConsoleColor? backColor, Action<MappingModel> remove)
+        public MappingModel(Window owner, Level level, ConsoleColor? foreColor, ConsoleColor? backColor, Action<MappingModel> remove, Action<MappingModel, MappingModel> replace)
         {
+            mOwner = owner;
             mRemove = remove;
+            mReplace = replace;
             Level = level;
             ForeColor = foreColor;
             BackColor = backColor;
@@ -33,6 +39,13 @@ namespace Editor.Models
 
         private void EditFilterOnClick()
         {
+            MappingWindow mappingWindow = new MappingWindow(this) { Owner = mOwner };
+            mappingWindow.ShowDialog();
+
+            if (!mappingWindow.Result.Equals(default))
+            {
+                mReplace(this, new MappingModel(mOwner, mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, mRemove, mReplace));
+            }
         }
 
         private void RemoveFilterOnClick()
