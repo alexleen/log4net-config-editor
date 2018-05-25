@@ -4,6 +4,7 @@ using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.Appenders.Properties.PatternManager;
 
 namespace Editor.Windows.Appenders
 {
@@ -24,7 +25,7 @@ namespace Editor.Windows.Appenders
 
             AddOtherFileAppenderProperties();
 
-            AppenderProperties.Add(new Layout(AppenderProperties));
+            AppenderProperties.Add(new Layout(AppenderProperties, new HistoricalPatternManager()));
             AppenderProperties.Add(new Properties.Filters(this, ConfigXml, NewAppenderNode, AppenderProperties));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }

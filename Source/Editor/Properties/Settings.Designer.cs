@@ -70,5 +70,17 @@ namespace Editor.Properties {
                 this["LoggerWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HistoricalPatterns {
+            get {
+                return ((string)(this["HistoricalPatterns"]));
+            }
+            set {
+                this["HistoricalPatterns"] = value;
+            }
+        }
     }
 }
