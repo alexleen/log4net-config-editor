@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
+    <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="Models\AppenderModel.cs" />
     <Compile Include="Enums\AppenderType.cs" />
     <Compile Include="Descriptors\FilterDescriptor.cs" />

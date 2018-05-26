@@ -3,6 +3,7 @@
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Windows.Appenders
@@ -20,7 +21,7 @@ namespace Editor.Windows.Appenders
             Name nameProperty = new Name(AppenderProperties);
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new Target(AppenderProperties));
-            AppenderProperties.Add(new Layout(AppenderProperties, new HistoryManager.HistoryManager("HistoricalPatterns")));
+            AppenderProperties.Add(new Layout(AppenderProperties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
             AppenderProperties.Add(new Properties.Filters(this, ConfigXml, NewAppenderNode, AppenderProperties));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }
