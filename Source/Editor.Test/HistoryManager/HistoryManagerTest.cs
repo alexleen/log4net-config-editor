@@ -25,13 +25,13 @@ namespace Editor.Test.HistoryManager
         }
 
         [Test]
-        public void Get_ShouldReturnEmpty_WhenNoPatternsExist()
+        public void Get_ShouldReturnEmpty_WhenNoValuesExist()
         {
             CollectionAssert.IsEmpty(mSut.Get());
         }
 
         [Test]
-        public void Get_ShouldReturnCorrectPattern()
+        public void Get_ShouldReturnCorrectValue()
         {
             mSettingManager.Get(mSettingName).Returns("<History xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n" +
                                                       "  <HistoricalValue LastUsage=\"2018-05-26T02:54:42.0346884Z\">%message</HistoricalValue>\n" +
@@ -42,7 +42,7 @@ namespace Editor.Test.HistoryManager
         }
 
         [Test]
-        public void Get_ShouldReturnOrderedPatterns()
+        public void Get_ShouldReturnOrderedValues()
         {
             mSettingManager.Get(mSettingName).Returns("<History xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n" +
                                                       "  <HistoricalValue LastUsage=\"2018-05-23T18:22:01.1761448Z\">%message2</HistoricalValue>\n" +
@@ -58,7 +58,7 @@ namespace Editor.Test.HistoryManager
         }
 
         [Test]
-        public void Set_ShouldSet_WhenNoPatternsExist()
+        public void Set_ShouldSet_WhenNoValuesExist()
         {
             SetUpSettingsManager(null);
 
@@ -69,7 +69,7 @@ namespace Editor.Test.HistoryManager
         }
 
         [Test]
-        public void Set_ShouldAddPatternToExistingPatterns()
+        public void Set_ShouldAddValueToExistingValues()
         {
             SetUpSettingsManager("<History xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n" +
                                  "  <HistoricalValue LastUsage=\"2018-05-23T18:22:01.1761448Z\">%message2</HistoricalValue>\n" +
@@ -87,7 +87,7 @@ namespace Editor.Test.HistoryManager
         }
 
         [Test]
-        public void Set_ShouldOnlySaveMostRecentPatternsWithinLimit()
+        public void Set_ShouldOnlySaveMostRecentValuesWithinLimit()
         {
             SetUpSettingsManager("<History xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n" +
                                  "  <HistoricalValue LastUsage=\"2018-05-23T18:22:01.1761448Z\">%message2</HistoricalValue>\n" +
