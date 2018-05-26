@@ -5,24 +5,24 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties.PatternManager;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
     public class Layout : PropertyBase
     {
-        private readonly IHistoricalPatternManager mHistoricalPatternManager;
+        private readonly IHistoryManager mHistoryManager;
         private const string SimplePattern = "%level - %message%newline";
         private const string LayoutName = "layout";
         private const string ConversionPatternName = "conversionPattern";
         private string mOriginalPattern;
 
-        public Layout(ObservableCollection<IProperty> container, IHistoricalPatternManager historicalPatternManager)
+        public Layout(ObservableCollection<IProperty> container, IHistoryManager historyManager)
             : base(container, GridLength.Auto)
         {
-            mHistoricalPatternManager = historicalPatternManager;
+            mHistoryManager = historyManager;
 
             Layouts = new[]
             {
@@ -30,7 +30,7 @@ namespace Editor.Windows.Appenders.Properties
                 LayoutDescriptor.Pattern
             };
 
-            HistoricalLayouts = mHistoricalPatternManager.GetPatterns();
+            HistoricalLayouts = mHistoryManager.Get();
 
             SelectedLayout = LayoutDescriptor.Simple;
         }
@@ -122,7 +122,7 @@ namespace Editor.Windows.Appenders.Properties
 
             if (Pattern != mOriginalPattern)
             {
-                mHistoricalPatternManager.SavePattern(Pattern);
+                mHistoryManager.Save(Pattern);
             }
         }
     }
