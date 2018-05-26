@@ -33,9 +33,7 @@ namespace Editor.Windows.Appenders.Properties
                 return false;
             }
 
-            XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
-
-            foreach (XmlNode appender in appenderList)
+            foreach (XmlNode appender in mLog4NetNode.SelectNodes("appender"))
             {
                 if (appender.Attributes?[NameName].Value == Value)
                 {

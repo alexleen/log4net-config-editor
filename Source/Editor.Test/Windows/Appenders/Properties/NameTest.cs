@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.Xml;
+using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
@@ -14,11 +15,16 @@ namespace Editor.Test.Windows.Appenders.Properties
     public class NameTest
     {
         private Name mSut;
+        private XmlNode mLog4NetNode;
+        private XmlDocument mXmlDoc;
 
         [SetUp]
         public void SetUp()
         {
-            mSut = new Name(new ObservableCollection<IProperty>(), null);
+            mXmlDoc = new XmlDocument();
+            mLog4NetNode = mXmlDoc.CreateElement("log4net");
+
+            mSut = new Name(new ObservableCollection<IProperty>(), mLog4NetNode);
         }
 
         [Test]
@@ -76,21 +82,27 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
-        public void TryValidate_ShouldNotShowCollisionMessageBox_WhenNoAppenders()
-        {
-            Assert.Inconclusive();
-        }
-
-        [Test]
         public void TryValidate_ShouldNotShowCollisionMessageBox_WhenNoAppenderNamesCollide()
         {
-            Assert.Inconclusive();
+            mSut.Value = "appName";
+            mXmlDoc.CreateElementWithAttribute("appender", "name", "otherName").AppendTo(mLog4NetNode);
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsTrue(mSut.TryValidate(messageBoxService));
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
 
         [Test]
-        public void TryValidate_ShouldNotShowCollisionMessageBox_WhenAppenderNameCollides()
+        public void TryValidate_ShouldShowCollisionMessageBox_WhenAppenderNameCollides()
         {
-            Assert.Inconclusive();
+            mSut.Value = "appName";
+            mXmlDoc.CreateElementWithAttribute("appender", "name", mSut.Value).AppendTo(mLog4NetNode);
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsFalse(mSut.TryValidate(messageBoxService));
+            messageBoxService.Received(1).ShowError("Name must be unique.");
         }
 
         [Test]
