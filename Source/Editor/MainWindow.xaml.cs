@@ -81,6 +81,12 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// Save the specified file name to the set of historical configs.
+        /// Sets the config ComboBox's ItemsSource to the set of historical configs.
+        /// Sets the config ComboBox's to the specified filename.
+        /// </summary>
+        /// <param name="fileName"></param>
         private void RefreshConfigComboBox(string fileName)
         {
             mConfigHistoryManager.Save(fileName);
