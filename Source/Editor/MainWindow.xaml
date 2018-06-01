@@ -51,35 +51,75 @@
             <Button Margin="5,5,5,0" IsEnabled="false">Add Renderer</Button>
         </StackPanel>
 
-        <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">
+        <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0" SelectionMode="Single">
             <DataGrid.Resources>
                 <Converters:ReferencesToImageConverter x:Key="RefToImageConv"/>
+                <Converters:ChildTypeToVisibilityConverter x:Key="ChildTypeVisConv"/>
 
-                <Style TargetType="Button">
-                    <Setter Property="Width" Value="85" />
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="EditAppenderOnClick"/>
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
+                <DataGridTemplateColumn >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="RemoveAppenderOnClick">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Margin="5" Height="16" Width="16" Source="Images\edit-delete.png" ToolTip="Remove Element" Cursor="Hand">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="RenderTransform">
+                                                                <Setter.Value>
+                                                                    <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Element" Binding="{Binding ElementName}" />
                 <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}" />
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 <DataGridTemplateColumn Header="Refs">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="5,0,0,0" Height="16" Width="16" Source="{Binding IncomingReferences, Converter={StaticResource RefToImageConv}}"/>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource ChildTypeVisConv}}">
+                                <Image Margin="5,0" Height="16" Width="16" Source="{Binding IncomingReferences, Converter={StaticResource RefToImageConv}}"/>
                                 <Label Content="{Binding IncomingReferences}" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Options">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Margin="5,5,0,5" Click="EditAppenderOnClick">Edit</Button>
-                                <Button Margin="5,5,0,5" Click="RemoveAppenderOnClick">Remove</Button>
-                                <Button Margin="5,5,5,5" Click="RemoveRefsOnClick">Remove Refs</Button>
+                                <Button Click="RemoveRefsOnClick">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Image Margin="5,0" Height="16" Width="16" Source="Images\dialog-cancel.png" ToolTip="Remove Refs" Cursor="Hand">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="RenderTransform">
+                                                                    <Setter.Value>
+                                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

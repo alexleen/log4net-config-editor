@@ -222,7 +222,7 @@ namespace Editor
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            object dataContext = ((Button)sender).DataContext;
+            object dataContext = ((DataGridRow)sender).DataContext;
 
             if (dataContext is AppenderModel appenderModel)
             {
