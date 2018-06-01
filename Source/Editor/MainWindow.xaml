@@ -22,7 +22,7 @@
                 <Button Margin="0,5,5,5" Click="OpenOnClick">Open</Button>
                 <Button Margin="0,5,5,5" Click="ReloadOnClick">Reload</Button>
             </StackPanel>
-            <TextBox x:Name="xConfigTextBox"  Height="21" VerticalAlignment="Center" IsReadOnly="True" Margin="5"/>
+            <ComboBox x:Name="xConfigComboBox" Margin="5" SelectionChanged="ConfigComboBoxOnSelectionChanged" />
         </DockPanel>
 
         <Separator DockPanel.Dock="Top" Margin="5,0,5,5"/>

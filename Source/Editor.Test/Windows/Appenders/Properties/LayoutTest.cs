@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Windows;
 using Editor.Windows.Appenders.Properties;
-using Editor.Windows.Appenders.Properties.PatternManager;
 using Editor.Windows.PropertyCommon;
 using NSubstitute;
 using NUnit.Framework;
@@ -20,13 +20,13 @@ namespace Editor.Test.Windows.Appenders.Properties
         private const string LayoutName = "layout";
         private const string ConversionPatternName = "conversionPattern";
         private Layout mSut;
-        private IHistoricalPatternManager mHistoricalPatternManager;
+        private IHistoryManager mHistoryManager;
 
         [SetUp]
         public void SetUp()
         {
-            mHistoricalPatternManager = Substitute.For<IHistoricalPatternManager>();
-            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoricalPatternManager);
+            mHistoryManager = Substitute.For<IHistoryManager>();
+            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoryManager);
         }
 
         [Test]
@@ -40,9 +40,9 @@ namespace Editor.Test.Windows.Appenders.Properties
         {
             IEnumerable<string> historicalLayouts = new[] { "layout1", "layout2" };
 
-            mHistoricalPatternManager.GetPatterns().Returns(historicalLayouts);
+            mHistoryManager.Get().Returns(historicalLayouts);
 
-            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoricalPatternManager);
+            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoryManager);
 
             CollectionAssert.AreEquivalent(historicalLayouts, mSut.HistoricalLayouts);
         }
@@ -273,7 +273,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.Save(xmlDoc, xmlDoc.CreateElement("appender"));
 
-            mHistoricalPatternManager.Received(1).SavePattern(mSut.Pattern);
+            mHistoryManager.Received(1).Save(mSut.Pattern);
         }
 
         [Test]
@@ -290,7 +290,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.Save(xmlDoc, xmlDoc.CreateElement("appender"));
 
-            mHistoricalPatternManager.DidNotReceive().SavePattern(Arg.Any<string>());
+            mHistoryManager.DidNotReceive().Save(Arg.Any<string>());
         }
     }
 }

@@ -9,8 +9,8 @@ using System.Windows.Controls;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
+using Editor.HistoryManager;
 using Editor.Models;
-using Editor.Properties;
 using Editor.Utilities;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
@@ -25,11 +25,14 @@ namespace Editor
     {
         private XmlDocument mConfigXml;
         private XmlNode mLog4NetNode;
+        private readonly HistoryManager.HistoryManager mConfigHistoryManager;
 
         public MainWindow()
             : base("MainWindowPlacement")
         {
             InitializeComponent();
+
+            mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
 
             xAddAppenderButton.ItemsSource = new[]
             {
@@ -48,10 +51,21 @@ namespace Editor
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Settings.Default.LastConfig))
+            IEnumerable<string> configs = mConfigHistoryManager.Get();
+
+            if (configs.Any())
             {
-                LoadFromFile(Settings.Default.LastConfig);
+                string config = configs.First();
+                RefreshConfigComboBox(config);
+                LoadFromFile(config);
             }
+        }
+
+        private void ConfigComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedConfig = (string)xConfigComboBox.SelectedItem;
+            RefreshConfigComboBox(selectedConfig);
+            LoadFromFile(selectedConfig);
         }
 
         private void OpenOnClick(object sender, RoutedEventArgs e)
@@ -62,10 +76,22 @@ namespace Editor
 
             if (showDialog.Value)
             {
-                Settings.Default.LastConfig = ofd.FileName;
-                Settings.Default.Save();
+                RefreshConfigComboBox(ofd.FileName);
                 LoadFromFile(ofd.FileName);
             }
+        }
+
+        /// <summary>
+        /// Save the specified file name to the set of historical configs.
+        /// Sets the config ComboBox's ItemsSource to the set of historical configs.
+        /// Sets the config ComboBox's to the specified filename.
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void RefreshConfigComboBox(string fileName)
+        {
+            mConfigHistoryManager.Save(fileName);
+            xConfigComboBox.ItemsSource = mConfigHistoryManager.Get();
+            xConfigComboBox.SelectedItem = fileName;
         }
 
         private void ReloadOnClick(object sender, RoutedEventArgs e)
@@ -91,7 +117,7 @@ namespace Editor
 
         private void SaveToFile()
         {
-            using (XmlTextWriter xtw = new XmlTextWriter(Settings.Default.LastConfig, Encoding.UTF8) { Formatting = Formatting.Indented })
+            using (XmlTextWriter xtw = new XmlTextWriter((string)xConfigComboBox.SelectedItem, Encoding.UTF8) { Formatting = Formatting.Indented })
             {
                 mConfigXml.Save(xtw);
             }
@@ -99,13 +125,11 @@ namespace Editor
 
         private void ReloadFromFile()
         {
-            LoadFromFile(Settings.Default.LastConfig);
+            LoadFromFile((string)xConfigComboBox.SelectedItem);
         }
 
         private void LoadFromFile(string fileName)
         {
-            xConfigTextBox.Text = fileName;
-
             mConfigXml = new XmlDocument();
             mConfigXml.Load(fileName);
 

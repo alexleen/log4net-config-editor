@@ -3,8 +3,8 @@
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Windows.Appenders.Properties;
-using Editor.Windows.Appenders.Properties.PatternManager;
 
 namespace Editor.Windows.Appenders
 {
@@ -22,7 +22,7 @@ namespace Editor.Windows.Appenders
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new LogName(AppenderProperties));
             AppenderProperties.Add(new ApplicationName(AppenderProperties));
-            AppenderProperties.Add(new Layout(AppenderProperties, new HistoricalPatternManager()));
+            AppenderProperties.Add(new Layout(AppenderProperties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
             AppenderProperties.Add(new Properties.Filters(this, ConfigXml, NewAppenderNode, AppenderProperties));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }

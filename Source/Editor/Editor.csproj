@@ -66,6 +66,8 @@
     </Compile>
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
+    <Compile Include="HistoryManager\ISettingManager.cs" />
+    <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Models\AppenderModel.cs" />
     <Compile Include="Enums\AppenderType.cs" />
     <Compile Include="Descriptors\FilterDescriptor.cs" />
@@ -103,16 +105,16 @@
     <Compile Include="Windows\Appenders\Properties\File.cs" />
     <Compile Include="Windows\Appenders\Properties\Filters.cs" />
     <Compile Include="Windows\Appenders\Properties\Fix.cs" />
-    <Compile Include="Windows\Appenders\Properties\PatternManager\HistoricalPatternManager.cs" />
-    <Compile Include="Windows\Appenders\Properties\PatternManager\IHistoricalPatternManager.cs" />
+    <Compile Include="HistoryManager\HistoryManager.cs" />
+    <Compile Include="HistoryManager\IHistoryManager.cs" />
     <Compile Include="Windows\Appenders\Properties\Layout.cs" />
     <Compile Include="Windows\Appenders\Properties\LockingModel.cs" />
     <Compile Include="Windows\Appenders\Properties\LogName.cs" />
     <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
-    <Compile Include="Windows\Appenders\Properties\PatternManager\PatternsXml.cs" />
-    <Compile Include="Windows\Appenders\Properties\PatternManager\StoredPattern.cs" />
+    <Compile Include="HistoryManager\History.cs" />
+    <Compile Include="HistoryManager\HistoricalValue.cs" />
     <Compile Include="Windows\Appenders\Properties\PreserveExtension.cs" />
     <Compile Include="Windows\Appenders\Properties\Refs.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
