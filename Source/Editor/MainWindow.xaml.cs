@@ -199,13 +199,15 @@ namespace Editor
             return unrecognized;
         }
 
-        private static bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
+        private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
         {
             string type = appender.Attributes?["type"]?.Value;
 
             if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
-                appenderModel = new AppenderModel(descriptor, appender);
+                string name = appender.Attributes?["name"].Value;
+                int incomingReferences = mLog4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
+                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
                 return true;
             }
 
@@ -239,14 +241,31 @@ namespace Editor
 
             if (childModel is AppenderModel appenderModel)
             {
-                //Remove all appender refs
-                foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
-                {
-                    refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
-                }
+                RemoveRefsTo(appenderModel);
             }
 
             LoadFromRam();
+        }
+
+        private void RemoveRefsOnClick(object sender, RoutedEventArgs e)
+        {
+            ChildModel childModel = (ChildModel)((Button)sender).DataContext;
+
+            if (childModel is AppenderModel appenderModel)
+            {
+                RemoveRefsTo(appenderModel);
+            }
+
+            LoadFromRam();
+        }
+
+        private void RemoveRefsTo(AppenderModel appenderModel)
+        {
+            //Remove all appender refs
+            foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+            {
+                refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
+            }
         }
 
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode)

@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Editor="clr-namespace:Editor" 
         xmlns:Windows="clr-namespace:Editor.Windows"
-        mc:Ignorable="d"
+        xmlns:Converters="clr-namespace:Editor.Converters"
+         mc:Ignorable="d"
         Title="log4net Configuration Editor"
         MinHeight="360"
         MinWidth="640"
         Loaded="MainWindowOnLoaded"
         Icon="Images\configure.png">
-    <Windows:SizeRetentionWindow.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Width" Value="50" />
-        </Style>
-    </Windows:SizeRetentionWindow.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >
+            <DockPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="50" />
+                </Style>
+            </DockPanel.Resources>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                 <Button Margin="0,5,5,5" Click="OpenOnClick">Open</Button>
                 <Button Margin="0,5,5,5" Click="ReloadOnClick">Reload</Button>
@@ -29,7 +30,7 @@
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style TargetType="Button">
                     <Setter Property="Width" Value="85" />
                 </Style>
             </StackPanel.Resources>
@@ -40,19 +41,26 @@
 
         <StackPanel DockPanel.Dock="Right">
             <StackPanel.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style TargetType="Button">
                     <Setter Property="Width" Value="100" />
                 </Style>
             </StackPanel.Resources>
-            
+
             <Editor:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" Margin="5,0,5,0" ItemClick="AddAppenderItemOnClick"/>
 
             <Editor:DropDownButton x:Name="xAddLoggerButton" ButtonName="Add Logger" Margin="5,5,5,0" ItemClick="AddLoggerOnClick"/>
-            
+
             <Button Margin="5,5,5,0" IsEnabled="false">Add Renderer</Button>
         </StackPanel>
 
         <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">
+            <DataGrid.Resources>
+                <Converters:ReferencesToImageConverter x:Key="RefToImageConv"/>
+
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="85" />
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Element" Binding="{Binding ElementName}" />
                 <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}" />
@@ -62,7 +70,18 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button Margin="5,5,0,5" Click="EditAppenderOnClick">Edit</Button>
-                                <Button Margin="5,5,5,5" Click="RemoveAppenderOnClick">Remove</Button>
+                                <Button Margin="5,5,0,5" Click="RemoveAppenderOnClick">Remove</Button>
+                                <Button Margin="5,5,5,5" Click="RemoveRefsOnClick">Remove Refs</Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Refs">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="5,0,0,0" Height="16" Width="16" Source="{Binding IncomingReferences, Converter={StaticResource RefToImageConv}}"/>
+                                <Label Content="{Binding IncomingReferences}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
