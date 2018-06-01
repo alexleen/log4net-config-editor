@@ -17,14 +17,17 @@ namespace Editor.Test.Windows.Appenders.Properties
         private Name mSut;
         private XmlNode mLog4NetNode;
         private XmlDocument mXmlDoc;
+        private XmlNode mOriginalAppender;
 
         [SetUp]
         public void SetUp()
         {
             mXmlDoc = new XmlDocument();
             mLog4NetNode = mXmlDoc.CreateElement("log4net");
+            mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", "appName");
+            mOriginalAppender.AppendTo(mLog4NetNode);
 
-            mSut = new Name(new ObservableCollection<IProperty>(), mLog4NetNode);
+            mSut = new Name(new ObservableCollection<IProperty>(), mLog4NetNode, mOriginalAppender);
         }
 
         [Test]
@@ -86,6 +89,17 @@ namespace Editor.Test.Windows.Appenders.Properties
         {
             mSut.Value = "appName";
             mXmlDoc.CreateElementWithAttribute("appender", "name", "otherName").AppendTo(mLog4NetNode);
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsTrue(mSut.TryValidate(messageBoxService));
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+        }
+
+        [Test]
+        public void TryValidate_ShouldNotShowCollisionMessageBox_WhenAppenderNameCollides_ButIsSameAppender()
+        {
+            mSut.Load(mOriginalAppender);        
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
 
