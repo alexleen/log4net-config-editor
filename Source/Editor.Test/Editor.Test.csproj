@@ -65,6 +65,7 @@
     <Compile Include="Windows\Appenders\Properties\DatePatternTest.cs" />
     <Compile Include="Windows\Appenders\Properties\LayoutTest.cs" />
     <Compile Include="Windows\Appenders\Properties\LogNameTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\NameTest.cs" />
     <Compile Include="Windows\Appenders\Properties\PatternManager\HistoricalPatternManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>

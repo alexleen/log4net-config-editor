@@ -18,7 +18,7 @@ namespace Editor.Windows.Appenders
 
         protected override void AddAppropriateProperties()
         {
-            Name nameProperty = new Name(AppenderProperties);
+            Name nameProperty = new Name(AppenderProperties, Log4NetNode);
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new File(AppenderProperties));
             AppenderProperties.Add(new LockingModel(AppenderProperties));
