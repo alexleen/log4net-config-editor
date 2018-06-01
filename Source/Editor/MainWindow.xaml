@@ -10,7 +10,7 @@
         MinHeight="360"
         MinWidth="640"
         Loaded="MainWindowOnLoaded"
-        Icon="Images\configure.png">
+        Icon="document_edit.ico">
     <Windows:SizeRetentionWindow.Resources>
         <Style TargetType="Button">
             <Setter Property="Width" Value="50" />
