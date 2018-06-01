@@ -3,8 +3,8 @@
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Windows.Appenders.Properties;
-using Editor.Windows.Appenders.Properties.PatternManager;
 
 namespace Editor.Windows.Appenders
 {
@@ -18,13 +18,13 @@ namespace Editor.Windows.Appenders
 
         protected override void AddAppropriateProperties()
         {
-            Name nameProperty = new Name(AppenderProperties);
+            Name nameProperty = new Name(AppenderProperties, Log4NetNode);
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new Target(AppenderProperties));
 
             AddOtherConsoleAppenderProperties();
 
-            AppenderProperties.Add(new Layout(AppenderProperties, new HistoricalPatternManager()));
+            AppenderProperties.Add(new Layout(AppenderProperties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
             AppenderProperties.Add(new Properties.Filters(this, ConfigXml, NewAppenderNode, AppenderProperties));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }

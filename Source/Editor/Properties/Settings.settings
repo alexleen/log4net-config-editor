@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Editor.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="LastConfig" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="MainWindowPlacement" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -15,6 +12,9 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="HistoricalPatterns" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="HistoricalConfigs" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

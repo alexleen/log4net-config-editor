@@ -26,18 +26,6 @@ namespace Editor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastConfig {
-            get {
-                return ((string)(this["LastConfig"]));
-            }
-            set {
-                this["LastConfig"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MainWindowPlacement {
             get {
                 return ((string)(this["MainWindowPlacement"]));
@@ -80,6 +68,18 @@ namespace Editor.Properties {
             }
             set {
                 this["HistoricalPatterns"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HistoricalConfigs {
+            get {
+                return ((string)(this["HistoricalConfigs"]));
+            }
+            set {
+                this["HistoricalConfigs"] = value;
             }
         }
     }
