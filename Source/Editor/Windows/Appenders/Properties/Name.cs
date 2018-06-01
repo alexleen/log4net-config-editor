@@ -11,12 +11,14 @@ namespace Editor.Windows.Appenders.Properties
     public class Name : StringValueProperty
     {
         private readonly XmlNode mLog4NetNode;
+        private readonly XmlNode mOriginalAppender;
         private const string NameName = "name";
 
-        public Name(ObservableCollection<IProperty> container, XmlNode log4NetNode)
+        public Name(ObservableCollection<IProperty> container, XmlNode log4NetNode, XmlNode originalAppender)
             : base(container, GridLength.Auto, "Name:")
         {
             mLog4NetNode = log4NetNode;
+            mOriginalAppender = originalAppender;
             IsFocused = true;
         }
 
@@ -35,7 +37,7 @@ namespace Editor.Windows.Appenders.Properties
 
             foreach (XmlNode appender in mLog4NetNode.SelectNodes("appender"))
             {
-                if (appender.Attributes?[NameName].Value == Value)
+                if (!Equals(appender, mOriginalAppender) && appender.Attributes?[NameName].Value == Value)
                 {
                     messageBoxService.ShowError("Name must be unique.");
                     return false;
