@@ -27,6 +27,32 @@ namespace Editor.Utilities
             }
         }
 
+        public static void AddAppenderRefToNode(XmlDocument xmlDoc, XmlNode node, string appenderName)
+        {
+            XmlNodeList appenderRefs = node.SelectNodes($"appender-ref[@ref='{appenderName}']");
+
+            if (appenderRefs != null)
+            {
+                if (appenderRefs.Count == 1)
+                {
+                    //Only one - we're good
+                    return;
+                }
+
+                if (appenderRefs.Count >= 1)
+                {
+                    //More than one - remove all
+                    foreach (XmlNode appenderRef in appenderRefs)
+                    {
+                        node.RemoveChild(appenderRef);
+                    }
+                }
+            }
+
+            //Add
+            xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(node);
+        }
+
         public static void AppendAttribute(this XmlNode element, XmlDocument xmlDoc, string name, string value)
         {
             XmlAttribute attr = xmlDoc.CreateAttribute(name);

@@ -279,8 +279,7 @@ namespace Editor
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
-                //TODO extract add logic from Refs.cs (so that duplicates are not added)
-                mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderModel.Name).AppendTo(destination.Node);
+                XmlUtilities.AddAppenderRefToNode(mConfigXml, destination.Node, appenderModel.Name);
             }
 
             LoadFromRam();

@@ -37,6 +37,56 @@ namespace Editor.Test.Utilities
         }
 
         [Test]
+        public void AddAppenderRefToNode_ShouldSaveRef_WhenNoneExist()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement loggerElement = xmlDoc.CreateElement("logger");
+
+            const string appenderName = "appenderName";
+            XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerElement, appenderName);
+
+            XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{appenderName}']");
+
+            Assert.IsNotNull(appenderRefs);
+            Assert.AreEqual(1, appenderRefs.Count);
+        }
+
+        [Test]
+        public void AddAppenderRefToNode_ShouldNotDuplicateExistingRef()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement loggerElement = xmlDoc.CreateElement("logger");
+
+            const string appenderName = "appenderName";
+            xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement);
+
+            XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerElement, appenderName);
+
+            XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{appenderName}']");
+
+            Assert.IsNotNull(appenderRefs);
+            Assert.AreEqual(1, appenderRefs.Count);
+        }
+
+        [Test]
+        public void AddAppenderRefToNode_ShouldReduceRefCountToOne()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement loggerElement = xmlDoc.CreateElement("logger");
+
+            const string appenderName = "appenderName";
+            xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement);
+            xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement);
+
+            XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerElement, appenderName);
+
+            XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{appenderName}']");
+
+            Assert.IsNotNull(appenderRefs);
+            Assert.AreEqual(1, appenderRefs.Count);
+        }
+
+        [Test]
         public void AppendAttribute_ShouldAppendAttribute()
         {
             XmlDocument xmlDoc = new XmlDocument();
