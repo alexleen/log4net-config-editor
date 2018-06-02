@@ -55,6 +55,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolInterverConverter.cs" />
+    <Compile Include="Converters\ChildToNameConverter.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
@@ -234,12 +235,6 @@
     <Resource Include="Images\dialog-warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\edit-delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\dialog-cancel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

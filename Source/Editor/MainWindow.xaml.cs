@@ -196,6 +196,8 @@ namespace Editor
 
             xChildren.ItemsSource = children;
 
+            xAddRefsButton.ItemsSource = children;
+
             return unrecognized;
         }
 
@@ -236,12 +238,14 @@ namespace Editor
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            ChildModel childModel = (ChildModel)((Button)sender).DataContext;
-            mLog4NetNode.RemoveChild(childModel.Node);
-
-            if (childModel is AppenderModel appenderModel)
+            foreach (ChildModel childModel in xChildren.SelectedItems)
             {
-                RemoveRefsTo(appenderModel);
+                mLog4NetNode.RemoveChild(childModel.Node);
+
+                if (childModel is AppenderModel appenderModel)
+                {
+                    RemoveRefsTo(appenderModel);
+                }
             }
 
             LoadFromRam();
@@ -249,11 +253,12 @@ namespace Editor
 
         private void RemoveRefsOnClick(object sender, RoutedEventArgs e)
         {
-            ChildModel childModel = (ChildModel)((Button)sender).DataContext;
-
-            if (childModel is AppenderModel appenderModel)
+            foreach (ChildModel childModel in xChildren.SelectedItems)
             {
-                RemoveRefsTo(appenderModel);
+                if (childModel is AppenderModel appenderModel)
+                {
+                    RemoveRefsTo(appenderModel);
+                }
             }
 
             LoadFromRam();
@@ -266,6 +271,19 @@ namespace Editor
             {
                 refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
             }
+        }
+
+        private void AddRefsButtonOnItemClick(object obj)
+        {
+            ChildModel destination = (ChildModel)obj;
+
+            foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
+            {
+                //TODO extract add logic from Refs.cs (so that duplicates are not added)
+                mConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderModel.Name).AppendTo(destination.Node);
+            }
+
+            LoadFromRam();
         }
 
         private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode)
