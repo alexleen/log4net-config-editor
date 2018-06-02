@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;

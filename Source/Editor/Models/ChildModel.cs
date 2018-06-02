@@ -15,7 +15,5 @@ namespace Editor.Models
         public string ElementName { get; }
 
         public XmlNode Node { get; }
-
-        
     }
 }

@@ -1,12 +1,14 @@
-﻿using Editor.Models;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using Editor.Models;
 
 namespace Editor.Converters
 {
-    class ChildTypeToVisibilityConverter : IValueConverter
+    internal class ChildTypeToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright Â© 2018 Alex Leendertsen
 
 using System.Xml;
 using Editor.Descriptors;
@@ -13,7 +13,6 @@ namespace Editor.Models
             Descriptor = descriptor;
             Name = name;
             IncomingReferences = incomingReferences;
-            
         }
 
         public AppenderDescriptor Descriptor { get; }
