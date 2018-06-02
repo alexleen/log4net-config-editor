@@ -60,7 +60,6 @@
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\ReferencesToImageConverter.cs" />
-    <Compile Include="Converters\RefSelectionConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />

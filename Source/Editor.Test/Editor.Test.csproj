@@ -48,6 +48,10 @@
     <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\PresentationCore\v4.0_4.0.0.0__31bf3856ad364e35\PresentationCore.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -57,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolInterverConverterTest.cs" />
+    <Compile Include="Converters\LayoutToEnabledConverterTest.cs" />
+    <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
+    <Compile Include="Converters\ReferencesToImageConverterTest.cs" />
+    <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
+    <Compile Include="Converters\ChildToNameConverterTest.cs" />
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
