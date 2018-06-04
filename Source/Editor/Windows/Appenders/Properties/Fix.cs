@@ -34,10 +34,6 @@ namespace Editor.Windows.Appenders.Properties
             {
                 SelectedFix = (FixFlags)fixValueInt;
             }
-            else
-            {
-                SelectedFix = FixFlags.None;
-            }
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
