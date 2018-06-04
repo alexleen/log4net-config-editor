@@ -81,6 +81,7 @@
     <Compile Include="Windows\Appenders\Properties\LayoutTest.cs" />
     <Compile Include="Windows\Appenders\Properties\LogNameTest.cs" />
     <Compile Include="HistoryManager\HistoryManagerTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\MaximumFileSizeTest.cs" />
     <Compile Include="Windows\Appenders\Properties\NameTest.cs" />
     <Compile Include="Windows\Appenders\Properties\RefsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyleTest.cs" />

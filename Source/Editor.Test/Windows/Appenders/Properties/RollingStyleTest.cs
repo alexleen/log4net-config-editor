@@ -74,6 +74,19 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
+        public void Load_ShouldLoadMode()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender type=\"log4net.Appender.RollingFileAppender\" name=\"rolling\">\n" +
+                           "    <rollingStyle value=\"Date\" />\n" +
+                           "  </appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.AreEqual(RollingFileAppender.RollingMode.Date, mSut.SelectedMode);
+        }
+
+        [Test]
         public void Save_ShouldNotSave_WhenComposite()
         {
             XmlDocument xmlDoc = new XmlDocument();

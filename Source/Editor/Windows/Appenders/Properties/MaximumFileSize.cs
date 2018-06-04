@@ -30,7 +30,7 @@ namespace Editor.Windows.Appenders.Properties
             string trimmed = Value.Trim();
             if (!(trimmed.EndsWith("KB") || trimmed.EndsWith("MB") || trimmed.EndsWith("GB")))
             {
-                MessageBox.Show("Maximum file size must end with either \"KB\", \"MB\", or \"GB\".");
+                messageBoxService.ShowError("Maximum file size must end with either \"KB\", \"MB\", or \"GB\".");
                 return false;
             }
 
