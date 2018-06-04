@@ -20,7 +20,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
-        public void Preserver_ShouldBeFalseByDefault()
+        public void Preserve_ShouldBeFalseByDefault()
         {
             Assert.IsFalse(mSut.Preserve);
         }
