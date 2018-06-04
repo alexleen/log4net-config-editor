@@ -8,7 +8,7 @@
                              MinHeight="360"
                              MinWidth="640"
                              Loaded="MainWindowOnLoaded"
-                             Icon="Images\configure.png"
+                             Icon="document_edit.ico"
                              UseLayoutRounding="True">
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >
