@@ -24,11 +24,10 @@ namespace Editor.Windows.Filters
 
         public ObservableCollection<IProperty> FilterProperties { get; }
 
-        protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+        protected FilterWindowBase(FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
         {
             InitializeComponent();
             DataContext = this;
-            Owner = owner;
             mFilterModel = filterModel;
             mAppenderNode = appenderNode;
             mConfigXml = configXml;
@@ -99,6 +98,7 @@ namespace Editor.Windows.Filters
 
         public void ShowWindow(Window window)
         {
+            window.Owner = this;
             window.ShowDialog();
         }
     }

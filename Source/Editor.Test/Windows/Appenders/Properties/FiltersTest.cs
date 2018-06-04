@@ -33,7 +33,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             mXmlDoc = new XmlDocument();
             mAppender = mXmlDoc.CreateElement("appender");
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new Filters(null, mXmlDoc, mAppender, new ObservableCollection<IProperty>(), mMessageBoxService);
+            mSut = new Filters(mXmlDoc, mAppender, new ObservableCollection<IProperty>(), mMessageBoxService);
         }
 
         [Test]

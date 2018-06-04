@@ -115,6 +115,7 @@ namespace Editor.Windows.Appenders
 
         public void ShowWindow(Window window)
         {
+            window.Owner = this;
             window.ShowDialog();
         }
     }

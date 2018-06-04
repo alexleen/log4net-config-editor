@@ -17,15 +17,13 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class Filters : PropertyBase
     {
-        private readonly Window mOwner;
         private readonly XmlDocument mXmlDoc;
         private readonly XmlNode mAppenderNode;
         private readonly IMessageBoxService mMessageBoxService;
 
-        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IProperty> container, IMessageBoxService messageBoxService)
+        public Filters(XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IProperty> container, IMessageBoxService messageBoxService)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
-            mOwner = owner;
             mXmlDoc = xmlDoc;
             mAppenderNode = appenderNode;
             mMessageBoxService = messageBoxService;
@@ -83,21 +81,21 @@ namespace Editor.Windows.Appenders.Properties
             switch (filterModel.Descriptor.Type)
             {
                 case FilterType.LevelMatch:
-                    filterWindow = new LevelMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
+                    filterWindow = new LevelMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.LevelRange:
-                    filterWindow = new LevelRangeFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
+                    filterWindow = new LevelRangeFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.LoggerMatch:
-                    filterWindow = new LoggerMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
+                    filterWindow = new LoggerMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.Mdc:
                 case FilterType.Ndc:
                 case FilterType.Property:
-                    filterWindow = new PropertyFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
+                    filterWindow = new PropertyFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 case FilterType.String:
-                    filterWindow = new StringMatchFilterWindow(mOwner, filterModel, mAppenderNode, mXmlDoc, Add);
+                    filterWindow = new StringMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

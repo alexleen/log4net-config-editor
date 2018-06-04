@@ -10,8 +10,8 @@ namespace Editor.Windows.Filters
 {
     public class PropertyFilterWindow : StringMatchFilterWindow
     {
-        public PropertyFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
-            : base(owner, filterModel, appenderNode, configXml, add, false)
+        public PropertyFilterWindow(FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+            : base(filterModel, appenderNode, configXml, add, false)
         {
             ResizeMode = ResizeMode.CanResize;
             MinWidth = TextBoxWindowMinWidth;
