@@ -63,7 +63,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             XmlNode fixNode = appender.SelectSingleNode("Fix");
 
             Assert.IsNotNull(fixNode);
-            Assert.AreEqual("0", fixNode.Attributes["value"].Value);
+            Assert.AreEqual("0", fixNode.Attributes?["value"].Value);
         }
     }
 }
