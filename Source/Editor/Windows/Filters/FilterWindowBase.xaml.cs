@@ -91,5 +91,15 @@ namespace Editor.Windows.Filters
         {
             MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
+        public void ShowInformation(string message)
+        {
+            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ShowWindow(Window window)
+        {
+            window.ShowDialog();
+        }
     }
 }

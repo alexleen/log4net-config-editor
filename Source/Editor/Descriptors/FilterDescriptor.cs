@@ -60,13 +60,3 @@ namespace Editor.Descriptors
     }
 }
 
-//Class	            Description	                                                Properties
-//-                 -                                                           -
-//DenyAllFilter	    This filter drops all LoggingEvent.	
-//LevelMatchFilter	This is a very simple filter based on Level matching.	    AcceptOnMatch, LevelToMatch
-//LevelRangeFilter	This is a simple filter based on Level matching.	        AcceptOnMatch, LevelMax, LevelMin
-//LoggerMatchFilter	Simple filter to match a string in the event's logger name.	AcceptOnMatch, LoggerToMatch
-//MdcFilter	        Simple filter to match a keyed string in the MDC	        AcceptOnMatch, Key, RegexToMatch, StringTo Match
-//NdcFilter	        Simple filter to match a string in the NDC	                AcceptOnMatch, Key, RegexToMatch, StringTo Match
-//PropertyFilter	Simple filter to match a string an event property	        AcceptOnMatch, Key, RegexToMatch, StringTo Match
-//StringMatchFilter	Simple filter to match a string in the rendered message	    AcceptOnMatch, RegexToMatch, StringTo Match

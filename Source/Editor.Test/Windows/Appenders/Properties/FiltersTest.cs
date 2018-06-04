@@ -4,29 +4,36 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Models;
 using Editor.Utilities;
+using Editor.Windows;
 using Editor.Windows.Appenders.Properties;
+using Editor.Windows.Filters;
 using Editor.Windows.PropertyCommon;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.Windows.Appenders.Properties
 {
-    [TestFixture]
+    [TestFixture, Apartment(ApartmentState.STA)]
     public class FiltersTest
     {
         private Filters mSut;
         private XmlDocument mXmlDoc;
         private XmlElement mAppender;
+        private IMessageBoxService mMessageBoxService;
 
         [SetUp]
         public void SetUp()
         {
             mXmlDoc = new XmlDocument();
             mAppender = mXmlDoc.CreateElement("appender");
-            mSut = new Filters(null, mXmlDoc, mAppender, new ObservableCollection<IProperty>());
+            mMessageBoxService = Substitute.For<IMessageBoxService>();
+            mSut = new Filters(null, mXmlDoc, mAppender, new ObservableCollection<IProperty>(), mMessageBoxService);
         }
 
         [Test]
@@ -60,6 +67,29 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             Assert.AreEqual(1, mSut.ExistingFilters.Count);
             Assert.AreEqual(FilterDescriptor.DenyAll, mSut.ExistingFilters.First().Descriptor);
+        }
+
+        [TestCase("log4net.Filter.LevelMatchFilter", typeof(LevelMatchFilterWindow))]
+        [TestCase("log4net.Filter.LevelRangeFilter", typeof(LevelRangeFilterWindow))]
+        [TestCase("log4net.Filter.LoggerMatchFilter", typeof(LoggerMatchFilterWindow))]
+        [TestCase("log4net.Filter.MdcFilter", typeof(PropertyFilterWindow))]
+        [TestCase("log4net.Filter.NdcFilter", typeof(PropertyFilterWindow))]
+        [TestCase("log4net.Filter.PropertyFilter", typeof(PropertyFilterWindow))]
+        [TestCase("log4net.Filter.StringMatchFilter", typeof(StringMatchFilterWindow))]
+        public void AddFilter_ShouldShowCorrectWindow(string filterType, Type expectedWindowType)
+        {
+            FilterDescriptor.TryFindByTypeNamespace(filterType, out FilterDescriptor descriptor);
+            mSut.AddFilter.Execute(descriptor);
+
+            mMessageBoxService.Received(1).ShowWindow(Arg.Is<Window>(w => w.GetType() == expectedWindowType));
+        }
+
+        [Test]
+        public void HelpCommand_ShouldShowHelp()
+        {
+            mSut.Help.Execute(null);
+
+            mMessageBoxService.Received(1).ShowInformation(Arg.Any<string>());
         }
 
         [Test]

@@ -20,13 +20,15 @@ namespace Editor.Windows.Appenders.Properties
         private readonly Window mOwner;
         private readonly XmlDocument mXmlDoc;
         private readonly XmlNode mAppenderNode;
+        private readonly IMessageBoxService mMessageBoxService;
 
-        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IProperty> container)
+        public Filters(Window owner, XmlDocument xmlDoc, XmlNode appenderNode, ObservableCollection<IProperty> container, IMessageBoxService messageBoxService)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
             mOwner = owner;
             mXmlDoc = xmlDoc;
             mAppenderNode = appenderNode;
+            mMessageBoxService = messageBoxService;
 
             AvailableFilters = new[]
             {
@@ -69,12 +71,9 @@ namespace Editor.Windows.Appenders.Properties
             }
         }
 
-        private static void HelpOnClick()
+        private void HelpOnClick()
         {
-            MessageBox.Show("Filters form a chain that the event has to pass through. Any filter along the way can accept the event and stop processing, deny the event and stop processing, or allow the event on to the next filter. If the event gets to the end of the filter chain without being denied it is implicitly accepted and will be logged. To reorder filters, click either '↑' or '↓'.",
-                            "Help",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
+            mMessageBoxService.ShowInformation("Filters form a chain that the event has to pass through. Any filter along the way can accept the event and stop processing, deny the event and stop processing, or allow the event on to the next filter. If the event gets to the end of the filter chain without being denied it is implicitly accepted and will be logged. To reorder filters, click either '↑' or '↓'.");
         }
 
         private void ShowFilterWindow(FilterModel filterModel)
@@ -104,7 +103,7 @@ namespace Editor.Windows.Appenders.Properties
                     throw new ArgumentOutOfRangeException();
             }
 
-            filterWindow.ShowDialog();
+            mMessageBoxService.ShowWindow(filterWindow);
         }
 
         private void Add(FilterModel filterModel)
