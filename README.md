@@ -69,3 +69,9 @@ Currently under construction. log4net configuration files can be quite large and
 | XmlLayout               |           |
 | XmlLayoutBase           |           |
 | XmlLayoutSchemaLog4j    |           |
+## Thanks!
+[JetBrains Rider](https://www.jetbrains.com/rider/)  
+[Oxygen Icons](https://github.com/pasnox/oxygen-icons-png)  
+[AppVeyor](https://ci.appveyor.com/)  
+[Codecov](https://codecov.io/)  
+[Better Code](https://bettercodehub.com/)
