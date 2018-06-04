@@ -27,7 +27,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (!int.TryParse(Value, out int _))
             {
-                MessageBox.Show("Max size roll backups must be a valid integer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("Max size roll backups must be a valid integer.");
                 return false;
             }
 
