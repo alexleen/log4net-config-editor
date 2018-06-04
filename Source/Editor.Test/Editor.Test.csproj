@@ -78,6 +78,7 @@
     <Compile Include="Windows\Appenders\Properties\DatePatternTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FileTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FiltersTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\TargetTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FixTest.cs" />
     <Compile Include="Windows\Appenders\Properties\LayoutTest.cs" />
     <Compile Include="Windows\Appenders\Properties\LockingModelTest.cs" />

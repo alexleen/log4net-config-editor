@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
@@ -28,7 +29,12 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalNode)
         {
-            SelectedItem = originalNode.GetValueAttributeValueFromChildElement(TargetName) ?? ConsoleOut;
+            string value = originalNode.GetValueAttributeValueFromChildElement(TargetName);
+
+            if (!string.IsNullOrEmpty(value) && Targets.Contains(value))
+            {
+                SelectedItem = value;
+            }
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
