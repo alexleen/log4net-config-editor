@@ -22,7 +22,7 @@ namespace Editor.Test.Windows.Appenders.Properties
     [TestFixture, Apartment(ApartmentState.STA)]
     public class FiltersTest
     {
-        private Filters mSut;
+        private Editor.Windows.Appenders.Properties.Filters mSut;
         private XmlDocument mXmlDoc;
         private XmlElement mAppender;
         private IMessageBoxService mMessageBoxService;
@@ -33,7 +33,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             mXmlDoc = new XmlDocument();
             mAppender = mXmlDoc.CreateElement("appender");
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new Filters(mXmlDoc, mAppender, new ObservableCollection<IProperty>(), mMessageBoxService);
+            mSut = new Editor.Windows.Appenders.Properties.Filters(mXmlDoc, mAppender, new ObservableCollection<IProperty>(), mMessageBoxService);
         }
 
         [Test]

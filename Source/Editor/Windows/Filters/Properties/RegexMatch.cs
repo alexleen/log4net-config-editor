@@ -32,7 +32,10 @@ namespace Editor.Windows.Filters.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(RegexToMatchName, Value).AppendTo(newNode);
+            if (!string.IsNullOrEmpty(Value))
+            {
+                xmlDoc.CreateElementWithValueAttribute(RegexToMatchName, Value).AppendTo(newNode);
+            }
         }
     }
 }
