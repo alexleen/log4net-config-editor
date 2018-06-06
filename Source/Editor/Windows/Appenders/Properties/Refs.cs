@@ -9,7 +9,7 @@ using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Appenders.Properties
 {
-    public class Refs : PropertyBase
+    public class Refs : RefsBase
     {
         private readonly XmlNode mLog4NetNode;
         private readonly Name mNameProperty;
@@ -19,13 +19,10 @@ namespace Editor.Windows.Appenders.Properties
         {
             mLog4NetNode = log4NetNode;
             mNameProperty = nameProperty;
-            RefsCollection = new ObservableCollection<LoggerModel>();
 
             //Loading refs only requires the log4net node, which we get during construction
             LoadRefs();
         }
-
-        public ObservableCollection<LoggerModel> RefsCollection { get; set; }
 
         public override void Load(XmlNode originalNode)
         {
