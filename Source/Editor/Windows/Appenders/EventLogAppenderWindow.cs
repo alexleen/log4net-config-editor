@@ -23,7 +23,7 @@ namespace Editor.Windows.Appenders
             AppenderProperties.Add(new LogName(AppenderProperties));
             AppenderProperties.Add(new ApplicationName(AppenderProperties));
             AppenderProperties.Add(new Layout(AppenderProperties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            AppenderProperties.Add(new Properties.Filters(this, ConfigXml, NewAppenderNode, AppenderProperties));
+            AppenderProperties.Add(new Properties.Filters(ConfigXml, NewAppenderNode, AppenderProperties, this));
             AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
         }
 

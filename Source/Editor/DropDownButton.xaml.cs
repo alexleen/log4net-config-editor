@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
@@ -12,11 +11,12 @@ namespace Editor
     /// <summary>
     /// Interaction logic for DropDownButton.xaml
     /// </summary>
-    public partial class DropDownButton : UserControl
+    public partial class DropDownButton
     {
         public DropDownButton()
         {
             InitializeComponent();
+            ItemTemplate = (DataTemplate)Resources["DefaultDataTemplate"];
         }
 
         private void AddAppenderOnClick(object sender, RoutedEventArgs e)
@@ -54,10 +54,23 @@ namespace Editor
             set => SetValue(CommandProperty, value);
         }
 
+        public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(DropDownButton));
+
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate)GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
+        }
+
         public double ContextMenuWidth
         {
             get
             {
+                if (OverrideContextMenuWidth)
+                {
+                    return double.NaN;
+                }
+
                 //For some reason, the context menu is 5 pixels smaller than the button
                 const int contextMenuExtraWidth = 5;
 
@@ -69,5 +82,7 @@ namespace Editor
                 return xButton.Width + contextMenuExtraWidth;
             }
         }
+
+        public bool OverrideContextMenuWidth { get; set; }
     }
 }

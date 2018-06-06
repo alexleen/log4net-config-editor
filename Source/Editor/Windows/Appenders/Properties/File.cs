@@ -78,9 +78,9 @@ namespace Editor.Windows.Appenders.Properties
             }
 
             string appendToFile = originalNode.GetValueAttributeValueFromChildElement(AppendToFileName);
-            if (!string.IsNullOrEmpty(appendToFile))
+            if (!string.IsNullOrEmpty(appendToFile) && bool.TryParse(appendToFile, out bool append))
             {
-                Overwrite = appendToFile == "false";
+                Overwrite = !append;
             }
         }
 
@@ -88,7 +88,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (string.IsNullOrEmpty(FilePath))
             {
-                MessageBox.Show("A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("A file must be assigned to this appender.");
                 return false;
             }
 

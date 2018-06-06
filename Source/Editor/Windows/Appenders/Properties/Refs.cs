@@ -62,33 +62,14 @@ namespace Editor.Windows.Appenders.Properties
         {
             foreach (LoggerModel loggerModel in RefsCollection)
             {
-                XmlNodeList appenderRefs = loggerModel.LoggerNode.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
-
                 if (loggerModel.IsEnabled)
                 {
-                    if (appenderRefs == null || appenderRefs.Count == 0)
-                    {
-                        //Doesn't exist - add
-                        xmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerModel.LoggerNode);
-                    }
-                    else if (appenderRefs.Count == 1)
-                    {
-                        //Only one - we're good
-                    }
-                    else
-                    {
-                        //More than one - remove all
-                        foreach (XmlNode appenderRef in appenderRefs)
-                        {
-                            loggerModel.LoggerNode.RemoveChild(appenderRef);
-                        }
-
-                        //Add
-                        xmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerModel.LoggerNode);
-                    }
+                    XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.LoggerNode, mNameProperty.Value);
                 }
                 else
                 {
+                    XmlNodeList appenderRefs = loggerModel.LoggerNode.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
+
                     if (appenderRefs != null && appenderRefs.Count > 0)
                     {
                         foreach (XmlNode appenderRef in appenderRefs)

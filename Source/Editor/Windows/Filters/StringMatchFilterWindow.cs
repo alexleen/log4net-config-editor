@@ -13,8 +13,8 @@ namespace Editor.Windows.Filters
         private readonly StringMatch mStringMatch;
         private readonly RegexMatch mRegexMatch;
 
-        public StringMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add, bool isFocused = true)
-            : base(owner, filterModel, appenderNode, configXml, add)
+        public StringMatchFilterWindow(FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add, bool isFocused = true)
+            : base(filterModel, appenderNode, configXml, add)
         {
             ResizeMode = ResizeMode.CanResize;
             MinWidth = TextBoxWindowMinWidth;

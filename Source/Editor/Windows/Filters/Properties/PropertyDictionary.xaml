@@ -31,7 +31,7 @@
             </Grid.ColumnDefinitions>
 
             <Label Content="{Binding Name}"/>
-            <TextBox Grid.Column="1" Text="{Binding Value}" ToolTip="{Binding ToolTip}"/>
+            <TextBox Grid.Column="1" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ToolTip}"/>
         </Grid>
     </DataTemplate>
 
