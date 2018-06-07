@@ -1,8 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Models;
@@ -67,14 +67,7 @@ namespace Editor.Windows.Appenders.Properties
                     case PartialPreset:
                         foreach (FixModel fix in Fixes)
                         {
-                            if (FixFlags.Partial.HasFlag(fix.Flag))
-                            {
-                                fix.Enabled = true;
-                            }
-                            else
-                            {
-                                fix.Enabled = false;
-                            }
+                            fix.Enabled = FixFlags.Partial.HasFlag(fix.Flag);
                         }
 
                         break;
@@ -98,15 +91,38 @@ namespace Editor.Windows.Appenders.Properties
         {
             string fixValue = originalNode.GetValueAttributeValueFromChildElement(FixName);
 
-            if (int.TryParse(fixValue, out int fixValueInt) && Enum.IsDefined(typeof(FixFlags), fixValueInt))
+            if (!int.TryParse(fixValue, out int fixValueInt))
             {
-                //SelectedFix = (FixFlags)fixValueInt;
+                return;
+            }
+
+            FixFlags flags = (FixFlags)fixValueInt;
+
+            switch (flags)
+            {
+                case FixFlags.None:
+                    SelectedPreset = NonePreset;
+                    break;
+                case FixFlags.Partial:
+                    SelectedPreset = PartialPreset;
+                    break;
+                case FixFlags.All:
+                    SelectedPreset = AllPreset;
+                    break;
+                default:
+                    SelectedPreset = CustomPreset;
+                    foreach (FixModel fixModel in Fixes)
+                    {
+                        fixModel.Enabled = flags.HasFlag(fixModel.Flag);
+                    }
+
+                    break;
             }
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            //xmlDoc.CreateElementWithValueAttribute(FixName, ((int)SelectedFix).ToString()).AppendTo(newNode);
+            xmlDoc.CreateElementWithValueAttribute(FixName, ((int)Fixes.Where(fix => fix.Enabled).Aggregate(FixFlags.None, (current, fix) => current | fix.Flag)).ToString()).AppendTo(newNode);
         }
     }
 }
