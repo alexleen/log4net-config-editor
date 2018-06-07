@@ -11,9 +11,9 @@ using NUnit.Framework;
 namespace Editor.Test.Windows.Appenders.Properties
 {
     [TestFixture]
-    public class RefsTest
+    public class IncomingRefsTest
     {
-        private Refs mSut;
+        private IncomingRefs mSut;
         private XmlDocument mXmlDoc;
         private Name mNameProperty;
 
@@ -27,7 +27,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             mNameProperty = new Name(properties, log4NetElement, originalAppender);
             mNameProperty.Value = "appenderName";
 
-            mSut = new Refs(log4NetElement, mNameProperty, properties);
+            mSut = new IncomingRefs(log4NetElement, mNameProperty, properties);
         }
 
         [Test]

@@ -38,7 +38,7 @@ namespace Editor.Test.Windows.Appenders.Properties
                             "  </root>\n" +
                             "</log4net>");
 
-            mSut = new OutgoingRefs(new ObservableCollection<IProperty>(), mXmlDoc.FirstChild);
+            mSut = new OutgoingRefs(mXmlDoc.FirstChild, new ObservableCollection<IProperty>());
         }
 
         [Test]
@@ -54,8 +54,9 @@ namespace Editor.Test.Windows.Appenders.Properties
         {
             mSut.Load(mXmlDoc.FirstChild["appender"]);
 
-            //3 appenders + 1 async appender + root = 5
-            Assert.AreEqual(5, mSut.RefsCollection.Count);
+            //3 appenders + 1 async appender = 4
+            Assert.AreEqual(4, mSut.RefsCollection.Count);
+            Assert.AreEqual(2, mSut.RefsCollection.Count(r => !r.IsEnabled));
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.Save(xmlDoc, appender);
 
-            Assert.AreEqual(2, appender.ChildNodes);
+            Assert.AreEqual(2, appender.ChildNodes.Count);
         }
     }
 }

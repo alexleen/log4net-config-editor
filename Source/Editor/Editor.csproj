@@ -122,7 +122,7 @@
     <Compile Include="HistoryManager\HistoricalValue.cs" />
     <Compile Include="Windows\Appenders\Properties\OutgoingRefs.cs" />
     <Compile Include="Windows\Appenders\Properties\PreserveExtension.cs" />
-    <Compile Include="Windows\Appenders\Properties\Refs.cs" />
+    <Compile Include="Windows\Appenders\Properties\IncomingRefs.cs" />
     <Compile Include="Windows\Appenders\Properties\RefsBase.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
     <Compile Include="Windows\Appenders\Properties\StaticLogFileName.cs" />

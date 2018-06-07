@@ -91,7 +91,7 @@
     <Compile Include="Windows\Appenders\Properties\MaximumFileSizeTest.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackupsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\NameTest.cs" />
-    <Compile Include="Windows\Appenders\Properties\RefsTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\IncomingRefsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyleTest.cs" />
     <Compile Include="Windows\Filters\Properties\RegexMatchTest.cs" />
     <Compile Include="Windows\Filters\Properties\StringMatchTest.cs" />
