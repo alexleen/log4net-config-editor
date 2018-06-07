@@ -1,12 +1,13 @@
-﻿using Editor.Windows.Appenders.Properties;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
+using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Converters
 {
-    class PresetToBoolConverter : IValueConverter
+    internal class PresetToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

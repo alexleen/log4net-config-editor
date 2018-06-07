@@ -1,7 +1,8 @@
-﻿using log4net.Core;
-using System;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.ComponentModel;
-using System.Linq;
+using System.Runtime.CompilerServices;
+using log4net.Core;
 
 namespace Editor.Models
 {
@@ -20,14 +21,11 @@ namespace Editor.Models
 
         public string Description { get; }
 
-        bool mEnabled;
+        private bool mEnabled;
 
         public bool Enabled
         {
-            get
-            {
-                return mEnabled;
-            }
+            get => mEnabled;
             set
             {
                 if (mEnabled == value)
@@ -36,15 +34,15 @@ namespace Editor.Models
                 }
 
                 mEnabled = value;
-                OnPropertyChanged(this, new PropertyChangedEventArgs(nameof(Enabled)));
+                OnPropertyChanged();
             }
         }
 
-        protected virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(sender, e);
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

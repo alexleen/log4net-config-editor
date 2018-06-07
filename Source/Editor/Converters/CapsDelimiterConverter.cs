@@ -1,6 +1,7 @@
-﻿using System;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
 

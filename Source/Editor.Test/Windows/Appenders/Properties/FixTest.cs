@@ -1,12 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Xml;
 using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
-using log4net.Core;
 using NUnit.Framework;
 
 namespace Editor.Test.Windows.Appenders.Properties

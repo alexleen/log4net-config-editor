@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Models;
@@ -63,6 +62,7 @@ namespace Editor.Windows.Appenders.Properties
                         {
                             fix.Enabled = false;
                         }
+
                         break;
                     case PartialPreset:
                         foreach (FixModel fix in Fixes)
@@ -76,12 +76,14 @@ namespace Editor.Windows.Appenders.Properties
                                 fix.Enabled = false;
                             }
                         }
+
                         break;
                     case AllPreset:
                         foreach (FixModel fix in Fixes)
                         {
                             fix.Enabled = true;
                         }
+
                         break;
                 }
 
