@@ -23,5 +23,12 @@ namespace Editor.Windows
         /// </summary>
         /// <param name="window"></param>
         void ShowWindow(Window window);
+
+        /// <summary>
+        /// Shows the Windows <see cref="OpenFileDialog"/> and returns the result.
+        /// </summary>
+        /// <param name="fileName">Absolute file path if successfully chosen. Null if not.</param>
+        /// <returns></returns>
+        bool? ShowOpenFileDialog(out string fileName);
     }
 }

@@ -13,12 +13,50 @@ namespace Editor.Test.Windows.Appenders.Properties
     [TestFixture]
     public class FileTest
     {
+        private IMessageBoxService mMessageBoxService;
         private File mSut;
 
         [SetUp]
         public void SetUp()
         {
-            mSut = new File(new ObservableCollection<IProperty>());
+            mMessageBoxService = Substitute.For<IMessageBoxService>();
+            mSut = new File(new ObservableCollection<IProperty>(), mMessageBoxService);
+        }
+
+        [Test]
+        public void Open_ShouldShowOpenFilDialog()
+        {
+            mSut.Open.Execute(null);
+
+            mMessageBoxService.Received(1).ShowOpenFileDialog(out string _);
+        }
+
+        [Test]
+        public void Open_ShouldSetFilePath()
+        {
+            mMessageBoxService.ShowOpenFileDialog(out string fileName).Returns(a =>
+            {
+                a[0] = "filePath";
+                return true;
+            });
+
+            mSut.Open.Execute(null);
+
+            Assert.AreEqual("filePath", mSut.FilePath);
+        }
+
+        [Test]
+        public void Open_ShouldNotSetFilePath_WhenFileNotChosen()
+        {
+            mMessageBoxService.ShowOpenFileDialog(out string fileName).Returns(a =>
+            {
+                a[0] = null;
+                return false;
+            });
+
+            mSut.Open.Execute(null);
+
+            Assert.IsNull(mSut.FilePath);
         }
 
         [Test]

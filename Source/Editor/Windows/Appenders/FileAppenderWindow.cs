@@ -20,7 +20,7 @@ namespace Editor.Windows.Appenders
         {
             Name nameProperty = new Name(AppenderProperties, Log4NetNode, OriginalAppenderNode);
             AppenderProperties.Add(nameProperty);
-            AppenderProperties.Add(new File(AppenderProperties));
+            AppenderProperties.Add(new File(AppenderProperties, this));
             AppenderProperties.Add(new LockingModel(AppenderProperties));
 
             AddOtherFileAppenderProperties();
