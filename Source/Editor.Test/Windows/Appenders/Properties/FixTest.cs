@@ -35,17 +35,66 @@ namespace Editor.Test.Windows.Appenders.Properties
             Assert.AreEqual(Fix.NonePreset, mSut.SelectedPreset);
         }
 
-        //[Test]
-        //public void Fixes_ShouldBeInitializedCorrectly()
-        //{
-        //    CollectionAssert.AreEqual(Enum.GetValues(typeof(FixFlags)).Cast<FixFlags>().Except(mSut.Presets), mSut.Fixes);
-        //}
+        [Test]
+        public void Fixes_ShouldBeInitializedCorrectly()
+        {
+            CollectionAssert.AreEqual(new[]
+                                      {
+                                          new FixModel(FixFlags.Ndc, false),
+                                          new FixModel(FixFlags.Message, false),
+                                          new FixModel(FixFlags.ThreadName, false),
+                                          new FixModel(FixFlags.LocationInfo, true, "Possible performance degradation"),
+                                          new FixModel(FixFlags.UserName, true, "Possible performance degradation"),
+                                          new FixModel(FixFlags.Domain, false),
+                                          new FixModel(FixFlags.Identity, true, "Possible performance degradation"),
+                                          new FixModel(FixFlags.Exception, false),
+                                          new FixModel(FixFlags.Properties, false)
+                                      },
+                                      mSut.Fixes);
+        }
+
+        [Test]
+        public void SelectedPreset_ShouldNotFirePropChange_WhenUnchanged()
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.SelectedPreset = mSut.SelectedPreset;
+
+            Assert.IsFalse(fired);
+        }
+
+        [Test]
+        public void SelectedPreset_ShouldFirePropChange_WhenChanged()
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.SelectedPreset = "other";
+
+            Assert.IsTrue(fired);
+        }
+
+        [TestCase(Fix.NonePreset, FixFlags.None)]
+        [TestCase(Fix.PartialPreset, FixFlags.Partial)]
+        [TestCase(Fix.AllPreset, FixFlags.Ndc | FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties)]
+        [TestCase(Fix.CustomPreset, FixFlags.None)] //None be default, so setting to custom should no effect
+        [TestCase("other", FixFlags.None)]
+        public void SelectedPreset_ShouldConfigureFixesCorrecly(string value, FixFlags expected)
+        {
+            mSut.SelectedPreset = value;
+
+            FixFlags enabled = mSut.Fixes.Where(fix => fix.Enabled).Aggregate(FixFlags.None, (current, fix) => current | fix.Flag);
+
+            Assert.AreEqual(expected, enabled);
+        }
 
         private static IEnumerable<TestCaseData> sFixTests = new[]
         {
             new TestCaseData(null, FixFlags.None, Fix.NonePreset),
             new TestCaseData("<Fix />", FixFlags.None, Fix.NonePreset),
             new TestCaseData("<Fix value=\"\" />", FixFlags.None, Fix.NonePreset),
+            new TestCaseData("<Fix value=\"0\" />", FixFlags.None, Fix.NonePreset),
             new TestCaseData("<Fix value=\"2\" />", FixFlags.Ndc, Fix.CustomPreset),
             new TestCaseData("<Fix value=\"0x02\" />", FixFlags.None, Fix.NonePreset), //Hex format is not supported by this tool
             new TestCaseData("<Fix value=\"10\" />", FixFlags.Ndc | FixFlags.ThreadName, Fix.CustomPreset),

@@ -1,12 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using log4net.Core;
 
 namespace Editor.Models
 {
-    public class FixModel : INotifyPropertyChanged
+    public sealed class FixModel : INotifyPropertyChanged, IEquatable<FixModel>
     {
         public FixModel(FixFlags flag, bool performanceImpact, string description = null)
         {
@@ -40,9 +41,50 @@ namespace Editor.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public bool Equals(FixModel other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Flag == other.Flag && PerformanceImpact == other.PerformanceImpact && string.Equals(Description, other.Description);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return obj is FixModel model && Equals(model);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (int)Flag;
+                hashCode = (hashCode * 397) ^ PerformanceImpact.GetHashCode();
+                hashCode = (hashCode * 397) ^ Description.GetHashCode();
+                return hashCode;
+            }
         }
     }
 }
