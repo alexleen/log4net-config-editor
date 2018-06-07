@@ -27,7 +27,6 @@ namespace Editor.Windows.Appenders.Properties
 
             Fixes = new[]
             {
-                new FixModel(FixFlags.Ndc, false),
                 new FixModel(FixFlags.Message, false),
                 new FixModel(FixFlags.ThreadName, false),
                 new FixModel(FixFlags.LocationInfo, true, "Possible performance degradation"),

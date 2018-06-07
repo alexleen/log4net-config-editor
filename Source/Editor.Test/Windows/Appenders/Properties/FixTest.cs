@@ -40,7 +40,6 @@ namespace Editor.Test.Windows.Appenders.Properties
         {
             CollectionAssert.AreEqual(new[]
                                       {
-                                          new FixModel(FixFlags.Ndc, false),
                                           new FixModel(FixFlags.Message, false),
                                           new FixModel(FixFlags.ThreadName, false),
                                           new FixModel(FixFlags.LocationInfo, true, "Possible performance degradation"),
@@ -77,7 +76,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
         [TestCase(Fix.NonePreset, FixFlags.None)]
         [TestCase(Fix.PartialPreset, FixFlags.Partial)]
-        [TestCase(Fix.AllPreset, FixFlags.Ndc | FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties)]
+        [TestCase(Fix.AllPreset, FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties)]
         [TestCase(Fix.CustomPreset, FixFlags.None)] //None be default, so setting to custom should no effect
         [TestCase("other", FixFlags.None)]
         public void SelectedPreset_ShouldConfigureFixesCorrecly(string value, FixFlags expected)
@@ -95,13 +94,12 @@ namespace Editor.Test.Windows.Appenders.Properties
             new TestCaseData("<Fix />", FixFlags.None, Fix.NonePreset),
             new TestCaseData("<Fix value=\"\" />", FixFlags.None, Fix.NonePreset),
             new TestCaseData("<Fix value=\"0\" />", FixFlags.None, Fix.NonePreset),
-            new TestCaseData("<Fix value=\"2\" />", FixFlags.Ndc, Fix.CustomPreset),
             new TestCaseData("<Fix value=\"0x02\" />", FixFlags.None, Fix.NonePreset), //Hex format is not supported by this tool
-            new TestCaseData("<Fix value=\"10\" />", FixFlags.Ndc | FixFlags.ThreadName, Fix.CustomPreset),
+            new TestCaseData("<Fix value=\"10\" />", FixFlags.ThreadName, Fix.CustomPreset),
             new TestCaseData("<Fix value=\"96\" />", FixFlags.UserName | FixFlags.Domain, Fix.CustomPreset),
             new TestCaseData("<Fix value=\"512\" />", FixFlags.Properties, Fix.CustomPreset),
             new TestCaseData("<Fix value=\"844\" />", FixFlags.Partial, Fix.PartialPreset),
-            new TestCaseData("<Fix value=\"268435455\" />", FixFlags.Ndc | FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties, Fix.AllPreset),
+            new TestCaseData("<Fix value=\"268435455\" />", FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties, Fix.AllPreset),
             new TestCaseData("<Fix value=\"str\" />", FixFlags.None, Fix.NonePreset)
         };
 
@@ -135,7 +133,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
         [TestCase(FixFlags.None)]
         [TestCase(FixFlags.Partial)]
-        [TestCase(FixFlags.Ndc | FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties)]
+        [TestCase(FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties)]
         public void Save_ShouldSaveCorrectly(FixFlags flags)
         {
             XmlDocument xmlDoc = new XmlDocument();

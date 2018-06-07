@@ -35,8 +35,6 @@ namespace Editor.Windows.Appenders.Properties
                 FilterDescriptor.LevelRange,
                 FilterDescriptor.LoggerMatch,
                 FilterDescriptor.String,
-                FilterDescriptor.Mdc,
-                FilterDescriptor.Ndc,
                 FilterDescriptor.Property
             };
 
@@ -89,8 +87,6 @@ namespace Editor.Windows.Appenders.Properties
                 case FilterType.LoggerMatch:
                     filterWindow = new LoggerMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;
-                case FilterType.Mdc:
-                case FilterType.Ndc:
                 case FilterType.Property:
                     filterWindow = new PropertyFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
                     break;

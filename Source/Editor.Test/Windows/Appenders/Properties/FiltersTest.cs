@@ -46,8 +46,6 @@ namespace Editor.Test.Windows.Appenders.Properties
                 FilterDescriptor.LevelRange,
                 FilterDescriptor.LoggerMatch,
                 FilterDescriptor.String,
-                FilterDescriptor.Mdc,
-                FilterDescriptor.Ndc,
                 FilterDescriptor.Property
             };
 
@@ -72,8 +70,6 @@ namespace Editor.Test.Windows.Appenders.Properties
         [TestCase("log4net.Filter.LevelMatchFilter", typeof(LevelMatchFilterWindow))]
         [TestCase("log4net.Filter.LevelRangeFilter", typeof(LevelRangeFilterWindow))]
         [TestCase("log4net.Filter.LoggerMatchFilter", typeof(LoggerMatchFilterWindow))]
-        [TestCase("log4net.Filter.MdcFilter", typeof(PropertyFilterWindow))]
-        [TestCase("log4net.Filter.NdcFilter", typeof(PropertyFilterWindow))]
         [TestCase("log4net.Filter.PropertyFilter", typeof(PropertyFilterWindow))]
         [TestCase("log4net.Filter.StringMatchFilter", typeof(StringMatchFilterWindow))]
         public void AddFilter_ShouldShowCorrectWindow(string filterType, Type expectedWindowType)
