@@ -42,6 +42,18 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("↑ Refs:", mSut.Name);
+        }
+
+        [Test]
+        public void Description_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("This element can reference the following appenders:", mSut.Description);
+        }
+
+        [Test]
         public void Load_ShouldLoadEnabledRefs()
         {
             mSut.Load(mXmlDoc.FirstChild["appender"]);

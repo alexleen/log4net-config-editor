@@ -30,6 +30,30 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("↓ Refs:", mSut.Name);
+        }
+
+        [Test]
+        public void Description_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("This appender can be referenced in the following elements:", mSut.Description);
+        }
+
+        [Test]
+        public void Ctor_ShouldLoadRefs()
+        {
+            Assert.Inconclusive();
+        }
+
+        [Test]
+        public void Load_ShouldLoadRefs()
+        {
+            Assert.Inconclusive();
+        }
+
+        [Test]
         public void Save_ShouldSaveRef_WhenNoneExist()
         {
             XmlElement loggerElement = mXmlDoc.CreateElement("logger");
