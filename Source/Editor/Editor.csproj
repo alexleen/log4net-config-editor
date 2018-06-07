@@ -226,17 +226,15 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\checkbox.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\dialog-warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="document_edit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dialog-ok-apply.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,7 +17,7 @@ namespace Editor.Converters
             {
                 if (incomingReferences > 0)
                 {
-                    image = new BitmapImage(new Uri("pack://application:,,,/Editor;component/Images/checkbox.png"));
+                    image = new BitmapImage(new Uri("pack://application:,,,/Editor;component/Images/dialog-ok-apply.png"));
                 }
                 else
                 {
