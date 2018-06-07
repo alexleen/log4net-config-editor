@@ -89,7 +89,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             Assert.AreEqual(expected, enabled);
         }
 
-        private static IEnumerable<TestCaseData> sFixTests = new[]
+        private static readonly IEnumerable<TestCaseData> sFixTests = new[]
         {
             new TestCaseData(null, FixFlags.None, Fix.NonePreset),
             new TestCaseData("<Fix />", FixFlags.None, Fix.NonePreset),
