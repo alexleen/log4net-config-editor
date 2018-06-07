@@ -24,8 +24,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             XmlElement log4NetElement = mXmlDoc.CreateElement("log4net");
             XmlElement originalAppender = mXmlDoc.CreateElement("appender");
             ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
-            mNameProperty = new Name(properties, log4NetElement, originalAppender);
-            mNameProperty.Value = "appenderName";
+            mNameProperty = new Name(properties, log4NetElement, originalAppender) { Value = "appenderName" };
 
             mSut = new IncomingRefs(log4NetElement, mNameProperty, properties);
         }
