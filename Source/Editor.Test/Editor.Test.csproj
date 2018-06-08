@@ -66,8 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolInterverConverterTest.cs" />
+    <Compile Include="Converters\BoolToColorConverterTest.cs" />
+    <Compile Include="Converters\CapsDelimiterConverterTest.cs" />
     <Compile Include="Converters\LayoutToEnabledConverterTest.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
+    <Compile Include="Converters\PresetToBoolConverterTest.cs" />
     <Compile Include="Converters\ReferencesToImageConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
     <Compile Include="Converters\ChildToNameConverterTest.cs" />

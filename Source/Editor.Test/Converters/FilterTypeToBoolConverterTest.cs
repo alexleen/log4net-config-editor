@@ -31,8 +31,6 @@ namespace Editor.Test.Converters
         [TestCase(FilterType.LevelMatch, true)]
         [TestCase(FilterType.LevelRange, true)]
         [TestCase(FilterType.LoggerMatch, true)]
-        [TestCase(FilterType.Mdc, true)]
-        [TestCase(FilterType.Ndc, true)]
         [TestCase(FilterType.Property, true)]
         [TestCase(FilterType.String, true)]
         public void Convert_ShouldReturnCorrectValue(FilterType filterType, bool expected)

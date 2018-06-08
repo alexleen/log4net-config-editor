@@ -14,8 +14,14 @@
         Icon="../../Images/list-add.png">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Width="50" Margin="5" Click="SaveOnClick">Save</Button>
-            <Button Width="50" Margin="5" Click="CloseOnClick">Close</Button>
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="60"/>
+                    <Setter Property="Margin" Value="0,5,5,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Click="SaveOnClick">Save</Button>
+            <Button Click="CloseOnClick">Close</Button>
         </StackPanel>
 
         <ItemsControl ItemsSource="{Binding AppenderProperties}" Grid.IsSharedSizeScope="True">
