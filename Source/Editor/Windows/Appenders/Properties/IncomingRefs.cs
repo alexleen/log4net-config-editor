@@ -25,7 +25,7 @@ namespace Editor.Windows.Appenders.Properties
 
         /// <summary>
         /// Finds all available locations for appender-refs.
-        /// These locations are enabled (or not) in the <see cref="LoadEnabledRefs"/> method.
+        /// These locations are enabled (or not) in the <see cref="Load"/> method.
         /// </summary>
         private void LoadAvailableLocations()
         {
@@ -54,11 +54,6 @@ namespace Editor.Windows.Appenders.Properties
         }
 
         public override void Load(XmlNode originalNode)
-        {
-            LoadEnabledRefs();
-        }
-
-        private void LoadEnabledRefs()
         {
             foreach (LoggerModel loggerModel in RefsCollection)
             {
