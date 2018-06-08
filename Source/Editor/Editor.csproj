@@ -58,10 +58,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolInterverConverter.cs" />
+    <Compile Include="Converters\BoolToColorConverter.cs" />
+    <Compile Include="Converters\CapsDelimiterConverter.cs" />
     <Compile Include="Converters\ChildToNameConverter.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
+    <Compile Include="Converters\PresetToBoolConverter.cs" />
     <Compile Include="Converters\ReferencesToImageConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="Models\AppenderRefModel.cs" />
     <Compile Include="Models\ChildModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
+    <Compile Include="Models\FixModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\RefModel.cs" />
     <Compile Include="Properties\Annotations.cs" />

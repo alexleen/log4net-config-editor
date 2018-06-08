@@ -8,8 +8,6 @@ namespace Editor.Enums
         LevelMatch,
         LevelRange,
         LoggerMatch,
-        Mdc,
-        Ndc,
         Property,
         String
     }

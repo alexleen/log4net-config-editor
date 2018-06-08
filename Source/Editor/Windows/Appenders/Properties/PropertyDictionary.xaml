@@ -182,6 +182,11 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Properties:Fix}">
+        <DataTemplate.Resources>
+            <Converters:BoolToColorConverter x:Key="BoolToColConv"/>
+            <Converters:PresetToBoolConverter x:Key="PresetToBoolConv"/>
+            <Converters:CapsDelimiterConverter x:Key="CapsDelConv"/>
+        </DataTemplate.Resources>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -190,13 +195,24 @@
 
             <Label>Fix:</Label>
             <StackPanel Grid.Column="1">
-                <ComboBox ItemsSource="{Binding Fixes}" SelectedItem="{Binding SelectedFix}" Width="100" Height="21" HorizontalAlignment="Left">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Label Padding="0" Content="{Binding}" FontWeight="Normal"/>
+                <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Width="75" Height="21" HorizontalAlignment="Left" />
+                <ItemsControl ItemsSource="{Binding Fixes}" IsEnabled="{Binding SelectedPreset, Converter={StaticResource PresetToBoolConv}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type Models:FixModel}">
+                            <CheckBox Content="{Binding Flag, Converter={StaticResource CapsDelConv}}" 
+                                      IsChecked="{Binding Enabled}" 
+                                      Margin="0,5,5,5" 
+                                      Foreground="{Binding PerformanceImpact, Converter={StaticResource BoolToColConv}}" 
+                                      ToolTip="{Binding Description}"
+                                      ToolTipService.ShowOnDisabled="True"/>
                         </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <TextBlock FontStyle="Italic" Foreground="Gray">  
                     See 
                     <Hyperlink x:Name="xQuestionHyperlink" 

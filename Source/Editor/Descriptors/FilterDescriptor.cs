@@ -7,7 +7,7 @@ namespace Editor.Descriptors
 {
     public class FilterDescriptor
     {
-        public static readonly FilterDescriptor DenyAll, LevelMatch, LevelRange, LoggerMatch, Mdc, Ndc, Property, String;
+        public static readonly FilterDescriptor DenyAll, LevelMatch, LevelRange, LoggerMatch, Property, String;
         private static readonly IDictionary<string, FilterDescriptor> sDescriptorsByTypeNamespace;
 
         static FilterDescriptor()
@@ -16,8 +16,6 @@ namespace Editor.Descriptors
             LevelMatch = new FilterDescriptor("Level", FilterType.LevelMatch, "log4net.Filter.LevelMatchFilter");
             LevelRange = new FilterDescriptor("Level Range", FilterType.LevelRange, "log4net.Filter.LevelRangeFilter");
             LoggerMatch = new FilterDescriptor("Logger", FilterType.LoggerMatch, "log4net.Filter.LoggerMatchFilter");
-            Mdc = new FilterDescriptor("MDC", FilterType.Mdc, "log4net.Filter.MdcFilter");
-            Ndc = new FilterDescriptor("NDC", FilterType.Ndc, "log4net.Filter.NdcFilter");
             Property = new FilterDescriptor("Property", FilterType.Property, "log4net.Filter.PropertyFilter");
             String = new FilterDescriptor("String", FilterType.String, "log4net.Filter.StringMatchFilter");
 
@@ -27,8 +25,6 @@ namespace Editor.Descriptors
                 { LevelMatch.TypeNamespace, LevelMatch },
                 { LevelRange.TypeNamespace, LevelRange },
                 { LoggerMatch.TypeNamespace, LoggerMatch },
-                { Mdc.TypeNamespace, Mdc },
-                { Ndc.TypeNamespace, Ndc },
                 { Property.TypeNamespace, Property },
                 { String.TypeNamespace, String }
             };
