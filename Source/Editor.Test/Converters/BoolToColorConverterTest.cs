@@ -1,7 +1,9 @@
-﻿using Editor.Converters;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Windows.Media;
+using Editor.Converters;
+using NUnit.Framework;
 
 namespace Editor.Test.Converters
 {
@@ -31,7 +33,7 @@ namespace Editor.Test.Converters
         [Test]
         public void Convert_ShouldReturnBlack_WhenFalse()
         {
-            Assert.AreEqual(Brushes.Red, mSut.Convert(true, null, null, null));
+            Assert.AreEqual(Brushes.Black, mSut.Convert(false, null, null, null));
         }
 
         [Test]

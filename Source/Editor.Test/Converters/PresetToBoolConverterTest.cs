@@ -1,8 +1,10 @@
-﻿using Editor.Converters;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System;
+using Editor.Converters;
 using Editor.Windows.Appenders.Properties;
 using log4net.Core;
 using NUnit.Framework;
-using System;
 
 namespace Editor.Test.Converters
 {
