@@ -38,7 +38,7 @@ namespace Editor.Test.Windows.Appenders.Properties
                             "  </root>\n" +
                             "</log4net>");
 
-            mSut = new OutgoingRefs(mXmlDoc.FirstChild, new ObservableCollection<IProperty>());
+            mSut = new OutgoingRefs(mXmlDoc.FirstChild, new ObservableCollection<IProperty>(), mXmlDoc.FirstChild["appender"]);
         }
 
         [Test]
@@ -54,21 +54,20 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
+        public void Ctor_ShouldLoadAvailableRefs()
+        {
+            //3 appenders + 1 async appender = 4
+            Assert.AreEqual(4, mSut.RefsCollection.Count);
+            Assert.AreEqual(4, mSut.RefsCollection.Count(r => !r.IsEnabled));
+        }
+
+        [Test]
         public void Load_ShouldLoadEnabledRefs()
         {
             mSut.Load(mXmlDoc.FirstChild["appender"]);
 
-            Assert.AreEqual(2, mSut.RefsCollection.Count(r => r.IsEnabled));
-        }
-
-        [Test]
-        public void Load_ShouldLoadAvailableRefs()
-        {
-            mSut.Load(mXmlDoc.FirstChild["appender"]);
-
-            //3 appenders + 1 async appender = 4
             Assert.AreEqual(4, mSut.RefsCollection.Count);
-            Assert.AreEqual(2, mSut.RefsCollection.Count(r => !r.IsEnabled));
+            Assert.AreEqual(2, mSut.RefsCollection.Count(r => r.IsEnabled));
         }
 
         [Test]

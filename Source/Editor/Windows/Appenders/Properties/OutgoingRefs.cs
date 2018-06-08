@@ -12,35 +12,38 @@ namespace Editor.Windows.Appenders.Properties
     public class OutgoingRefs : RefsBase
     {
         private readonly XmlNode mLog4NetNode;
+        private readonly XmlNode mOriginalAppender;
 
-        public OutgoingRefs(XmlNode log4NetNode, ObservableCollection<IProperty> container)
+        public OutgoingRefs(XmlNode log4NetNode, ObservableCollection<IProperty> container, XmlNode originalAppender)
             : base(container, "↑ Refs:", "This element can reference the following appenders:")
         {
             mLog4NetNode = log4NetNode;
+            mOriginalAppender = originalAppender;
+            LoadAvailableLocations();
         }
 
-        public override void Load(XmlNode originalNode)
+        private void LoadAvailableLocations()
         {
-            XmlNodeList existingRefs = originalNode.SelectNodes("appender-ref");
-
-            foreach (XmlNode @ref in existingRefs)
-            {
-                string name = @ref.Attributes["ref"].Value;
-                RefsCollection.Add(new LoggerModel(name, originalNode, true));
-            }
-
             XmlNodeList availableRefs = mLog4NetNode.SelectNodes("appender");
 
             foreach (XmlNode appender in availableRefs)
             {
                 string name = appender.Attributes["name"].Value;
 
-                if (Equals(appender, originalNode) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
+                if (Equals(appender, mOriginalAppender) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
                 {
                     continue;
                 }
 
-                RefsCollection.Add(new LoggerModel(name, originalNode, false));
+                RefsCollection.Add(new LoggerModel(name, mOriginalAppender, false));
+            }
+        }
+
+        public override void Load(XmlNode originalNode)
+        {
+            foreach (LoggerModel loggerModel in RefsCollection)
+            {
+                loggerModel.IsEnabled = originalNode.SelectSingleNode($"appender-ref[@ref='{loggerModel.Name}']") != null;
             }
         }
 
