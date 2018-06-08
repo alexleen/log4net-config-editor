@@ -21,7 +21,7 @@ namespace Editor.Windows.Appenders
             AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new Fix(AppenderProperties));
             AppenderProperties.Add(new BufferSize(AppenderProperties));
-            AppenderProperties.Add(new IncomingRefs(Log4NetNode, nameProperty, AppenderProperties));
+            AppenderProperties.Add(new IncomingRefs(Log4NetNode, nameProperty, AppenderProperties, OriginalAppenderNode));
             AppenderProperties.Add(new OutgoingRefs(Log4NetNode, AppenderProperties));
         }
 

@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
@@ -21,12 +22,30 @@ namespace Editor.Test.Windows.Appenders.Properties
         public void SetUp()
         {
             mXmlDoc = new XmlDocument();
-            XmlElement log4NetElement = mXmlDoc.CreateElement("log4net");
-            XmlElement originalAppender = mXmlDoc.CreateElement("appender");
-            ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
-            mNameProperty = new Name(properties, log4NetElement, originalAppender) { Value = "appenderName" };
+            mXmlDoc.LoadXml("<log4net>\n" +
+                            "  <appender name=\"appender0\">\n" +
+                            "    <appender-ref ref=\"appender1\" />\n" +
+                            "    <appender-ref ref=\"appender2\" />\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender1\">\n" +
+                            "    <appender-ref ref=\"appender2\" />\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender2\">\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender3\">\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"asyncAppender\" type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
+                            "    <appender-ref ref=\"appender0\" />\n" +
+                            "  </appender>\n" +
+                            "  <root>\n" +
+                            "    <appender-ref ref=\"asyncAppender\" />\n" +
+                            "  </root>\n" +
+                            "</log4net>");
 
-            mSut = new IncomingRefs(log4NetElement, mNameProperty, properties);
+            ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
+            mNameProperty = new Name(properties, mXmlDoc.FirstChild, mXmlDoc.FirstChild["appender"]);
+
+            mSut = new IncomingRefs(mXmlDoc.FirstChild, mNameProperty, properties, mXmlDoc.FirstChild["appender"]);
         }
 
         [Test]
@@ -42,15 +61,56 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
-        public void Ctor_ShouldLoadRefs()
+        public void Ctor_ShouldLoadAvailableRefs()
         {
-            Assert.Inconclusive();
+            Assert.AreEqual(2, mSut.RefsCollection.Count);
+            Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name == "root" || r.LoggerNode.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
         }
 
         [Test]
-        public void Load_ShouldLoadRefs()
+        public void Load_ShouldLoadEnabledRefs()
         {
-            Assert.Inconclusive();
+            mNameProperty.Load(mXmlDoc.FirstChild["appender"]);
+            mSut.Load(mXmlDoc.FirstChild["appender"]);
+
+            Assert.AreEqual(2, mSut.RefsCollection.Count);
+            Assert.AreEqual(1, mSut.RefsCollection.Count(r => !r.IsEnabled));
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name == "root" || r.LoggerNode.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
+        }
+
+        [Test]
+        public void Load_ShouldNotLoadRefToItself()
+        {
+            mXmlDoc = new XmlDocument();
+            mXmlDoc.LoadXml("<log4net>\n" +
+                            "  <appender name=\"asyncAppender\" type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
+                            "    <appender-ref ref=\"appender0\" />\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender0\">\n" +
+                            "    <appender-ref ref=\"appender1\" />\n" +
+                            "    <appender-ref ref=\"appender2\" />\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender1\">\n" +
+                            "    <appender-ref ref=\"appender2\" />\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender2\">\n" +
+                            "  </appender>\n" +
+                            "  <appender name=\"appender3\">\n" +
+                            "  </appender>\n" +
+                            "  <root>\n" +
+                            "    <appender-ref ref=\"asyncAppender\" />\n" +
+                            "  </root>\n" +
+                            "</log4net>");
+
+            ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
+            mNameProperty = new Name(properties, mXmlDoc.FirstChild, mXmlDoc.FirstChild["appender"]);
+
+            mSut = new IncomingRefs(mXmlDoc.FirstChild, mNameProperty, properties, mXmlDoc.FirstChild["appender"]);
+
+            Assert.AreEqual(1, mSut.RefsCollection.Count);
+            Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name == "root"));
         }
 
         [Test]

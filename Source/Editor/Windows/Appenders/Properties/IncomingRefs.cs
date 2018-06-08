@@ -12,26 +12,22 @@ namespace Editor.Windows.Appenders.Properties
     {
         private readonly XmlNode mLog4NetNode;
         private readonly Name mNameProperty;
+        private readonly XmlNode mOriginalAppender;
 
-        public IncomingRefs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IProperty> container)
+        public IncomingRefs(XmlNode log4NetNode, Name nameProperty, ObservableCollection<IProperty> container, XmlNode originalAppender)
             : base(container, "↓ Refs:", "This appender can be referenced in the following elements:")
         {
             mLog4NetNode = log4NetNode;
             mNameProperty = nameProperty;
-
-            //Loading refs only requires the log4net node, which we get during construction
-            LoadRefs();
+            mOriginalAppender = originalAppender;
+            LoadAvailableLocations();
         }
 
-        public override void Load(XmlNode originalNode)
-        {
-            //This will only be called if there's an original appender node, which means there's probably an appender name
-            //Refresh to hopefully pick up refs that are using the newly loaded name which was not available at construction time
-            RefsCollection.Clear();
-            LoadRefs();
-        }
-
-        private void LoadRefs()
+        /// <summary>
+        /// Finds all available locations for appender-refs.
+        /// These locations are enabled (or not) in the <see cref="LoadEnabledRefs"/> method.
+        /// </summary>
+        private void LoadAvailableLocations()
         {
             XmlNodeList asyncAppenders = mLog4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
 
@@ -39,9 +35,13 @@ namespace Editor.Windows.Appenders.Properties
             {
                 foreach (XmlNode asyncAppender in asyncAppenders)
                 {
-                    XmlNode appenderRef = asyncAppender.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']");
+                    if (Equals(asyncAppender, mOriginalAppender))
+                    {
+                        continue;
+                    }
+
                     string name = asyncAppender.Attributes?["name"]?.Value;
-                    RefsCollection.Add(new LoggerModel(name, asyncAppender, appenderRef != null));
+                    RefsCollection.Add(new LoggerModel(name, asyncAppender, false));
                 }
             }
 
@@ -49,8 +49,20 @@ namespace Editor.Windows.Appenders.Properties
 
             if (root != null)
             {
-                XmlNode appenderRef = root.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']");
-                RefsCollection.Add(new LoggerModel("root", root, appenderRef != null));
+                RefsCollection.Add(new LoggerModel("root", root, false));
+            }
+        }
+
+        public override void Load(XmlNode originalNode)
+        {
+            LoadEnabledRefs();
+        }
+
+        private void LoadEnabledRefs()
+        {
+            foreach (LoggerModel loggerModel in RefsCollection)
+            {
+                loggerModel.IsEnabled = loggerModel.LoggerNode.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
             }
         }
 
