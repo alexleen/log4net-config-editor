@@ -4,7 +4,8 @@
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Editor="clr-namespace:Editor"
-                    xmlns:PropertyCommon="clr-namespace:Editor.Windows.PropertyCommon">
+                    xmlns:PropertyCommon="clr-namespace:Editor.Windows.PropertyCommon"
+                    xmlns:FiltersProperties="clr-namespace:Editor.Windows.Filters.Properties">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -32,6 +33,24 @@
 
             <Label Content="{Binding Name}"/>
             <TextBox Grid.Column="1" Text="{Binding Value}" ToolTip="{Binding ToolTip}"/>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type FiltersProperties:LevelPropertyBase}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Levels}" 
+                      SelectedItem="{Binding SelectedLevel}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="100"
+                      ToolTip="All log events with lower level than the threshold level are ignored by the appender."/>
         </Grid>
     </DataTemplate>
 

@@ -18,6 +18,7 @@ namespace Editor.Windows.Appenders
         {
             Name nameProperty = new Name(AppenderProperties, Log4NetNode, OriginalAppenderNode);
             AppenderProperties.Add(nameProperty);
+            AppenderProperties.Add(new Threshold(AppenderProperties));
 
             AddAppenderSpecificProperties();
 
