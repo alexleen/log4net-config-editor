@@ -14,11 +14,13 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string FileName = "file";
         private const string AppendToFileName = "appendToFile";
+        private readonly IMessageBoxService mMessageBoxService;
 
-        public File(ObservableCollection<IProperty> container)
+        public File(ObservableCollection<IProperty> container, IMessageBoxService messageBoxService)
             : base(container, GridLength.Auto)
         {
             Open = new Command(OpenFile);
+            mMessageBoxService = messageBoxService;
         }
 
         public ICommand Open { get; }
@@ -59,13 +61,11 @@ namespace Editor.Windows.Appenders.Properties
 
         private void OpenFile()
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            bool? showDialog = ofd.ShowDialog();
+            bool? showDialog = mMessageBoxService.ShowOpenFileDialog(out string filePath);
 
             if (showDialog.HasValue && showDialog.Value)
             {
-                FilePath = ofd.FileName;
+                FilePath = filePath;
             }
         }
 

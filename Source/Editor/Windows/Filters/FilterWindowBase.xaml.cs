@@ -8,6 +8,7 @@ using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
+using Microsoft.Win32;
 
 namespace Editor.Windows.Filters
 {
@@ -100,6 +101,22 @@ namespace Editor.Windows.Filters
         {
             window.Owner = this;
             window.ShowDialog();
+        }
+
+        public bool? ShowOpenFileDialog(out string fileName)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool? showDialog = ofd.ShowDialog();
+
+            if (showDialog.HasValue && showDialog.Value)
+            {
+                fileName = ofd.FileName;
+                return true;
+            }
+
+            fileName = null;
+            return showDialog;
         }
     }
 }

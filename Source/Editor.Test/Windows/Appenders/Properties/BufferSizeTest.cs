@@ -23,6 +23,12 @@ namespace Editor.Test.Windows.Appenders.Properties
         }
 
         [Test]
+        public void Value_ShouldBeInitializedToDefault()
+        {
+            Assert.AreEqual(DefaultBufferSize, mSut.Value);
+        }
+
+        [Test]
         public void Load_ShouldSetCorrectValue()
         {
             XmlDocument xmlDoc = new XmlDocument();

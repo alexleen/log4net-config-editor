@@ -16,6 +16,7 @@ namespace Editor.Windows.Appenders.Properties
         public BufferSize(ObservableCollection<IProperty> container)
             : base(container, GridLength.Auto, "Buffer Size:")
         {
+            Value = DefaultBufferSize;
         }
 
         public override void Load(XmlNode originalNode)
@@ -25,10 +26,6 @@ namespace Editor.Windows.Appenders.Properties
             if (int.TryParse(bufferSizeStr, out int _))
             {
                 Value = bufferSizeStr;
-            }
-            else
-            {
-                Value = DefaultBufferSize;
             }
         }
 

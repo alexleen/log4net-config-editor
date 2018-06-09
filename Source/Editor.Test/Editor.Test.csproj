@@ -82,6 +82,7 @@
     <Compile Include="Windows\Appenders\Properties\DatePatternTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FileTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FiltersTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\OutgoingRefsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\StaticLogFileNameTest.cs" />
     <Compile Include="Windows\Appenders\Properties\PreserveExtensionTest.cs" />
     <Compile Include="Windows\Appenders\Properties\TargetTest.cs" />
@@ -93,7 +94,7 @@
     <Compile Include="Windows\Appenders\Properties\MaximumFileSizeTest.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackupsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\NameTest.cs" />
-    <Compile Include="Windows\Appenders\Properties\RefsTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\IncomingRefsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyleTest.cs" />
     <Compile Include="Windows\Filters\Properties\RegexMatchTest.cs" />
     <Compile Include="Windows\Filters\Properties\StringMatchTest.cs" />

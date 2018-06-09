@@ -19,9 +19,10 @@ namespace Editor.Windows.Appenders
         {
             Name nameProperty = new Name(AppenderProperties, Log4NetNode, OriginalAppenderNode);
             AppenderProperties.Add(nameProperty);
-            AppenderProperties.Add(new Fix(AppenderProperties));
+            AppenderProperties.Add(new Fix(AppenderProperties) { SelectedPreset = Fix.PartialPreset });
             AppenderProperties.Add(new BufferSize(AppenderProperties));
-            AppenderProperties.Add(new Refs(Log4NetNode, nameProperty, AppenderProperties));
+            AppenderProperties.Add(new IncomingRefs(Log4NetNode, nameProperty, AppenderProperties, OriginalAppenderNode));
+            AppenderProperties.Add(new OutgoingRefs(Log4NetNode, AppenderProperties, OriginalAppenderNode));
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.Async;

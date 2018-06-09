@@ -317,16 +317,16 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:Refs}">
+    <DataTemplate DataType="{x:Type Properties:RefsBase}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Label>Refs:</Label>
+            <Label Content="{Binding Name}" />
             <DockPanel Grid.Column="1">
-                <Label FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0">This appender can be referenced in the following loggers:</Label>
+                <Label Content="{Binding Description}" FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0" />
                 <ListBox x:Name="xRefsListBox" Margin="0,5,5,0" ItemsSource="{Binding RefsCollection}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="Models:LoggerModel">
