@@ -27,7 +27,7 @@ Currently under construction. log4net configuration files can be quite large and
 | DebugAppender                 |           |
 | EventLogAppender              | ✓         |
 | FileAppender                  | ✓         |
-| ForwardingAppender            |           |
+| ForwardingAppender            | ✓         |
 | LocalSyslogAppender           |           |
 | ManagedColoredConsoleAppender |           |
 | MemoryAppender                |           |
