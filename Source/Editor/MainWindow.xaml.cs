@@ -40,7 +40,8 @@ namespace Editor
                 AppenderDescriptor.File,
                 AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
-                AppenderDescriptor.Async
+                AppenderDescriptor.Async,
+                AppenderDescriptor.Forwarding
             };
 
             xAddLoggerButton.ItemsSource = new[]
@@ -305,6 +306,9 @@ namespace Editor
                     break;
                 case AppenderType.Async:
                     appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    break;
+                case AppenderType.Forwarding:
+                    appenderWindow = new ForwardingAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);

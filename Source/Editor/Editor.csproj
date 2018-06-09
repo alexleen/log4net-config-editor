@@ -100,6 +100,7 @@
     <Compile Include="WindowPlacement\RECT.cs" />
     <Compile Include="WindowPlacement\WINDOWPLACEMENT.cs" />
     <Compile Include="WindowPlacement\WindowPlacementUtility.cs" />
+    <Compile Include="Windows\Appenders\AppenderSkeletonWindow.cs" />
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
@@ -107,6 +108,7 @@
     <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\ForwardingAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
     <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />

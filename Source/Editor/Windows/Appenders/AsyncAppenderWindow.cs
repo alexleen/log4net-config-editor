@@ -7,7 +7,7 @@ using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Windows.Appenders
 {
-    public class AsyncAppenderWindow : AppenderWindow
+    public class AsyncAppenderWindow : ForwardingAppenderWindow
     {
         public AsyncAppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
             : base(owner, configXml, log4NetNode, appenderNode)
@@ -15,14 +15,11 @@ namespace Editor.Windows.Appenders
             Title = "Async Appender";
         }
 
-        protected override void AddAppropriateProperties()
+        protected override void AddAppenderSpecificProperties()
         {
-            Name nameProperty = new Name(AppenderProperties, Log4NetNode, OriginalAppenderNode);
-            AppenderProperties.Add(nameProperty);
             AppenderProperties.Add(new Fix(AppenderProperties) { SelectedPreset = Fix.PartialPreset });
             AppenderProperties.Add(new BufferSize(AppenderProperties));
-            AppenderProperties.Add(new IncomingRefs(Log4NetNode, nameProperty, AppenderProperties, OriginalAppenderNode));
-            AppenderProperties.Add(new OutgoingRefs(Log4NetNode, AppenderProperties, OriginalAppenderNode));
+            base.AddAppenderSpecificProperties();
         }
 
         protected override AppenderDescriptor Descriptor => AppenderDescriptor.Async;

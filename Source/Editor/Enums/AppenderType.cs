@@ -8,6 +8,7 @@ namespace Editor.Enums
         File,
         RollingFile,
         EventLog,
-        Async
+        Async,
+        Forwarding
     }
 }
