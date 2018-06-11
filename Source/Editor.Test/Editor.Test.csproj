@@ -100,6 +100,8 @@
     <Compile Include="Windows\Filters\Properties\AcceptOnMatchTest.cs" />
     <Compile Include="Windows\Filters\Properties\KeyTest.cs" />
     <Compile Include="Windows\Filters\Properties\LoggerToMatchTest.cs" />
+    <Compile Include="Windows\Filters\Properties\MaxLevelTest.cs" />
+    <Compile Include="Windows\Filters\Properties\MinLevelTest.cs" />
     <Compile Include="Windows\Filters\Properties\RegexMatchTest.cs" />
     <Compile Include="Windows\Filters\Properties\StringMatchTest.cs" />
     <Compile Include="Windows\Filters\Properties\LevelToMatchTest.cs" />
