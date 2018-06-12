@@ -18,7 +18,7 @@
         </Style>
         <Style TargetType="ComboBox">
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Width" Value="115" />
+            <Setter Property="Width" Value="120" />
             <Setter Property="Margin" Value="0,0,5,0" />
         </Style>
         <Style TargetType="Button">
@@ -27,12 +27,12 @@
         </Style>
 
         <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
-        <Converters:ConsoleColorToStringConverter x:Key="Cctsc"/>
+        <Converters:CapsDelimiterConverter x:Key="CapsDelimConv"/>
 
         <DataTemplate x:Key="ConsoleColorTemplate">
             <StackPanel Orientation="Horizontal">
                 <Border BorderBrush="{Binding Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
-                <Label Content="{Binding Converter={StaticResource Cctsc}}" />
+                <Label Content="{Binding Converter={StaticResource CapsDelimConv}}" />
             </StackPanel>
         </DataTemplate>
     </Window.Resources>

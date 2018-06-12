@@ -68,6 +68,7 @@
     <Compile Include="Converters\BoolInterverConverterTest.cs" />
     <Compile Include="Converters\BoolToColorConverterTest.cs" />
     <Compile Include="Converters\CapsDelimiterConverterTest.cs" />
+    <Compile Include="Converters\ConsoleColorToBrushConverterTest.cs" />
     <Compile Include="Converters\LayoutToEnabledConverterTest.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
     <Compile Include="Converters\PresetToBoolConverterTest.cs" />

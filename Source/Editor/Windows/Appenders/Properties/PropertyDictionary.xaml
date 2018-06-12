@@ -264,11 +264,12 @@
                 <DataGrid ItemsSource="{Binding Mappings}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
                     <DataGrid.Resources>
                         <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
-                        <Converters:ConsoleColorToStringConverter x:Key="Cctsc"/>
+                        <Converters:CapsDelimiterConverter x:Key="CapsDelimConv"/>
                         
                         <Style TargetType="Label">
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,0,0" />
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
@@ -284,7 +285,7 @@
                                 <DataTemplate DataType="{x:Type Models:MappingModel}">
                                     <StackPanel Orientation="Horizontal" Margin="5,0">
                                         <Border BorderBrush="{Binding ForeColor, Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
-                                        <Label Content="{Binding ForeColor, Converter={StaticResource Cctsc}}" />
+                                        <Label Content="{Binding ForeColor, Converter={StaticResource CapsDelimConv}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -294,7 +295,7 @@
                                 <DataTemplate DataType="{x:Type Models:MappingModel}">
                                     <StackPanel Orientation="Horizontal" Margin="5,0">
                                         <Border BorderBrush="{Binding BackColor, Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
-                                        <Label Content="{Binding BackColor, Converter={StaticResource Cctsc}}" />
+                                        <Label Content="{Binding BackColor, Converter={StaticResource CapsDelimConv}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

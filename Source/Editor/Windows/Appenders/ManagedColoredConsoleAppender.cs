@@ -2,6 +2,7 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Windows.Appenders
@@ -19,5 +20,7 @@ namespace Editor.Windows.Appenders
             base.AddAppenderSpecificProperties();
             AppenderProperties.Add(new Mapping(this, AppenderProperties));
         }
+
+        protected override AppenderDescriptor Descriptor => AppenderDescriptor.ManagedColor;
     }
 }

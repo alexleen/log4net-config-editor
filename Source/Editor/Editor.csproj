@@ -69,7 +69,6 @@
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\PresetToBoolConverter.cs" />
     <Compile Include="Converters\ReferencesToImageConverter.cs" />
-    <Compile Include="Converters\ConsoleColorToStringConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
