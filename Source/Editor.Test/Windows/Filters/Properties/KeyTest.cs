@@ -1,10 +1,12 @@
-﻿using Editor.Windows;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Collections.ObjectModel;
+using System.Xml;
+using Editor.Windows;
 using Editor.Windows.Filters.Properties;
 using Editor.Windows.PropertyCommon;
 using NSubstitute;
 using NUnit.Framework;
-using System.Collections.ObjectModel;
-using System.Xml;
 
 namespace Editor.Test.Windows.Filters.Properties
 {

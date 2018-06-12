@@ -1,8 +1,10 @@
-﻿using Editor.Windows.Filters.Properties;
-using Editor.Windows.PropertyCommon;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.ObjectModel;
 using System.Xml;
+using Editor.Windows.Filters.Properties;
+using Editor.Windows.PropertyCommon;
+using NUnit.Framework;
 
 namespace Editor.Test.Windows.Filters.Properties
 {

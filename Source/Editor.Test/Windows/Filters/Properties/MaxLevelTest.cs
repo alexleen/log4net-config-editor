@@ -1,11 +1,13 @@
-﻿using Editor.Utilities;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Xml;
+using Editor.Utilities;
 using Editor.Windows.Filters.Properties;
 using Editor.Windows.PropertyCommon;
 using log4net.Core;
 using NUnit.Framework;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Xml;
 
 namespace Editor.Test.Windows.Filters.Properties
 {
@@ -68,6 +70,17 @@ namespace Editor.Test.Windows.Filters.Properties
 
             Assert.IsNotNull(levelNode);
             Assert.AreEqual(Level.All.Name, levelNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldNotSaveSelectedLevel_WhenNotSelected()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.Save(xmlDoc, appender);
+
+            CollectionAssert.IsEmpty(appender.ChildNodes);
         }
     }
 }
