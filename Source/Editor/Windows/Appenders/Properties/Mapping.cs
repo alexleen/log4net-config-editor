@@ -58,8 +58,7 @@ namespace Editor.Windows.Appenders.Properties
 
         public override void Load(XmlNode originalNode)
         {
-            //TODO why //?
-            XmlNodeList mappings = originalNode.SelectNodes("//mapping");
+            XmlNodeList mappings = originalNode.SelectNodes("mapping");
 
             foreach (XmlNode mappingNode in mappings)
             {
