@@ -26,7 +26,7 @@ namespace Editor.Windows.Filters.Properties
         {
             if (string.IsNullOrEmpty(Value))
             {
-                MessageBox.Show("'Key' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("'Key' must be specified.");
                 return false;
             }
 
@@ -35,7 +35,10 @@ namespace Editor.Windows.Filters.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(KeyName, Value).AppendTo(newNode);
+            if (!string.IsNullOrEmpty(Value))
+            {
+                xmlDoc.CreateElementWithValueAttribute(KeyName, Value).AppendTo(newNode);
+            }
         }
     }
 }
