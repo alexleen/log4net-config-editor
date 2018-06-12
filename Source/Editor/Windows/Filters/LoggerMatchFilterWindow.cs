@@ -10,8 +10,8 @@ namespace Editor.Windows.Filters
 {
     public class LoggerMatchFilterWindow : FilterWindowBase
     {
-        public LoggerMatchFilterWindow(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
-            : base(owner, filterModel, appenderNode, configXml, add)
+        public LoggerMatchFilterWindow(FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+            : base(filterModel, appenderNode, configXml, add)
         {
             ResizeMode = ResizeMode.CanResize;
             MinWidth = TextBoxWindowMinWidth;

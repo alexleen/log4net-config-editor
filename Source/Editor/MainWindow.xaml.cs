@@ -41,6 +41,7 @@ namespace Editor
                 AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async,
+                AppenderDescriptor.Forwarding,
                 AppenderDescriptor.ManagedColor
             };
 
@@ -197,16 +198,20 @@ namespace Editor
 
             xChildren.ItemsSource = children;
 
+            xAddRefsButton.ItemsSource = children;
+
             return unrecognized;
         }
 
-        private static bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
+        private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
         {
             string type = appender.Attributes?["type"]?.Value;
 
             if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
-                appenderModel = new AppenderModel(descriptor, appender);
+                string name = appender.Attributes?["name"].Value;
+                int incomingReferences = mLog4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
+                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
                 return true;
             }
 
@@ -221,7 +226,7 @@ namespace Editor
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            object dataContext = ((Button)sender).DataContext;
+            object dataContext = ((DataGridRow)sender).DataContext;
 
             if (dataContext is AppenderModel appenderModel)
             {
@@ -235,16 +240,48 @@ namespace Editor
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            ChildModel childModel = (ChildModel)((Button)sender).DataContext;
-            mLog4NetNode.RemoveChild(childModel.Node);
-
-            if (childModel is AppenderModel appenderModel)
+            foreach (ChildModel childModel in xChildren.SelectedItems)
             {
-                //Remove all appender refs
-                foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+                mLog4NetNode.RemoveChild(childModel.Node);
+
+                if (childModel is AppenderModel appenderModel)
                 {
-                    refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
+                    RemoveRefsTo(appenderModel);
                 }
+            }
+
+            LoadFromRam();
+        }
+
+        private void RemoveRefsOnClick(object sender, RoutedEventArgs e)
+        {
+            foreach (ChildModel childModel in xChildren.SelectedItems)
+            {
+                if (childModel is AppenderModel appenderModel)
+                {
+                    RemoveRefsTo(appenderModel);
+                }
+            }
+
+            LoadFromRam();
+        }
+
+        private void RemoveRefsTo(AppenderModel appenderModel)
+        {
+            //Remove all appender refs
+            foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+            {
+                refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
+            }
+        }
+
+        private void AddRefsButtonOnItemClick(object obj)
+        {
+            ChildModel destination = (ChildModel)obj;
+
+            foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
+            {
+                XmlUtilities.AddAppenderRefToNode(mConfigXml, destination.Node, appenderModel.Name);
             }
 
             LoadFromRam();
@@ -270,6 +307,9 @@ namespace Editor
                     break;
                 case AppenderType.Async:
                     appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    break;
+                case AppenderType.Forwarding:
+                    appenderWindow = new ForwardingAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 case AppenderType.ManagedColor:
                     appenderWindow = new ManagedColoredConsoleAppender(this, mConfigXml, mLog4NetNode, appenderNode);

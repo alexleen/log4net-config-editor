@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
@@ -27,7 +26,7 @@ namespace Editor.Windows.Filters.Properties
         {
             if (string.IsNullOrEmpty(Value))
             {
-                MessageBox.Show("'Logger to Match' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("'Logger to Match' must be specified.");
                 return false;
             }
 
@@ -36,7 +35,10 @@ namespace Editor.Windows.Filters.Properties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(LoggerMatchName, Value).AppendTo(newNode);
+            if (!string.IsNullOrEmpty(Value))
+            {
+                xmlDoc.CreateElementWithValueAttribute(LoggerMatchName, Value).AppendTo(newNode);
+            }
         }
     }
 }

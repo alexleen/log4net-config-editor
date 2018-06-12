@@ -8,6 +8,7 @@ using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
+using Microsoft.Win32;
 
 namespace Editor.Windows.Filters
 {
@@ -24,11 +25,10 @@ namespace Editor.Windows.Filters
 
         public ObservableCollection<IProperty> FilterProperties { get; }
 
-        protected FilterWindowBase(Window owner, FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
+        protected FilterWindowBase(FilterModel filterModel, XmlNode appenderNode, XmlDocument configXml, Action<FilterModel> add)
         {
             InitializeComponent();
             DataContext = this;
-            Owner = owner;
             mFilterModel = filterModel;
             mAppenderNode = appenderNode;
             mConfigXml = configXml;
@@ -90,6 +90,33 @@ namespace Editor.Windows.Filters
         public void ShowError(string message)
         {
             MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public void ShowInformation(string message)
+        {
+            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ShowWindow(Window window)
+        {
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
+        public bool? ShowOpenFileDialog(out string fileName)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool? showDialog = ofd.ShowDialog();
+
+            if (showDialog.HasValue && showDialog.Value)
+            {
+                fileName = ofd.FileName;
+                return true;
+            }
+
+            fileName = null;
+            return showDialog;
         }
     }
 }

@@ -3,26 +3,20 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Xml;
+using System.Windows.Media;
 
 namespace Editor.Converters
 {
-    public class RefSelectionConverter : IValueConverter
+    public class BoolToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is XmlNode node)
+            if (value is bool b)
             {
-                if (node.Attributes?["type"]?.Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async")
-                {
-                    string name = node.Attributes?["name"]?.Value;
-                    return name ?? "Async Forwarder";
-                }
-
-                return node.Name;
+                return b ? Brushes.Red : Brushes.Black;
             }
 
-            return null;
+            return Brushes.Black;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

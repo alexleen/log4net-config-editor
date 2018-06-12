@@ -11,10 +11,12 @@ namespace Editor.Windows.Appenders
         public ManagedColoredConsoleAppender(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
             : base(owner, configXml, log4NetNode, appenderNode)
         {
+            Title = "Managed Color Console Appender";
         }
 
-        protected override void AddOtherConsoleAppenderProperties()
+        protected override void AddAppenderSpecificProperties()
         {
+            base.AddAppenderSpecificProperties();
             AppenderProperties.Add(new Mapping(this, AppenderProperties));
         }
     }

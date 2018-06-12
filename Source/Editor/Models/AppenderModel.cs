@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright Â© 2018 Alex Leendertsen
 
 using System.Xml;
 using Editor.Descriptors;
@@ -7,15 +7,18 @@ namespace Editor.Models
 {
     internal class AppenderModel : ChildModel
     {
-        public AppenderModel(AppenderDescriptor descriptor, XmlNode appender)
+        public AppenderModel(AppenderDescriptor descriptor, XmlNode appender, string name, int incomingReferences)
             : base("appender", appender)
         {
             Descriptor = descriptor;
-            Name = appender.Attributes?["name"].Value;
+            Name = name;
+            IncomingReferences = incomingReferences;
         }
 
         public AppenderDescriptor Descriptor { get; }
 
         public string Name { get; }
+
+        public int IncomingReferences { get; }
     }
 }

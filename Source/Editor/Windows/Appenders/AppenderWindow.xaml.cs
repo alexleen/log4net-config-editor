@@ -8,6 +8,7 @@ using System.Xml;
 using Editor.Descriptors;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
+using Microsoft.Win32;
 
 namespace Editor.Windows.Appenders
 {
@@ -106,6 +107,33 @@ namespace Editor.Windows.Appenders
         public void ShowError(string message)
         {
             MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public void ShowInformation(string message)
+        {
+            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ShowWindow(Window window)
+        {
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
+        public bool? ShowOpenFileDialog(out string fileName)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool? showDialog = ofd.ShowDialog();
+
+            if (showDialog.HasValue && showDialog.Value)
+            {
+                fileName = ofd.FileName;
+                return true;
+            }
+
+            fileName = null;
+            return showDialog;
         }
     }
 }

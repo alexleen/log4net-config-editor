@@ -14,11 +14,13 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string FileName = "file";
         private const string AppendToFileName = "appendToFile";
+        private readonly IMessageBoxService mMessageBoxService;
 
-        public File(ObservableCollection<IProperty> container)
+        public File(ObservableCollection<IProperty> container, IMessageBoxService messageBoxService)
             : base(container, GridLength.Auto)
         {
             Open = new Command(OpenFile);
+            mMessageBoxService = messageBoxService;
         }
 
         public ICommand Open { get; }
@@ -59,13 +61,11 @@ namespace Editor.Windows.Appenders.Properties
 
         private void OpenFile()
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            bool? showDialog = ofd.ShowDialog();
+            bool? showDialog = mMessageBoxService.ShowOpenFileDialog(out string filePath);
 
             if (showDialog.HasValue && showDialog.Value)
             {
-                FilePath = ofd.FileName;
+                FilePath = filePath;
             }
         }
 
@@ -78,9 +78,9 @@ namespace Editor.Windows.Appenders.Properties
             }
 
             string appendToFile = originalNode.GetValueAttributeValueFromChildElement(AppendToFileName);
-            if (!string.IsNullOrEmpty(appendToFile))
+            if (!string.IsNullOrEmpty(appendToFile) && bool.TryParse(appendToFile, out bool append))
             {
-                Overwrite = appendToFile == "false";
+                Overwrite = !append;
             }
         }
 
@@ -88,7 +88,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             if (string.IsNullOrEmpty(FilePath))
             {
-                MessageBox.Show("A file must be assigned to this appender.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                messageBoxService.ShowError("A file must be assigned to this appender.");
                 return false;
             }
 
