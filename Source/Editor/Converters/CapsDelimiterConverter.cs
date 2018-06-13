@@ -11,6 +11,11 @@ namespace Editor.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return null;
+            }
+
             return Regex.Replace(value.ToString(), "(\\B[A-Z])", " $1");
         }
 
