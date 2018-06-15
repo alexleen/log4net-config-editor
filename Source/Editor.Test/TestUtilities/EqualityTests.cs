@@ -52,12 +52,43 @@ namespace Editor.Test.TestUtilities
             }
         }
 
+        #endregion
+
+        #region object
+
+        [Test]
+        public void ObjectEquals_ShouldReturnFalse_WhenNull()
+        {
+            Assert.IsFalse(mSut.Equals((object)null));
+        }
+
+        [Test]
+        public void ObjectEquals_ShouldReturnTrue_WhenSameInstance()
+        {
+            Assert.IsTrue(mSut.Equals((object)mSut));
+        }
+
+        [Test]
+        public void ObjectEquals_ShouldReturnTrue_WhenDifferentInstance_ButStructurallyEqual()
+        {
+            Assert.IsTrue(mSut.Equals((object)GetOtherEqual()));
+        }
+
+        [Test]
+        public void ObjectEquals_ShouldReturnFalse_WhenDifferentInstance_ButStructurallyUnequal()
+        {
+            foreach (TSutType other in GetOthersNotEqual())
+            {
+                Assert.IsFalse(mSut.Equals((object)other));
+            }
+        }
+
+        #endregion
+
         [Test]
         public void GetHashCode_ShouldReturnCorrectValue()
         {
             Assert.AreEqual(ExpectedHashCode, mSut.GetHashCode());
         }
-
-        #endregion
     }
 }
