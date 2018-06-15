@@ -75,6 +75,8 @@
     <Compile Include="Converters\ReferencesToImageConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
     <Compile Include="Converters\ChildToNameConverterTest.cs" />
+    <Compile Include="Models\MappingModelTest.cs" />
+    <Compile Include="TestUtilities\EqualityTests.cs" />
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
