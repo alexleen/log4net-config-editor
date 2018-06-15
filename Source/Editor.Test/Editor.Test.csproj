@@ -74,7 +74,6 @@
     <Compile Include="Converters\PresetToBoolConverterTest.cs" />
     <Compile Include="Converters\ReferencesToImageConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
-    <Compile Include="Converters\ChildToNameConverterTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
     <Compile Include="TestUtilities\EqualityTests.cs" />

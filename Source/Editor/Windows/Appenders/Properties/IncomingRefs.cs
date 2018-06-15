@@ -29,28 +29,14 @@ namespace Editor.Windows.Appenders.Properties
         /// </summary>
         private void LoadAvailableLocations()
         {
-            XmlNodeList asyncAppenders = mLog4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
-
-            foreach (XmlNode asyncAppender in asyncAppenders)
+            foreach (LoggerModel logger in XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode))
             {
-                if (Equals(asyncAppender, mOriginalAppender))
+                if (Equals(logger.LoggerNode, mOriginalAppender))
                 {
                     continue;
                 }
 
-                string name = asyncAppender.Attributes["name"]?.Value;
-
-                if (!string.IsNullOrEmpty(name))
-                {
-                    RefsCollection.Add(new LoggerModel(name, asyncAppender, false));
-                }
-            }
-
-            XmlNode root = mLog4NetNode.SelectSingleNode("root");
-
-            if (root != null)
-            {
-                RefsCollection.Add(new LoggerModel("root", root, false));
+                RefsCollection.Add(logger);
             }
         }
 

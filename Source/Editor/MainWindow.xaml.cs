@@ -1,12 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.HistoryManager;
@@ -15,6 +8,13 @@ using Editor.Utilities;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml;
 
 namespace Editor
 {
@@ -198,7 +198,7 @@ namespace Editor
 
             xChildren.ItemsSource = children;
 
-            xAddRefsButton.ItemsSource = children;
+            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
 
             return unrecognized;
         }

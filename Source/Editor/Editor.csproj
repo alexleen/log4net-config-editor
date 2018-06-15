@@ -62,7 +62,6 @@
     <Compile Include="Converters\BoolInterverConverter.cs" />
     <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Converters\CapsDelimiterConverter.cs" />
-    <Compile Include="Converters\ChildToNameConverter.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\ConsoleColorToBrushConverter.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />

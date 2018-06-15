@@ -27,6 +27,28 @@ namespace Editor.Utilities
             }
         }
 
+        public static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
+        {
+            XmlNodeList asyncAppenders = log4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
+
+            foreach (XmlNode asyncAppender in asyncAppenders)
+            {
+                string name = asyncAppender.Attributes["name"]?.Value;
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    yield return new LoggerModel(name, asyncAppender, false);
+                }
+            }
+
+            XmlNode root = log4NetNode.SelectSingleNode("root");
+
+            if (root != null)
+            {
+                yield return new LoggerModel("root", root, false);
+            }
+        }
+
         public static void AddAppenderRefToNode(XmlDocument xmlDoc, XmlNode node, string appenderName)
         {
             XmlNodeList appenderRefs = node.SelectNodes($"appender-ref[@ref='{appenderName}']");
