@@ -100,6 +100,7 @@
     <Compile Include="WindowPlacement\RECT.cs" />
     <Compile Include="WindowPlacement\WINDOWPLACEMENT.cs" />
     <Compile Include="WindowPlacement\WindowPlacementUtility.cs" />
+    <Compile Include="Windows\Appenders\AppenderSkeletonWindow.cs" />
     <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
       <DependentUpon>AppenderWindow.xaml</DependentUpon>
     </Compile>
@@ -107,6 +108,7 @@
     <Compile Include="Windows\Appenders\ConsoleAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\ForwardingAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
     <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
     <Compile Include="Windows\Appenders\Properties\StaticLogFileName.cs" />
     <Compile Include="Windows\Appenders\Properties\Target.cs" />
+    <Compile Include="Windows\Appenders\Properties\Threshold.cs" />
     <Compile Include="Windows\Appenders\RollingFileAppenderWindow.cs" />
     <Compile Include="Windows\Filters\FilterWindowBase.xaml.cs">
       <DependentUpon>FilterWindowBase.xaml</DependentUpon>

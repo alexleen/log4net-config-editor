@@ -25,6 +25,12 @@ namespace Editor.Test.Converters
         }
 
         [Test]
+        public void Convert_ShouldConvertNullToNull()
+        {
+            Assert.IsNull(mSut.Convert(null, null, null, null));
+        }
+
+        [Test]
         public void ConvertBack_ShouldThrowNotSupported()
         {
             Assert.Throws<NotSupportedException>(() => mSut.ConvertBack(null, null, null, null));

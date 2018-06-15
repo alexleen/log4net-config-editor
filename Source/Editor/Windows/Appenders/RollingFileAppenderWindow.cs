@@ -27,8 +27,10 @@ namespace Editor.Windows.Appenders
             mStaticLogFileName = new StaticLogFileName(AppenderProperties);
         }
 
-        protected override void AddOtherFileAppenderProperties()
+        protected override void AddAppenderSpecificProperties()
         {
+            base.AddAppenderSpecificProperties();
+
             RollingStyle rollingStyle = new RollingStyle(AppenderProperties);
             rollingStyle.PropertyChanged += RollingStyleOnPropertyChanged;
 

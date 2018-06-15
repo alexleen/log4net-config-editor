@@ -31,16 +31,17 @@ namespace Editor.Windows.Appenders.Properties
         {
             XmlNodeList asyncAppenders = mLog4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
 
-            if (asyncAppenders != null)
+            foreach (XmlNode asyncAppender in asyncAppenders)
             {
-                foreach (XmlNode asyncAppender in asyncAppenders)
+                if (Equals(asyncAppender, mOriginalAppender))
                 {
-                    if (Equals(asyncAppender, mOriginalAppender))
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    string name = asyncAppender.Attributes?["name"]?.Value;
+                string name = asyncAppender.Attributes["name"]?.Value;
+
+                if (!string.IsNullOrEmpty(name))
+                {
                     RefsCollection.Add(new LoggerModel(name, asyncAppender, false));
                 }
             }
@@ -73,7 +74,7 @@ namespace Editor.Windows.Appenders.Properties
                 {
                     XmlNodeList appenderRefs = loggerModel.LoggerNode.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
 
-                    if (appenderRefs != null && appenderRefs.Count > 0)
+                    if (appenderRefs.Count > 0)
                     {
                         foreach (XmlNode appenderRef in appenderRefs)
                         {

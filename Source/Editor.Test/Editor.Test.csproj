@@ -96,8 +96,15 @@
     <Compile Include="Windows\Appenders\Properties\NameTest.cs" />
     <Compile Include="Windows\Appenders\Properties\IncomingRefsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\RollingStyleTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\ThresholdTest.cs" />
+    <Compile Include="Windows\Filters\Properties\AcceptOnMatchTest.cs" />
+    <Compile Include="Windows\Filters\Properties\KeyTest.cs" />
+    <Compile Include="Windows\Filters\Properties\LoggerToMatchTest.cs" />
+    <Compile Include="Windows\Filters\Properties\MaxLevelTest.cs" />
+    <Compile Include="Windows\Filters\Properties\MinLevelTest.cs" />
     <Compile Include="Windows\Filters\Properties\RegexMatchTest.cs" />
     <Compile Include="Windows\Filters\Properties\StringMatchTest.cs" />
+    <Compile Include="Windows\Filters\Properties\LevelToMatchTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

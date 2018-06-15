@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
 
 namespace Editor.Windows.Filters.Properties
@@ -23,7 +22,7 @@ namespace Editor.Windows.Filters.Properties
         public override void Load(XmlNode originalNode)
         {
             string acceptStr = originalNode.GetValueAttributeValueFromChildElement(AcceptOnMatchName);
-            if (!string.IsNullOrEmpty(acceptStr) && bool.TryParse(acceptStr, out bool accept))
+            if (bool.TryParse(acceptStr, out bool accept))
             {
                 Accept = accept;
             }
