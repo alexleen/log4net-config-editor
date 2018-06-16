@@ -1,7 +1,9 @@
-﻿using Editor.Converters;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Windows.Media;
+using Editor.Converters;
+using NUnit.Framework;
 
 namespace Editor.Test.Converters
 {

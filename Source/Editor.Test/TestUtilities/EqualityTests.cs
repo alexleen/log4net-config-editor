@@ -1,18 +1,20 @@
-﻿using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Editor.Test.TestUtilities
 {
     [TestFixture]
     public abstract class EqualityTests<TSutType> where TSutType : class, IEquatable<TSutType>
     {
-        protected TSutType mSut;
+        protected TSutType Sut;
 
         [SetUp]
-        public virtual void SetUp()
+        public void SetUp()
         {
-            mSut = GetSut();
+            Sut = GetSut();
         }
 
         protected abstract TSutType GetSut();
@@ -28,19 +30,19 @@ namespace Editor.Test.TestUtilities
         [Test]
         public void EquatableEquals_ShouldReturnFalse_WhenNull()
         {
-            Assert.IsFalse(mSut.Equals((TSutType)null));
+            Assert.IsFalse(Sut.Equals(null));
         }
 
         [Test]
         public void EquatableEquals_ShouldReturnTrue_WhenSameInstance()
         {
-            Assert.IsTrue(mSut.Equals(mSut));
+            Assert.IsTrue(Sut.Equals(Sut));
         }
 
         [Test]
         public void EquatableEquals_ShouldReturnTrue_WhenDifferentInstance_ButStructurallyEqual()
         {
-            Assert.IsTrue(mSut.Equals(GetOtherEqual()));
+            Assert.IsTrue(Sut.Equals(GetOtherEqual()));
         }
 
         [Test]
@@ -48,7 +50,7 @@ namespace Editor.Test.TestUtilities
         {
             foreach (TSutType other in GetOthersNotEqual())
             {
-                Assert.IsFalse(mSut.Equals(other));
+                Assert.IsFalse(Sut.Equals(other));
             }
         }
 
@@ -59,19 +61,19 @@ namespace Editor.Test.TestUtilities
         [Test]
         public void ObjectEquals_ShouldReturnFalse_WhenNull()
         {
-            Assert.IsFalse(mSut.Equals((object)null));
+            Assert.IsFalse(Sut.Equals((object)null));
         }
 
         [Test]
         public void ObjectEquals_ShouldReturnTrue_WhenSameInstance()
         {
-            Assert.IsTrue(mSut.Equals((object)mSut));
+            Assert.IsTrue(Sut.Equals((object)Sut));
         }
 
         [Test]
         public void ObjectEquals_ShouldReturnTrue_WhenDifferentInstance_ButStructurallyEqual()
         {
-            Assert.IsTrue(mSut.Equals((object)GetOtherEqual()));
+            Assert.IsTrue(Sut.Equals((object)GetOtherEqual()));
         }
 
         [Test]
@@ -79,7 +81,7 @@ namespace Editor.Test.TestUtilities
         {
             foreach (TSutType other in GetOthersNotEqual())
             {
-                Assert.IsFalse(mSut.Equals((object)other));
+                Assert.IsFalse(Sut.Equals((object)other));
             }
         }
 
@@ -88,7 +90,7 @@ namespace Editor.Test.TestUtilities
         [Test]
         public void GetHashCode_ShouldReturnCorrectValue()
         {
-            Assert.AreEqual(ExpectedHashCode, mSut.GetHashCode());
+            Assert.AreEqual(ExpectedHashCode, Sut.GetHashCode());
         }
     }
 }
