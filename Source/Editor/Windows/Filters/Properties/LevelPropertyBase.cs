@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
+using log4net.Core;
 
 namespace Editor.Windows.Filters.Properties
 {
@@ -21,9 +22,9 @@ namespace Editor.Windows.Filters.Properties
 
         protected void TryLoadSelectedLevel(string level)
         {
-            if (Log4NetUtilities.TryParseLevel(level, out string match))
+            if (Log4NetUtilities.TryParseLevel(level, out Level match))
             {
-                SelectedLevel = match;
+                SelectedLevel = match.Name;
             }
         }
 

@@ -43,8 +43,6 @@
                     <Setter Property="Width" Value="100" />
                     <Setter Property="Margin" Value="5,0,5,5" />
                 </Style>
-
-                <Converters:ChildToNameConverter x:Key="ChildNameConv" />
             </StackPanel.Resources>
 
             <Editor:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick"/>
@@ -66,7 +64,7 @@
                                    ToolTip="Adds a ref for each of the selected elements in the table to the desired element">
                 <Editor:DropDownButton.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Converter={StaticResource ChildNameConv}}" />
+                        <Label Content="{Binding Name}" />
                     </DataTemplate>
                 </Editor:DropDownButton.ItemTemplate>
             </Editor:DropDownButton>

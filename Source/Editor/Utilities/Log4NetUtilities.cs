@@ -35,7 +35,7 @@ namespace Editor.Utilities
         /// <param name="level"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryParseLevel(string level, out string result)
+        public static bool TryParseLevel(string level, out Level result)
         {
             if (!string.IsNullOrEmpty(level))
             {
@@ -43,7 +43,7 @@ namespace Editor.Utilities
 
                 if (LevelsByName.TryGetValue(levelUpper, out Level levelMatch))
                 {
-                    result = levelMatch.Name;
+                    result = levelMatch;
                     return true;
                 }
             }

@@ -251,6 +251,71 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type Properties:Mapping}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Mappings:</Label>
+            <DockPanel Grid.Column="1" Margin="0,5,0,0">
+                <Button DockPanel.Dock="Right" Width="85" Command="{Binding Add}" VerticalAlignment="Top" Margin="5,0,5,5">Add</Button>
+                <DataGrid ItemsSource="{Binding Mappings}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
+                    <DataGrid.Resources>
+                        <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
+                        <Converters:CapsDelimiterConverter x:Key="CapsDelimConv"/>
+                        
+                        <Style TargetType="Label">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Level">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <Label Content="{Binding Level}" Margin="5,0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Foreground">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <StackPanel Orientation="Horizontal" Margin="5,0">
+                                        <Border BorderBrush="{Binding ForeColor, Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
+                                        <Label Content="{Binding ForeColor, Converter={StaticResource CapsDelimConv}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Background">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <StackPanel Orientation="Horizontal" Margin="5,0">
+                                        <Border BorderBrush="{Binding BackColor, Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
+                                        <Label Content="{Binding BackColor, Converter={StaticResource CapsDelimConv}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Options">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:MappingModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}">Edit</Button>
+                                        <Button Width="50" Margin="5" Command="{Binding Remove}">Remove</Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Properties:Layout}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -325,7 +390,7 @@
                                         <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}" IsEnabled="{Binding Descriptor.Type, Converter={StaticResource Fttbc}}">Edit</Button>
                                         <Button Width="50" Margin="5,5,0,5" Command="{Binding Remove}">Remove</Button>
                                         <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveUp}">↑</Button>
-                                        <Button Width="25" Margin="5,5,0,5" Command="{Binding MoveDown}">↓</Button>
+                                        <Button Width="25" Margin="5" Command="{Binding MoveDown}">↓</Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

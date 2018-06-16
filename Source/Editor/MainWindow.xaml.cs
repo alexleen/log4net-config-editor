@@ -1,12 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.HistoryManager;
@@ -15,6 +8,13 @@ using Editor.Utilities;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml;
 
 namespace Editor
 {
@@ -41,7 +41,8 @@ namespace Editor
                 AppenderDescriptor.RollingFile,
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async,
-                AppenderDescriptor.Forwarding
+                AppenderDescriptor.Forwarding,
+                AppenderDescriptor.ManagedColor
             };
 
             xAddLoggerButton.ItemsSource = new[]
@@ -197,7 +198,7 @@ namespace Editor
 
             xChildren.ItemsSource = children;
 
-            xAddRefsButton.ItemsSource = children;
+            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
 
             return unrecognized;
         }
@@ -309,6 +310,9 @@ namespace Editor
                     break;
                 case AppenderType.Forwarding:
                     appenderWindow = new ForwardingAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
+                    break;
+                case AppenderType.ManagedColor:
+                    appenderWindow = new ManagedColoredConsoleAppender(this, mConfigXml, mLog4NetNode, appenderNode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);

@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>document_edit.ico</ApplicationIcon>
@@ -60,8 +62,8 @@
     <Compile Include="Converters\BoolInterverConverter.cs" />
     <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Converters\CapsDelimiterConverter.cs" />
-    <Compile Include="Converters\ChildToNameConverter.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\ConsoleColorToBrushConverter.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\PresetToBoolConverter.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\FixModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\MappingModel.cs" />
     <Compile Include="Models\RefModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -109,6 +112,10 @@
     <Compile Include="Windows\Appenders\EventLogAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\FileAppenderWindow.cs" />
     <Compile Include="Windows\Appenders\ForwardingAppenderWindow.cs" />
+    <Compile Include="Windows\Appenders\ManagedColoredConsoleAppender.cs" />
+    <Compile Include="Windows\Appenders\MappingWindow.xaml.cs">
+      <DependentUpon>MappingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
     <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
     <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
@@ -121,6 +128,7 @@
     <Compile Include="Windows\Appenders\Properties\Layout.cs" />
     <Compile Include="Windows\Appenders\Properties\LockingModel.cs" />
     <Compile Include="Windows\Appenders\Properties\LogName.cs" />
+    <Compile Include="Windows\Appenders\Properties\Mapping.cs" />
     <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
     <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
     <Compile Include="Windows\Appenders\Properties\Name.cs" />
@@ -178,6 +186,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\Appenders\AppenderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Appenders\MappingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,6 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\dialog-ok-apply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fill-color.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

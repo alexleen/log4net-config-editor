@@ -68,12 +68,15 @@
     <Compile Include="Converters\BoolInterverConverterTest.cs" />
     <Compile Include="Converters\BoolToColorConverterTest.cs" />
     <Compile Include="Converters\CapsDelimiterConverterTest.cs" />
+    <Compile Include="Converters\ConsoleColorToBrushConverterTest.cs" />
     <Compile Include="Converters\LayoutToEnabledConverterTest.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
     <Compile Include="Converters\PresetToBoolConverterTest.cs" />
     <Compile Include="Converters\ReferencesToImageConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
-    <Compile Include="Converters\ChildToNameConverterTest.cs" />
+    <Compile Include="Models\FixModelTest.cs" />
+    <Compile Include="Models\MappingModelTest.cs" />
+    <Compile Include="TestUtilities\EqualityTests.cs" />
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Windows\Appenders\Properties\ApplicationNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="Windows\Appenders\Properties\DatePatternTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FileTest.cs" />
     <Compile Include="Windows\Appenders\Properties\FiltersTest.cs" />
+    <Compile Include="Windows\Appenders\Properties\MappingTest.cs" />
     <Compile Include="Windows\Appenders\Properties\OutgoingRefsTest.cs" />
     <Compile Include="Windows\Appenders\Properties\StaticLogFileNameTest.cs" />
     <Compile Include="Windows\Appenders\Properties\PreserveExtensionTest.cs" />
@@ -115,9 +119,7 @@
       <Name>Editor</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestData\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

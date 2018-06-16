@@ -7,7 +7,7 @@ namespace Editor.Descriptors
 {
     public class AppenderDescriptor
     {
-        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding;
+        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor;
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
 
         static AppenderDescriptor()
@@ -18,6 +18,7 @@ namespace Editor.Descriptors
             EventLog = new AppenderDescriptor("Event Log", AppenderType.EventLog, "log4net.Appender.EventLogAppender");
             Async = new AppenderDescriptor("Async", AppenderType.Async, "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async");
             Forwarding = new AppenderDescriptor("Forwarding", AppenderType.Forwarding, "log4net.Appender.ForwardingAppender");
+            ManagedColor = new AppenderDescriptor("Managed Color", AppenderType.ManagedColor, "log4net.Appender.ManagedColoredConsoleAppender");
 
             sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
             {
@@ -26,7 +27,8 @@ namespace Editor.Descriptors
                 { RollingFile.TypeNamespace, RollingFile },
                 { EventLog.TypeNamespace, EventLog },
                 { Async.TypeNamespace, Async },
-                { Forwarding.TypeNamespace, Forwarding }
+                { Forwarding.TypeNamespace, Forwarding },
+                { ManagedColor.TypeNamespace, ManagedColor }
             };
         }
 
