@@ -76,7 +76,7 @@
                       VerticalAlignment="Center" 
                       ToolTip="Check this check box to enable internal log4net debugging for this configuration.">Debug</CheckBox>
 
-            <Label>Update:</Label>
+            <Label ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration.">Update:</Label>
             <ComboBox x:Name="xUpdateComboBox"
                       SelectedIndex="0" 
                       VerticalAlignment="Center" 
@@ -84,7 +84,7 @@
                       ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration.">
             </ComboBox>
 
-            <Label>Threshold:</Label>
+            <Label ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to.">Threshold:</Label>
             <ComboBox x:Name="xThresholdComboBox" 
                       SelectedIndex="0"
                       Width="100" 
