@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\Log4NetUtilities.cs" />
+    <Compile Include="Utilities\Log4NetXmlConstants.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
     <Compile Include="WindowPlacement\POINT.cs" />
     <Compile Include="WindowPlacement\RECT.cs" />
