@@ -49,6 +49,8 @@ namespace Editor
             {
                 LoggerDescriptor.Root
             };
+
+            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
         }
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
