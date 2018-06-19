@@ -75,6 +75,14 @@ namespace Editor.Utilities
             xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(node);
         }
 
+        /// <summary>
+        /// Adds an attribute to this element with the specified name and value.
+        /// If an attribute with the same name already exists, it is replaced by an attribute with the specified value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public static void AppendAttribute(this XmlNode element, XmlDocument xmlDoc, string name, string value)
         {
             XmlAttribute attr = xmlDoc.CreateAttribute(name);

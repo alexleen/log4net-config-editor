@@ -140,17 +140,29 @@ namespace Editor
             {
                 mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.DebugAttributeName, "true");
             }
+            else
+            {
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.DebugAttributeName);
+            }
 
             if (Equals(xUpdateComboBox.SelectedItem, UpdateOverwrite))
             {
                 //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
                 mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.UpdateAttributeName, UpdateOverwrite);
             }
+            else
+            {
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.UpdateAttributeName);
+            }
 
             if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
             {
                 //"All" is default, so we only need to add an attribute when something other than "All" is selected
                 mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.ThresholdAttributeName, (string)xThresholdComboBox.SelectedItem);
+            }
+            else
+            {
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.ThresholdAttributeName);
             }
         }
 
