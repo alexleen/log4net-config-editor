@@ -71,12 +71,14 @@
 
             <Separator Margin="5,0,5,5"/>
 
-            <CheckBox Margin="5,0,0,0" 
+            <CheckBox x:Name="xDebugCheckBox"
+                      Margin="5,0,0,0" 
                       VerticalAlignment="Center" 
                       ToolTip="Check this check box to enable internal log4net debugging for this configuration.">Debug</CheckBox>
 
             <Label>Update:</Label>
-            <ComboBox SelectedIndex="0" 
+            <ComboBox x:Name="xUpdateComboBox"
+                      SelectedIndex="0" 
                       VerticalAlignment="Center" 
                       Width="100"
                       ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration.">

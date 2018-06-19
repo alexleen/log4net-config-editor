@@ -7,6 +7,7 @@ using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
+using log4net.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -121,9 +122,31 @@ namespace Editor
 
         private void SaveToFile()
         {
+            SaveRootAttributes();
+
             using (XmlTextWriter xtw = new XmlTextWriter((string)xConfigComboBox.SelectedItem, Encoding.UTF8) { Formatting = Formatting.Indented })
             {
                 mConfigXml.Save(xtw);
+            }
+        }
+
+        private void SaveRootAttributes()
+        {
+            if (xDebugCheckBox.IsChecked.HasValue && xDebugCheckBox.IsChecked.Value)
+            {
+                mLog4NetNode.AppendAttribute(mConfigXml, "debug", "true");
+            }
+
+            if (Equals(xUpdateComboBox.SelectedItem, "Overwrite"))
+            {
+                //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
+                mLog4NetNode.AppendAttribute(mConfigXml, "update", "Overwrite");
+            }
+
+            if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
+            {
+                //"All" is default, so we only need to add an attribute when something other than "All" is selected
+                mLog4NetNode.AppendAttribute(mConfigXml, "threshold", (string)xThresholdComboBox.SelectedItem);
             }
         }
 
