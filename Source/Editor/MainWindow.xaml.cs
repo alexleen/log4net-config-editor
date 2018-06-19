@@ -268,6 +268,10 @@ namespace Editor
             {
                 xDebugCheckBox.IsChecked = true;
             }
+            else
+            {
+                xDebugCheckBox.IsChecked = false;
+            }
 
             string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.UpdateAttributeName]?.Value;
 
@@ -275,10 +279,18 @@ namespace Editor
             {
                 xUpdateComboBox.SelectedItem = UpdateOverwrite;
             }
+            else
+            {
+                xUpdateComboBox.SelectedItem = UpdateMerge;
+            }
 
             if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.ThresholdAttributeName]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
             {
                 xThresholdComboBox.SelectedItem = levelResult.Name;
+            }
+            else
+            {
+                xThresholdComboBox.SelectedItem = Level.All.Name;
             }
         }
 

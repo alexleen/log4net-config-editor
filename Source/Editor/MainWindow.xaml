@@ -74,7 +74,7 @@
             <CheckBox x:Name="xDebugCheckBox"
                       Margin="5,0,0,0" 
                       VerticalAlignment="Center" 
-                      ToolTip="Check this check box to enable internal log4net debugging for this configuration.">Debug</CheckBox>
+                      ToolTip="Enables internal log4net debugging for this configuration.">Debug</CheckBox>
 
             <Label ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration.">Update:</Label>
             <ComboBox x:Name="xUpdateComboBox"
