@@ -24,6 +24,8 @@ namespace Editor
     /// </summary>
     public partial class MainWindow
     {
+        private const string UpdateMerge = "Merge";
+        private const string UpdateOverwrite = "Overwrite";
         private XmlDocument mConfigXml;
         private XmlNode mLog4NetNode;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
@@ -50,6 +52,8 @@ namespace Editor
             {
                 LoggerDescriptor.Root
             };
+
+            xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
 
             xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
         }
@@ -137,10 +141,10 @@ namespace Editor
                 mLog4NetNode.AppendAttribute(mConfigXml, "debug", "true");
             }
 
-            if (Equals(xUpdateComboBox.SelectedItem, "Overwrite"))
+            if (Equals(xUpdateComboBox.SelectedItem, UpdateOverwrite))
             {
                 //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, "update", "Overwrite");
+                mLog4NetNode.AppendAttribute(mConfigXml, "update", UpdateOverwrite);
             }
 
             if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
