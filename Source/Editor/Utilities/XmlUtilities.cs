@@ -45,7 +45,7 @@ namespace Editor.Utilities
 
             if (root != null)
             {
-                yield return new LoggerModel("root", null, root, false);
+                yield return new LoggerModel("root", "root", root, false);
             }
         }
 

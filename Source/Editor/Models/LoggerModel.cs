@@ -6,8 +6,8 @@ namespace Editor.Models
 {
     public class LoggerModel : ChildModel
     {
-        public LoggerModel(string elementName, string name, XmlNode loggerNode, bool isEnabled)
-            : base(elementName, loggerNode)
+        public LoggerModel(string elementName, string name, XmlNode node, bool isEnabled)
+            : base(elementName, node)
         {
             Name = name;
             IsEnabled = isEnabled;
