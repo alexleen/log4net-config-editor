@@ -45,7 +45,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
             mNameProperty = new Name(properties, mXmlDoc.FirstChild, mXmlDoc.FirstChild["appender"]);
 
-            mSut = new IncomingRefs(mXmlDoc.FirstChild, mNameProperty, properties, mXmlDoc.FirstChild["appender"]);
+            mSut = new IncomingRefs(properties, mXmlDoc.FirstChild, mNameProperty, mXmlDoc.FirstChild["appender"]);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
             mNameProperty = new Name(properties, mXmlDoc.FirstChild, mXmlDoc.FirstChild["appender"]);
 
-            mSut = new IncomingRefs(mXmlDoc.FirstChild, mNameProperty, properties, mXmlDoc.FirstChild["appender"]);
+            mSut = new IncomingRefs(properties, mXmlDoc.FirstChild, mNameProperty, mXmlDoc.FirstChild["appender"]);
 
             Assert.AreEqual(1, mSut.RefsCollection.Count);
             Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
@@ -137,7 +137,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
             mNameProperty = new Name(properties, mXmlDoc.FirstChild, mXmlDoc.FirstChild["appender"]);
 
-            mSut = new IncomingRefs(mXmlDoc.FirstChild, mNameProperty, properties, mXmlDoc.FirstChild["appender"]);
+            mSut = new IncomingRefs(properties, mXmlDoc.FirstChild, mNameProperty, mXmlDoc.FirstChild["appender"]);
 
             Assert.AreEqual(1, mSut.RefsCollection.Count);
             Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
@@ -168,7 +168,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             ObservableCollection<IProperty> properties = new ObservableCollection<IProperty>();
             mNameProperty = new Name(properties, mXmlDoc.FirstChild, mXmlDoc.FirstChild["appender"]);
 
-            mSut = new IncomingRefs(mXmlDoc.FirstChild, mNameProperty, properties, mXmlDoc.FirstChild["appender"]);
+            mSut = new IncomingRefs(properties, mXmlDoc.FirstChild, mNameProperty, mXmlDoc.FirstChild["appender"]);
 
             Assert.AreEqual(0, mSut.RefsCollection.Count);
         }

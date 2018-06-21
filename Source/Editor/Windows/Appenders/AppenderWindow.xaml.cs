@@ -4,8 +4,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Xml;
-using Editor.Descriptors;
+using Editor.ConfigProperties.Interfaces;
+using Editor.Interfaces;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
 using Microsoft.Win32;
@@ -17,43 +17,35 @@ namespace Editor.Windows.Appenders
     /// </summary>
     public abstract partial class AppenderWindow : IMessageBoxService
     {
-        protected readonly XmlDocument ConfigXml;
-        protected readonly XmlNode Log4NetNode;
-
-        /// <summary>
-        /// Original appender node being edited.
-        /// Null if new appender.
-        /// </summary>
-        protected readonly XmlNode OriginalAppenderNode;
-
-        /// <summary>
-        /// New appender node.
-        /// This will be used to overwrite the <see cref="OriginalAppenderNode"/>, if it exists.
-        /// </summary>
-        protected readonly XmlNode NewAppenderNode;
+        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IPropertyDefinition mPropertyDefinition;
 
         public ObservableCollection<IProperty> AppenderProperties { get; }
 
-        protected AppenderWindow(Window owner, XmlDocument configXml, XmlNode log4NetNode, XmlNode appenderNode)
+        protected AppenderWindow(Window owner, IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
             : base("AppenderWindowPlacement")
         {
             InitializeComponent();
             DataContext = this;
 
             Owner = owner ?? throw new ArgumentNullException(nameof(owner));
-            ConfigXml = configXml ?? throw new ArgumentNullException(nameof(configXml));
-            Log4NetNode = log4NetNode ?? throw new ArgumentNullException(nameof(log4NetNode));
-            OriginalAppenderNode = appenderNode;
-            NewAppenderNode = ConfigXml.CreateElement("appender");
+            mAppenderConfiguration = appenderConfiguration;
+            mPropertyDefinition = propertyDefinition;
             AppenderProperties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
         }
 
         private void WindowOnLoaded(object sender, EventArgs e)
         {
-            AddAppropriateProperties();
+            //TODO combine initialize and load to better facilitate dymanic properties?
+            mPropertyDefinition.Initialize();
 
-            if (OriginalAppenderNode == null)
+            foreach (IProperty property in mPropertyDefinition.Properties)
+            {
+                AppenderProperties.Add(property);
+            }
+
+            if (mAppenderConfiguration.OriginalAppenderNode == null)
             {
                 return;
             }
@@ -62,13 +54,9 @@ namespace Editor.Windows.Appenders
             // ReSharper disable once ForCanBeConvertedToForeach
             for (int index = 0; index < AppenderProperties.Count; index++)
             {
-                AppenderProperties[index].Load(OriginalAppenderNode);
+                AppenderProperties[index].Load(mAppenderConfiguration.OriginalAppenderNode);
             }
         }
-
-        protected abstract void AddAppropriateProperties();
-
-        protected abstract AppenderDescriptor Descriptor { get; }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
@@ -78,22 +66,22 @@ namespace Editor.Windows.Appenders
             }
 
             //TODO add this as a property?
-            NewAppenderNode.AppendAttribute(ConfigXml, "type", Descriptor.TypeNamespace);
+            mAppenderConfiguration.NewAppenderNode.AppendAttribute(mAppenderConfiguration.ConfigXml, "type", Descriptor.TypeNamespace);
 
             foreach (IProperty appenderProperty in AppenderProperties)
             {
-                appenderProperty.Save(ConfigXml, NewAppenderNode);
+                appenderProperty.Save(mAppenderConfiguration.ConfigXml, mAppenderConfiguration.NewAppenderNode);
             }
 
-            if (OriginalAppenderNode == null)
+            if (mAppenderConfiguration.OriginalAppenderNode == null)
             {
                 //New appender
-                Log4NetNode.AppendChild(NewAppenderNode);
+                mAppenderConfiguration.Log4NetNode.AppendChild(mAppenderConfiguration.NewAppenderNode);
             }
             else
             {
                 //Editing appender - replace
-                Log4NetNode.ReplaceChild(NewAppenderNode, OriginalAppenderNode);
+                mAppenderConfiguration.Log4NetNode.ReplaceChild(mAppenderConfiguration.NewAppenderNode, mAppenderConfiguration.OriginalAppenderNode);
             }
 
             Close();

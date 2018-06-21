@@ -59,6 +59,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigProperties\AcceptOnMatch.cs" />
+    <Compile Include="ConfigProperties\ApplicationName.cs" />
+    <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\RefsBase.cs" />
+    <Compile Include="ConfigProperties\Base\StringValueProperty.cs" />
+    <Compile Include="ConfigProperties\BufferSize.cs" />
+    <Compile Include="ConfigProperties\CountDirection.cs" />
+    <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="ConfigProperties\Definitions\AppenderSkeleton.cs" />
+    <Compile Include="ConfigProperties\Definitions\ConsoleAppender.cs" />
+    <Compile Include="ConfigProperties\Definitions\EventLogAppender.cs" />
+    <Compile Include="ConfigProperties\Factory\DefinitionFactory.cs" />
+    <Compile Include="ConfigProperties\File.cs" />
+    <Compile Include="ConfigProperties\Filters.cs" />
+    <Compile Include="ConfigProperties\Fix.cs" />
+    <Compile Include="ConfigProperties\IncomingRefs.cs" />
+    <Compile Include="ConfigProperties\Key.cs" />
+    <Compile Include="ConfigProperties\Layout.cs" />
+    <Compile Include="ConfigProperties\LevelToMatch.cs" />
+    <Compile Include="ConfigProperties\LockingModel.cs" />
+    <Compile Include="ConfigProperties\LoggerToMatch.cs" />
+    <Compile Include="ConfigProperties\LogName.cs" />
+    <Compile Include="ConfigProperties\Mapping.cs" />
+    <Compile Include="ConfigProperties\MaximumFileSize.cs" />
+    <Compile Include="ConfigProperties\MaxLevel.cs" />
+    <Compile Include="ConfigProperties\MaxSizeRollBackups.cs" />
+    <Compile Include="ConfigProperties\MinLevel.cs" />
+    <Compile Include="ConfigProperties\Name.cs" />
+    <Compile Include="ConfigProperties\OutgoingRefs.cs" />
+    <Compile Include="ConfigProperties\PreserveExtension.cs" />
+    <Compile Include="ConfigProperties\RegexMatch.cs" />
+    <Compile Include="ConfigProperties\RollingStyle.cs" />
+    <Compile Include="ConfigProperties\StaticLogFileName.cs" />
+    <Compile Include="ConfigProperties\StringMatch.cs" />
+    <Compile Include="ConfigProperties\Target.cs" />
+    <Compile Include="ConfigProperties\Threshold.cs" />
     <Compile Include="Converters\BoolInterverConverter.cs" />
     <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Converters\CapsDelimiterConverter.cs" />
@@ -69,6 +106,7 @@
     <Compile Include="Converters\PresetToBoolConverter.cs" />
     <Compile Include="Converters\ReferencesToImageConverter.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
+    <Compile Include="Descriptors\Base\DescriptorBase.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
     <Compile Include="DropDownButton.xaml.cs">
@@ -78,6 +116,9 @@
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
+    <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\IProperty.cs" />
+    <Compile Include="Interfaces\IPropertyDefinition.cs" />
     <Compile Include="Models\AppenderModel.cs" />
     <Compile Include="Enums\AppenderType.cs" />
     <Compile Include="Descriptors\FilterDescriptor.cs" />
@@ -116,32 +157,10 @@
     <Compile Include="Windows\Appenders\MappingWindow.xaml.cs">
       <DependentUpon>MappingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Appenders\Properties\ApplicationName.cs" />
-    <Compile Include="Windows\Appenders\Properties\BufferSize.cs" />
-    <Compile Include="Windows\Appenders\Properties\CountDirection.cs" />
-    <Compile Include="Windows\Appenders\Properties\DatePattern.cs" />
-    <Compile Include="Windows\Appenders\Properties\File.cs" />
-    <Compile Include="Windows\Appenders\Properties\Filters.cs" />
-    <Compile Include="Windows\Appenders\Properties\Fix.cs" />
     <Compile Include="HistoryManager\HistoryManager.cs" />
     <Compile Include="HistoryManager\IHistoryManager.cs" />
-    <Compile Include="Windows\Appenders\Properties\Layout.cs" />
-    <Compile Include="Windows\Appenders\Properties\LockingModel.cs" />
-    <Compile Include="Windows\Appenders\Properties\LogName.cs" />
-    <Compile Include="Windows\Appenders\Properties\Mapping.cs" />
-    <Compile Include="Windows\Appenders\Properties\MaximumFileSize.cs" />
-    <Compile Include="Windows\Appenders\Properties\MaxSizeRollBackups.cs" />
-    <Compile Include="Windows\Appenders\Properties\Name.cs" />
     <Compile Include="HistoryManager\History.cs" />
     <Compile Include="HistoryManager\HistoricalValue.cs" />
-    <Compile Include="Windows\Appenders\Properties\OutgoingRefs.cs" />
-    <Compile Include="Windows\Appenders\Properties\PreserveExtension.cs" />
-    <Compile Include="Windows\Appenders\Properties\IncomingRefs.cs" />
-    <Compile Include="Windows\Appenders\Properties\RefsBase.cs" />
-    <Compile Include="Windows\Appenders\Properties\RollingStyle.cs" />
-    <Compile Include="Windows\Appenders\Properties\StaticLogFileName.cs" />
-    <Compile Include="Windows\Appenders\Properties\Target.cs" />
-    <Compile Include="Windows\Appenders\Properties\Threshold.cs" />
     <Compile Include="Windows\Appenders\RollingFileAppenderWindow.cs" />
     <Compile Include="Windows\Filters\FilterWindowBase.xaml.cs">
       <DependentUpon>FilterWindowBase.xaml</DependentUpon>
@@ -149,26 +168,18 @@
     <Compile Include="Windows\Filters\LevelMatchFilterWindow.cs" />
     <Compile Include="Windows\Filters\LevelRangeFilterWindow.cs" />
     <Compile Include="Windows\Filters\LoggerMatchFilterWindow.cs" />
-    <Compile Include="Windows\Filters\Properties\AcceptOnMatch.cs" />
-    <Compile Include="Windows\Filters\Properties\Key.cs" />
-    <Compile Include="Windows\Filters\Properties\LevelPropertyBase.cs" />
-    <Compile Include="Windows\Filters\Properties\LevelToMatch.cs" />
-    <Compile Include="Windows\Filters\Properties\LoggerToMatch.cs" />
-    <Compile Include="Windows\Filters\Properties\MaxLevel.cs" />
-    <Compile Include="Windows\Filters\Properties\MinLevel.cs" />
-    <Compile Include="Windows\Filters\Properties\RegexMatch.cs" />
-    <Compile Include="Windows\Filters\Properties\StringMatch.cs" />
     <Compile Include="Windows\Filters\PropertyFilterWindow.cs" />
     <Compile Include="Windows\Filters\StringMatchFilterWindow.cs" />
     <Compile Include="Windows\IMessageBoxService.cs" />
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\PropertyCommon\PropertyBase.cs" />
     <Compile Include="Windows\PropertyCommon\GridHelper.cs" />
-    <Compile Include="Windows\PropertyCommon\IProperty.cs" />
-    <Compile Include="Windows\PropertyCommon\StringValueProperty.cs" />
     <Compile Include="Windows\SizeRetentionWindow.cs" />
+    <Page Include="ConfigProperties\PropertyDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DropDownButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,10 +201,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Appenders\MappingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Appenders\Properties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,55 @@
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Editor.ConfigProperties.Interfaces;
+using Editor.Descriptors;
+using Editor.HistoryManager;
+using Editor.Interfaces;
+using Editor.Windows;
+using Editor.Windows.Appenders.Properties;
+using Editor.Windows.PropertyCommon;
+
+namespace Editor.ConfigProperties.Definitions
+{
+    public abstract class AppenderSkeleton : IPropertyDefinition
+    {
+        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IMessageBoxService mMessageBoxService;
+        private readonly IList<IProperty> mProperties;
+
+        protected AppenderSkeleton(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        {
+            mAppenderConfiguration = appenderConfiguration;
+            mMessageBoxService = messageBoxService;
+            mProperties = new List<IProperty>();
+            Properties = new ReadOnlyCollection<IProperty>(mProperties);
+        }
+
+        public abstract AppenderDescriptor Descriptor { get; }
+
+        public void Initialize()
+        {
+            Name nameProperty = new Name(Properties, mAppenderConfiguration);
+            mProperties.Add(nameProperty);
+            mProperties.Add(new Threshold(Properties));
+            
+            AddAppenderSpecificProperties();
+            
+            mProperties.Add(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
+            mProperties.Add(new Filters(Properties, mAppenderConfiguration, mMessageBoxService));
+            mProperties.Add(new IncomingRefs(Properties, nameProperty, mAppenderConfiguration));
+        }
+        
+        protected virtual void AddAppenderSpecificProperties()
+        {
+        }
+
+        protected void AddProperty(IProperty property)
+        {
+            mProperties.Add(property);
+        }
+
+        public ReadOnlyCollection<IProperty> Properties { get; }
+    }
+}

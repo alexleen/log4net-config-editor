@@ -23,10 +23,11 @@ namespace Editor.Windows.Appenders
             AddAppenderSpecificProperties();
 
             AppenderProperties.Add(new Layout(AppenderProperties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            AppenderProperties.Add(new Properties.Filters(ConfigXml, NewAppenderNode, AppenderProperties, this));
-            AppenderProperties.Add(new IncomingRefs(Log4NetNode, nameProperty, AppenderProperties, OriginalAppenderNode));
+            AppenderProperties.Add(new Properties.Filters(AppenderProperties, ConfigXml, NewAppenderNode, this));
+            AppenderProperties.Add(new IncomingRefs(AppenderProperties, Log4NetNode, nameProperty, OriginalAppenderNode));
         }
 
+        
         protected virtual void AddAppenderSpecificProperties()
         {
         }
