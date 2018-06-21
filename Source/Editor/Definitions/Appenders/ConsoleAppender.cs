@@ -7,7 +7,7 @@ using Editor.Windows.Appenders.Properties;
 
 namespace Editor.ConfigProperties.Definitions
 {
-    public class ConsoleAppender : AppenderSkeleton
+    internal class ConsoleAppender : AppenderSkeleton
     {
         public ConsoleAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
             : base(appenderConfiguration, messageBoxService)

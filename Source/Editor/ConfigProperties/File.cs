@@ -16,7 +16,7 @@ namespace Editor.Windows.Appenders.Properties
         private const string AppendToFileName = "appendToFile";
         private readonly IMessageBoxService mMessageBoxService;
 
-        public File(ObservableCollection<IProperty> container, IMessageBoxService messageBoxService)
+        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService)
             : base(container, GridLength.Auto)
         {
             Open = new Command(OpenFile);

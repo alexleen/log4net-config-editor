@@ -21,7 +21,7 @@ namespace Editor.Windows.Appenders.Properties
 
         private readonly Window mOwner;
 
-        public Mapping(Window owner, ObservableCollection<IProperty> container)
+        public Mapping(Window owner, ReadOnlyCollection<IProperty> container)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
             mOwner = owner;

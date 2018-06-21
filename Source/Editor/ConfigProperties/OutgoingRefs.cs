@@ -3,6 +3,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
@@ -11,31 +12,29 @@ namespace Editor.Windows.Appenders.Properties
 {
     public class OutgoingRefs : RefsBase
     {
-        private readonly XmlNode mLog4NetNode;
-        private readonly XmlNode mOriginalAppender;
+        readonly IAppenderConfiguration mAppenderConfiguration;
 
-        public OutgoingRefs(XmlNode log4NetNode, ObservableCollection<IProperty> container, XmlNode originalAppender)
+        public OutgoingRefs(ReadOnlyCollection<IProperty> container, IAppenderConfiguration appenderConfiguration)
             : base(container, "↑ Refs:", "This element can reference the following appenders:")
         {
-            mLog4NetNode = log4NetNode;
-            mOriginalAppender = originalAppender;
+            mAppenderConfiguration = appenderConfiguration;
             LoadAvailableLocations();
         }
 
         private void LoadAvailableLocations()
         {
-            XmlNodeList availableRefs = mLog4NetNode.SelectNodes("appender");
+            XmlNodeList availableRefs = mAppenderConfiguration.Log4NetNode.SelectNodes("appender");
 
             foreach (XmlNode appender in availableRefs)
             {
                 string name = appender.Attributes["name"].Value;
 
-                if (Equals(appender, mOriginalAppender) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
+                if (Equals(appender, mAppenderConfiguration.OriginalAppenderNode) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
                 {
                     continue;
                 }
 
-                RefsCollection.Add(new LoggerModel(name, mOriginalAppender, false));
+                RefsCollection.Add(new LoggerModel(name, mAppenderConfiguration.OriginalAppenderNode, false));
             }
         }
 

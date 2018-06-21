@@ -12,7 +12,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string DatePatternName = "datePattern";
 
-        public DatePattern(ObservableCollection<IProperty> container)
+        public DatePattern(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Date Pattern:")
         {
             ToolTip = "This property determines the rollover schedule when rolling over on date.";

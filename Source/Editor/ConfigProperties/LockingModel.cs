@@ -14,7 +14,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string LockingModelName = "lockingModel";
 
-        public LockingModel(ObservableCollection<IProperty> container)
+        public LockingModel(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             LockingModels = new[] { LockingModelDescriptor.Exclusive, LockingModelDescriptor.Minimal, LockingModelDescriptor.InterProcess };

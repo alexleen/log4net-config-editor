@@ -13,7 +13,7 @@ namespace Editor.Windows.Appenders.Properties
         private const string MaximumFileSizeName = "maximumFileSize";
         private const string DefaultMaxFileSize = "10MB";
 
-        public MaximumFileSize(ObservableCollection<IProperty> container)
+        public MaximumFileSize(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Maximum File Size:")
         {
             Value = DefaultMaxFileSize;

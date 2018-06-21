@@ -12,7 +12,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string PreserveExtensionName = "preserveLogFileNameExtension";
 
-        public PreserveExtension(ObservableCollection<IProperty> container)
+        public PreserveExtension(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
         }

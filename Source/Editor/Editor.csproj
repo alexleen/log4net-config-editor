@@ -68,9 +68,10 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
-    <Compile Include="ConfigProperties\Definitions\AppenderSkeleton.cs" />
-    <Compile Include="ConfigProperties\Definitions\ConsoleAppender.cs" />
-    <Compile Include="ConfigProperties\Definitions\EventLogAppender.cs" />
+    <Compile Include="Definitions\Appenders\AppenderSkeleton.cs" />
+    <Compile Include="Definitions\Appenders\AsyncAppender.cs" />
+    <Compile Include="Definitions\Appenders\ConsoleAppender.cs" />
+    <Compile Include="Definitions\Appenders\EventLogAppender.cs" />
     <Compile Include="ConfigProperties\Factory\DefinitionFactory.cs" />
     <Compile Include="ConfigProperties\File.cs" />
     <Compile Include="ConfigProperties\Filters.cs" />
@@ -105,6 +106,11 @@
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\PresetToBoolConverter.cs" />
     <Compile Include="Converters\ReferencesToImageConverter.cs" />
+    <Compile Include="Definitions\Appenders\FileAppender.cs" />
+    <Compile Include="Definitions\Appenders\ForwardingAppender.cs" />
+    <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppender.cs" />
+    <Compile Include="Definitions\Appenders\RollingFileAppender.cs" />
+    <Compile Include="Definitions\Base\PropertyDefinition.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\Base\DescriptorBase.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
@@ -116,6 +122,7 @@
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
+    <Compile Include="Interfaces\IAppenderDefinition.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
     <Compile Include="Interfaces\IProperty.cs" />
     <Compile Include="Interfaces\IPropertyDefinition.cs" />
@@ -264,6 +271,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\fill-color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Definitions\Filters\" />
+    <Folder Include="Definitions\Loggers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Interfaces;
+using Editor.Definitions.Base;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
@@ -12,10 +13,10 @@ using Editor.Windows.PropertyCommon;
 
 namespace Editor.ConfigProperties.Definitions
 {
-    public abstract class AppenderSkeleton : IPropertyDefinition
+    internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
     {
-        private readonly IAppenderConfiguration mAppenderConfiguration;
-        private readonly IMessageBoxService mMessageBoxService;
+        protected readonly IAppenderConfiguration mAppenderConfiguration;
+        protected readonly IMessageBoxService mMessageBoxService;
         private readonly IList<IProperty> mProperties;
 
         protected AppenderSkeleton(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
@@ -28,7 +29,7 @@ namespace Editor.ConfigProperties.Definitions
 
         public abstract AppenderDescriptor Descriptor { get; }
 
-        public void Initialize()
+        public override void Initialize()
         {
             Name nameProperty = new Name(Properties, mAppenderConfiguration);
             mProperties.Add(nameProperty);
@@ -50,6 +51,6 @@ namespace Editor.ConfigProperties.Definitions
             mProperties.Add(property);
         }
 
-        public ReadOnlyCollection<IProperty> Properties { get; }
+        public override ReadOnlyCollection<IProperty> Properties { get; }
     }
 }

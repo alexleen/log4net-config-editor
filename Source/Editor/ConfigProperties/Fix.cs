@@ -20,7 +20,7 @@ namespace Editor.Windows.Appenders.Properties
         public const string CustomPreset = "Custom";
         private const string FixName = "Fix";
 
-        public Fix(ObservableCollection<IProperty> container)
+        public Fix(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             Presets = new[] { NonePreset, PartialPreset, AllPreset, CustomPreset };

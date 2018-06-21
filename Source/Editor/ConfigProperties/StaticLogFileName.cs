@@ -12,7 +12,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string StaticLogFileNameName = "staticLogFileName";
 
-        public StaticLogFileName(ObservableCollection<IProperty> container)
+        public StaticLogFileName(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
         }

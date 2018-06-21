@@ -12,7 +12,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string MaxSizeRollBackupsName = "maxSizeRollBackups";
 
-        public MaxSizeRollBackups(ObservableCollection<IProperty> container)
+        public MaxSizeRollBackups(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Max Size Roll Backups:")
         {
             ToolTip = "The maximum number of backup files that are kept before the oldest is erased.";

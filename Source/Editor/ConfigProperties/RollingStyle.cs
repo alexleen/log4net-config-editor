@@ -16,7 +16,7 @@ namespace Editor.Windows.Appenders.Properties
     {
         private const string RollingStyleName = "rollingStyle";
 
-        public RollingStyle(ObservableCollection<IProperty> container)
+        public RollingStyle(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             Modes = Enum.GetValues(typeof(RollingFileAppender.RollingMode)).Cast<RollingFileAppender.RollingMode>();

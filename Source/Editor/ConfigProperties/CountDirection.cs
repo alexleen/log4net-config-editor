@@ -15,7 +15,7 @@ namespace Editor.Windows.Appenders.Properties
         private const string Higher = "Higher";
         private const string CountDirectionName = "countDirection";
 
-        public CountDirection(ObservableCollection<IProperty> container)
+        public CountDirection(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
             Directions = new[] { Lower, Higher };
