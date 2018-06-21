@@ -65,7 +65,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         {
             Assert.AreEqual(2, mSut.RefsCollection.Count);
             Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
-            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name == "root" || r.LoggerNode.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.Node.Name == "root" || r.Node.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             Assert.AreEqual(2, mSut.RefsCollection.Count);
             Assert.AreEqual(1, mSut.RefsCollection.Count(r => !r.IsEnabled));
-            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name == "root" || r.LoggerNode.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.Node.Name == "root" || r.Node.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             Assert.AreEqual(1, mSut.RefsCollection.Count);
             Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
-            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name == "root"));
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.Node.Name == "root"));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             Assert.AreEqual(1, mSut.RefsCollection.Count);
             Assert.IsTrue(mSut.RefsCollection.All(r => !r.IsEnabled)); //Locations aren't enabled until a load is done with this appender's name
-            Assert.IsTrue(mSut.RefsCollection.All(r => r.LoggerNode.Name != "root"));
+            Assert.IsTrue(mSut.RefsCollection.All(r => r.Node.Name != "root"));
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", loggerElement, true)
+                new LoggerModel("logger", "name", loggerElement, true)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -199,7 +199,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", loggerElement, true)
+                new LoggerModel("logger", "name", loggerElement, true)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -219,7 +219,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", loggerElement, true)
+                new LoggerModel("logger", "name", loggerElement, true)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -239,7 +239,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", loggerElement, false)
+                new LoggerModel("logger", "name", loggerElement, false)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -257,7 +257,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", loggerElement, false)
+                new LoggerModel("logger", "name", loggerElement, false)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));

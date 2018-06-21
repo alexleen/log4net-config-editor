@@ -37,7 +37,7 @@ namespace Editor.Utilities
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    yield return new LoggerModel(name, asyncAppender, false);
+                    yield return new LoggerModel("appender", name, asyncAppender, false);
                 }
             }
 
@@ -45,7 +45,7 @@ namespace Editor.Utilities
 
             if (root != null)
             {
-                yield return new LoggerModel("root", root, false);
+                yield return new LoggerModel("root", null, root, false);
             }
         }
 

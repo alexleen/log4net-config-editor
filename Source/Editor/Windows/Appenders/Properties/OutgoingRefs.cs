@@ -35,7 +35,7 @@ namespace Editor.Windows.Appenders.Properties
                     continue;
                 }
 
-                RefsCollection.Add(new LoggerModel(name, mOriginalAppender, false));
+                RefsCollection.Add(new LoggerModel("appender", name, mOriginalAppender, false));
             }
         }
 
