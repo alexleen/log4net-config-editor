@@ -12,7 +12,7 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LoggerMatchName = "loggerToMatch";
 
-        public LoggerToMatch(ObservableCollection<IProperty> container)
+        public LoggerToMatch(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Logger to Match:")
         {
         }

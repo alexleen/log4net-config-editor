@@ -4,7 +4,7 @@ using Editor.Descriptors;
 
 namespace Editor.ConfigProperties.Interfaces
 {
-    public interface IAppenderDefinition : IPropertyDefinition
+    internal interface IAppenderDefinition : IPropertyDefinition
     {
         AppenderDescriptor Descriptor { get; }
     }

@@ -12,7 +12,7 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LevelMaxName = "levelMax";
 
-        public MaxLevel(ObservableCollection<IProperty> container)
+        public MaxLevel(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Max Level:", true)
         {
         }

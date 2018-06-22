@@ -12,7 +12,7 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LevelMatchName = "levelToMatch";
 
-        public LevelToMatch(ObservableCollection<IProperty> container)
+        public LevelToMatch(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Level to Match:")
         {
         }

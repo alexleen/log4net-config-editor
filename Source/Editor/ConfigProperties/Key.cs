@@ -12,7 +12,7 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string KeyName = "key";
 
-        public Key(ObservableCollection<IProperty> container)
+        public Key(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Key:")
         {
         }

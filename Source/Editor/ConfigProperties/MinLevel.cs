@@ -12,7 +12,7 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string LevelMinName = "levelMin";
 
-        public MinLevel(ObservableCollection<IProperty> container)
+        public MinLevel(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Min Level:", true)
         {
         }

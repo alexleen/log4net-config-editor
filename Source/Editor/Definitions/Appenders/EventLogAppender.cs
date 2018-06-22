@@ -7,7 +7,7 @@ using Editor.Windows.Appenders.Properties;
 
 namespace Editor.ConfigProperties.Definitions
 {
-    public class EventLogAppender : AppenderSkeleton
+    internal class EventLogAppender : AppenderSkeleton
     {
         public EventLogAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
             : base(appenderConfiguration, messageBoxService)

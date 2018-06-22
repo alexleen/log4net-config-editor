@@ -12,7 +12,7 @@ namespace Editor.Windows.Filters.Properties
     {
         private const string AcceptOnMatchName = "acceptOnMatch";
 
-        public AcceptOnMatch(ObservableCollection<IProperty> container)
+        public AcceptOnMatch(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto)
         {
         }

@@ -14,7 +14,7 @@ namespace Editor.Windows.Filters.Properties
         private readonly Func<bool> mValidate;
         private const string RegexToMatchName = "regexToMatch";
 
-        public RegexMatch(ObservableCollection<IProperty> container, Func<bool> validate)
+        public RegexMatch(ReadOnlyCollection<IProperty> container, Func<bool> validate)
             : base(container, GridLength.Auto, "Regex to Match:")
         {
             mValidate = validate;
