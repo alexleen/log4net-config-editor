@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Editor.Descriptors
 {
-    public class LockingModelDescriptor
+    public class LockingModelDescriptor : DescriptorBase
     {
         public static readonly LockingModelDescriptor Exclusive, Minimal, InterProcess;
         private static readonly IDictionary<string, LockingModelDescriptor> sDescriptorsByTypeNamespace;
@@ -24,8 +24,8 @@ namespace Editor.Descriptors
         }
 
         private LockingModelDescriptor(string name, string typeNamespace)
+            : base(name)
         {
-            Name = name;
             TypeNamespace = typeNamespace;
         }
 
@@ -39,8 +39,6 @@ namespace Editor.Descriptors
 
             return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out appender);
         }
-
-        public string Name { get; }
 
         public string TypeNamespace { get; }
     }

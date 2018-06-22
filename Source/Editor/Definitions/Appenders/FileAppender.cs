@@ -8,7 +8,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class FileAppender : AppenderSkeleton
     {
-        protected FileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        internal FileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
             : base(appenderConfiguration, messageBoxService)
         {
         }

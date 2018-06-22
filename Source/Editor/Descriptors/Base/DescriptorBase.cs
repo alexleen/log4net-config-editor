@@ -2,8 +2,13 @@
 
 namespace Editor.Descriptors
 {
-    public class DescriptorBase
+    public abstract class DescriptorBase
     {
-        
+        protected DescriptorBase(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; }
     }
 }

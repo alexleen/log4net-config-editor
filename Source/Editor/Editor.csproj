@@ -72,7 +72,7 @@
     <Compile Include="Definitions\Appenders\AsyncAppender.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppender.cs" />
     <Compile Include="Definitions\Appenders\EventLogAppender.cs" />
-    <Compile Include="ConfigProperties\Factory\DefinitionFactory.cs" />
+    <Compile Include="Definitions\Factory\DefinitionFactory.cs" />
     <Compile Include="ConfigProperties\File.cs" />
     <Compile Include="ConfigProperties\Filters.cs" />
     <Compile Include="ConfigProperties\Fix.cs" />
@@ -158,8 +158,8 @@
     <Compile Include="WindowPlacement\RECT.cs" />
     <Compile Include="WindowPlacement\WINDOWPLACEMENT.cs" />
     <Compile Include="WindowPlacement\WindowPlacementUtility.cs" />
-    <Compile Include="Windows\Appenders\AppenderWindow.xaml.cs">
-      <DependentUpon>AppenderWindow.xaml</DependentUpon>
+    <Compile Include="ElementWindow.cs">
+      <DependentUpon>ElementWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Appenders\MappingWindow.xaml.cs">
       <DependentUpon>MappingWindow.xaml</DependentUpon>
@@ -175,7 +175,7 @@
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\PropertyCommon\GridHelper.cs" />
+    <Compile Include="Utilities\GridHelper.cs" />
     <Compile Include="Windows\SizeRetentionWindow.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
@@ -197,7 +197,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\Appenders\AppenderWindow.xaml">
+    <Page Include="ElementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

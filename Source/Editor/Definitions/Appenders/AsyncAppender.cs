@@ -7,7 +7,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class AsyncAppender : ForwardingAppender
     {
-        protected AsyncAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        internal AsyncAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
             : base(appenderConfiguration, messageBoxService)
         {
         }

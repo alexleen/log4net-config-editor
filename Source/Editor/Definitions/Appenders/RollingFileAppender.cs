@@ -8,14 +8,14 @@ using static log4net.Appender.RollingFileAppender;
 
 namespace Editor.Definitions.Appenders
 {
-    class RollingFileAppender : FileAppender
+    internal class RollingFileAppender : FileAppender
     {
         private readonly DatePattern mDatePattern;
         private int mDatePatternIndex;
         private readonly StaticLogFileName mStaticLogFileName;
         private int mStaticLogFileNameIndex;
 
-        protected RollingFileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService) : base(appenderConfiguration, messageBoxService)
+        internal RollingFileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService) : base(appenderConfiguration, messageBoxService)
         {
             mDatePattern = new DatePattern(Properties);
             mStaticLogFileName = new StaticLogFileName(Properties);

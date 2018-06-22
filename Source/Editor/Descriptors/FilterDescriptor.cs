@@ -5,7 +5,7 @@ using Editor.Enums;
 
 namespace Editor.Descriptors
 {
-    public class FilterDescriptor
+    public class FilterDescriptor : DescriptorBase
     {
         public static readonly FilterDescriptor DenyAll, LevelMatch, LevelRange, LoggerMatch, Property, String;
         private static readonly IDictionary<string, FilterDescriptor> sDescriptorsByTypeNamespace;
@@ -31,8 +31,8 @@ namespace Editor.Descriptors
         }
 
         private FilterDescriptor(string name, FilterType type, string typeNamespace)
+            : base(name)
         {
-            Name = name;
             Type = type;
             TypeNamespace = typeNamespace;
         }
@@ -47,8 +47,6 @@ namespace Editor.Descriptors
 
             return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out filter);
         }
-
-        public string Name { get; }
 
         public FilterType Type { get; }
 

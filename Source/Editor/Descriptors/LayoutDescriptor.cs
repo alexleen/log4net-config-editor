@@ -5,7 +5,7 @@ using Editor.Enums;
 
 namespace Editor.Descriptors
 {
-    public class LayoutDescriptor
+    public class LayoutDescriptor : DescriptorBase
     {
         public static readonly LayoutDescriptor Simple, Pattern;
         private static readonly IDictionary<string, LayoutDescriptor> sDescriptorsByTypeNamespace;
@@ -23,8 +23,8 @@ namespace Editor.Descriptors
         }
 
         private LayoutDescriptor(string name, LayoutType type, string typeNamespace)
+            : base(name)
         {
-            Name = name;
             Type = type;
             TypeNamespace = typeNamespace;
         }
@@ -39,8 +39,6 @@ namespace Editor.Descriptors
 
             return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out layout);
         }
-
-        public string Name { get; }
 
         public LayoutType Type { get; }
 

@@ -73,7 +73,7 @@ namespace Editor.Windows.Appenders.Properties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            Window filterWindow;
+            Window filterWindow = new ElementWindow();
 
             switch (filterModel.Descriptor.Type)
             {

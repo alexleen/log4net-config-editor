@@ -1,10 +1,13 @@
 // Copyright © 2018 Alex Leendertsen
 
+using Editor.ConfigProperties.Factory;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.HistoryManager;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
+using Editor.Windows;
 using Editor.Windows.Appenders;
 using Editor.Windows.Loggers;
 using Microsoft.Win32;
@@ -21,7 +24,7 @@ namespace Editor
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : IMessageBoxService
     {
         private XmlDocument mConfigXml;
         private XmlNode mLog4NetNode;
@@ -221,7 +224,7 @@ namespace Editor
 
         private void AddAppenderItemOnClick(object appender)
         {
-            OpenAppenderWindow(((AppenderDescriptor)appender).Type, null);
+            OpenAppenderWindow((AppenderDescriptor)appender, null);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
@@ -230,7 +233,7 @@ namespace Editor
 
             if (dataContext is AppenderModel appenderModel)
             {
-                OpenAppenderWindow(appenderModel.Descriptor.Type, appenderModel.Node);
+                OpenAppenderWindow(appenderModel.Descriptor, appenderModel.Node);
             }
             else if (dataContext is ChildModel childModel)
             {
@@ -287,37 +290,10 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenAppenderWindow(AppenderType appenderType, XmlNode appenderNode)
+        private void OpenAppenderWindow(AppenderDescriptor appenderDescriptor, XmlNode appenderNode)
         {
-            AppenderWindow appenderWindow;
-
-            switch (appenderType)
-            {
-                case AppenderType.Console:
-                    appenderWindow = new ConsoleAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                case AppenderType.File:
-                    appenderWindow = new FileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                case AppenderType.RollingFile:
-                    appenderWindow = new RollingFileAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                case AppenderType.EventLog:
-                    appenderWindow = new EventLogAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                case AppenderType.Async:
-                    appenderWindow = new AsyncAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                case AppenderType.Forwarding:
-                    appenderWindow = new ForwardingAppenderWindow(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                case AppenderType.ManagedColor:
-                    appenderWindow = new ManagedColoredConsoleAppender(this, mConfigXml, mLog4NetNode, appenderNode);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(appenderType), appenderType, null);
-            }
-
+            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement("appender"));
+            ElementWindow appenderWindow = new ElementWindow(this, appenderConfiguration, DefinitionFactory.Create(appenderDescriptor, appenderConfiguration, this));
             appenderWindow.ShowDialog();
             LoadFromRam();
         }
@@ -338,6 +314,57 @@ namespace Editor
             LoggerWindow lw = new LoggerWindow(this, mConfigXml, mLog4NetNode, rootLoggerNode, changeType);
             lw.ShowDialog();
             LoadFromRam();
+        }
+
+        public void ShowError(string message)
+        {
+            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public void ShowInformation(string message)
+        {
+            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ShowWindow(Window window)
+        {
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
+        public bool? ShowOpenFileDialog(out string fileName)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool? showDialog = ofd.ShowDialog();
+
+            if (showDialog.HasValue && showDialog.Value)
+            {
+                fileName = ofd.FileName;
+                return true;
+            }
+
+            fileName = null;
+            return showDialog;
+        }
+
+        private class AppenderConfiguration : IAppenderConfiguration
+        {
+            public AppenderConfiguration(XmlDocument xmlDocument, XmlNode log4netNode, XmlNode originalNode, XmlNode newNode)
+            {
+                ConfigXml = xmlDocument;
+                Log4NetNode = Log4NetNode;
+                OriginalAppenderNode = originalNode;
+                NewAppenderNode = newNode;
+            }
+
+            public XmlNode OriginalAppenderNode { get; }
+
+            public XmlNode NewAppenderNode { get; }
+
+            public XmlDocument ConfigXml { get; }
+
+            public XmlNode Log4NetNode { get; }
         }
     }
 }

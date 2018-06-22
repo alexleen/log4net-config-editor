@@ -2,7 +2,7 @@
 
 namespace Editor.Descriptors
 {
-    public class LoggerDescriptor
+    public class LoggerDescriptor : DescriptorBase
     {
         public static readonly LoggerDescriptor Root;
 
@@ -12,10 +12,8 @@ namespace Editor.Descriptors
         }
 
         public LoggerDescriptor(string name)
+            : base(name)
         {
-            Name = name;
         }
-
-        public string Name { get; }
     }
 }

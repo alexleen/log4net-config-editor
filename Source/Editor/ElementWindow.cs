@@ -15,14 +15,14 @@ namespace Editor.Windows.Appenders
     /// <summary>
     /// Interaction logic for AddFileAppenderWindow.xaml
     /// </summary>
-    public abstract partial class AppenderWindow : IMessageBoxService
+    public abstract partial class ElementWindow : SizeRetentionWindow, IMessageBoxService
     {
         private readonly IAppenderConfiguration mAppenderConfiguration;
         private readonly IPropertyDefinition mPropertyDefinition;
 
-        public ObservableCollection<IProperty> AppenderProperties { get; }
+        public ObservableCollection<IProperty> Properties { get; }
 
-        protected AppenderWindow(Window owner, IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
+        protected ElementWindow(Window owner, IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
             : base("AppenderWindowPlacement")
         {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace Editor.Windows.Appenders
             Owner = owner ?? throw new ArgumentNullException(nameof(owner));
             mAppenderConfiguration = appenderConfiguration;
             mPropertyDefinition = propertyDefinition;
-            AppenderProperties = new ObservableCollection<IProperty>();
+            Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
         }
 
@@ -42,7 +42,7 @@ namespace Editor.Windows.Appenders
 
             foreach (IProperty property in mPropertyDefinition.Properties)
             {
-                AppenderProperties.Add(property);
+                Properties.Add(property);
             }
 
             if (mAppenderConfiguration.OriginalAppenderNode == null)
@@ -52,15 +52,15 @@ namespace Editor.Windows.Appenders
 
             // Load may add additional properties - hence the for loop and not foreach
             // ReSharper disable once ForCanBeConvertedToForeach
-            for (int index = 0; index < AppenderProperties.Count; index++)
+            for (int index = 0; index < Properties.Count; index++)
             {
-                AppenderProperties[index].Load(mAppenderConfiguration.OriginalAppenderNode);
+                Properties[index].Load(mAppenderConfiguration.OriginalAppenderNode);
             }
         }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (AppenderProperties.Any(prop => !prop.TryValidate(this)))
+            if (Properties.Any(prop => !prop.TryValidate(this)))
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace Editor.Windows.Appenders
             //TODO add this as a property?
             mAppenderConfiguration.NewAppenderNode.AppendAttribute(mAppenderConfiguration.ConfigXml, "type", Descriptor.TypeNamespace);
 
-            foreach (IProperty appenderProperty in AppenderProperties)
+            foreach (IProperty appenderProperty in Properties)
             {
                 appenderProperty.Save(mAppenderConfiguration.ConfigXml, mAppenderConfiguration.NewAppenderNode);
             }
