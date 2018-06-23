@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using Editor.Interfaces;
@@ -31,17 +32,33 @@ namespace Editor.Windows
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
             Title = mPropertyDefinition.Name;
+            ((INotifyCollectionChanged)mPropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
+        }
+
+        private void PropertiesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (IProperty property in e.NewItems)
+                {
+                    Properties.Add(property);
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (IProperty property in e.OldItems)
+                {
+                    Properties.Remove(property);
+                }
+            }
         }
 
         private void WindowOnLoaded(object sender, EventArgs e)
         {
-            //TODO combine initialize and load to better facilitate dymanic properties?
+            //TODO combine initialize and load to better facilitate dymanic properties? Why not just add all properties in ctor?
+            //This will add all properties to collection via event handler
             mPropertyDefinition.Initialize();
-
-            foreach (IProperty property in mPropertyDefinition.Properties)
-            {
-                Properties.Add(property);
-            }
 
             if (mAppenderConfiguration.OriginalAppenderNode == null)
             {

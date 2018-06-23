@@ -10,6 +10,6 @@ namespace Editor.Interfaces
         
         void Initialize();
 
-        ReadOnlyCollection<IProperty> Properties { get; }
+        ReadOnlyObservableCollection<IProperty> Properties { get; }
     }
 }

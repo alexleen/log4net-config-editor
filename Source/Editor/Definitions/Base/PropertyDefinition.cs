@@ -7,9 +7,32 @@ namespace Editor.Definitions.Base
 {
     internal abstract class PropertyDefinition : IPropertyDefinition
     {
+        private readonly ObservableCollection<IProperty> mProperties;
+
+        protected PropertyDefinition()
+        {
+            mProperties = new ObservableCollection<IProperty>();
+            Properties = new ReadOnlyObservableCollection<IProperty>(mProperties);
+        }
+
+        protected void AddProperty(IProperty property)
+        {
+            mProperties.Add(property);
+        }
+
+        protected void AddProperty(int index, IProperty property)
+        {
+            mProperties.Insert(index, property);
+        }
+
+        protected void RemoveProperty(IProperty property)
+        {
+            mProperties.Remove(property);
+        }
+
         public abstract string Name { get; }
-        
-        public abstract ReadOnlyCollection<IProperty> Properties { get; }
+
+        public ReadOnlyObservableCollection<IProperty> Properties { get; }
 
         public abstract void Initialize();
     }
