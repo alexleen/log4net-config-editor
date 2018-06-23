@@ -4,8 +4,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
-using Editor.Windows.Appenders.Properties;
-using Editor.Windows.PropertyCommon;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
 using log4net.Appender;
 using NUnit.Framework;
 

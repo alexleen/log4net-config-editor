@@ -8,12 +8,11 @@ using System.Threading;
 using System.Windows;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
-using Editor.Windows.Appenders.Properties;
 using Editor.Windows.Filters;
-using Editor.Windows.PropertyCommon;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -22,7 +21,7 @@ namespace Editor.Test.Windows.Appenders.Properties
     [TestFixture, Apartment(ApartmentState.STA)]
     public class FiltersTest
     {
-        private Editor.Windows.Appenders.Properties.Filters mSut;
+        private ConfigProperties.Filters mSut;
         private XmlDocument mXmlDoc;
         private XmlElement mAppender;
         private IMessageBoxService mMessageBoxService;
@@ -33,7 +32,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             mXmlDoc = new XmlDocument();
             mAppender = mXmlDoc.CreateElement("appender");
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new Editor.Windows.Appenders.Properties.Filters(new ObservableCollection<IProperty>(), mXmlDoc, mAppender, mMessageBoxService);
+            mSut = new ConfigProperties.Filters(new ObservableCollection<IProperty>(), mXmlDoc, mAppender, mMessageBoxService);
         }
 
         [Test]

@@ -1,17 +1,16 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties.Definitions;
-using Editor.ConfigProperties.Interfaces;
+using System;
+using System.ComponentModel;
 using Editor.Definitions.Appenders;
 using Editor.Definitions.Filters;
 using Editor.Descriptors;
+using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Windows;
-using System;
-using System.ComponentModel;
 
-namespace Editor.ConfigProperties.Factory
+namespace Editor.Definitions.Factory
 {
     public static class DefinitionFactory
     {

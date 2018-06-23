@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Windows;
-using Editor.Windows.Appenders.Properties;
 
-namespace Editor.ConfigProperties.Definitions
+namespace Editor.Definitions.Appenders
 {
     internal class ConsoleAppender : AppenderSkeleton
     {

@@ -1,21 +1,19 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
-using Editor.ConfigProperties.Factory;
+using Editor.ConfigProperties.Base;
+using Editor.Definitions.Factory;
 using Editor.Descriptors;
-using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
-using Editor.Windows.Filters;
-using Editor.Windows.PropertyCommon;
+using Editor.Windows;
 
-namespace Editor.Windows.Appenders.Properties
+namespace Editor.ConfigProperties
 {
     public class Filters : PropertyBase
     {

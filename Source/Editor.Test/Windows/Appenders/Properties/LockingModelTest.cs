@@ -2,9 +2,9 @@
 
 using System.Collections.ObjectModel;
 using System.Xml;
+using Editor.ConfigProperties;
 using Editor.Descriptors;
-using Editor.Windows.Appenders.Properties;
-using Editor.Windows.PropertyCommon;
+using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.Windows.Appenders.Properties

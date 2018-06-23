@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Editor.ConfigProperties.Interfaces;
-using Editor.Windows.PropertyCommon;
+using Editor.Interfaces;
 
 namespace Editor.Definitions.Base
 {

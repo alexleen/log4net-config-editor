@@ -1,11 +1,10 @@
-﻿using Editor.ConfigProperties.Interfaces;
-using Editor.Definitions.Base;
+﻿using Editor.Definitions.Base;
 using Editor.Descriptors;
-using Editor.Windows.Filters.Properties;
-using Editor.Windows.PropertyCommon;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
 
 namespace Editor.Definitions.Filters
 {

@@ -1,12 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Editor.Interfaces;
 using Editor.Models;
-using Editor.Windows.PropertyCommon;
 
-namespace Editor.Windows.Appenders.Properties
+namespace Editor.ConfigProperties.Base
 {
     public abstract class RefsBase : PropertyBase
     {

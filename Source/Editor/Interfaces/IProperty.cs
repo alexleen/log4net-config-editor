@@ -2,8 +2,9 @@
 
 using System.Windows;
 using System.Xml;
+using Editor.Windows;
 
-namespace Editor.Windows.PropertyCommon
+namespace Editor.Interfaces
 {
     /// <summary>
     /// Represents a log4net grid row used in either a Filter or Appender.

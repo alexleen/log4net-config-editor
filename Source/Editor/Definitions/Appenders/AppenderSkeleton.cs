@@ -1,17 +1,15 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties.Interfaces;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Editor.ConfigProperties;
 using Editor.Definitions.Base;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Windows;
-using Editor.Windows.Appenders.Properties;
-using Editor.Windows.PropertyCommon;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
-namespace Editor.ConfigProperties.Definitions
+namespace Editor.Definitions.Appenders
 {
     internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
     {
@@ -38,7 +36,7 @@ namespace Editor.ConfigProperties.Definitions
             AddAppenderSpecificProperties();
 
             mProperties.Add(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            mProperties.Add(new Filters(Properties, mAppenderConfiguration, mMessageBoxService));
+            mProperties.Add(new ConfigProperties.Filters(Properties, mAppenderConfiguration, mMessageBoxService));
             mProperties.Add(new IncomingRefs(Properties, nameProperty, mAppenderConfiguration));
         }
 

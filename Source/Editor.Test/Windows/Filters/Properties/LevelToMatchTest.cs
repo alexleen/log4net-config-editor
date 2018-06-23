@@ -2,9 +2,9 @@
 
 using System.Collections.ObjectModel;
 using System.Xml;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows.Filters.Properties;
-using Editor.Windows.PropertyCommon;
 using log4net.Core;
 using NUnit.Framework;
 

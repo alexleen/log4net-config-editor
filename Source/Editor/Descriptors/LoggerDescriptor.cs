@@ -1,5 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Descriptors.Base;
+
 namespace Editor.Descriptors
 {
     public class LoggerDescriptor : DescriptorBase

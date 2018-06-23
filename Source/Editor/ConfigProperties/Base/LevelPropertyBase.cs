@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows.PropertyCommon;
 using log4net.Core;
 
-namespace Editor.Windows.Filters.Properties
+namespace Editor.ConfigProperties.Base
 {
     public abstract class LevelPropertyBase : PropertyBase
     {

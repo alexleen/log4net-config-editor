@@ -1,6 +1,6 @@
 ﻿using Editor.Descriptors;
-using Editor.Windows.Filters.Properties;
 using System.Windows;
+using Editor.ConfigProperties;
 
 namespace Editor.Definitions.Filters
 {

@@ -3,10 +3,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
-using Editor.Windows.Appenders.Properties;
-using Editor.Windows.PropertyCommon;
 using NUnit.Framework;
 
 namespace Editor.Test.Windows.Appenders.Properties

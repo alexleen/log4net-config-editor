@@ -6,11 +6,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows.PropertyCommon;
 using log4net.Appender;
 
-namespace Editor.Windows.Appenders.Properties
+namespace Editor.ConfigProperties
 {
     public class RollingStyle : PropertyBase
     {

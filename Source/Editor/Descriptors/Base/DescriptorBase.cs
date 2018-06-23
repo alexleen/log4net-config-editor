@@ -1,6 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-namespace Editor.Descriptors
+namespace Editor.Descriptors.Base
 {
     public abstract class DescriptorBase
     {

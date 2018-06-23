@@ -4,10 +4,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Editor.ConfigProperties.Interfaces;
 using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows.PropertyCommon;
 using Microsoft.Win32;
 
 namespace Editor.Windows

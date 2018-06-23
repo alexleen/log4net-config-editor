@@ -1,13 +1,14 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
-using Editor.Utilities;
-using Editor.Windows.PropertyCommon;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
+using Editor.Utilities;
+using Editor.Windows;
 
-namespace Editor.Windows.Appenders.Properties
+namespace Editor.ConfigProperties
 {
     public class Name : StringValueProperty
     {

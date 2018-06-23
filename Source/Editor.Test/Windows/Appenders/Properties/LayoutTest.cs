@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
+using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.HistoryManager;
+using Editor.Interfaces;
 using Editor.Windows;
-using Editor.Windows.Appenders.Properties;
-using Editor.Windows.PropertyCommon;
 using NSubstitute;
 using NUnit.Framework;
 

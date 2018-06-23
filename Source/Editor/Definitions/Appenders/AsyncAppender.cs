@@ -1,7 +1,7 @@
-﻿using Editor.Descriptors;
+﻿using Editor.ConfigProperties;
+using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Windows;
-using Editor.Windows.Appenders.Properties;
 
 namespace Editor.Definitions.Appenders
 {

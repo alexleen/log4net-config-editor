@@ -2,7 +2,7 @@
 
 using Editor.Descriptors;
 
-namespace Editor.ConfigProperties.Interfaces
+namespace Editor.Interfaces
 {
     internal interface IFilterDefinition : IPropertyDefinition
     {

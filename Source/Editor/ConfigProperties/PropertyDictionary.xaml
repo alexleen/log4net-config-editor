@@ -1,11 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Properties="clr-namespace:Editor.Windows.Appenders.Properties"
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Editor="clr-namespace:Editor"
-                    xmlns:PropertyCommon="clr-namespace:Editor.Windows.PropertyCommon"
-                    xmlns:FiltersProperties="clr-namespace:Editor.Windows.Filters.Properties">
+                    xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
+                    xmlns:FiltersProperties="clr-namespace:Editor.ConfigProperties">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -24,7 +23,7 @@
         </Style.Triggers>
     </Style>
 
-    <DataTemplate DataType="{x:Type PropertyCommon:StringValueProperty}">
+    <DataTemplate DataType="{x:Type Base:StringValueProperty}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -48,7 +47,7 @@
         </Grid>
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type FiltersProperties:LevelPropertyBase}">
+    <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -66,7 +65,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:Target}">
+    <DataTemplate DataType="{x:Type FiltersProperties:Target}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -83,7 +82,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:File}">
+    <DataTemplate DataType="{x:Type FiltersProperties:File}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -104,7 +103,7 @@
         </Grid>
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type Properties:StaticLogFileName}">
+    <DataTemplate DataType="{x:Type FiltersProperties:StaticLogFileName}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -116,7 +115,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:PreserveExtension}">
+    <DataTemplate DataType="{x:Type FiltersProperties:PreserveExtension}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -128,7 +127,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:CountDirection}">
+    <DataTemplate DataType="{x:Type FiltersProperties:CountDirection}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -146,7 +145,7 @@
         </Grid>
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type Properties:LockingModel}">
+    <DataTemplate DataType="{x:Type FiltersProperties:LockingModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -179,7 +178,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:RollingStyle}">
+    <DataTemplate DataType="{x:Type FiltersProperties:RollingStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -212,7 +211,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:Fix}">
+    <DataTemplate DataType="{x:Type FiltersProperties:Fix}">
         <DataTemplate.Resources>
             <Converters:BoolToColorConverter x:Key="BoolToColConv"/>
             <Converters:PresetToBoolConverter x:Key="PresetToBoolConv"/>
@@ -263,7 +262,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:Mapping}">
+    <DataTemplate DataType="{x:Type FiltersProperties:Mapping}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -328,7 +327,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:Layout}">
+    <DataTemplate DataType="{x:Type FiltersProperties:Layout}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -368,7 +367,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:Filters}">
+    <DataTemplate DataType="{x:Type FiltersProperties:Filters}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -413,7 +412,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Properties:RefsBase}">
+    <DataTemplate DataType="{x:Type Base:RefsBase}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>

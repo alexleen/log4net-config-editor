@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Editor.Interfaces;
 
-namespace Editor.Windows.PropertyCommon
+namespace Editor.ConfigProperties.Base
 {
     public abstract class StringValueProperty : PropertyBase
     {

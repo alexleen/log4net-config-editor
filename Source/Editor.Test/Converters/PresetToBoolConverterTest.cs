@@ -1,8 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using Editor.ConfigProperties;
 using Editor.Converters;
-using Editor.Windows.Appenders.Properties;
 using log4net.Core;
 using NUnit.Framework;
 

@@ -1,9 +1,8 @@
 ﻿using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Windows;
-using Editor.Windows.Appenders.Properties;
-using Editor.Windows.PropertyCommon;
 using System.ComponentModel;
+using Editor.ConfigProperties;
 using static log4net.Appender.RollingFileAppender;
 
 namespace Editor.Definitions.Appenders

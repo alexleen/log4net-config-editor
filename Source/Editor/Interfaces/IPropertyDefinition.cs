@@ -1,9 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Windows.PropertyCommon;
 using System.Collections.ObjectModel;
 
-namespace Editor.ConfigProperties.Interfaces
+namespace Editor.Interfaces
 {
     public interface IPropertyDefinition
     {

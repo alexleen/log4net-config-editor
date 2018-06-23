@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:PropertyCommon="clr-namespace:Editor.Windows.PropertyCommon"
+        xmlns:Utilities="clr-namespace:Editor.Utilities"
         mc:Ignorable="d"
         Title="Filter" 
         ResizeMode="NoResize"
@@ -28,7 +28,7 @@
             </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid PropertyCommon:GridHelper.BindableRows="{Binding FilterProperties}" />
+                    <Grid Utilities:GridHelper.BindableRows="{Binding FilterProperties}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 

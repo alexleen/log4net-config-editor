@@ -1,6 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties.Factory;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.HistoryManager;
@@ -18,6 +17,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using Editor.Definitions.Factory;
 
 namespace Editor
 {

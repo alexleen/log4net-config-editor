@@ -5,9 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
-using Editor.Windows.PropertyCommon;
 using Microsoft.Win32;
 
 namespace Editor.Windows.Filters

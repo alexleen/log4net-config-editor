@@ -1,5 +1,5 @@
-﻿using Editor.Descriptors;
-using Editor.Windows.Filters.Properties;
+﻿using Editor.ConfigProperties;
+using Editor.Descriptors;
 
 namespace Editor.Definitions.Filters
 {
