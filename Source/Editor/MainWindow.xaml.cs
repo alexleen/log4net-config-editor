@@ -1,16 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors;
-using Editor.Enums;
-using Editor.HistoryManager;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Utilities;
-using Editor.Windows;
-using Editor.Windows.Appenders;
-using Editor.Windows.Loggers;
-using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +7,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using Editor.Definitions.Factory;
+using Editor.Descriptors;
+using Editor.Enums;
+using Editor.HistoryManager;
+using Editor.Interfaces;
+using Editor.Models;
+using Editor.Utilities;
+using Editor.Windows;
+using Editor.Windows.Loggers;
+using Microsoft.Win32;
 
 namespace Editor
 {

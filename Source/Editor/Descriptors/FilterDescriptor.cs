@@ -54,4 +54,3 @@ namespace Editor.Descriptors
         public string TypeNamespace { get; }
     }
 }
-

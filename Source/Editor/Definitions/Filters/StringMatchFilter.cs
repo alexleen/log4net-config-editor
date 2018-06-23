@@ -1,6 +1,8 @@
-﻿using Editor.Descriptors;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Windows;
 using Editor.ConfigProperties;
+using Editor.Descriptors;
 
 namespace Editor.Definitions.Filters
 {

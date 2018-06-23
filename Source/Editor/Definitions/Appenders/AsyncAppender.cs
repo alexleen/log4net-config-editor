@@ -1,4 +1,6 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Windows;

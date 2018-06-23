@@ -12,7 +12,7 @@ namespace Editor.ConfigProperties
 {
     public class OutgoingRefs : RefsBase
     {
-        readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IAppenderConfiguration mAppenderConfiguration;
 
         public OutgoingRefs(ReadOnlyCollection<IProperty> container, IAppenderConfiguration appenderConfiguration)
             : base(container, "↑ Refs:", "This element can reference the following appenders:")

@@ -16,9 +16,9 @@ namespace Editor.ConfigProperties.Base
             Description = description;
             RefsCollection = new ObservableCollection<LoggerModel>();
         }
-        
+
         public string Name { get; }
-        
+
         public string Description { get; }
 
         public ObservableCollection<LoggerModel> RefsCollection { get; set; }

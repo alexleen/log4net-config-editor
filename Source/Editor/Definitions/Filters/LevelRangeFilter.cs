@@ -1,9 +1,11 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.Descriptors;
 
 namespace Editor.Definitions.Filters
 {
-    class LevelRangeFilter : FilterSkeleton
+    internal class LevelRangeFilter : FilterSkeleton
     {
         public override FilterDescriptor Descriptor => FilterDescriptor.LevelRange;
 

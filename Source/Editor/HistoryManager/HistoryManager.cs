@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using Editor.Properties;
 
 namespace Editor.HistoryManager
 {

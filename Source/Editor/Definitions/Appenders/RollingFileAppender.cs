@@ -1,8 +1,10 @@
-﻿using Editor.Descriptors;
-using Editor.Interfaces;
-using Editor.Windows;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.ComponentModel;
 using Editor.ConfigProperties;
+using Editor.Descriptors;
+using Editor.Interfaces;
+using Editor.Windows;
 using static log4net.Appender.RollingFileAppender;
 
 namespace Editor.Definitions.Appenders
@@ -14,7 +16,8 @@ namespace Editor.Definitions.Appenders
         private readonly StaticLogFileName mStaticLogFileName;
         private int mStaticLogFileNameIndex;
 
-        internal RollingFileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService) : base(appenderConfiguration, messageBoxService)
+        internal RollingFileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+            : base(appenderConfiguration, messageBoxService)
         {
             mDatePattern = new DatePattern(Properties);
             mStaticLogFileName = new StaticLogFileName(Properties);

@@ -1,9 +1,10 @@
-﻿using Editor.Definitions.Base;
-using Editor.Descriptors;
-using System;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Editor.ConfigProperties;
+using Editor.Definitions.Base;
+using Editor.Descriptors;
 using Editor.Interfaces;
 
 namespace Editor.Definitions.Filters
