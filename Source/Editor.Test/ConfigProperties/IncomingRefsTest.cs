@@ -182,7 +182,7 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
 
-            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(xmlDoc, xmlDoc.FirstChild, mXmlDoc.FirstChild["appender"], null);
+            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(xmlDoc, xmlDoc.FirstChild, xmlDoc.FirstChild["appender"], null);
 
             return appenderConfiguration;
         }
