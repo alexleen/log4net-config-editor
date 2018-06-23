@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
+using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
@@ -288,7 +289,7 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenAppenderWindow(AppenderDescriptor appenderDescriptor, XmlNode appenderNode)
+        private void OpenAppenderWindow(DescriptorBase appenderDescriptor, XmlNode appenderNode)
         {
             IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement("appender"));
             ElementWindow elementWindow = new ElementWindow(this, appenderConfiguration, DefinitionFactory.Create(appenderDescriptor, appenderConfiguration, this));
@@ -348,10 +349,10 @@ namespace Editor
 
         private class AppenderConfiguration : IAppenderConfiguration
         {
-            public AppenderConfiguration(XmlDocument xmlDocument, XmlNode log4netNode, XmlNode originalNode, XmlNode newNode)
+            public AppenderConfiguration(XmlDocument xmlDocument, XmlNode log4NetNode, XmlNode originalNode, XmlNode newNode)
             {
                 ConfigXml = xmlDocument;
-                Log4NetNode = Log4NetNode;
+                Log4NetNode = log4NetNode;
                 OriginalAppenderNode = originalNode;
                 NewAppenderNode = newNode;
             }

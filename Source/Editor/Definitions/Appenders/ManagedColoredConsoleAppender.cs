@@ -19,7 +19,7 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             base.AddAppenderSpecificProperties();
-            AddProperty(new Mapping(this, Properties));
+            AddProperty(new Mapping(Properties, MessageBoxService));
         }
     }
 }

@@ -13,14 +13,14 @@ namespace Editor.Definitions.Appenders
 {
     internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
     {
-        protected readonly IAppenderConfiguration mAppenderConfiguration;
-        protected readonly IMessageBoxService mMessageBoxService;
+        protected readonly IAppenderConfiguration AppenderConfiguration;
+        protected readonly IMessageBoxService MessageBoxService;
         private readonly IList<IProperty> mProperties;
 
         protected AppenderSkeleton(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
         {
-            mAppenderConfiguration = appenderConfiguration;
-            mMessageBoxService = messageBoxService;
+            AppenderConfiguration = appenderConfiguration;
+            MessageBoxService = messageBoxService;
             mProperties = new List<IProperty>();
             Properties = new ReadOnlyCollection<IProperty>(mProperties);
         }
@@ -29,15 +29,15 @@ namespace Editor.Definitions.Appenders
 
         public override void Initialize()
         {
-            Name nameProperty = new Name(Properties, mAppenderConfiguration);
+            Name nameProperty = new Name(Properties, AppenderConfiguration);
             mProperties.Add(nameProperty);
             mProperties.Add(new Threshold(Properties));
 
             AddAppenderSpecificProperties();
 
             mProperties.Add(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            mProperties.Add(new ConfigProperties.Filters(Properties, mAppenderConfiguration, mMessageBoxService));
-            mProperties.Add(new IncomingRefs(Properties, nameProperty, mAppenderConfiguration));
+            mProperties.Add(new ConfigProperties.Filters(Properties, AppenderConfiguration, MessageBoxService));
+            mProperties.Add(new IncomingRefs(Properties, nameProperty, AppenderConfiguration));
         }
 
         protected virtual void AddAppenderSpecificProperties()

@@ -9,6 +9,7 @@ using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
+using Editor.Windows;
 using Editor.Windows.Appenders;
 using log4net.Core;
 
@@ -16,17 +17,17 @@ namespace Editor.ConfigProperties
 {
     public class Mapping : PropertyBase
     {
+        private readonly IMessageBoxService mMessageBoxService;
+
         private const string MappingName = "mapping";
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
         private const string BackColorName = "backColor";
 
-        private readonly Window mOwner;
-
-        public Mapping(Window owner, ReadOnlyCollection<IProperty> container)
+        public Mapping(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
-            mOwner = owner;
+            mMessageBoxService = messageBoxService;
             Mappings = new ObservableCollection<MappingModel>();
             Add = new Command(ShowMappingWindowForAdd);
         }
@@ -37,12 +38,13 @@ namespace Editor.ConfigProperties
 
         private void ShowMappingWindowForAdd()
         {
-            MappingWindow mappingWindow = new MappingWindow { Owner = mOwner };
-            mappingWindow.ShowDialog();
+            MappingWindow mappingWindow = new MappingWindow();
+
+            mMessageBoxService.ShowWindow(mappingWindow);
 
             if (!mappingWindow.Result.Equals(default))
             {
-                Mappings.Add(new MappingModel(mOwner, mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, OnRemove, OnReplace));
+                Mappings.Add(new MappingModel(mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, OnRemove, OnReplace, mMessageBoxService));
             }
         }
 
@@ -85,7 +87,7 @@ namespace Editor.ConfigProperties
                     backColorEnum = backParsed;
                 }
 
-                Mappings.Add(new MappingModel(mOwner, parsedLevel, foreColorEnum, backColorEnum, OnRemove, OnReplace));
+                Mappings.Add(new MappingModel(parsedLevel, foreColorEnum, backColorEnum, OnRemove, OnReplace, mMessageBoxService));
             }
         }
 

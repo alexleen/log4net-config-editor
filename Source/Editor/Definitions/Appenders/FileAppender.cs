@@ -18,7 +18,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new File(Properties, mMessageBoxService));
+            AddProperty(new File(Properties, MessageBoxService));
             AddProperty(new LockingModel(Properties));
         }
     }

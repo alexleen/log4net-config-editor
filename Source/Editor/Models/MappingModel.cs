@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.Windows;
 using System.Windows.Input;
 using Editor.Utilities;
+using Editor.Windows;
 using Editor.Windows.Appenders;
 using log4net.Core;
 
@@ -11,15 +11,15 @@ namespace Editor.Models
 {
     public class MappingModel : IEquatable<MappingModel>
     {
-        private readonly Window mOwner;
         private readonly Action<MappingModel> mRemove;
         private readonly Action<MappingModel, MappingModel> mReplace;
+        private readonly IMessageBoxService mMessageBoxService;
 
-        public MappingModel(Window owner, Level level, ConsoleColor? foreColor, ConsoleColor? backColor, Action<MappingModel> remove, Action<MappingModel, MappingModel> replace)
+        public MappingModel(Level level, ConsoleColor? foreColor, ConsoleColor? backColor, Action<MappingModel> remove, Action<MappingModel, MappingModel> replace, IMessageBoxService messageBoxService)
         {
-            mOwner = owner;
             mRemove = remove;
             mReplace = replace;
+            mMessageBoxService = messageBoxService;
             Level = level;
             ForeColor = foreColor;
             BackColor = backColor;
@@ -39,12 +39,13 @@ namespace Editor.Models
 
         private void EditFilterOnClick()
         {
-            MappingWindow mappingWindow = new MappingWindow(this) { Owner = mOwner };
-            mappingWindow.ShowDialog();
+            MappingWindow mappingWindow = new MappingWindow(this);
+            
+            mMessageBoxService.ShowWindow(mappingWindow);
 
             if (!mappingWindow.Result.Equals(default))
             {
-                mReplace(this, new MappingModel(mOwner, mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, mRemove, mReplace));
+                mReplace(this, new MappingModel(mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, mRemove, mReplace, mMessageBoxService));
             }
         }
 

@@ -21,7 +21,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Mapping(null, new ObservableCollection<IProperty>());
+            mSut = new Mapping(new ObservableCollection<IProperty>());
         }
 
         [Test]
