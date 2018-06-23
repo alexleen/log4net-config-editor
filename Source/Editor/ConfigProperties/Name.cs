@@ -1,12 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Xml;
 
 namespace Editor.Windows.Appenders.Properties
 {
@@ -37,7 +36,7 @@ namespace Editor.Windows.Appenders.Properties
 
             foreach (XmlNode appender in mAppenderConfiguration.Log4NetNode.SelectNodes("appender"))
             {
-                if (!Equals(appender, mAppenderConfiguration.OriginalAppender) && appender.Attributes?[NameName].Value == Value)
+                if (!Equals(appender, mAppenderConfiguration.OriginalAppenderNode) && appender.Attributes?[NameName].Value == Value)
                 {
                     messageBoxService.ShowError("Name must be unique.");
                     return false;

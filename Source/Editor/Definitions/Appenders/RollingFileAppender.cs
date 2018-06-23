@@ -60,12 +60,12 @@ namespace Editor.Definitions.Appenders
             {
                 if (!Properties.Contains(appenderProperty))
                 {
-                    Properties.Insert(index, appenderProperty);
+                    AddProperty(index, appenderProperty);
                 }
             }
             else
             {
-                Properties.Remove(appenderProperty);
+                RemoveProperty(appenderProperty);
             }
         }
     }

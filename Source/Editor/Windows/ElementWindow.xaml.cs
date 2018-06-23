@@ -10,19 +10,19 @@ using Editor.Utilities;
 using Editor.Windows.PropertyCommon;
 using Microsoft.Win32;
 
-namespace Editor.Windows.Appenders
+namespace Editor.Windows
 {
     /// <summary>
-    /// Interaction logic for AddFileAppenderWindow.xaml
+    /// Interaction logic for ElementWindow.xaml
     /// </summary>
-    public abstract partial class ElementWindow : SizeRetentionWindow, IMessageBoxService
+    public partial class ElementWindow : SizeRetentionWindow, IMessageBoxService
     {
         private readonly IAppenderConfiguration mAppenderConfiguration;
         private readonly IPropertyDefinition mPropertyDefinition;
 
         public ObservableCollection<IProperty> Properties { get; }
 
-        protected ElementWindow(Window owner, IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
+        public ElementWindow(Window owner, IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
             : base("AppenderWindowPlacement")
         {
             InitializeComponent();

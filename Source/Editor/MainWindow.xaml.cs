@@ -293,8 +293,8 @@ namespace Editor
         private void OpenAppenderWindow(AppenderDescriptor appenderDescriptor, XmlNode appenderNode)
         {
             IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement("appender"));
-            ElementWindow appenderWindow = new ElementWindow(this, appenderConfiguration, DefinitionFactory.Create(appenderDescriptor, appenderConfiguration, this));
-            appenderWindow.ShowDialog();
+            ElementWindow elementWindow = new ElementWindow(this, appenderConfiguration, DefinitionFactory.Create(appenderDescriptor, appenderConfiguration, this));
+            elementWindow.ShowDialog();
             LoadFromRam();
         }
 

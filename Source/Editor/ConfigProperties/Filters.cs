@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
+using Editor.ConfigProperties.Factory;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -73,29 +74,8 @@ namespace Editor.Windows.Appenders.Properties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            Window filterWindow = new ElementWindow();
-
-            switch (filterModel.Descriptor.Type)
-            {
-                case FilterType.LevelMatch:
-                    filterWindow = new LevelMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
-                    break;
-                case FilterType.LevelRange:
-                    filterWindow = new LevelRangeFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
-                    break;
-                case FilterType.LoggerMatch:
-                    filterWindow = new LoggerMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
-                    break;
-                case FilterType.Property:
-                    filterWindow = new PropertyFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
-                    break;
-                case FilterType.String:
-                    filterWindow = new StringMatchFilterWindow(filterModel, mAppenderNode, mXmlDoc, Add);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            IAppenderConfiguration appenderConfiguration = null; //TODO
+            Window filterWindow = new ElementWindow(null, appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration, mMessageBoxService));
             mMessageBoxService.ShowWindow(filterWindow);
         }
 

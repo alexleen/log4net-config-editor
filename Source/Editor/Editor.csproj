@@ -158,7 +158,7 @@
     <Compile Include="WindowPlacement\RECT.cs" />
     <Compile Include="WindowPlacement\WINDOWPLACEMENT.cs" />
     <Compile Include="WindowPlacement\WindowPlacementUtility.cs" />
-    <Compile Include="ElementWindow.cs">
+    <Compile Include="Windows\ElementWindow.xaml.cs">
       <DependentUpon>ElementWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Appenders\MappingWindow.xaml.cs">
@@ -197,7 +197,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ElementWindow.xaml">
+    <Page Include="Windows\ElementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

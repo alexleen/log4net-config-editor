@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Interfaces;
 using Editor.Definitions.Base;
 using Editor.Descriptors;
@@ -10,6 +8,8 @@ using Editor.Interfaces;
 using Editor.Windows;
 using Editor.Windows.Appenders.Properties;
 using Editor.Windows.PropertyCommon;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Editor.ConfigProperties.Definitions
 {
@@ -34,14 +34,14 @@ namespace Editor.ConfigProperties.Definitions
             Name nameProperty = new Name(Properties, mAppenderConfiguration);
             mProperties.Add(nameProperty);
             mProperties.Add(new Threshold(Properties));
-            
+
             AddAppenderSpecificProperties();
-            
+
             mProperties.Add(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
             mProperties.Add(new Filters(Properties, mAppenderConfiguration, mMessageBoxService));
             mProperties.Add(new IncomingRefs(Properties, nameProperty, mAppenderConfiguration));
         }
-        
+
         protected virtual void AddAppenderSpecificProperties()
         {
         }
@@ -49,6 +49,16 @@ namespace Editor.ConfigProperties.Definitions
         protected void AddProperty(IProperty property)
         {
             mProperties.Add(property);
+        }
+
+        protected void AddProperty(int index, IProperty property)
+        {
+            mProperties.Insert(index, property);
+        }
+
+        protected void RemoveProperty(IProperty property)
+        {
+            mProperties.Remove(property);
         }
 
         public override ReadOnlyCollection<IProperty> Properties { get; }
