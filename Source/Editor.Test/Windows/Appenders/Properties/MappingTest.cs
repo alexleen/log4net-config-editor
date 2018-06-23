@@ -8,7 +8,9 @@ using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.Windows;
 using log4net.Core;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.Windows.Appenders.Properties
@@ -21,7 +23,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Mapping(new ObservableCollection<IProperty>());
+            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Substitute.For<IMessageBoxService>());
         }
 
         [Test]
@@ -50,9 +52,9 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             IEnumerable<MappingModel> expectedMappings = new[]
             {
-                new MappingModel(null, Level.Error, ConsoleColor.DarkRed, ConsoleColor.White, null, null),
-                new MappingModel(null, Level.Warn, ConsoleColor.Yellow, null, null, null),
-                new MappingModel(null, Level.Info, null, ConsoleColor.White, null, null)
+                new MappingModel(Level.Error, ConsoleColor.DarkRed, ConsoleColor.White, null, null, null),
+                new MappingModel(Level.Warn, ConsoleColor.Yellow, null, null, null, null),
+                new MappingModel(Level.Info, null, ConsoleColor.White, null, null, null)
             };
 
             mSut.Load(xmlDoc.FirstChild);
@@ -63,9 +65,9 @@ namespace Editor.Test.Windows.Appenders.Properties
         [Test]
         public void Save_ShouldSaveEachMappingCorrectly()
         {
-            mSut.Mappings.Add(new MappingModel(null, Level.All, ConsoleColor.Black, ConsoleColor.Blue, null, null));
-            mSut.Mappings.Add(new MappingModel(null, Level.Notice, ConsoleColor.Red, null, null, null));
-            mSut.Mappings.Add(new MappingModel(null, Level.Emergency, null, ConsoleColor.Blue, null, null));
+            mSut.Mappings.Add(new MappingModel(Level.All, ConsoleColor.Black, ConsoleColor.Blue, null, null, null));
+            mSut.Mappings.Add(new MappingModel(Level.Notice, ConsoleColor.Red, null, null, null, null));
+            mSut.Mappings.Add(new MappingModel(Level.Emergency, null, ConsoleColor.Blue, null, null, null));
 
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");

@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -18,7 +19,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new MaxSizeRollBackups(new ObservableCollection<IProperty>());
+            mSut = new MaxSizeRollBackups(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             Assert.IsTrue(mSut.TryValidate(messageBoxService));
             messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
-        
+
         [Test]
         public void TryValidate_ShouldNotSucceed_WhenNotInt()
         {
@@ -63,7 +64,7 @@ namespace Editor.Test.Windows.Appenders.Properties
             Assert.IsFalse(mSut.TryValidate(messageBoxService));
             messageBoxService.Received(1).ShowError("Max size roll backups must be a valid integer.");
         }
-        
+
         [Test]
         public void Save_ShouldSaveCorrectly()
         {

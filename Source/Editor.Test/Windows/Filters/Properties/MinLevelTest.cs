@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
@@ -19,7 +20,7 @@ namespace Editor.Test.Windows.Filters.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new MinLevel(new ObservableCollection<IProperty>());
+            mSut = new MinLevel(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]

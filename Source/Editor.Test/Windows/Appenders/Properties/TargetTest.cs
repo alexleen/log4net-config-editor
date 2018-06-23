@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -18,7 +19,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Target(new ObservableCollection<IProperty>());
+            mSut = new Target(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]

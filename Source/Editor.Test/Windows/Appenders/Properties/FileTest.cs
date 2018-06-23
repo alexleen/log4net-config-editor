@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -20,7 +21,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         public void SetUp()
         {
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new File(new ObservableCollection<IProperty>(), mMessageBoxService);
+            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService);
         }
 
         [Test]
@@ -35,10 +36,10 @@ namespace Editor.Test.Windows.Appenders.Properties
         public void Open_ShouldSetFilePath()
         {
             mMessageBoxService.ShowOpenFileDialog(out string fileName).Returns(a =>
-            {
-                a[0] = "filePath";
-                return true;
-            });
+                {
+                    a[0] = "filePath";
+                    return true;
+                });
 
             mSut.Open.Execute(null);
 
@@ -49,10 +50,10 @@ namespace Editor.Test.Windows.Appenders.Properties
         public void Open_ShouldNotSetFilePath_WhenFileNotChosen()
         {
             mMessageBoxService.ShowOpenFileDialog(out string fileName).Returns(a =>
-            {
-                a[0] = null;
-                return false;
-            });
+                {
+                    a[0] = null;
+                    return false;
+                });
 
             mSut.Open.Execute(null);
 

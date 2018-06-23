@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -27,7 +28,12 @@ namespace Editor.Test.Windows.Appenders.Properties
             mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", "appName");
             mOriginalAppender.AppendTo(mLog4NetNode);
 
-            mSut = new Name(new ObservableCollection<IProperty>(), mLog4NetNode, mOriginalAppender);
+            IAppenderConfiguration appenderConfiguration = Substitute.For<IAppenderConfiguration>();
+            appenderConfiguration.ConfigXml.Returns(mXmlDoc);
+            appenderConfiguration.Log4NetNode.Returns(mLog4NetNode);
+            appenderConfiguration.OriginalAppenderNode.Returns(mOriginalAppender);
+
+            mSut = new Name(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
         }
 
         [Test]
@@ -99,7 +105,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [Test]
         public void TryValidate_ShouldNotShowCollisionMessageBox_WhenAppenderNameCollides_ButIsSameAppender()
         {
-            mSut.Load(mOriginalAppender);        
+            mSut.Load(mOriginalAppender);
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
 

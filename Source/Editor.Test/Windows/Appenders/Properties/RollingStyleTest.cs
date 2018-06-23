@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
@@ -19,7 +20,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new RollingStyle(new ObservableCollection<IProperty>());
+            mSut = new RollingStyle(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]

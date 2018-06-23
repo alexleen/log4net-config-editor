@@ -24,20 +24,20 @@ namespace Editor.Test.Models
 
         protected override MappingModel GetSut()
         {
-            return new MappingModel(null, sLevel, ForeColor, BackColor, null, null);
+            return new MappingModel(sLevel, ForeColor, BackColor, null, null, null);
         }
 
         protected override MappingModel GetOtherEqual()
         {
-            return new MappingModel(null, sLevel, ForeColor, BackColor, null, null);
+            return new MappingModel(sLevel, ForeColor, BackColor, null, null, null);
         }
 
         protected override IEnumerable<MappingModel> GetOthersNotEqual()
         {
-            yield return new MappingModel(null, Level.Error, ForeColor, BackColor, null, null);
-            yield return new MappingModel(null, sLevel, ConsoleColor.Cyan, BackColor, null, null);
-            yield return new MappingModel(null, sLevel, ForeColor, ConsoleColor.Cyan, null, null);
-            yield return new MappingModel(null, Level.Error, ConsoleColor.Cyan, ConsoleColor.Cyan, null, null);
+            yield return new MappingModel(Level.Error, ForeColor, BackColor, null, null, null);
+            yield return new MappingModel(sLevel, ConsoleColor.Cyan, BackColor, null, null, null);
+            yield return new MappingModel(sLevel, ForeColor, ConsoleColor.Cyan, null, null, null);
+            yield return new MappingModel(Level.Error, ConsoleColor.Cyan, ConsoleColor.Cyan, null, null, null);
         }
 
         protected override int ExpectedHashCode

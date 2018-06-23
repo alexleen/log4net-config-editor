@@ -20,7 +20,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Fix(new ObservableCollection<IProperty>());
+            mSut = new Fix(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]

@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -18,7 +19,7 @@ namespace Editor.Test.Windows.Filters.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Key(new ObservableCollection<IProperty>());
+            mSut = new Key(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [TestCase("<key />", null)]

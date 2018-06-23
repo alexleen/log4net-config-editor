@@ -1,11 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using Editor.Models;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.Windows.Appenders.Properties
@@ -38,7 +40,12 @@ namespace Editor.Test.Windows.Appenders.Properties
                             "  </root>\n" +
                             "</log4net>");
 
-            mSut = new OutgoingRefs(mXmlDoc.FirstChild, new ObservableCollection<IProperty>(), mXmlDoc.FirstChild["appender"]);
+            IAppenderConfiguration appenderConfiguration = Substitute.For<IAppenderConfiguration>();
+            appenderConfiguration.ConfigXml.Returns(mXmlDoc);
+            appenderConfiguration.Log4NetNode.Returns(mXmlDoc.FirstChild);
+            appenderConfiguration.OriginalAppenderNode.Returns(mXmlDoc.FirstChild["appender"]);
+
+            mSut = new OutgoingRefs(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
         }
 
         [Test]

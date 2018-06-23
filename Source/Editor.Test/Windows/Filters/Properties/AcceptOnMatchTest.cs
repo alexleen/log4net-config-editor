@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -16,7 +17,7 @@ namespace Editor.Test.Windows.Filters.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new AcceptOnMatch(new ObservableCollection<IProperty>());
+            mSut = new AcceptOnMatch(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]

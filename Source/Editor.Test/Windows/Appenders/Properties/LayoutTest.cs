@@ -26,7 +26,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         public void SetUp()
         {
             mHistoryManager = Substitute.For<IHistoryManager>();
-            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoryManager);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Editor.Test.Windows.Appenders.Properties
 
             mHistoryManager.Get().Returns(historicalLayouts);
 
-            mSut = new Layout(new ObservableCollection<IProperty>(), mHistoryManager);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
 
             CollectionAssert.AreEquivalent(historicalLayouts, mSut.HistoricalLayouts);
         }

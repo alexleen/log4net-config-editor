@@ -1,5 +1,6 @@
+// Copyright © 2018 Alex Leendertsen
+
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Editor.Test")]

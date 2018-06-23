@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -20,7 +21,7 @@ namespace Editor.Test.Windows.Filters.Properties
         public void SetUp()
         {
             mValidateCalled = false;
-            mSut = new RegexMatch(new ObservableCollection<IProperty>(), Validate);
+            mSut = new RegexMatch(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Validate);
         }
 
         private bool Validate()

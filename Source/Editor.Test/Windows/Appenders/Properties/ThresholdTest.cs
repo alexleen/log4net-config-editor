@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
@@ -19,7 +20,7 @@ namespace Editor.Test.Windows.Appenders.Properties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Threshold(new ObservableCollection<IProperty>());
+            mSut = new Threshold(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]
@@ -49,8 +50,8 @@ namespace Editor.Test.Windows.Appenders.Properties
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender>\n" +
-                        $"    {xml}\n" +
-                        "</appender>");
+                           $"    {xml}\n" +
+                           "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
