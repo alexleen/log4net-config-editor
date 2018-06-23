@@ -17,13 +17,13 @@ namespace Editor.ConfigProperties
 {
     public class Filters : PropertyBase
     {
-        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IConfiguration mConfiguration;
         private readonly IMessageBoxService mMessageBoxService;
 
-        public Filters(ReadOnlyCollection<IProperty> container, IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        public Filters(ReadOnlyCollection<IProperty> container, IConfiguration configuration, IMessageBoxService messageBoxService)
             : base(container, new GridLength(1, GridUnitType.Star))
         {
-            mAppenderConfiguration = appenderConfiguration;
+            mConfiguration = configuration;
             mMessageBoxService = messageBoxService;
 
             AvailableFilters = new[]
@@ -60,7 +60,7 @@ namespace Editor.ConfigProperties
             }
             else
             {
-                XmlElement filterElement = mAppenderConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
+                XmlElement filterElement = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
                 Add(new FilterModel(FilterDescriptor.DenyAll, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
         }
@@ -72,8 +72,11 @@ namespace Editor.ConfigProperties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            IAppenderConfiguration appenderConfiguration = null; //TODO
-            Window filterWindow = new ElementWindow(null, appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration, mMessageBoxService));
+            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfiguration,
+                                                                                     filterModel.Node,
+                                                                                     mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace));
+
+            Window filterWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration, mMessageBoxService));
             mMessageBoxService.ShowWindow(filterWindow);
         }
 

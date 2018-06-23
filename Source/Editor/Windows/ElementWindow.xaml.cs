@@ -20,13 +20,12 @@ namespace Editor.Windows
 
         public ObservableCollection<IProperty> Properties { get; }
 
-        public ElementWindow(Window owner, IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
+        public ElementWindow(IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
             : base("AppenderWindowPlacement")
         {
             InitializeComponent();
             DataContext = this;
 
-            Owner = owner ?? throw new ArgumentNullException(nameof(owner));
             mAppenderConfiguration = appenderConfiguration;
             mPropertyDefinition = propertyDefinition;
             Properties = new ObservableCollection<IProperty>();
