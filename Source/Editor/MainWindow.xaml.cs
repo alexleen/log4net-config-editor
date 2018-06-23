@@ -9,13 +9,11 @@ using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
-using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
-using Editor.Windows.Loggers;
 using Microsoft.Win32;
 
 namespace Editor
@@ -223,7 +221,7 @@ namespace Editor
 
         private void AddAppenderItemOnClick(object appender)
         {
-            OpenAppenderWindow((AppenderDescriptor)appender, null);
+            OpenElementWindow((AppenderDescriptor)appender, null, "appender");
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
@@ -232,11 +230,11 @@ namespace Editor
 
             if (dataContext is AppenderModel appenderModel)
             {
-                OpenAppenderWindow(appenderModel.Descriptor, appenderModel.Node);
+                OpenElementWindow(appenderModel.Descriptor, appenderModel.Node, "appender");
             }
             else if (dataContext is ChildModel childModel)
             {
-                OpenLoggerWindow(ChangeType.Edit, childModel.Node);
+                OpenElementWindow(LoggerDescriptor.Root, childModel.Node, "root");
             }
         }
 
@@ -289,9 +287,9 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenAppenderWindow(DescriptorBase appenderDescriptor, XmlNode appenderNode)
+        private void OpenElementWindow(DescriptorBase appenderDescriptor, XmlNode appenderNode, string elementName)
         {
-            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement("appender"));
+            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
             ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(appenderDescriptor, appenderConfiguration, this));
             elementWindow.ShowDialog();
             LoadFromRam();
@@ -305,14 +303,7 @@ namespace Editor
                 return;
             }
 
-            OpenLoggerWindow(ChangeType.Add, mConfigXml.CreateElement("root"));
-        }
-
-        private void OpenLoggerWindow(ChangeType changeType, XmlNode rootLoggerNode)
-        {
-            LoggerWindow lw = new LoggerWindow(this, mConfigXml, mLog4NetNode, rootLoggerNode, changeType);
-            lw.ShowDialog();
-            LoadFromRam();
+            OpenElementWindow(LoggerDescriptor.Root, null, "root");
         }
 
         public void ShowError(string message)

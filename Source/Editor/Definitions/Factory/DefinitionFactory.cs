@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using Editor.Definitions.Appenders;
 using Editor.Definitions.Filters;
+using Editor.Definitions.Loggers;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
@@ -22,6 +23,8 @@ namespace Editor.Definitions.Factory
                     return CreateAppenderDefinition(appenderDescriptor, appenderConfiguration, messageBoxService);
                 case FilterDescriptor filterDescriptor:
                     return CreateFilterDefinition(filterDescriptor, appenderConfiguration, messageBoxService);
+                case LoggerDescriptor loggerDescriptor:
+                    return new RootLogger(appenderConfiguration);
                 default:
                     throw new ArgumentException($"Property definitions do not exist for {descriptor.GetType().Name}");
             }

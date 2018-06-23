@@ -68,6 +68,7 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="ConfigProperties\LevelProperty.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
     <Compile Include="Controls\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
@@ -121,6 +122,7 @@
     <Compile Include="Definitions\Filters\LoggerMatchFilter.cs" />
     <Compile Include="Definitions\Filters\PropertyMatchFilter.cs" />
     <Compile Include="Definitions\Filters\StringMatchFilter.cs" />
+    <Compile Include="Definitions\Loggers\RootLogger.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\Base\DescriptorBase.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
@@ -170,9 +172,6 @@
     <Compile Include="HistoryManager\IHistoryManager.cs" />
     <Compile Include="HistoryManager\History.cs" />
     <Compile Include="HistoryManager\HistoricalValue.cs" />
-    <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
-      <DependentUpon>LoggerWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\GridHelper.cs" />
     <Compile Include="Windows\SizeRetentionWindow.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
@@ -200,10 +199,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Appenders\MappingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Loggers\LoggerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
