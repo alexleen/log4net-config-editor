@@ -7,6 +7,8 @@ namespace Editor.Definitions.Base
 {
     internal abstract class PropertyDefinition : IPropertyDefinition
     {
+        public abstract string Name { get; }
+        
         public abstract ReadOnlyCollection<IProperty> Properties { get; }
 
         public abstract void Initialize();

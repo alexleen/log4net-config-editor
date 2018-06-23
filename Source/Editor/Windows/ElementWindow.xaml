@@ -11,7 +11,7 @@
         Width="550"
         MinWidth="550"        
         WindowStartupLocation="CenterOwner" 
-        Icon="Images/list-add.png">
+        Icon="../Images/list-add.png">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel.Resources>
@@ -26,7 +26,7 @@
 
         <ItemsControl ItemsSource="{Binding Properties}" Grid.IsSharedSizeScope="True">
             <ItemsControl.Resources>
-                <ResourceDictionary Source="ConfigProperties/PropertyDictionary.xaml" />
+                <ResourceDictionary Source="../ConfigProperties/PropertyDictionary.xaml" />
             </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

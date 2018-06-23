@@ -13,6 +13,8 @@ namespace Editor.Definitions.Appenders
             : base(appenderConfiguration, messageBoxService)
         {
         }
+        
+        public override string Name => "Forwarding Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.Forwarding;
 

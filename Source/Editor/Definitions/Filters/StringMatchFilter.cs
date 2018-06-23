@@ -16,6 +16,8 @@ namespace Editor.Definitions.Filters
             mStringMatch = new StringMatch(Properties, Validate) { IsFocused = isFocused };
             mRegexMatch = new RegexMatch(Properties, Validate);
         }
+        
+        public override string Name => "String Match Filter";
 
         public override FilterDescriptor Descriptor => FilterDescriptor.String;
 

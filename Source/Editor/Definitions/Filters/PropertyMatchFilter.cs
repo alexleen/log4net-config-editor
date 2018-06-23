@@ -11,6 +11,8 @@ namespace Editor.Definitions.Filters
             : base(false)
         {
         }
+        
+        public override string Name => "Property Match Filter";
 
         public override FilterDescriptor Descriptor => FilterDescriptor.Property;
 

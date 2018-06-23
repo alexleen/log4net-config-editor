@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Editor.Interfaces;
-using Editor.Utilities;
 using Microsoft.Win32;
 
 namespace Editor.Windows
@@ -31,6 +30,7 @@ namespace Editor.Windows
             mPropertyDefinition = propertyDefinition;
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
+            Title = mPropertyDefinition.Name;
         }
 
         private void WindowOnLoaded(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace Editor.Windows
 
         public void ShowInformation(string message)
         {
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void ShowWindow(Window window)

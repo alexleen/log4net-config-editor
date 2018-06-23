@@ -7,6 +7,8 @@ namespace Editor.Definitions.Filters
 {
     internal class LoggerMatchFilter : FilterSkeleton
     {
+        public override string Name => "Logger Match Filter";
+        
         public override FilterDescriptor Descriptor => FilterDescriptor.LoggerMatch;
 
         public override void Initialize()

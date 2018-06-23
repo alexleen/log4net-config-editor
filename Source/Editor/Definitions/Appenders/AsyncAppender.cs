@@ -14,6 +14,8 @@ namespace Editor.Definitions.Appenders
         {
         }
 
+        public override string Name => "Async Appender";
+
         public override AppenderDescriptor Descriptor => AppenderDescriptor.Async;
 
         protected override void AddAppenderSpecificProperties()

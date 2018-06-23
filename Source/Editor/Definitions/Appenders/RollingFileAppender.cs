@@ -22,6 +22,8 @@ namespace Editor.Definitions.Appenders
             mDatePattern = new DatePattern(Properties);
             mStaticLogFileName = new StaticLogFileName(Properties);
         }
+        
+        public override string Name => "Rolling File Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.RollingFile;
 

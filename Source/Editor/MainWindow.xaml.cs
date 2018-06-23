@@ -322,7 +322,7 @@ namespace Editor
 
         public void ShowInformation(string message)
         {
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void ShowWindow(Window window)

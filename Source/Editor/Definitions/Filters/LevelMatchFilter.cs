@@ -7,6 +7,8 @@ namespace Editor.Definitions.Filters
 {
     internal class LevelMatchFilter : FilterSkeleton
     {
+        public override string Name => "Level Match Filter";
+        
         public override FilterDescriptor Descriptor => FilterDescriptor.LevelMatch;
 
         public override void Initialize()
