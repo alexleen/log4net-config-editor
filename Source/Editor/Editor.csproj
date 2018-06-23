@@ -68,6 +68,7 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="ConfigProperties\TypeAttribute.cs" />
     <Compile Include="Definitions\Appenders\AppenderSkeleton.cs" />
     <Compile Include="Definitions\Appenders\AsyncAppender.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppender.cs" />

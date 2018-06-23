@@ -19,6 +19,8 @@ namespace Editor.ConfigProperties.Base
         public string Value { get; set; }
 
         public bool IsFocused { get; set; }
+        
+        public bool IsReadOnly { get; set; }
 
         public string ToolTip { get; set; }
 

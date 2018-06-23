@@ -13,7 +13,7 @@ namespace Editor.Windows
     /// <summary>
     /// Interaction logic for ElementWindow.xaml
     /// </summary>
-    public partial class ElementWindow : SizeRetentionWindow, IMessageBoxService
+    public partial class ElementWindow : IMessageBoxService
     {
         private readonly IAppenderConfiguration mAppenderConfiguration;
         private readonly IPropertyDefinition mPropertyDefinition;
@@ -62,9 +62,6 @@ namespace Editor.Windows
             {
                 return;
             }
-
-            //TODO add this as a property?
-            mAppenderConfiguration.NewAppenderNode.AppendAttribute(mAppenderConfiguration.ConfigXml, "type", Descriptor.TypeNamespace);
 
             foreach (IProperty appenderProperty in Properties)
             {

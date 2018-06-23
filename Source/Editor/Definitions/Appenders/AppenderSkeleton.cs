@@ -29,6 +29,7 @@ namespace Editor.Definitions.Appenders
 
         public override void Initialize()
         {
+            mProperties.Add(new TypeAttribute(Properties, Descriptor));
             Name nameProperty = new Name(Properties, AppenderConfiguration);
             mProperties.Add(nameProperty);
             mProperties.Add(new Threshold(Properties));
