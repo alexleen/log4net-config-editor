@@ -2,6 +2,7 @@
 
 using System;
 using System.Windows.Input;
+using Editor.Interfaces;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.Appenders;

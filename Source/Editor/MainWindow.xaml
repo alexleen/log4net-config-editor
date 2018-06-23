@@ -1,9 +1,9 @@
 <Windows:SizeRetentionWindow x:Class="Editor.MainWindow"
                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                             xmlns:Editor="clr-namespace:Editor" 
                              xmlns:Windows="clr-namespace:Editor.Windows"
                              xmlns:Converters="clr-namespace:Editor.Converters"
+                             xmlns:Controls="clr-namespace:Editor.Controls"
                              Title="log4net Configuration Editor"
                              MinHeight="360"
                              MinWidth="640"
@@ -45,9 +45,9 @@
                 </Style>
             </StackPanel.Resources>
 
-            <Editor:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick"/>
+            <Controls:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick"/>
 
-            <Editor:DropDownButton x:Name="xAddLoggerButton" ButtonName="Add Logger" ItemClick="AddLoggerOnClick"/>
+            <Controls:DropDownButton x:Name="xAddLoggerButton" ButtonName="Add Logger" ItemClick="AddLoggerOnClick"/>
 
             <Button IsEnabled="false">Add Renderer</Button>
 
@@ -57,17 +57,17 @@
 
             <Button ToolTip="Removes selected elements' refs" Click="RemoveRefsOnClick">Remove Refs</Button>
 
-            <Editor:DropDownButton x:Name="xAddRefsButton" 
+            <Controls:DropDownButton x:Name="xAddRefsButton" 
                                    ItemClick="AddRefsButtonOnItemClick" 
                                    OverrideContextMenuWidth="True"
                                    ButtonName="Add Refs To" 
                                    ToolTip="Adds a ref for each of the selected elements in the table to the desired element">
-                <Editor:DropDownButton.ItemTemplate>
+                <Controls:DropDownButton.ItemTemplate>
                     <DataTemplate>
                         <Label Content="{Binding Name}" />
                     </DataTemplate>
-                </Editor:DropDownButton.ItemTemplate>
-            </Editor:DropDownButton>
+                </Controls:DropDownButton.ItemTemplate>
+            </Controls:DropDownButton>
         </StackPanel>
 
         <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">

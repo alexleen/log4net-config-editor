@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters"
-                    xmlns:Editor="clr-namespace:Editor"
                     xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
-                    xmlns:FiltersProperties="clr-namespace:Editor.ConfigProperties">
+                    xmlns:FiltersProperties="clr-namespace:Editor.ConfigProperties"
+                    xmlns:Controls="clr-namespace:Editor.Controls">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -385,7 +385,7 @@
                             <Setter Property="Margin" Value="5,0,5,5" />
                         </Style>
                     </StackPanel.Resources>
-                    <Editor:DropDownButton ButtonName="Add" ItemsSource="{Binding AvailableFilters}" Command="{Binding AddFilter}"/>
+                    <Controls:DropDownButton ButtonName="Add" ItemsSource="{Binding AvailableFilters}" Command="{Binding AddFilter}"/>
                     <Button Command="{Binding Help}">Help</Button>
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding ExistingFilters}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">

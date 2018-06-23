@@ -69,6 +69,9 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
+    <Compile Include="Controls\DropDownButton.xaml.cs">
+      <DependentUpon>DropDownButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Definitions\Appenders\AppenderSkeleton.cs" />
     <Compile Include="Definitions\Appenders\AsyncAppender.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppender.cs" />
@@ -122,9 +125,6 @@
     <Compile Include="Descriptors\Base\DescriptorBase.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
-    <Compile Include="DropDownButton.xaml.cs">
-      <DependentUpon>DropDownButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
@@ -132,6 +132,7 @@
     <Compile Include="Interfaces\IAppenderDefinition.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
     <Compile Include="Interfaces\IFilterDefinition.cs" />
+    <Compile Include="Interfaces\IMessageBoxService.cs" />
     <Compile Include="Interfaces\IProperty.cs" />
     <Compile Include="Interfaces\IPropertyDefinition.cs" />
     <Compile Include="Models\AppenderModel.cs" />
@@ -169,7 +170,6 @@
     <Compile Include="HistoryManager\IHistoryManager.cs" />
     <Compile Include="HistoryManager\History.cs" />
     <Compile Include="HistoryManager\HistoricalValue.cs" />
-    <Compile Include="Windows\IMessageBoxService.cs" />
     <Compile Include="Windows\Loggers\LoggerWindow.xaml.cs">
       <DependentUpon>LoggerWindow.xaml</DependentUpon>
     </Compile>
@@ -179,7 +179,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DropDownButton.xaml">
+    <Page Include="Controls\DropDownButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
