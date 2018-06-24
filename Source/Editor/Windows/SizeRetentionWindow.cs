@@ -23,14 +23,22 @@ namespace Editor.Windows
 
         protected override void OnSourceInitialized(EventArgs e)
         {
-            this.SetPlacement((string)Settings.Default[mSettingName]);
+            if (mSettingName != null)
+            {
+                this.SetPlacement((string)Settings.Default[mSettingName]);
+            }
+
             base.OnSourceInitialized(e);
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            Settings.Default[mSettingName] = this.GetPlacement();
-            Settings.Default.Save();
+            if (mSettingName != null)
+            {
+                Settings.Default[mSettingName] = this.GetPlacement();
+                Settings.Default.Save();
+            }
+
             base.OnClosing(e);
         }
     }

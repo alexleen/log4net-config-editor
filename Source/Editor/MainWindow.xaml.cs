@@ -287,10 +287,10 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase appenderDescriptor, XmlNode appenderNode, string elementName)
+        private void OpenElementWindow(DescriptorBase descriptor, XmlNode appenderNode, string elementName)
         {
             IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
-            ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(appenderDescriptor, appenderConfiguration, this));
+            ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(descriptor, appenderConfiguration, this), WindowSizeLocationFactory.Create(descriptor));
             elementWindow.ShowDialog();
             LoadFromRam();
         }

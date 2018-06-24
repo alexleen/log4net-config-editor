@@ -17,16 +17,14 @@ namespace Editor.Interfaces
 
         SizeToContent SizeToContent { get; }
 
-        WindowStartupLocation WindowStartupLocation { get; }
-
         Size Width { get; }
 
         Size Height { get; }
     }
 
-    internal struct Size
+    internal class Size
     {
-        public Size(double value, double max, double min)
+        public Size(double value = double.NaN, double max = double.PositiveInfinity, double min = 0.0)
         {
             Value = value;
             Max = max;
@@ -43,9 +41,8 @@ namespace Editor.Interfaces
         public string RetentionKey { get; } = "AppenderWindowPlacement";
         public ResizeMode ResizeMode { get; } = ResizeMode.CanResize;
         public SizeToContent SizeToContent { get; } = SizeToContent.Manual;
-        public WindowStartupLocation WindowStartupLocation { get; } = WindowStartupLocation.CenterOwner;
-        public Size Width { get; } = new Size(550, double.NaN, 550);
-        public Size Height { get; } = new Size(500, double.NaN, 500);
+        public Size Width { get; } = new Size(550, min: 550);
+        public Size Height { get; } = new Size(500, min: 500);
     }
 
     internal class FilterWindowSizeLocation : IWindowSizeLocation
@@ -53,30 +50,29 @@ namespace Editor.Interfaces
         public string RetentionKey { get; } = null;
         public virtual ResizeMode ResizeMode { get; } = ResizeMode.NoResize;
         public SizeToContent SizeToContent { get; } = SizeToContent.WidthAndHeight;
-        public WindowStartupLocation WindowStartupLocation { get; } = WindowStartupLocation.CenterOwner;
-        public virtual Size Width { get; } = new Size(double.NaN, double.NaN, double.NaN);
-        public virtual Size Height { get; } = new Size(double.NaN, double.NaN, double.NaN);
+        public virtual Size Width { get; } = new Size();
+        public virtual Size Height { get; } = new Size();
     }
 
     internal class LoggerMatchFilterWindowSizeLocation : FilterWindowSizeLocation
     {
         public override ResizeMode ResizeMode { get; } = ResizeMode.CanResize;
-        public override Size Width { get; } = new Size(double.NaN, double.NaN, 350);
-        public override Size Height { get; } = new Size(double.NaN, 121, 121);
+        public override Size Width { get; } = new Size(min: 350);
+        public override Size Height { get; } = new Size(min: 121, max: 121);
     }
 
     internal class PropertyMatchFilterWindowSizeLocation : FilterWindowSizeLocation
     {
         public override ResizeMode ResizeMode { get; } = ResizeMode.CanResize;
-        public override Size Width { get; } = new Size(double.NaN, double.NaN, 350);
-        public override Size Height { get; } = new Size(double.NaN, 173, 173);
+        public override Size Width { get; } = new Size(min: 350);
+        public override Size Height { get; } = new Size(min: 173, max: 173);
     }
 
     internal class StringMatchFilterWindowSizeLocation : FilterWindowSizeLocation
     {
         public override ResizeMode ResizeMode { get; } = ResizeMode.CanResize;
-        public override Size Width { get; } = new Size(double.NaN, double.NaN, 350);
-        public override Size Height { get; } = new Size(double.NaN, 147, 147);
+        public override Size Width { get; } = new Size(min: 350);
+        public override Size Height { get; } = new Size(min: 147, max: 147);
     }
 
     internal class LoggerWindowSizeLocation : IWindowSizeLocation
@@ -84,9 +80,8 @@ namespace Editor.Interfaces
         public string RetentionKey { get; } = null;
         public ResizeMode ResizeMode { get; } = ResizeMode.CanResize;
         public SizeToContent SizeToContent { get; } = SizeToContent.Manual;
-        public WindowStartupLocation WindowStartupLocation { get; } = WindowStartupLocation.CenterOwner;
-        public Size Width { get; } = new Size(320, double.NaN, 320);
-        public Size Height { get; } = new Size(280, double.NaN, 280);
+        public Size Width { get; } = new Size(350, min: 350);
+        public Size Height { get; } = new Size(280, min: 280);
     }
 
     internal static class WindowSizeLocationFactory

@@ -32,7 +32,7 @@ namespace Editor.Definitions.Appenders
             AddAppenderSpecificProperties();
 
             AddProperty(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            AddProperty(new ConfigProperties.Filters(Properties, AppenderConfiguration, MessageBoxService));
+            AddProperty(new ConfigProperties.Filters(Properties, AppenderConfiguration, MessageBoxService)); //TODO this MBS should be from the ElementWindow not MainWindow
             AddProperty(new IncomingRefs(Properties, nameProperty, AppenderConfiguration));
         }
 

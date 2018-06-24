@@ -13,26 +13,40 @@ namespace Editor.Windows
     /// <summary>
     /// Interaction logic for ElementWindow.xaml
     /// </summary>
-    public partial class ElementWindow : IMessageBoxService
+    internal partial class ElementWindow : IMessageBoxService
     {
         private readonly IAppenderConfiguration mAppenderConfiguration;
-        private readonly IPropertyDefinition mPropertyDefinition;
-
+        
+        public IWindowSizeLocation WindowSizeLocation { get; }
+        public IPropertyDefinition PropertyDefinition { get; }
         public ObservableCollection<IProperty> Properties { get; }
 
-        public ElementWindow(IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition)
-            : base("AppenderWindowPlacement")
+        public ElementWindow(IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition, IWindowSizeLocation windowSizeLocation)
+            : base(windowSizeLocation.RetentionKey)
         {
             InitializeComponent();
             DataContext = this;
 
             mAppenderConfiguration = appenderConfiguration;
-            mPropertyDefinition = propertyDefinition;
+            WindowSizeLocation = windowSizeLocation;
+            SetWindowSizeLocation(windowSizeLocation);
+            PropertyDefinition = propertyDefinition;
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
-            Title = mPropertyDefinition.Name;
-            ((INotifyCollectionChanged)mPropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
+            ((INotifyCollectionChanged)PropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
         }
+
+        private void SetWindowSizeLocation(IWindowSizeLocation windowSizeLocation)
+        {
+            ResizeMode = windowSizeLocation.ResizeMode;
+            SizeToContent = windowSizeLocation.SizeToContent;
+            Width = windowSizeLocation.Width.Value;
+            MinWidth = windowSizeLocation.Width.Min;
+            MaxWidth = windowSizeLocation.Width.Max;
+            Height = windowSizeLocation.Height.Value;
+            MinHeight = windowSizeLocation.Height.Min;
+            MaxHeight = windowSizeLocation.Height.Max;
+        }        
 
         private void PropertiesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -57,7 +71,7 @@ namespace Editor.Windows
         {
             //TODO combine initialize and load to better facilitate dymanic properties? Why not just add all properties in ctor?
             //This will add all properties to collection via event handler
-            mPropertyDefinition.Initialize();
+            PropertyDefinition.Initialize();
 
             if (mAppenderConfiguration.OriginalAppenderNode == null)
             {

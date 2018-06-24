@@ -5,13 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Windows="clr-namespace:Editor.Windows"
         xmlns:Utilities="clr-namespace:Editor.Utilities"
-        mc:Ignorable="d"
-        Height="500" 
-        MinHeight="500" 
-        Width="550"
-        MinWidth="550"        
+        mc:Ignorable="d"        
         WindowStartupLocation="CenterOwner" 
-        Icon="../Images/list-add.png">
+        Icon="../Images/list-add.png" 
+        x:ClassModifier="internal"
+        Title="{Binding PropertyDefinition.Name}" 
+        d:DataContext="{d:ElementWindow }">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel.Resources>

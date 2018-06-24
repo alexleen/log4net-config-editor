@@ -76,7 +76,7 @@ namespace Editor.ConfigProperties
                                                                                      filterModel.Node,
                                                                                      mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace));
 
-            Window filterWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration, mMessageBoxService));
+            Window filterWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration, mMessageBoxService), WindowSizeLocationFactory.Create(filterModel.Descriptor));
             mMessageBoxService.ShowWindow(filterWindow);
         }
 
