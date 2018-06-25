@@ -71,7 +71,7 @@ namespace Editor
             LoadFromFile(selectedConfig);
         }
 
-        private void OpenOnClick(object sender, RoutedEventArgs e)
+        private void OpenThereOnClick(object sender, RoutedEventArgs e)
         {
             string selectedConfig = (string)xConfigComboBox.SelectedItem;
 
@@ -81,7 +81,7 @@ namespace Editor
             }
         }
 
-        private void FindOnClick(object sender, RoutedEventArgs e)
+        private void OpenHereOnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
 
