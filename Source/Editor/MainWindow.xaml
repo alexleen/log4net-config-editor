@@ -18,6 +18,7 @@
                 </Style>
             </DockPanel.Resources>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                <Button Margin="0,5,5,5" Click="FindOnClick">Find</Button>
                 <Button Margin="0,5,5,5" Click="OpenOnClick">Open</Button>
                 <Button Margin="0,5,5,5" Click="ReloadOnClick">Reload</Button>
             </StackPanel>

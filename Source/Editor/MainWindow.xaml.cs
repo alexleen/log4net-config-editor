@@ -1,11 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
@@ -15,6 +9,13 @@ using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
 using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml;
 
 namespace Editor
 {
@@ -71,6 +72,16 @@ namespace Editor
         }
 
         private void OpenOnClick(object sender, RoutedEventArgs e)
+        {
+            string selectedConfig = (string)xConfigComboBox.SelectedItem;
+
+            if (!string.IsNullOrEmpty(selectedConfig))
+            {
+                Process.Start(selectedConfig);
+            }
+        }
+
+        private void FindOnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
 
