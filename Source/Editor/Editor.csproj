@@ -137,6 +137,7 @@
     <Compile Include="Interfaces\IMessageBoxService.cs" />
     <Compile Include="Interfaces\IProperty.cs" />
     <Compile Include="Interfaces\IPropertyDefinition.cs" />
+    <Compile Include="Interfaces\ISaveStrategy.cs" />
     <Compile Include="Interfaces\IWindowSizeLocation.cs" />
     <Compile Include="Models\AppenderModel.cs" />
     <Compile Include="Enums\AppenderType.cs" />
@@ -255,8 +256,6 @@
   <ItemGroup>
     <Resource Include="Images\fill-color.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Definitions\Loggers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

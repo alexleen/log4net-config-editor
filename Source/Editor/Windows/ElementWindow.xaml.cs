@@ -16,12 +16,16 @@ namespace Editor.Windows
     internal partial class ElementWindow : IMessageBoxService
     {
         private readonly IElementConfiguration mConfiguration;
-        
+        private readonly ISaveStrategy mSaveStrategy;
+
         public IWindowSizeLocation WindowSizeLocation { get; }
         public IPropertyDefinition PropertyDefinition { get; }
         public ObservableCollection<IProperty> Properties { get; }
 
-        public ElementWindow(IElementConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition, IWindowSizeLocation windowSizeLocation)
+        public ElementWindow(IElementConfiguration appenderConfiguration,
+                             IPropertyDefinition propertyDefinition,
+                             IWindowSizeLocation windowSizeLocation,
+                             ISaveStrategy saveStrategy)
             : base(windowSizeLocation.RetentionKey)
         {
             InitializeComponent();
@@ -29,6 +33,7 @@ namespace Editor.Windows
 
             mConfiguration = appenderConfiguration;
             WindowSizeLocation = windowSizeLocation;
+            mSaveStrategy = saveStrategy;
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
             PropertyDefinition.MessageBoxService = this;
@@ -47,7 +52,7 @@ namespace Editor.Windows
             Height = windowSizeLocation.Height.Value;
             MinHeight = windowSizeLocation.Height.Min;
             MaxHeight = windowSizeLocation.Height.Max;
-        }        
+        }
 
         private void PropertiesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -99,16 +104,7 @@ namespace Editor.Windows
                 appenderProperty.Save(mConfiguration.ConfigXml, mConfiguration.NewNode);
             }
 
-            if (mConfiguration.OriginalNode == null)
-            {
-                //New node - add
-                mConfiguration.Log4NetNode.AppendChild(mConfiguration.NewNode);
-            }
-            else
-            {
-                //Edit - replace
-                mConfiguration.Log4NetNode.ReplaceChild(mConfiguration.NewNode, mConfiguration.OriginalNode);
-            }
+            mSaveStrategy.Execute();
 
             Close();
         }

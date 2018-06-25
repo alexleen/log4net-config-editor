@@ -7,6 +7,7 @@ using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -76,7 +77,13 @@ namespace Editor.ConfigProperties
 
             IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
 
-            Window filterWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration), WindowSizeLocationFactory.Create(filterModel.Descriptor));
+            ISaveStrategy saveStrategy = new FilterSaveStrategy(filterModel, Add, newFilter);
+
+            Window filterWindow = new ElementWindow(appenderConfiguration,
+                                                    DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration),
+                                                    WindowSizeLocationFactory.Create(filterModel.Descriptor),
+                                                    saveStrategy);
+
             mMessageBoxService.ShowWindow(filterWindow);
         }
 
@@ -127,6 +134,30 @@ namespace Editor.ConfigProperties
             foreach (FilterModel filter in ExistingFilters)
             {
                 newNode.AppendChild(filter.Node);
+            }
+        }
+
+        private class FilterSaveStrategy : ISaveStrategy
+        {
+            private readonly FilterModel mFilterModel;
+            private readonly Action<FilterModel> mAdd;
+            private readonly XmlElement mNewFilter;
+
+            public FilterSaveStrategy(FilterModel filterModel, Action<FilterModel> add, XmlElement newFilter)
+            {
+                mFilterModel = filterModel ?? throw new ArgumentNullException(nameof(filterModel));
+                mAdd = add ?? throw new ArgumentNullException(nameof(add));
+                mNewFilter = newFilter ?? throw new ArgumentNullException(nameof(newFilter));
+            }
+
+            public void Execute()
+            {
+                if (mFilterModel.Node == null)
+                {
+                    mAdd(mFilterModel);
+                }
+
+                mFilterModel.Node = mNewFilter;
             }
         }
     }

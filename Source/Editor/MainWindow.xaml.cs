@@ -9,6 +9,7 @@ using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -301,7 +302,10 @@ namespace Editor
         private void OpenElementWindow(DescriptorBase descriptor, XmlNode appenderNode, string elementName)
         {
             IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
-            ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(descriptor, appenderConfiguration), WindowSizeLocationFactory.Create(descriptor));
+            ElementWindow elementWindow = new ElementWindow(appenderConfiguration,
+                                                            DefinitionFactory.Create(descriptor, appenderConfiguration),
+                                                            WindowSizeLocationFactory.Create(descriptor),
+                                                            new AppenderSaveStrategy(appenderConfiguration));
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -315,6 +319,30 @@ namespace Editor
             }
 
             OpenElementWindow(LoggerDescriptor.Root, null, "root");
+        }
+
+        private class AppenderSaveStrategy : ISaveStrategy
+        {
+            private readonly IElementConfiguration mConfiguration;
+
+            public AppenderSaveStrategy(IElementConfiguration mConfiguration)
+            {
+                this.mConfiguration = mConfiguration ?? throw new ArgumentNullException(nameof(mConfiguration));
+            }
+
+            public void Execute()
+            {
+                if (mConfiguration.OriginalNode == null)
+                {
+                    //New node - add
+                    mConfiguration.Log4NetNode.AppendChild(mConfiguration.NewNode);
+                }
+                else
+                {
+                    //Edit - replace
+                    mConfiguration.Log4NetNode.ReplaceChild(mConfiguration.NewNode, mConfiguration.OriginalNode);
+                }
+            }
         }
     }
 
