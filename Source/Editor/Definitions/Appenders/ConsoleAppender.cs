@@ -9,7 +9,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class ConsoleAppender : AppenderSkeleton
     {
-        public ConsoleAppender(IAppenderConfiguration appenderConfiguration)
+        public ConsoleAppender(IElementConfiguration appenderConfiguration)
             : base(appenderConfiguration)
         {
         }

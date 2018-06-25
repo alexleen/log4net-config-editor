@@ -12,9 +12,9 @@ namespace Editor.ConfigProperties
     public class IncomingRefs : RefsBase
     {
         private readonly Name mNameProperty;
-        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IElementConfiguration mAppenderConfiguration;
 
-        public IncomingRefs(ReadOnlyCollection<IProperty> container, Name nameProperty, IAppenderConfiguration appenderConfiguration)
+        public IncomingRefs(ReadOnlyCollection<IProperty> container, Name nameProperty, IElementConfiguration appenderConfiguration)
             : base(container, "↓ Refs:", "This appender can be referenced in the following elements:")
         {
             mNameProperty = nameProperty;
@@ -30,7 +30,7 @@ namespace Editor.ConfigProperties
         {
             foreach (LoggerModel logger in XmlUtilities.FindAvailableAppenderRefLocations(mAppenderConfiguration.Log4NetNode))
             {
-                if (Equals(logger.LoggerNode, mAppenderConfiguration.OriginalAppenderNode))
+                if (Equals(logger.LoggerNode, mAppenderConfiguration.OriginalNode))
                 {
                     continue;
                 }

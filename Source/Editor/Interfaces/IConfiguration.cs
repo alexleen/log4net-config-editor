@@ -7,19 +7,21 @@ namespace Editor.Interfaces
     public interface IConfiguration
     {
         XmlDocument ConfigXml { get; }
+
         XmlNode Log4NetNode { get; }
     }
 
-    public interface IAppenderConfiguration : IConfiguration
+    public interface IElementConfiguration : IConfiguration
     {
-        XmlNode OriginalAppenderNode { get; }
-        XmlNode NewAppenderNode { get; }
+        XmlNode OriginalNode { get; }
+
+        XmlNode NewNode { get; }
     }
 
     /// <summary>
     /// Experimental interface that "hides" the various System.Xml properties of its parents.
     /// </summary>
-    public interface IAbstractedConfiguration : IAppenderConfiguration
+    public interface IAbstractedConfiguration : IElementConfiguration
     {
         void AddNewAppender(XmlNode newAppender);
 

@@ -1,10 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
@@ -12,6 +7,11 @@ using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
+using System.Xml;
 
 namespace Editor.ConfigProperties
 {
@@ -72,9 +72,9 @@ namespace Editor.ConfigProperties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfiguration,
-                                                                                     filterModel.Node,
-                                                                                     mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace));
+            XmlElement newFilter = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace);
+
+            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
 
             Window filterWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration), WindowSizeLocationFactory.Create(filterModel.Descriptor));
             mMessageBoxService.ShowWindow(filterWindow);

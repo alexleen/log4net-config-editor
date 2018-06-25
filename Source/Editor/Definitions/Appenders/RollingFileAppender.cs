@@ -16,7 +16,7 @@ namespace Editor.Definitions.Appenders
         private readonly StaticLogFileName mStaticLogFileName;
         private int mStaticLogFileNameIndex;
 
-        internal RollingFileAppender(IAppenderConfiguration appenderConfiguration)
+        internal RollingFileAppender(IElementConfiguration appenderConfiguration)
             : base(appenderConfiguration)
         {
             mDatePattern = new DatePattern(Properties);

@@ -46,7 +46,7 @@ namespace Editor.Test.ConfigProperties
             mXmlDoc.LoadXml(xml);
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IAppenderConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -107,7 +107,7 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IAppenderConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -138,7 +138,7 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IAppenderConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -169,7 +169,7 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IAppenderConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -177,12 +177,12 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual(0, mSut.RefsCollection.Count);
         }
 
-        private IAppenderConfiguration GetAppenderConfiguration(string xml)
+        private IElementConfiguration GetAppenderConfiguration(string xml)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
 
-            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(xmlDoc, xmlDoc.FirstChild, xmlDoc.FirstChild["appender"], null);
+            IElementConfiguration appenderConfiguration = new ElementConfiguration(xmlDoc, xmlDoc.FirstChild, xmlDoc.FirstChild["appender"], null);
 
             return appenderConfiguration;
         }

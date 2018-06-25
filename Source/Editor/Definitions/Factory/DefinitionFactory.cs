@@ -14,7 +14,7 @@ namespace Editor.Definitions.Factory
 {
     public static class DefinitionFactory
     {
-        public static IPropertyDefinition Create(DescriptorBase descriptor, IAppenderConfiguration appenderConfiguration)
+        public static IPropertyDefinition Create(DescriptorBase descriptor, IElementConfiguration appenderConfiguration)
         {
             switch (descriptor)
             {
@@ -29,7 +29,7 @@ namespace Editor.Definitions.Factory
             }
         }
 
-        private static IPropertyDefinition CreateAppenderDefinition(AppenderDescriptor appenderDescriptor, IAppenderConfiguration appenderConfiguration)
+        private static IPropertyDefinition CreateAppenderDefinition(AppenderDescriptor appenderDescriptor, IElementConfiguration appenderConfiguration)
         {
             switch (appenderDescriptor.Type)
             {

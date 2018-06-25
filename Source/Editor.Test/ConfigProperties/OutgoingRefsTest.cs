@@ -40,10 +40,10 @@ namespace Editor.Test.ConfigProperties
                             "  </root>\n" +
                             "</log4net>");
 
-            IAppenderConfiguration appenderConfiguration = Substitute.For<IAppenderConfiguration>();
+            IElementConfiguration appenderConfiguration = Substitute.For<IElementConfiguration>();
             appenderConfiguration.ConfigXml.Returns(mXmlDoc);
             appenderConfiguration.Log4NetNode.Returns(mXmlDoc.FirstChild);
-            appenderConfiguration.OriginalAppenderNode.Returns(mXmlDoc.FirstChild["appender"]);
+            appenderConfiguration.OriginalNode.Returns(mXmlDoc.FirstChild["appender"]);
 
             mSut = new OutgoingRefs(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
         }

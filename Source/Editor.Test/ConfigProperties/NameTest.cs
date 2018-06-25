@@ -28,10 +28,10 @@ namespace Editor.Test.ConfigProperties
             mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", "appName");
             mOriginalAppender.AppendTo(mLog4NetNode);
 
-            IAppenderConfiguration appenderConfiguration = Substitute.For<IAppenderConfiguration>();
+            IElementConfiguration appenderConfiguration = Substitute.For<IElementConfiguration>();
             appenderConfiguration.ConfigXml.Returns(mXmlDoc);
             appenderConfiguration.Log4NetNode.Returns(mLog4NetNode);
-            appenderConfiguration.OriginalAppenderNode.Returns(mOriginalAppender);
+            appenderConfiguration.OriginalNode.Returns(mOriginalAppender);
 
             mSut = new Name(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
         }

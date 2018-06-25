@@ -8,9 +8,9 @@ namespace Editor.Definitions.Loggers
 {
     internal class RootLogger : PropertyDefinition
     {
-        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IElementConfiguration mAppenderConfiguration;
 
-        public RootLogger(IAppenderConfiguration appenderConfiguration)
+        public RootLogger(IElementConfiguration appenderConfiguration)
         {
             mAppenderConfiguration = appenderConfiguration;
         }

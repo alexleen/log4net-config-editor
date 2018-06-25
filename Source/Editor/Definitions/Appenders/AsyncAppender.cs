@@ -9,7 +9,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class AsyncAppender : ForwardingAppender
     {
-        internal AsyncAppender(IAppenderConfiguration appenderConfiguration)
+        internal AsyncAppender(IElementConfiguration appenderConfiguration)
             : base(appenderConfiguration)
         {
         }

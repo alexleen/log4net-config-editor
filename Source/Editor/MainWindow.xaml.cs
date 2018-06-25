@@ -300,7 +300,7 @@ namespace Editor
 
         private void OpenElementWindow(DescriptorBase descriptor, XmlNode appenderNode, string elementName)
         {
-            IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
+            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
             ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(descriptor, appenderConfiguration), WindowSizeLocationFactory.Create(descriptor));
             elementWindow.ShowDialog();
             LoadFromRam();
@@ -318,27 +318,24 @@ namespace Editor
         }
     }
 
-    internal class AppenderConfiguration : IAppenderConfiguration
+    internal class ElementConfiguration : IElementConfiguration
     {
-        public AppenderConfiguration(XmlDocument xmlDocument, XmlNode log4NetNode, XmlNode originalNode, XmlNode newNode)
+        public ElementConfiguration(XmlDocument xmlDocument, XmlNode log4NetNode, XmlNode originalNode, XmlNode newNode)
         {
             ConfigXml = xmlDocument;
             Log4NetNode = log4NetNode;
-            OriginalAppenderNode = originalNode;
-            NewAppenderNode = newNode;
+            OriginalNode = originalNode;
+            NewNode = newNode;
         }
 
-        public AppenderConfiguration(IConfiguration configuration, XmlNode originalAppenderNode, XmlNode newAppenderNode)
+        public ElementConfiguration(IConfiguration configuration, XmlNode originalAppenderNode, XmlNode newAppenderNode)
+            : this(configuration.ConfigXml, configuration.Log4NetNode, originalAppenderNode, newAppenderNode)
         {
-            ConfigXml = configuration.ConfigXml;
-            Log4NetNode = configuration.Log4NetNode;
-            OriginalAppenderNode = originalAppenderNode;
-            NewAppenderNode = newAppenderNode;
         }
 
-        public XmlNode OriginalAppenderNode { get; }
+        public XmlNode OriginalNode { get; }
 
-        public XmlNode NewAppenderNode { get; }
+        public XmlNode NewNode { get; }
 
         public XmlDocument ConfigXml { get; }
 

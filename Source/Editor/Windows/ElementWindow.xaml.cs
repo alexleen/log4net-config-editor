@@ -15,19 +15,19 @@ namespace Editor.Windows
     /// </summary>
     internal partial class ElementWindow : IMessageBoxService
     {
-        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IElementConfiguration mConfiguration;
         
         public IWindowSizeLocation WindowSizeLocation { get; }
         public IPropertyDefinition PropertyDefinition { get; }
         public ObservableCollection<IProperty> Properties { get; }
 
-        public ElementWindow(IAppenderConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition, IWindowSizeLocation windowSizeLocation)
+        public ElementWindow(IElementConfiguration appenderConfiguration, IPropertyDefinition propertyDefinition, IWindowSizeLocation windowSizeLocation)
             : base(windowSizeLocation.RetentionKey)
         {
             InitializeComponent();
             DataContext = this;
 
-            mAppenderConfiguration = appenderConfiguration;
+            mConfiguration = appenderConfiguration;
             WindowSizeLocation = windowSizeLocation;
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
@@ -74,7 +74,7 @@ namespace Editor.Windows
             //This will add all properties to collection via event handler
             PropertyDefinition.Initialize();
 
-            if (mAppenderConfiguration.OriginalAppenderNode == null)
+            if (mConfiguration.OriginalNode == null)
             {
                 return;
             }
@@ -83,7 +83,7 @@ namespace Editor.Windows
             // ReSharper disable once ForCanBeConvertedToForeach
             for (int index = 0; index < Properties.Count; index++)
             {
-                Properties[index].Load(mAppenderConfiguration.OriginalAppenderNode);
+                Properties[index].Load(mConfiguration.OriginalNode);
             }
         }
 
@@ -96,18 +96,18 @@ namespace Editor.Windows
 
             foreach (IProperty appenderProperty in Properties)
             {
-                appenderProperty.Save(mAppenderConfiguration.ConfigXml, mAppenderConfiguration.NewAppenderNode);
+                appenderProperty.Save(mConfiguration.ConfigXml, mConfiguration.NewNode);
             }
 
-            if (mAppenderConfiguration.OriginalAppenderNode == null)
+            if (mConfiguration.OriginalNode == null)
             {
-                //New appender
-                mAppenderConfiguration.Log4NetNode.AppendChild(mAppenderConfiguration.NewAppenderNode);
+                //New node - add
+                mConfiguration.Log4NetNode.AppendChild(mConfiguration.NewNode);
             }
             else
             {
-                //Editing appender - replace
-                mAppenderConfiguration.Log4NetNode.ReplaceChild(mAppenderConfiguration.NewAppenderNode, mAppenderConfiguration.OriginalAppenderNode);
+                //Edit - replace
+                mConfiguration.Log4NetNode.ReplaceChild(mConfiguration.NewNode, mConfiguration.OriginalNode);
             }
 
             Close();

@@ -11,9 +11,9 @@ namespace Editor.Definitions.Appenders
 {
     internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
     {
-        protected readonly IAppenderConfiguration AppenderConfiguration;
+        protected readonly IElementConfiguration AppenderConfiguration;
 
-        protected AppenderSkeleton(IAppenderConfiguration appenderConfiguration)
+        protected AppenderSkeleton(IElementConfiguration appenderConfiguration)
         {
             AppenderConfiguration = appenderConfiguration;
         }

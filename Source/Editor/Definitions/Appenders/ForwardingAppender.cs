@@ -9,7 +9,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class ForwardingAppender : AppenderSkeleton
     {
-        internal ForwardingAppender(IAppenderConfiguration appenderConfiguration)
+        internal ForwardingAppender(IElementConfiguration appenderConfiguration)
             : base(appenderConfiguration)
         {
         }

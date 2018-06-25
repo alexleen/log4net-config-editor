@@ -12,9 +12,9 @@ namespace Editor.ConfigProperties
 {
     public class OutgoingRefs : RefsBase
     {
-        private readonly IAppenderConfiguration mAppenderConfiguration;
+        private readonly IElementConfiguration mAppenderConfiguration;
 
-        public OutgoingRefs(ReadOnlyCollection<IProperty> container, IAppenderConfiguration appenderConfiguration)
+        public OutgoingRefs(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration)
             : base(container, "↑ Refs:", "This element can reference the following appenders:")
         {
             mAppenderConfiguration = appenderConfiguration;
@@ -29,12 +29,12 @@ namespace Editor.ConfigProperties
             {
                 string name = appender.Attributes["name"].Value;
 
-                if (Equals(appender, mAppenderConfiguration.OriginalAppenderNode) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
+                if (Equals(appender, mAppenderConfiguration.OriginalNode) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
                 {
                     continue;
                 }
 
-                RefsCollection.Add(new LoggerModel(name, mAppenderConfiguration.OriginalAppenderNode, false));
+                RefsCollection.Add(new LoggerModel(name, mAppenderConfiguration.OriginalNode, false));
             }
         }
 

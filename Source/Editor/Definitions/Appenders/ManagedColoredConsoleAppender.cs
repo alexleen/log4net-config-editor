@@ -9,7 +9,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class ManagedColoredConsoleAppender : ConsoleAppender
     {
-        internal ManagedColoredConsoleAppender(IAppenderConfiguration appenderConfiguration)
+        internal ManagedColoredConsoleAppender(IElementConfiguration appenderConfiguration)
             : base(appenderConfiguration)
         {
         }

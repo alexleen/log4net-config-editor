@@ -9,7 +9,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class EventLogAppender : AppenderSkeleton
     {
-        public EventLogAppender(IAppenderConfiguration appenderConfiguration)
+        public EventLogAppender(IElementConfiguration appenderConfiguration)
             : base(appenderConfiguration)
         {
         }
