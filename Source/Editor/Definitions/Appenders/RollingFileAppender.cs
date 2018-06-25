@@ -16,8 +16,8 @@ namespace Editor.Definitions.Appenders
         private readonly StaticLogFileName mStaticLogFileName;
         private int mStaticLogFileNameIndex;
 
-        internal RollingFileAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
-            : base(appenderConfiguration, messageBoxService)
+        internal RollingFileAppender(IAppenderConfiguration appenderConfiguration)
+            : base(appenderConfiguration)
         {
             mDatePattern = new DatePattern(Properties);
             mStaticLogFileName = new StaticLogFileName(Properties);

@@ -12,12 +12,10 @@ namespace Editor.Definitions.Appenders
     internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
     {
         protected readonly IAppenderConfiguration AppenderConfiguration;
-        protected readonly IMessageBoxService MessageBoxService;
 
-        protected AppenderSkeleton(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        protected AppenderSkeleton(IAppenderConfiguration appenderConfiguration)
         {
             AppenderConfiguration = appenderConfiguration;
-            MessageBoxService = messageBoxService;
         }
 
         public abstract AppenderDescriptor Descriptor { get; }

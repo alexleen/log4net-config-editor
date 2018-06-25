@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.ComponentModel;
 using Editor.Definitions.Appenders;
 using Editor.Definitions.Filters;
 using Editor.Definitions.Loggers;
@@ -9,20 +7,21 @@ using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.Interfaces;
-using Editor.Windows;
+using System;
+using System.ComponentModel;
 
 namespace Editor.Definitions.Factory
 {
     public static class DefinitionFactory
     {
-        public static IPropertyDefinition Create(DescriptorBase descriptor, IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        public static IPropertyDefinition Create(DescriptorBase descriptor, IAppenderConfiguration appenderConfiguration)
         {
             switch (descriptor)
             {
                 case AppenderDescriptor appenderDescriptor:
-                    return CreateAppenderDefinition(appenderDescriptor, appenderConfiguration, messageBoxService);
+                    return CreateAppenderDefinition(appenderDescriptor, appenderConfiguration);
                 case FilterDescriptor filterDescriptor:
-                    return CreateFilterDefinition(filterDescriptor, appenderConfiguration, messageBoxService);
+                    return CreateFilterDefinition(filterDescriptor);
                 case LoggerDescriptor loggerDescriptor:
                     return new RootLogger(appenderConfiguration);
                 default:
@@ -30,30 +29,30 @@ namespace Editor.Definitions.Factory
             }
         }
 
-        private static IPropertyDefinition CreateAppenderDefinition(AppenderDescriptor appenderDescriptor, IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        private static IPropertyDefinition CreateAppenderDefinition(AppenderDescriptor appenderDescriptor, IAppenderConfiguration appenderConfiguration)
         {
             switch (appenderDescriptor.Type)
             {
                 case AppenderType.Console:
-                    return new ConsoleAppender(appenderConfiguration, messageBoxService);
+                    return new ConsoleAppender(appenderConfiguration);
                 case AppenderType.File:
-                    return new FileAppender(appenderConfiguration, messageBoxService);
+                    return new FileAppender(appenderConfiguration);
                 case AppenderType.RollingFile:
-                    return new RollingFileAppender(appenderConfiguration, messageBoxService);
+                    return new RollingFileAppender(appenderConfiguration);
                 case AppenderType.EventLog:
-                    return new EventLogAppender(appenderConfiguration, messageBoxService);
+                    return new EventLogAppender(appenderConfiguration);
                 case AppenderType.Async:
-                    return new AsyncAppender(appenderConfiguration, messageBoxService);
+                    return new AsyncAppender(appenderConfiguration);
                 case AppenderType.Forwarding:
-                    return new ForwardingAppender(appenderConfiguration, messageBoxService);
+                    return new ForwardingAppender(appenderConfiguration);
                 case AppenderType.ManagedColor:
-                    return new ManagedColoredConsoleAppender(appenderConfiguration, messageBoxService);
+                    return new ManagedColoredConsoleAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }
         }
 
-        private static IPropertyDefinition CreateFilterDefinition(FilterDescriptor filterDescriptor, IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
+        private static IPropertyDefinition CreateFilterDefinition(FilterDescriptor filterDescriptor)
         {
             switch (filterDescriptor.Type)
             {

@@ -9,8 +9,8 @@ namespace Editor.Definitions.Appenders
 {
     internal class ManagedColoredConsoleAppender : ConsoleAppender
     {
-        internal ManagedColoredConsoleAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
-            : base(appenderConfiguration, messageBoxService)
+        internal ManagedColoredConsoleAppender(IAppenderConfiguration appenderConfiguration)
+            : base(appenderConfiguration)
         {
         }
         

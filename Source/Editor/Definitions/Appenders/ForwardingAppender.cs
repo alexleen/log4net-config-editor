@@ -9,8 +9,8 @@ namespace Editor.Definitions.Appenders
 {
     internal class ForwardingAppender : AppenderSkeleton
     {
-        internal ForwardingAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
-            : base(appenderConfiguration, messageBoxService)
+        internal ForwardingAppender(IAppenderConfiguration appenderConfiguration)
+            : base(appenderConfiguration)
         {
         }
         

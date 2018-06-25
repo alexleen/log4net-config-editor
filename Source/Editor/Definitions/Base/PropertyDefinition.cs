@@ -1,7 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using Editor.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace Editor.Definitions.Base
 {
@@ -35,5 +35,7 @@ namespace Editor.Definitions.Base
         public ReadOnlyObservableCollection<IProperty> Properties { get; }
 
         public abstract void Initialize();
+
+        public IMessageBoxService MessageBoxService { get; set; }
     }
 }

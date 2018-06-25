@@ -22,7 +22,7 @@ namespace Editor
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : IMessageBoxService
+    public partial class MainWindow
     {
         private XmlDocument mConfigXml;
         private XmlNode mLog4NetNode;
@@ -301,7 +301,7 @@ namespace Editor
         private void OpenElementWindow(DescriptorBase descriptor, XmlNode appenderNode, string elementName)
         {
             IAppenderConfiguration appenderConfiguration = new AppenderConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
-            ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(descriptor, appenderConfiguration, this), WindowSizeLocationFactory.Create(descriptor));
+            ElementWindow elementWindow = new ElementWindow(appenderConfiguration, DefinitionFactory.Create(descriptor, appenderConfiguration), WindowSizeLocationFactory.Create(descriptor));
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -315,38 +315,6 @@ namespace Editor
             }
 
             OpenElementWindow(LoggerDescriptor.Root, null, "root");
-        }
-
-        public void ShowError(string message)
-        {
-            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        public void ShowInformation(string message)
-        {
-            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        public void ShowWindow(Window window)
-        {
-            window.Owner = this;
-            window.ShowDialog();
-        }
-
-        public bool? ShowOpenFileDialog(out string fileName)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            bool? showDialog = ofd.ShowDialog();
-
-            if (showDialog.HasValue && showDialog.Value)
-            {
-                fileName = ofd.FileName;
-                return true;
-            }
-
-            fileName = null;
-            return showDialog;
         }
     }
 

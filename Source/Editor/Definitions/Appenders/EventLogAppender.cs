@@ -9,8 +9,8 @@ namespace Editor.Definitions.Appenders
 {
     internal class EventLogAppender : AppenderSkeleton
     {
-        public EventLogAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
-            : base(appenderConfiguration, messageBoxService)
+        public EventLogAppender(IAppenderConfiguration appenderConfiguration)
+            : base(appenderConfiguration)
         {
         }
         

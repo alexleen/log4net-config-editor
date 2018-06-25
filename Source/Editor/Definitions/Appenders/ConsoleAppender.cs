@@ -9,8 +9,8 @@ namespace Editor.Definitions.Appenders
 {
     internal class ConsoleAppender : AppenderSkeleton
     {
-        public ConsoleAppender(IAppenderConfiguration appenderConfiguration, IMessageBoxService messageBoxService)
-            : base(appenderConfiguration, messageBoxService)
+        public ConsoleAppender(IAppenderConfiguration appenderConfiguration)
+            : base(appenderConfiguration)
         {
         }
         

@@ -31,6 +31,7 @@ namespace Editor.Windows
             WindowSizeLocation = windowSizeLocation;
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
+            PropertyDefinition.MessageBoxService = this;
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
             ((INotifyCollectionChanged)PropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
