@@ -76,6 +76,7 @@
     <Compile Include="ConfigProperties\IncomingRefsTest.cs" />
     <Compile Include="ConfigProperties\KeyTest.cs" />
     <Compile Include="ConfigProperties\LayoutTest.cs" />
+    <Compile Include="ConfigProperties\LevelPropertyTest.cs" />
     <Compile Include="ConfigProperties\LevelToMatchTest.cs" />
     <Compile Include="ConfigProperties\LockingModelTest.cs" />
     <Compile Include="ConfigProperties\LoggerToMatchTest.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="ConfigProperties\StringMatchTest.cs" />
     <Compile Include="ConfigProperties\TargetTest.cs" />
     <Compile Include="ConfigProperties\ThresholdTest.cs" />
+    <Compile Include="ConfigProperties\TypeAttributeTest.cs" />
     <Compile Include="Converters\BoolInterverConverterTest.cs" />
     <Compile Include="Converters\BoolToColorConverterTest.cs" />
     <Compile Include="Converters\CapsDelimiterConverterTest.cs" />
