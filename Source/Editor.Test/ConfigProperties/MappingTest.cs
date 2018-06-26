@@ -3,19 +3,22 @@
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.Windows;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
-    [TestFixture]
+    [TestFixture, Apartment(ApartmentState.STA)]
     public class MappingTest
     {
         XmlDocument mXmlDoc;
+        IMessageBoxService mMessageBoxService;
         private Mapping mSut;
 
         [SetUp]
@@ -42,7 +45,33 @@ namespace Editor.Test.ConfigProperties
                            "</mapping>\r\n" +
                            "</appender>");
 
-            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Substitute.For<IConfiguration>(), Substitute.For<IMessageBoxService>());
+            mMessageBoxService = Substitute.For<IMessageBoxService>();
+
+            IConfiguration configuration = Substitute.For<IConfiguration>();
+            configuration.ConfigXml.Returns(mXmlDoc);
+
+            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), configuration, mMessageBoxService);
+        }
+
+        [Test]
+        public void Add_ShouldShowElementWindow()
+        {
+            mSut.Add.Execute(null);
+
+            mMessageBoxService.Received(1).ShowWindow(Arg.Any<ElementWindow>());
+        }
+
+        [Test]
+        public void Remove_ShouldRemoveModel()
+        {
+            mSut.Load(mXmlDoc.FirstChild);
+
+            //Test sanity check
+            Assert.AreEqual(4, mSut.Mappings.Count);
+
+            mSut.Mappings.First().Remove.Execute(null);
+
+            Assert.AreEqual(3, mSut.Mappings.Count);
         }
 
         [Test]

@@ -37,14 +37,6 @@ namespace Editor.ConfigProperties
 
         private void ShowMappingWindowForAdd()
         {
-            //MappingWindow mappingWindow = new MappingWindow();
-
-            //mMessageBoxService.ShowWindow(mappingWindow);
-
-            //if (!mappingWindow.Result.Equals(default))
-            //{
-            //    Mappings.Add(new MappingModel(mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, OnRemove, OnReplace, mMessageBoxService));
-            //}
             ShowMappingWindow(new MappingModel(OnRemove, ShowMappingWindow));
         }
 
@@ -81,19 +73,6 @@ namespace Editor.ConfigProperties
         {
             foreach (MappingModel mappingModel in Mappings)
             {
-                //XmlElement mappingElement = xmlDoc.CreateElement(MappingName);
-                //xmlDoc.CreateElementWithValueAttribute(LevelName, mappingModel.Level.Name).AppendTo(mappingElement);
-
-                //if (mappingModel.ForeColor != null)
-                //{
-                //    xmlDoc.CreateElementWithValueAttribute(ForeColorName, mappingModel.ForeColor.ToString()).AppendTo(mappingElement);
-                //}
-
-                //if (mappingModel.BackColor != null)
-                //{
-                //    xmlDoc.CreateElementWithValueAttribute(BackColorName, mappingModel.BackColor.ToString()).AppendTo(mappingElement);
-                //}
-
                 newNode.AppendChild(mappingModel.Node);
             }
         }
