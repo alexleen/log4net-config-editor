@@ -7,7 +7,6 @@ using log4net.Core;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Xml;
 
 namespace Editor.Test.ConfigProperties
@@ -32,17 +31,17 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Levels_ShouldBeAllLevels()
         {
-            CollectionAssert.AreEqual(new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys), mSut.Levels);
+            CollectionAssert.AreEqual(Log4NetUtilities.LevelsByName.Keys, mSut.Levels);
         }
 
         [Test]
         public void SelectedLevel_ShouldBeNone()
         {
-            Assert.AreEqual(string.Empty, mSut.SelectedLevel);
+            Assert.AreEqual(Level.All.Name, mSut.SelectedLevel);
         }
 
-        [TestCase("<level />", "")]
-        [TestCase("<level value=\"\" />", "")]
+        [TestCase("<level />", "ALL")]
+        [TestCase("<level value=\"\" />", "ALL")]
         [TestCase("<level value=\"ALL\" />", "ALL")]
         [TestCase("<level value=\"All\" />", "ALL")]
         [TestCase("<level value=\"all\" />", "ALL")]
@@ -64,6 +63,7 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
+            mSut.SelectedLevel = null;
             mSut.Save(xmlDoc, appender);
 
             CollectionAssert.IsEmpty(appender.ChildNodes);

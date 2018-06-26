@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel> //TODO INotifyPropertyChanged
+    public class MappingModel : IEquatable<MappingModel> //TODO INotifyPropertyChanged - editing a mapping won't update
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
@@ -131,7 +131,7 @@ namespace Editor.Models
         {
             unchecked
             {
-                int hashCode = Level != null ? Level.GetHashCode() : 0;
+                int hashCode = Level.GetHashCode();
                 hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();
                 hashCode = (hashCode * 397) ^ BackColor.GetHashCode();
                 return hashCode;

@@ -18,19 +18,14 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class MappingTest
     {
+        XmlDocument mXmlDoc;
         private Mapping mSut;
 
         [SetUp]
         public void SetUp()
         {
-            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Substitute.For<IConfiguration>(), Substitute.For<IMessageBoxService>());
-        }
-
-        [Test]
-        public void Load_ShouldLoadMappingCorrectly()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
+            mXmlDoc = new XmlDocument();
+            mXmlDoc.LoadXml("<appender>\r\n" +
                            "<mapping>\r\n" +
                            " <level value=\"ERROR\" />\r\n" +
                            " <foreColor value=\"DarkRed\" />\r\n" +
@@ -50,14 +45,23 @@ namespace Editor.Test.ConfigProperties
                            "</mapping>\r\n" +
                            "</appender>");
 
+            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Substitute.For<IConfiguration>(), Substitute.For<IMessageBoxService>());
+        }
+
+        [Test]
+        public void Load_ShouldLoadMappingCorrectly()
+        {
+
+
             IEnumerable<MappingModel> expectedMappings = new[]
             {
-                new MappingModel(null, null),
-                new MappingModel(null, null),
-                new MappingModel(null, null)
+                new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[0]),
+                new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[1]),
+                new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[2]),
+                new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[3])
             };
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(mXmlDoc.FirstChild);
 
             CollectionAssert.AreEquivalent(expectedMappings, mSut.Mappings);
         }
@@ -65,17 +69,18 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveEachMappingCorrectly()
         {
-            mSut.Mappings.Add(new MappingModel(null, null));
-            mSut.Mappings.Add(new MappingModel(null, null));
-            mSut.Mappings.Add(new MappingModel(null, null));
+            mSut.Mappings.Add(new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[0]));
+            mSut.Mappings.Add(new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[1]));
+            mSut.Mappings.Add(new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[2]));
+            mSut.Mappings.Add(new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[3]));
 
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            XmlElement appender = mXmlDoc.CreateElement("appender");
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(mXmlDoc, appender);
 
             XmlNodeList mappings = appender.SelectNodes("/mapping");
-            Assert.AreEqual(mSut.Mappings.Count, mappings.Count);
+
+            CollectionAssert.AreEquivalent(mSut.Mappings.Select(m => m.Node), mappings);
 
             //foreach (XmlNode mappingNode in mappings)
             //{
@@ -88,6 +93,10 @@ namespace Editor.Test.ConfigProperties
             //    Assert.AreEqual(match.ForeColor?.ToString(), foreColor);
             //    Assert.AreEqual(match.BackColor?.ToString(), backColor);
             //}
+        }
+
+        private void Dummy(MappingModel mappingModel)
+        {
         }
     }
 }
