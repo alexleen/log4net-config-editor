@@ -7,6 +7,8 @@ namespace Editor.Definitions.Mapping
     {
         public override string Name => "Mapping";
 
+        public override string Icon => "pack://application:,,,/Editor;component/Images/fill-color.png";
+
         public override void Initialize()
         {
             AddProperty(new LevelProperty(Properties));

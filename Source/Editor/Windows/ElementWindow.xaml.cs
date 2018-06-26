@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Editor.Interfaces;
 using Microsoft.Win32;
 
@@ -40,6 +41,7 @@ namespace Editor.Windows
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
             ((INotifyCollectionChanged)PropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
+            Icon = new BitmapImage(new Uri(PropertyDefinition.Icon));
         }
 
         private void SetWindowSizeLocation(IWindowSizeLocation windowSizeLocation)

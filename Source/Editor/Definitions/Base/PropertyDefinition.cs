@@ -32,6 +32,8 @@ namespace Editor.Definitions.Base
 
         public abstract string Name { get; }
 
+        public abstract string Icon { get; }
+
         public ReadOnlyObservableCollection<IProperty> Properties { get; }
 
         public abstract void Initialize();

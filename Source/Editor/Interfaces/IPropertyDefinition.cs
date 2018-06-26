@@ -8,6 +8,8 @@ namespace Editor.Interfaces
     {
         string Name { get; }
 
+        string Icon { get; }
+
         void Initialize();
 
         ReadOnlyObservableCollection<IProperty> Properties { get; }

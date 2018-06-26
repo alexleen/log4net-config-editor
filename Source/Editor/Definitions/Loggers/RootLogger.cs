@@ -17,6 +17,8 @@ namespace Editor.Definitions.Loggers
 
         public override string Name => "Root Logger";
 
+        public override string Icon => "pack://application:,,,/Editor;component/Images/text-x-log.png";
+
         public override void Initialize()
         {
             AddProperty(new LevelProperty(Properties, true));

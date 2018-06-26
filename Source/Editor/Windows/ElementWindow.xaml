@@ -6,8 +6,7 @@
         xmlns:Windows="clr-namespace:Editor.Windows"
         xmlns:Utilities="clr-namespace:Editor.Utilities"
         mc:Ignorable="d"        
-        WindowStartupLocation="CenterOwner" 
-        Icon="../Images/list-add.png" 
+        WindowStartupLocation="CenterOwner"
         x:ClassModifier="internal"
         Title="{Binding PropertyDefinition.Name}" 
         d:DataContext="{d:ElementWindow }">

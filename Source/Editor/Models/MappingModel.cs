@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel>
+    public class MappingModel : IEquatable<MappingModel> //TODO INotifyPropertyChanged
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";

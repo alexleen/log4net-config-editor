@@ -18,6 +18,8 @@ namespace Editor.Definitions.Appenders
             Configuration = appenderConfiguration;
         }
 
+        public override string Icon => "pack://application:,,,/Editor;component/Images/list-add.png";
+
         public abstract AppenderDescriptor Descriptor { get; }
 
         public override void Initialize()

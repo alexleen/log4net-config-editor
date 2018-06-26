@@ -11,6 +11,8 @@ namespace Editor.Definitions.Filters
     {
         public abstract FilterDescriptor Descriptor { get; }
 
+        public override string Icon => "pack://application:,,,/Editor;component/Images/view-filter.png";
+
         public override void Initialize()
         {
             AddProperty(new AcceptOnMatch(Properties));
