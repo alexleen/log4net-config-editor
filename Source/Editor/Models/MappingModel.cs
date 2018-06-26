@@ -1,8 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows.Appenders;
 using log4net.Core;
 using System;
 using System.Windows.Input;

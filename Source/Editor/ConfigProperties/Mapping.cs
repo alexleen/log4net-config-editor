@@ -7,8 +7,6 @@ using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
-using Editor.Windows.Appenders;
-using log4net.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;

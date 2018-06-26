@@ -172,9 +172,6 @@
     <Compile Include="Windows\ElementWindow.xaml.cs">
       <DependentUpon>ElementWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Appenders\MappingWindow.xaml.cs">
-      <DependentUpon>MappingWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="HistoryManager\HistoryManager.cs" />
     <Compile Include="HistoryManager\IHistoryManager.cs" />
     <Compile Include="HistoryManager\History.cs" />
@@ -202,10 +199,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ElementWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Appenders\MappingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
