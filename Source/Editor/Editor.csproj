@@ -136,6 +136,7 @@
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
+    <Compile Include="Interfaces\IElementConfiguration.cs" />
     <Compile Include="Windows\SizeLocation\AppenderWindowSizeLocation.cs" />
     <Compile Include="Windows\SizeLocation\FilterWindowSizeLocation.cs" />
     <Compile Include="Interfaces\IAppenderDefinition.cs" />

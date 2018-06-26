@@ -15,7 +15,7 @@ namespace Editor.Definitions.Factory
 {
     public static class DefinitionFactory
     {
-        public static IPropertyDefinition Create(DescriptorBase descriptor, IElementConfiguration configuration)
+        public static IElementDefinition Create(DescriptorBase descriptor, IElementConfiguration configuration)
         {
             switch (descriptor)
             {
@@ -32,7 +32,7 @@ namespace Editor.Definitions.Factory
             }
         }
 
-        private static IPropertyDefinition CreateAppenderDefinition(AppenderDescriptor appenderDescriptor, IElementConfiguration appenderConfiguration)
+        private static IElementDefinition CreateAppenderDefinition(AppenderDescriptor appenderDescriptor, IElementConfiguration appenderConfiguration)
         {
             switch (appenderDescriptor.Type)
             {
@@ -55,7 +55,7 @@ namespace Editor.Definitions.Factory
             }
         }
 
-        private static IPropertyDefinition CreateFilterDefinition(FilterDescriptor filterDescriptor)
+        private static IElementDefinition CreateFilterDefinition(FilterDescriptor filterDescriptor)
         {
             switch (filterDescriptor.Type)
             {

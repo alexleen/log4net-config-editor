@@ -5,11 +5,11 @@ using System.Collections.ObjectModel;
 
 namespace Editor.Definitions.Base
 {
-    internal abstract class PropertyDefinition : IPropertyDefinition
+    internal abstract class ElementDefinition : IElementDefinition
     {
         private readonly ObservableCollection<IProperty> mProperties;
 
-        protected PropertyDefinition()
+        protected ElementDefinition()
         {
             mProperties = new ObservableCollection<IProperty>();
             Properties = new ReadOnlyObservableCollection<IProperty>(mProperties);

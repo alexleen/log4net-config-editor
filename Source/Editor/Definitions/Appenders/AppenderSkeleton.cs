@@ -9,7 +9,7 @@ using Editor.Windows;
 
 namespace Editor.Definitions.Appenders
 {
-    internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
+    internal abstract class AppenderSkeleton : ElementDefinition, IAppenderDefinition
     {
         protected readonly IElementConfiguration Configuration;
 

@@ -6,7 +6,7 @@ using Editor.Interfaces;
 
 namespace Editor.Definitions.Loggers
 {
-    internal class RootLogger : PropertyDefinition
+    internal class RootLogger : ElementDefinition
     {
         private readonly IElementConfiguration mAppenderConfiguration;
 

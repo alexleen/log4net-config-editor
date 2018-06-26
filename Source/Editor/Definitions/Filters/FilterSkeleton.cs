@@ -7,7 +7,7 @@ using Editor.Interfaces;
 
 namespace Editor.Definitions.Filters
 {
-    internal abstract class FilterSkeleton : PropertyDefinition, IFilterDefinition
+    internal abstract class FilterSkeleton : ElementDefinition, IFilterDefinition
     {
         public abstract FilterDescriptor Descriptor { get; }
 

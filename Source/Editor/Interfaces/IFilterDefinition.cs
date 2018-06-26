@@ -4,8 +4,14 @@ using Editor.Descriptors;
 
 namespace Editor.Interfaces
 {
-    internal interface IFilterDefinition : IPropertyDefinition
+    /// <summary>
+    /// Definition of a filter.
+    /// </summary>
+    internal interface IFilterDefinition : IElementDefinition
     {
+        /// <summary>
+        /// This filter's descriptor.
+        /// </summary>
         FilterDescriptor Descriptor { get; }
     }
 }

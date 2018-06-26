@@ -20,11 +20,11 @@ namespace Editor.Windows
         private readonly ISaveStrategy mSaveStrategy;
 
         public IWindowSizeLocation WindowSizeLocation { get; }
-        public IPropertyDefinition PropertyDefinition { get; }
+        public IElementDefinition PropertyDefinition { get; }
         public ObservableCollection<IProperty> Properties { get; }
 
         public ElementWindow(IElementConfiguration appenderConfiguration,
-                             IPropertyDefinition propertyDefinition,
+                             IElementDefinition propertyDefinition,
                              IWindowSizeLocation windowSizeLocation,
                              ISaveStrategy saveStrategy)
             : base(windowSizeLocation.RetentionKey)

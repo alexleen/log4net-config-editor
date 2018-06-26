@@ -3,7 +3,7 @@ using Editor.Definitions.Base;
 
 namespace Editor.Definitions.Mapping
 {
-    class MappingDefinition : PropertyDefinition
+    class MappingDefinition : ElementDefinition
     {
         public override string Name => "Mapping";
 

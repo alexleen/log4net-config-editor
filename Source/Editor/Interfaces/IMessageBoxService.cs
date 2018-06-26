@@ -4,6 +4,9 @@ using System.Windows;
 
 namespace Editor.Interfaces
 {
+    /// <summary>
+    /// Provides view services to non-view parts of the application.
+    /// </summary>
     public interface IMessageBoxService
     {
         /// <summary>
