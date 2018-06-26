@@ -23,7 +23,7 @@ namespace Editor.Test.ConfigProperties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Substitute.For<IConfiguration>());
+            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Substitute.For<IConfiguration>(), Substitute.For<IMessageBoxService>());
         }
 
         [Test]
@@ -52,9 +52,9 @@ namespace Editor.Test.ConfigProperties
 
             IEnumerable<MappingModel> expectedMappings = new[]
             {
-                new MappingModel(null, null, null),
-                new MappingModel(null, null, null),
-                new MappingModel(null, null, null)
+                new MappingModel(null, null),
+                new MappingModel(null, null),
+                new MappingModel(null, null)
             };
 
             mSut.Load(xmlDoc.FirstChild);
@@ -65,9 +65,9 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveEachMappingCorrectly()
         {
-            mSut.Mappings.Add(new MappingModel(null, null, null));
-            mSut.Mappings.Add(new MappingModel(null, null, null));
-            mSut.Mappings.Add(new MappingModel(null, null, null));
+            mSut.Mappings.Add(new MappingModel(null, null));
+            mSut.Mappings.Add(new MappingModel(null, null));
+            mSut.Mappings.Add(new MappingModel(null, null));
 
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");

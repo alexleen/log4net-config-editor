@@ -96,6 +96,8 @@ namespace Editor.Interfaces
                     return CreateFilterSizeLocation(filterDescriptor);
                 case LoggerDescriptor loggerDescriptor:
                     return new LoggerWindowSizeLocation();
+                case MappingDescriptor mappingDescriptor:
+                    return new FilterWindowSizeLocation();
                 default:
                     throw new ArgumentException($"Window size & locations do not exist for {descriptor.GetType().Name}");
             }

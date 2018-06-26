@@ -66,6 +66,44 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type Base:ColorPropertyBase}">
+        <DataTemplate.Resources>
+            <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
+            <Converters:CapsDelimiterConverter x:Key="CapsDelimConv"/>
+        </DataTemplate.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Colors}"                       
+                      SelectedItem="{Binding SelectedColor}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="120"
+                      Margin="0,0,5,0"
+                      ToolTip="All log events with lower level than the threshold level are ignored by the appender.">
+                <ComboBox.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>
+                </ComboBox.Resources>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border BorderBrush="{Binding Converter={StaticResource Cctbc}}" BorderThickness="5" CornerRadius="1" VerticalAlignment="Center"/>
+                            <Label Content="{Binding Converter={StaticResource CapsDelimConv}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type FiltersProperties:Target}">
         <Grid>
             <Grid.ColumnDefinitions>

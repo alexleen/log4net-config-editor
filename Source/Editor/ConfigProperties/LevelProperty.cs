@@ -13,8 +13,8 @@ namespace Editor.ConfigProperties
     {
         private const string LevelName = "level";
 
-        public LevelProperty(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Level:", true)
+        public LevelProperty(ReadOnlyCollection<IProperty> container, bool prependEmpty = false)
+            : base(container, GridLength.Auto, "Level:", prependEmpty)
         {
         }
 

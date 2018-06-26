@@ -10,27 +10,77 @@ using System.Xml;
 
 namespace Editor.Models
 {
-    public class MappingModel //: IEquatable<MappingModel>
+    public class MappingModel : IEquatable<MappingModel>
     {
+        private const string LevelName = "level";
+        private const string ForeColorName = "foreColor";
+        private const string BackColorName = "backColor";
+
         private readonly Action<MappingModel> mRemove;
         private readonly Action<MappingModel> mShowMappingWindow;
 
-        public MappingModel(XmlNode node,
-                            Action<MappingModel> remove,
+        public MappingModel(Action<MappingModel> remove,
                             Action<MappingModel> showMappingWindow)
         {
-            mRemove = remove;
-            Node = node;
-            mShowMappingWindow = showMappingWindow;
+            mRemove = remove ?? throw new ArgumentNullException(nameof(remove));
+            mShowMappingWindow = showMappingWindow ?? throw new ArgumentNullException(nameof(showMappingWindow));
             Edit = new Command(EditFilterOnClick);
             Remove = new Command(RemoveFilterOnClick);
         }
+
+        public MappingModel(Action<MappingModel> mRemove,
+                            Action<MappingModel> mShowMappingWindow,
+                            XmlNode node)
+            : this(mRemove, mShowMappingWindow)
+        {
+            Node = node ?? throw new ArgumentNullException(nameof(node));
+        }
+
+        public Level Level { get; private set; }
+
+        public ConsoleColor? ForeColor { get; private set; }
+
+        public ConsoleColor? BackColor { get; private set; }
 
         public ICommand Edit { get; }
 
         public ICommand Remove { get; }
 
-        public XmlNode Node { get; set; }
+        private XmlNode mNode;
+
+        public XmlNode Node
+        {
+            get => mNode;
+            set
+            {
+                mNode = value;
+                ParseNode();
+            }
+        }
+
+        private void ParseNode()
+        {
+            string level = Node.GetValueAttributeValueFromChildElement(LevelName);
+            string foreColor = Node.GetValueAttributeValueFromChildElement(ForeColorName);
+            string backColor = Node.GetValueAttributeValueFromChildElement(BackColorName);
+
+            if (string.IsNullOrEmpty(level) || !Log4NetUtilities.TryParseLevel(level, out Level parsedLevel))
+            {
+                return;
+            }
+
+            Level = parsedLevel;
+
+            if (Enum.TryParse(foreColor, out ConsoleColor foreParsed))
+            {
+                ForeColor = foreParsed;
+            }
+
+            if (Enum.TryParse(backColor, out ConsoleColor backParsed))
+            {
+                BackColor = backParsed;
+            }
+        }
 
         private void EditFilterOnClick()
         {
@@ -42,50 +92,50 @@ namespace Editor.Models
             mRemove(this);
         }
 
-        //public override string ToString()
-        //{
-        //    return $"{Level} | {ForeColor} | {BackColor}";
-        //}
+        public override string ToString()
+        {
+            return $"{Level} | {ForeColor} | {BackColor}";
+        }
 
-        //public bool Equals(MappingModel other)
-        //{
-        //    if (other is null)
-        //    {
-        //        return false;
-        //    }
+        public bool Equals(MappingModel other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
 
-        //    if (ReferenceEquals(this, other))
-        //    {
-        //        return true;
-        //    }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
 
-        //    return Equals(Level, other.Level) && ForeColor == other.ForeColor && BackColor == other.BackColor;
-        //}
+            return Equals(Level, other.Level) && ForeColor == other.ForeColor && BackColor == other.BackColor;
+        }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj is null)
-        //    {
-        //        return false;
-        //    }
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
 
-        //    if (ReferenceEquals(this, obj))
-        //    {
-        //        return true;
-        //    }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
 
-        //    return Equals(obj as MappingModel);
-        //}
+            return Equals(obj as MappingModel);
+        }
 
-        //public override int GetHashCode()
-        //{
-        //    unchecked
-        //    {
-        //        int hashCode = Level != null ? Level.GetHashCode() : 0;
-        //        hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();
-        //        hashCode = (hashCode * 397) ^ BackColor.GetHashCode();
-        //        return hashCode;
-        //    }
-        //}
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Level != null ? Level.GetHashCode() : 0;
+                hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();
+                hashCode = (hashCode * 397) ^ BackColor.GetHashCode();
+                return hashCode;
+            }
+        }
     }
 }
