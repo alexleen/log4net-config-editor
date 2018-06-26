@@ -15,16 +15,16 @@ namespace Editor.Definitions.Factory
 {
     public static class DefinitionFactory
     {
-        public static IPropertyDefinition Create(DescriptorBase descriptor, IElementConfiguration appenderConfiguration)
+        public static IPropertyDefinition Create(DescriptorBase descriptor, IElementConfiguration configuration)
         {
             switch (descriptor)
             {
                 case AppenderDescriptor appenderDescriptor:
-                    return CreateAppenderDefinition(appenderDescriptor, appenderConfiguration);
+                    return CreateAppenderDefinition(appenderDescriptor, configuration);
                 case FilterDescriptor filterDescriptor:
                     return CreateFilterDefinition(filterDescriptor);
                 case LoggerDescriptor loggerDescriptor:
-                    return new RootLogger(appenderConfiguration);
+                    return new RootLogger(configuration);
                 case MappingDescriptor mappingDescriptor:
                     return new MappingDefinition();
                 default:

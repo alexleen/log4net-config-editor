@@ -30,9 +30,9 @@ namespace Editor.Windows.Appenders
         public MappingWindow(MappingModel mappingModelToEdit)
             : this()
         {
-            xLevelComboBox.SelectedItem = mappingModelToEdit.Level.Name;
-            xForegroundComboBox.SelectedItem = mappingModelToEdit.ForeColor;
-            xBackgroundComboBox.SelectedItem = mappingModelToEdit.BackColor;
+            //xLevelComboBox.SelectedItem = mappingModelToEdit.Level.Name;
+            //xForegroundComboBox.SelectedItem = mappingModelToEdit.ForeColor;
+            //xBackgroundComboBox.SelectedItem = mappingModelToEdit.BackColor;
         }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)

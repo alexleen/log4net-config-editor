@@ -7,8 +7,8 @@ namespace Editor.Definitions.Appenders
 {
     internal class ManagedColoredConsoleAppender : ConsoleAppender
     {
-        internal ManagedColoredConsoleAppender(IElementConfiguration appenderConfiguration)
-            : base(appenderConfiguration)
+        internal ManagedColoredConsoleAppender(IElementConfiguration configuration)
+            : base(configuration)
         {
         }
 
@@ -19,7 +19,7 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             base.AddAppenderSpecificProperties();
-            AddProperty(new ConfigProperties.Mapping(Properties, MessageBoxService));
+            AddProperty(new ConfigProperties.Mapping(Properties, Configuration));
         }
     }
 }

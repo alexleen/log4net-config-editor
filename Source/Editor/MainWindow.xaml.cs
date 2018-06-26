@@ -356,8 +356,8 @@ namespace Editor
             NewNode = newNode;
         }
 
-        public ElementConfiguration(IConfiguration configuration, XmlNode originalAppenderNode, XmlNode newAppenderNode)
-            : this(configuration.ConfigXml, configuration.Log4NetNode, originalAppenderNode, newAppenderNode)
+        public ElementConfiguration(IConfiguration configuration, XmlNode originalNode, XmlNode newNode)
+            : this(configuration.ConfigXml, configuration.Log4NetNode, originalNode, newNode)
         {
         }
 

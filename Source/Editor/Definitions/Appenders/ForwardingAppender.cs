@@ -20,7 +20,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new OutgoingRefs(Properties, AppenderConfiguration));
+            AddProperty(new OutgoingRefs(Properties, Configuration));
         }
     }
 }

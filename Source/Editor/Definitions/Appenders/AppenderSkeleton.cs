@@ -11,11 +11,11 @@ namespace Editor.Definitions.Appenders
 {
     internal abstract class AppenderSkeleton : PropertyDefinition, IAppenderDefinition
     {
-        protected readonly IElementConfiguration AppenderConfiguration;
+        protected readonly IElementConfiguration Configuration;
 
         protected AppenderSkeleton(IElementConfiguration appenderConfiguration)
         {
-            AppenderConfiguration = appenderConfiguration;
+            Configuration = appenderConfiguration;
         }
 
         public abstract AppenderDescriptor Descriptor { get; }
@@ -23,15 +23,15 @@ namespace Editor.Definitions.Appenders
         public override void Initialize()
         {
             AddProperty(new TypeAttribute(Properties, Descriptor));
-            Name nameProperty = new Name(Properties, AppenderConfiguration);
+            Name nameProperty = new Name(Properties, Configuration);
             AddProperty(nameProperty);
             AddProperty(new Threshold(Properties));
 
             AddAppenderSpecificProperties();
 
             AddProperty(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            AddProperty(new ConfigProperties.Filters(Properties, AppenderConfiguration, MessageBoxService)); //TODO this MBS should be from the ElementWindow not MainWindow
-            AddProperty(new IncomingRefs(Properties, nameProperty, AppenderConfiguration));
+            AddProperty(new ConfigProperties.Filters(Properties, Configuration, MessageBoxService)); //TODO this MBS should be from the ElementWindow not MainWindow
+            AddProperty(new IncomingRefs(Properties, nameProperty, Configuration));
         }
 
         protected virtual void AddAppenderSpecificProperties()
