@@ -1,0 +1,48 @@
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.Descriptors;
+using Editor.Descriptors.Base;
+using Editor.Enums;
+using System;
+using System.ComponentModel;
+
+namespace Editor.Interfaces
+{
+    internal static class WindowSizeLocationFactory
+    {
+        internal static IWindowSizeLocation Create(DescriptorBase descriptor)
+        {
+            switch (descriptor)
+            {
+                case AppenderDescriptor appenderDescriptor:
+                    return new AppenderWindowSizeLocation();
+                case FilterDescriptor filterDescriptor:
+                    return CreateFilterSizeLocation(filterDescriptor);
+                case LoggerDescriptor loggerDescriptor:
+                    return new LoggerWindowSizeLocation();
+                case MappingDescriptor mappingDescriptor:
+                    return new FilterWindowSizeLocation();
+                default:
+                    throw new ArgumentException($"Window size & locations do not exist for {descriptor.GetType().Name}");
+            }
+        }
+
+        private static IWindowSizeLocation CreateFilterSizeLocation(FilterDescriptor filterDescriptor)
+        {
+            switch (filterDescriptor.Type)
+            {
+                case FilterType.LevelMatch:
+                case FilterType.LevelRange:
+                    return new FilterWindowSizeLocation();
+                case FilterType.LoggerMatch:
+                    return new LoggerMatchFilterWindowSizeLocation();
+                case FilterType.Property:
+                    return new PropertyMatchFilterWindowSizeLocation();
+                case FilterType.String:
+                    return new StringMatchFilterWindowSizeLocation();
+                default:
+                    throw new InvalidEnumArgumentException(nameof(filterDescriptor.Type), (int)filterDescriptor.Type, typeof(FilterType));
+            }
+        }
+    }
+}

@@ -1,17 +1,14 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
+using Editor.Models;
+using NSubstitute;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
-using Editor.ConfigProperties;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Windows;
-using log4net.Core;
-using NSubstitute;
-using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -51,8 +48,6 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadMappingCorrectly()
         {
-
-
             IEnumerable<MappingModel> expectedMappings = new[]
             {
                 new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[0]),
@@ -81,18 +76,6 @@ namespace Editor.Test.ConfigProperties
             XmlNodeList mappings = appender.SelectNodes("/mapping");
 
             CollectionAssert.AreEquivalent(mSut.Mappings.Select(m => m.Node), mappings);
-
-            //foreach (XmlNode mappingNode in mappings)
-            //{
-            //    string level = mappingNode["level"]?.Attributes["value"].Value;
-            //    string foreColor = mappingNode["foreColor"]?.Attributes["value"].Value;
-            //    string backColor = mappingNode["backColor"]?.Attributes["value"].Value;
-
-            //    MappingModel match = mSut.Mappings.First(m => m.Level.Name == level);
-
-            //    Assert.AreEqual(match.ForeColor?.ToString(), foreColor);
-            //    Assert.AreEqual(match.BackColor?.ToString(), backColor);
-            //}
         }
 
         private void Dummy(MappingModel mappingModel)
