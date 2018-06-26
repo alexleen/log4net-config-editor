@@ -1,17 +1,16 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
+using Editor.Models;
+using Editor.Utilities;
+using Editor.Windows.Appenders;
+using log4net.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
-using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Utilities;
-using Editor.Windows;
-using Editor.Windows.Appenders;
-using log4net.Core;
 
 namespace Editor.ConfigProperties
 {

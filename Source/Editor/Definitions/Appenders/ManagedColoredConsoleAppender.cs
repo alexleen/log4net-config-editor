@@ -1,9 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Windows;
 
 namespace Editor.Definitions.Appenders
 {
@@ -13,7 +11,7 @@ namespace Editor.Definitions.Appenders
             : base(appenderConfiguration)
         {
         }
-        
+
         public override string Name => "Managed Color Console Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.ManagedColor;
@@ -21,7 +19,7 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             base.AddAppenderSpecificProperties();
-            AddProperty(new Mapping(Properties, MessageBoxService));
+            AddProperty(new ConfigProperties.Mapping(Properties, MessageBoxService));
         }
     }
 }

@@ -67,12 +67,14 @@
   <ItemGroup>
     <Compile Include="ConfigProperties\AcceptOnMatchTest.cs" />
     <Compile Include="ConfigProperties\ApplicationNameTest.cs" />
+    <Compile Include="ConfigProperties\BackColorTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
     <Compile Include="ConfigProperties\FileTest.cs" />
     <Compile Include="ConfigProperties\FiltersTest.cs" />
     <Compile Include="ConfigProperties\FixTest.cs" />
+    <Compile Include="ConfigProperties\ForeColorTest.cs" />
     <Compile Include="ConfigProperties\IncomingRefsTest.cs" />
     <Compile Include="ConfigProperties\KeyTest.cs" />
     <Compile Include="ConfigProperties\LayoutTest.cs" />

@@ -1,12 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.Windows.Input;
 using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows;
 using Editor.Windows.Appenders;
 using log4net.Core;
+using System;
+using System.Windows.Input;
 
 namespace Editor.Models
 {
@@ -41,7 +40,7 @@ namespace Editor.Models
         private void EditFilterOnClick()
         {
             MappingWindow mappingWindow = new MappingWindow(this);
-            
+
             mMessageBoxService.ShowWindow(mappingWindow);
 
             if (!mappingWindow.Result.Equals(default))

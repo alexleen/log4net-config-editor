@@ -61,6 +61,8 @@
     </ApplicationDefinition>
     <Compile Include="ConfigProperties\AcceptOnMatch.cs" />
     <Compile Include="ConfigProperties\ApplicationName.cs" />
+    <Compile Include="ConfigProperties\BackColor.cs" />
+    <Compile Include="ConfigProperties\Base\ColorPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\RefsBase.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
     <Compile Include="Controls\DropDownButton.xaml.cs">
@@ -123,10 +126,12 @@
     <Compile Include="Definitions\Filters\PropertyMatchFilter.cs" />
     <Compile Include="Definitions\Filters\StringMatchFilter.cs" />
     <Compile Include="Definitions\Loggers\RootLogger.cs" />
+    <Compile Include="Definitions\Mapping\MappingDefinition.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\Base\DescriptorBase.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
+    <Compile Include="Descriptors\MappingDescriptor.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
