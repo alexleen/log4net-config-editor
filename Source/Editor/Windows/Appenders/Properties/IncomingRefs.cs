@@ -31,7 +31,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             foreach (LoggerModel logger in XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode))
             {
-                if (Equals(logger.LoggerNode, mOriginalAppender))
+                if (Equals(logger.Node, mOriginalAppender))
                 {
                     continue;
                 }
@@ -44,7 +44,7 @@ namespace Editor.Windows.Appenders.Properties
         {
             foreach (LoggerModel loggerModel in RefsCollection)
             {
-                loggerModel.IsEnabled = loggerModel.LoggerNode.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
+                loggerModel.IsEnabled = loggerModel.Node.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
             }
         }
 
@@ -54,17 +54,17 @@ namespace Editor.Windows.Appenders.Properties
             {
                 if (loggerModel.IsEnabled)
                 {
-                    XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.LoggerNode, mNameProperty.Value);
+                    XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.Node, mNameProperty.Value);
                 }
                 else
                 {
-                    XmlNodeList appenderRefs = loggerModel.LoggerNode.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
+                    XmlNodeList appenderRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
 
                     if (appenderRefs.Count > 0)
                     {
                         foreach (XmlNode appenderRef in appenderRefs)
                         {
-                            loggerModel.LoggerNode.RemoveChild(appenderRef);
+                            loggerModel.Node.RemoveChild(appenderRef);
                         }
                     }
                 }

@@ -4,18 +4,16 @@ using System.Xml;
 
 namespace Editor.Models
 {
-    public class LoggerModel
+    public class LoggerModel : ChildModel
     {
-        public LoggerModel(string name, XmlNode loggerNode, bool isEnabled)
+        public LoggerModel(string elementName, string name, XmlNode node, bool isEnabled)
+            : base(elementName, node)
         {
             Name = name;
-            LoggerNode = loggerNode;
             IsEnabled = isEnabled;
         }
 
         public string Name { get; }
-
-        public XmlNode LoggerNode { get; }
 
         public bool IsEnabled { get; set; }
     }

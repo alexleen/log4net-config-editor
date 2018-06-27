@@ -63,7 +63,7 @@ namespace Editor.Test.Utilities
             IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(2, refs.Count());
-            Assert.IsTrue(refs.All(r => r.LoggerNode.Name == "root" || r.LoggerNode.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
+            Assert.IsTrue(refs.All(r => r.Node.Name == "root" || r.Node.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace Editor.Test.Utilities
             IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(1, refs.Count());
-            Assert.IsTrue(refs.All(r => r.LoggerNode.Name != "root"));
+            Assert.IsTrue(refs.All(r => r.Node.Name != "root"));
         }
 
         [Test]
