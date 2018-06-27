@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Windows;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 
@@ -16,7 +15,7 @@ namespace Editor.Definitions.Filters
             mStringMatch = new StringMatch(Properties, Validate) { IsFocused = isFocused };
             mRegexMatch = new RegexMatch(Properties, Validate);
         }
-        
+
         public override string Name => "String Match Filter";
 
         public override FilterDescriptor Descriptor => FilterDescriptor.String;
@@ -32,7 +31,7 @@ namespace Editor.Definitions.Filters
         {
             if (string.IsNullOrEmpty(mStringMatch.Value) && string.IsNullOrEmpty(mRegexMatch.Value))
             {
-                MessageBox.Show("Either 'String to Match' or 'Regex to Match' must be specified.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxService.ShowError("Either 'String to Match' or 'Regex to Match' must be specified.");
                 return false;
             }
 

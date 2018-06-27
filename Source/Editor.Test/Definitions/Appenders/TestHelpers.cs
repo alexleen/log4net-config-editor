@@ -15,7 +15,7 @@ namespace Editor.Test.Definitions.Appenders
             properties.Single(p => p.GetType() == typeof(Name));
             properties.Single(p => p.GetType() == typeof(Threshold));
             properties.Single(p => p.GetType() == typeof(Layout));
-            properties.Single(p => p.GetType() == typeof(Filters));
+            properties.Single(p => p.GetType() == typeof(Editor.ConfigProperties.Filters));
             properties.Single(p => p.GetType() == typeof(IncomingRefs));
         }
     }
