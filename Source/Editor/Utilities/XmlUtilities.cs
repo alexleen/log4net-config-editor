@@ -1,8 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Models;
 using System.Collections.Generic;
 using System.Xml;
-using Editor.Models;
 
 namespace Editor.Utilities
 {
@@ -14,7 +14,7 @@ namespace Editor.Utilities
         /// <param name="log4NetNode"></param>
         /// <param name="appenderName"></param>
         /// <returns></returns>
-        public static IEnumerable<RefModel> FindAppenderRefs(XmlNode log4NetNode, string appenderName)
+        public static IEnumerable<XmlNode> FindAppenderRefs(XmlNode log4NetNode, string appenderName)
         {
             XmlNodeList appenderRefs = log4NetNode.SelectNodes("//appender-ref");
 
@@ -22,7 +22,7 @@ namespace Editor.Utilities
             {
                 if (appenderRef.Attributes?["ref"].Value == appenderName)
                 {
-                    yield return new RefModel(appenderRef);
+                    yield return appenderRef;
                 }
             }
         }

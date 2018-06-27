@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
 using Editor.Models;
 using Editor.Utilities;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 
 namespace Editor.Test.Utilities
 {
@@ -31,7 +31,7 @@ namespace Editor.Test.Utilities
                            " </root>\r\n" +
                            "</log4net>");
 
-            IEnumerable<RefModel> refs = XmlUtilities.FindAppenderRefs(xmlDoc.FirstChild, "appender1");
+            IEnumerable<XmlNode> refs = XmlUtilities.FindAppenderRefs(xmlDoc.FirstChild, "appender1");
 
             Assert.AreEqual(2, refs.Count());
         }

@@ -164,7 +164,6 @@
     <Compile Include="Models\FixModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\MappingModel.cs" />
-    <Compile Include="Models\RefModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

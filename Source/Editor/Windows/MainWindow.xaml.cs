@@ -356,9 +356,9 @@ namespace Editor
         private void RemoveRefsTo(AppenderModel appenderModel)
         {
             //Remove all appender refs
-            foreach (RefModel refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
+            foreach (XmlNode refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
             {
-                refModel.AppenderRef.ParentNode?.RemoveChild(refModel.AppenderRef);
+                refModel.ParentNode?.RemoveChild(refModel);
             }
         }
 
