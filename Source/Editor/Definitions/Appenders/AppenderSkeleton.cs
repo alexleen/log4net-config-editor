@@ -5,7 +5,6 @@ using Editor.Definitions.Base;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
-using Editor.Windows;
 
 namespace Editor.Definitions.Appenders
 {
@@ -32,7 +31,7 @@ namespace Editor.Definitions.Appenders
             AddAppenderSpecificProperties();
 
             AddProperty(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
-            AddProperty(new ConfigProperties.Filters(Properties, Configuration, MessageBoxService)); //TODO this MBS should be from the ElementWindow not MainWindow
+            AddProperty(new ConfigProperties.Filters(Properties, Configuration, MessageBoxService));
             AddProperty(new IncomingRefs(Properties, nameProperty, Configuration));
         }
 

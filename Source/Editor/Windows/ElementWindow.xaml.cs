@@ -116,6 +116,8 @@ namespace Editor.Windows
             Close();
         }
 
+        #region IMessageBoxService
+
         public void ShowError(string message)
         {
             MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -147,5 +149,7 @@ namespace Editor.Windows
             fileName = null;
             return showDialog;
         }
+
+        #endregion
     }
 }
