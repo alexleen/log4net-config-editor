@@ -115,6 +115,7 @@
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
+    <Compile Include="Definitions\Factory\DefinitionFactoryTest.cs" />
     <Compile Include="Definitions\Filters\LevelMatchFilterTest.cs" />
     <Compile Include="Definitions\Filters\LevelRangeFilterTest.cs" />
     <Compile Include="Definitions\Filters\LoggerMatchFilterTest.cs" />
