@@ -1,0 +1,72 @@
+﻿using Editor.ConfigProperties;
+using Editor.Definitions.Appenders;
+using Editor.Descriptors;
+using Editor.Interfaces;
+using NSubstitute;
+using NUnit.Framework;
+using System.Linq;
+using System.Xml;
+
+namespace Editor.Test.Definitions.Appenders
+{
+    [TestFixture]
+    public class ManagedColoredConsoleAppenderTest
+    {
+        private ManagedColoredConsoleAppender mSut;
+
+        [SetUp]
+        public void SetUp()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement log4netNode = xmlDoc.CreateElement("log4net");
+
+            IElementConfiguration configuration = Substitute.For<IElementConfiguration>();
+            configuration.ConfigXml.Returns(xmlDoc);
+            configuration.Log4NetNode.Returns(log4netNode);
+
+            mSut = new ManagedColoredConsoleAppender(configuration);
+        }
+
+        [Test]
+        public void Name_ShouldReturnCorrectValue()
+        {
+            Assert.AreEqual("Managed Colored Console Appender", mSut.Name);
+        }
+
+        [Test]
+        public void Icon_ShouldReturnCorrectValue()
+        {
+            Assert.AreEqual("pack://application:,,,/Editor;component/Images/list-add.png", mSut.Icon);
+        }
+
+        [Test]
+        public void Descriptor_ShouldReturnCorrectValue()
+        {
+            Assert.AreEqual(AppenderDescriptor.ManagedColor, mSut.Descriptor);
+        }
+
+        [Test]
+        public void Initialize_ShouldAddDefaultProperties()
+        {
+            mSut.Initialize();
+
+            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+        }
+
+        [Test]
+        public void Initialize_ShouldAddConsoleProperties()
+        {
+            mSut.Initialize();
+
+            mSut.Properties.Single(p => p.GetType() == typeof(Target));
+        }
+
+        [Test]
+        public void Initialize_ShouldAddManagedColoredProperties()
+        {
+            mSut.Initialize();
+
+            mSut.Properties.Single(p => p.GetType() == typeof(Mapping));
+        }
+    }
+}

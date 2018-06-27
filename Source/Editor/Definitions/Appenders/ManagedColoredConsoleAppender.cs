@@ -12,7 +12,7 @@ namespace Editor.Definitions.Appenders
         {
         }
 
-        public override string Name => "Managed Color Console Appender";
+        public override string Name => "Managed Colored Console Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.ManagedColor;
 
