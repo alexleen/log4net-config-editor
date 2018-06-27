@@ -51,14 +51,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            //Single throws if the specified type is not found, which is good enough to fail the test
-            //No asserts needed
-            mSut.Properties.Single(p => p.GetType() == typeof(TypeAttribute));
-            mSut.Properties.Single(p => p.GetType() == typeof(Name));
-            mSut.Properties.Single(p => p.GetType() == typeof(Threshold));
-            mSut.Properties.Single(p => p.GetType() == typeof(Layout));
-            mSut.Properties.Single(p => p.GetType() == typeof(Filters));
-            mSut.Properties.Single(p => p.GetType() == typeof(IncomingRefs));
+            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
         }
 
         [Test]
