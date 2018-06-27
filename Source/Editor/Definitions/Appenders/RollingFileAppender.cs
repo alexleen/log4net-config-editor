@@ -1,10 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.ComponentModel;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Windows;
+using System.ComponentModel;
 using static log4net.Appender.RollingFileAppender;
 
 namespace Editor.Definitions.Appenders
@@ -16,13 +15,13 @@ namespace Editor.Definitions.Appenders
         private readonly StaticLogFileName mStaticLogFileName;
         private int mStaticLogFileNameIndex;
 
-        internal RollingFileAppender(IElementConfiguration appenderConfiguration)
-            : base(appenderConfiguration)
+        internal RollingFileAppender(IElementConfiguration configuration)
+            : base(configuration)
         {
             mDatePattern = new DatePattern(Properties);
             mStaticLogFileName = new StaticLogFileName(Properties);
         }
-        
+
         public override string Name => "Rolling File Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.RollingFile;
@@ -52,8 +51,8 @@ namespace Editor.Definitions.Appenders
             if (e.PropertyName == nameof(RollingStyle.SelectedMode))
             {
                 RollingMode selectedMode = ((RollingStyle)sender).SelectedMode;
-                AddRemoveBasedOnMode(selectedMode, mDatePatternIndex, mDatePattern);
                 AddRemoveBasedOnMode(selectedMode, mStaticLogFileNameIndex, mStaticLogFileName);
+                AddRemoveBasedOnMode(selectedMode, mDatePatternIndex, mDatePattern);
             }
         }
 

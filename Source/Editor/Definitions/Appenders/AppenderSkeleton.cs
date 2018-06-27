@@ -12,9 +12,9 @@ namespace Editor.Definitions.Appenders
     {
         protected readonly IElementConfiguration Configuration;
 
-        protected AppenderSkeleton(IElementConfiguration appenderConfiguration)
+        protected AppenderSkeleton(IElementConfiguration configuration)
         {
-            Configuration = appenderConfiguration;
+            Configuration = configuration;
         }
 
         public override string Icon => "pack://application:,,,/Editor;component/Images/list-add.png";

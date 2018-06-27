@@ -3,17 +3,16 @@
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Windows;
 
 namespace Editor.Definitions.Appenders
 {
     internal class FileAppender : AppenderSkeleton
     {
-        internal FileAppender(IElementConfiguration appenderConfiguration)
-            : base(appenderConfiguration)
+        internal FileAppender(IElementConfiguration configuration)
+            : base(configuration)
         {
         }
-        
+
         public override string Name => "File Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.File;
