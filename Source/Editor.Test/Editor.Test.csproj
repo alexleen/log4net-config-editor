@@ -115,6 +115,8 @@
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
+    <Compile Include="Definitions\Loggers\MappingDefinitionTest.cs" />
+    <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
@@ -131,6 +133,9 @@
       <Project>{3E28933A-1CDD-45BE-9586-A00CB6C11D14}</Project>
       <Name>Editor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Definitions\Mapping\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
