@@ -8,6 +8,7 @@ using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
+using log4net.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace Editor
     /// </summary>
     public partial class MainWindow
     {
+        private const string UpdateMerge = "Merge";
+        private const string UpdateOverwrite = "Overwrite";
         private XmlDocument mConfigXml;
         private XmlNode mLog4NetNode;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
@@ -51,6 +54,10 @@ namespace Editor
             {
                 LoggerDescriptor.Root
             };
+
+            xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
+
+            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
         }
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
@@ -131,9 +138,43 @@ namespace Editor
 
         private void SaveToFile()
         {
+            SaveRootAttributes();
+
             using (XmlTextWriter xtw = new XmlTextWriter((string)xConfigComboBox.SelectedItem, Encoding.UTF8) { Formatting = Formatting.Indented })
             {
                 mConfigXml.Save(xtw);
+            }
+        }
+
+        private void SaveRootAttributes()
+        {
+            if (xDebugCheckBox.IsChecked.HasValue && xDebugCheckBox.IsChecked.Value)
+            {
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.DebugAttributeName, "true");
+            }
+            else
+            {
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.DebugAttributeName);
+            }
+
+            if (Equals(xUpdateComboBox.SelectedItem, UpdateOverwrite))
+            {
+                //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.UpdateAttributeName, UpdateOverwrite);
+            }
+            else
+            {
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.UpdateAttributeName);
+            }
+
+            if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
+            {
+                //"All" is default, so we only need to add an attribute when something other than "All" is selected
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.ThresholdAttributeName, (string)xThresholdComboBox.SelectedItem);
+            }
+            else
+            {
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.ThresholdAttributeName);
             }
         }
 
@@ -212,6 +253,8 @@ namespace Editor
 
             xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
 
+            LoadRootAttributes();
+
             return unrecognized;
         }
 
@@ -229,6 +272,38 @@ namespace Editor
 
             appenderModel = null;
             return false;
+        }
+
+        private void LoadRootAttributes()
+        {
+            if (bool.TryParse(mLog4NetNode.Attributes?[Log4NetXmlConstants.DebugAttributeName]?.Value, out bool debugResult) && debugResult)
+            {
+                xDebugCheckBox.IsChecked = true;
+            }
+            else
+            {
+                xDebugCheckBox.IsChecked = false;
+            }
+
+            string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.UpdateAttributeName]?.Value;
+
+            if (Equals(update, UpdateOverwrite))
+            {
+                xUpdateComboBox.SelectedItem = UpdateOverwrite;
+            }
+            else
+            {
+                xUpdateComboBox.SelectedItem = UpdateMerge;
+            }
+
+            if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.ThresholdAttributeName]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
+            {
+                xThresholdComboBox.SelectedItem = levelResult.Name;
+            }
+            else
+            {
+                xThresholdComboBox.SelectedItem = Level.All.Name;
+            }
         }
 
         private void AddAppenderItemOnClick(object appender)

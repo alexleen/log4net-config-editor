@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
+using System.Collections.ObjectModel;
+using System.Xml;
 
 namespace Editor.ConfigProperties
 {
@@ -30,7 +30,7 @@ namespace Editor.ConfigProperties
         {
             foreach (LoggerModel logger in XmlUtilities.FindAvailableAppenderRefLocations(mAppenderConfiguration.Log4NetNode))
             {
-                if (Equals(logger.LoggerNode, mAppenderConfiguration.OriginalNode))
+                if (Equals(logger.Node, mAppenderConfiguration.OriginalNode))
                 {
                     continue;
                 }
@@ -43,7 +43,7 @@ namespace Editor.ConfigProperties
         {
             foreach (LoggerModel loggerModel in RefsCollection)
             {
-                loggerModel.IsEnabled = loggerModel.LoggerNode.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
+                loggerModel.IsEnabled = loggerModel.Node.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
             }
         }
 
@@ -53,17 +53,17 @@ namespace Editor.ConfigProperties
             {
                 if (loggerModel.IsEnabled)
                 {
-                    XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.LoggerNode, mNameProperty.Value);
+                    XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.Node, mNameProperty.Value);
                 }
                 else
                 {
-                    XmlNodeList appenderRefs = loggerModel.LoggerNode.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
+                    XmlNodeList appenderRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
 
                     if (appenderRefs.Count > 0)
                     {
                         foreach (XmlNode appenderRef in appenderRefs)
                         {
-                            loggerModel.LoggerNode.RemoveChild(appenderRef);
+                            loggerModel.Node.RemoveChild(appenderRef);
                         }
                     }
                 }

@@ -34,7 +34,7 @@ namespace Editor.ConfigProperties
                     continue;
                 }
 
-                RefsCollection.Add(new LoggerModel(name, mAppenderConfiguration.OriginalNode, false));
+                RefsCollection.Add(new LoggerModel("appender", name, mAppenderConfiguration.OriginalNode, false));
             }
         }
 

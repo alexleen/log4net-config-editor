@@ -85,9 +85,9 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("name0", appender, true),
-                new LoggerModel("name1", appender, true),
-                new LoggerModel("name2", appender, false)
+                new LoggerModel("element0", "name0", appender, true),
+                new LoggerModel("element1", "name1", appender, true),
+                new LoggerModel("element2", "name2", appender, false)
             };
 
             mSut.Save(xmlDoc, appender);
