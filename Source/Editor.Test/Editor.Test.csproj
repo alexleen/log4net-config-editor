@@ -130,6 +130,9 @@
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HistoryManager\HistoryManagerTest.cs" />
+    <Compile Include="Windows\SizeLocation\SizeTest.cs" />
+    <Compile Include="Windows\SizeLocation\SizeTest_Default.cs" />
+    <Compile Include="Windows\SizeLocation\WindowSizeLocationFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

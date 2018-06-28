@@ -10,6 +10,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Editor.Test.Definitions.Factory
 {
@@ -50,15 +51,13 @@ namespace Editor.Test.Definitions.Factory
         [Test]
         public void Create_ShouldThrow_WhenUnknownDescriptor()
         {
-            Assert.Throws<ArgumentException>(() => DefinitionFactory.Create(new DummyDescriptor(), Substitute.For<IElementConfiguration>()));
+            Assert.Throws<ArgumentException>(() => DefinitionFactory.Create(LayoutDescriptor.Simple, Substitute.For<IElementConfiguration>()));
         }
 
-        private class DummyDescriptor : DescriptorBase
+        [Test]
+        public void Create_ShouldThrow_WhenDenyAll()
         {
-            internal DummyDescriptor()
-                : base("name")
-            {
-            }
+            Assert.Throws<InvalidEnumArgumentException>(() => DefinitionFactory.Create(FilterDescriptor.DenyAll, Substitute.For<IElementConfiguration>()));
         }
     }
 }
