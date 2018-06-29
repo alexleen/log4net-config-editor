@@ -25,7 +25,7 @@ namespace Editor.Descriptors
         }
 
         private LockingModelDescriptor(string name, string typeNamespace)
-            : base(name)
+            : base(name, "lockingModel")
         {
             TypeNamespace = typeNamespace;
         }

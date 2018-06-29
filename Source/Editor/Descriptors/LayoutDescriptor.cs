@@ -24,7 +24,7 @@ namespace Editor.Descriptors
         }
 
         private LayoutDescriptor(string name, LayoutType type, string typeNamespace)
-            : base(name)
+            : base(name, "layout")
         {
             Type = type;
             TypeNamespace = typeNamespace;

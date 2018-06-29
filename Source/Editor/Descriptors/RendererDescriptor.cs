@@ -14,7 +14,7 @@ namespace Editor.Descriptors
         }
 
         public RendererDescriptor(string name)
-            : base(name)
+            : base(name, "renderer")
         {
         }
     }
