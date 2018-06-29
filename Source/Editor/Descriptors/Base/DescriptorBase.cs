@@ -2,6 +2,7 @@
 
 namespace Editor.Descriptors.Base
 {
+    //TODO add element name as a property
     public abstract class DescriptorBase
     {
         protected DescriptorBase(string name)

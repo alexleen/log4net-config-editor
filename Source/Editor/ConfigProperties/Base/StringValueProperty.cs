@@ -6,6 +6,8 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties.Base
 {
+    //TODO implement load and save here
+    //TODO are all the row heights auto?
     public abstract class StringValueProperty : PropertyBase
     {
         protected StringValueProperty(ReadOnlyCollection<IProperty> container, GridLength rowHeight, string name)

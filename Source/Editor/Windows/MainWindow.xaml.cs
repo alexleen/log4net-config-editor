@@ -249,6 +249,13 @@ namespace Editor
                 children.Add(new ChildModel("root", root));
             }
 
+            XmlNodeList rendererList = mLog4NetNode.SelectNodes("renderer");
+
+            foreach (XmlNode renderer in rendererList)
+            {
+                children.Add(new ChildModel("renderer", renderer));
+            }
+
             xChildren.ItemsSource = children;
 
             xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
@@ -380,7 +387,8 @@ namespace Editor
             ElementWindow elementWindow = new ElementWindow(appenderConfiguration,
                                                             DefinitionFactory.Create(descriptor, appenderConfiguration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppenderSaveStrategy(appenderConfiguration));
+                                                            new AppenderSaveStrategy(appenderConfiguration))
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -394,6 +402,11 @@ namespace Editor
             }
 
             OpenElementWindow(LoggerDescriptor.Root, null, "root");
+        }
+
+        private void AddRendererClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(RendererDescriptor.Renderer, null, "renderer");
         }
 
         private class AppenderSaveStrategy : ISaveStrategy

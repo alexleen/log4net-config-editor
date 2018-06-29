@@ -50,7 +50,7 @@
 
             <Controls:DropDownButton x:Name="xAddLoggerButton" ButtonName="Add Logger" ItemClick="AddLoggerOnClick"/>
 
-            <Button IsEnabled="false">Add Renderer</Button>
+            <Button Click="AddRendererClick">Add Renderer</Button>
 
             <Separator Margin="5,0,5,5"/>
 
