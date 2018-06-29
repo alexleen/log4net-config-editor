@@ -24,7 +24,7 @@ namespace Editor.Definitions.Factory
                 case FilterDescriptor filterDescriptor:
                     return CreateFilterDefinition(filterDescriptor);
                 case LoggerDescriptor loggerDescriptor:
-                    return new RootLogger(configuration);
+                    return CreateLoggerDefinition(loggerDescriptor, configuration);
                 case MappingDescriptor mappingDescriptor:
                     return new MappingDefinition();
                 default:
@@ -71,6 +71,19 @@ namespace Editor.Definitions.Factory
                     return new StringMatchFilter();
                 default:
                     throw new InvalidEnumArgumentException(nameof(filterDescriptor.Type), (int)filterDescriptor.Type, typeof(FilterType));
+            }
+        }
+
+        private static IElementDefinition CreateLoggerDefinition(LoggerDescriptor loggerDescriptor, IElementConfiguration configuration)
+        {
+            switch (loggerDescriptor.LoggerType)
+            {
+                case LoggerType.Root:
+                    return new RootLogger(configuration);
+                case LoggerType.Logger:
+                    return new Logger(configuration);
+                default:
+                    throw new InvalidEnumArgumentException(nameof(loggerDescriptor.LoggerType), (int)loggerDescriptor.LoggerType, typeof(LoggerType));
             }
         }
     }

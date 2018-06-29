@@ -8,11 +8,11 @@ namespace Editor.Definitions.Loggers
 {
     internal class RootLogger : ElementDefinition
     {
-        private readonly IElementConfiguration mAppenderConfiguration;
+        private readonly IElementConfiguration mConfiguration;
 
-        public RootLogger(IElementConfiguration appenderConfiguration)
+        public RootLogger(IElementConfiguration Configuration)
         {
-            mAppenderConfiguration = appenderConfiguration;
+            mConfiguration = Configuration;
         }
 
         public override string Name => "Root Logger";
@@ -22,7 +22,7 @@ namespace Editor.Definitions.Loggers
         public override void Initialize()
         {
             AddProperty(new LevelProperty(Properties, true));
-            AddProperty(new OutgoingRefs(Properties, mAppenderConfiguration));
+            AddProperty(new OutgoingRefs(Properties, mConfiguration));
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -23,7 +23,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Accept_ShouldDefaultToTrue()
         {
-            Assert.IsTrue(mSut.Accept);
+            Assert.IsTrue(mSut.Value);
         }
 
         [TestCase("<acceptOnMatch />", true)]
@@ -40,7 +40,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Load(xmlDoc.FirstChild);
 
-            Assert.AreEqual(expected, mSut.Accept);
+            Assert.AreEqual(expected, mSut.Value);
         }
 
         [Test]
@@ -60,13 +60,13 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.Accept = false;
+            mSut.Value = false;
             mSut.Save(xmlDoc, appender);
 
             XmlNode acceptNode = appender.SelectSingleNode("acceptOnMatch");
 
             Assert.IsNotNull(acceptNode);
-            Assert.AreEqual("false", acceptNode.Attributes?["value"].Value);
+            Assert.AreEqual("False", acceptNode.Attributes?["value"].Value);
         }
     }
 }

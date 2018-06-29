@@ -48,7 +48,9 @@
 
             <Controls:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick"/>
 
-            <Controls:DropDownButton x:Name="xAddLoggerButton" ButtonName="Add Logger" ItemClick="AddLoggerOnClick"/>
+            <Button Click="AddRootClick" ToolTip="Adds a root logger">Add Root</Button>
+            
+            <Button Click="AddLoggerClick">Add Logger</Button>
 
             <Button IsEnabled="false">Add Renderer</Button>
 

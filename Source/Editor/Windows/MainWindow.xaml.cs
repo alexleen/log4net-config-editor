@@ -50,11 +50,6 @@ namespace Editor
                 AppenderDescriptor.ManagedColor
             };
 
-            xAddLoggerButton.ItemsSource = new[]
-            {
-                LoggerDescriptor.Root
-            };
-
             xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
 
             xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
@@ -222,6 +217,20 @@ namespace Editor
 
             ICollection<ChildModel> children = new List<ChildModel>();
 
+            bool unrecognized = LoadAppenders(children);
+            LoadLoggers(children);
+
+            xChildren.ItemsSource = children;
+
+            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
+
+            LoadRootAttributes();
+
+            return unrecognized;
+        }
+
+        private bool LoadAppenders(ICollection<ChildModel> children)
+        {
             //Only selects appenders under this log4net element
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
@@ -242,6 +251,10 @@ namespace Editor
                 }
             }
 
+            return unrecognized;
+        }
+        private void LoadLoggers(ICollection<ChildModel> children)
+        {
             XmlNode root = mLog4NetNode.SelectSingleNode("root");
 
             if (root != null)
@@ -249,13 +262,13 @@ namespace Editor
                 children.Add(new ChildModel("root", root));
             }
 
-            xChildren.ItemsSource = children;
+            XmlNodeList loggerList = mLog4NetNode.SelectNodes("logger");
 
-            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
-
-            LoadRootAttributes();
-
-            return unrecognized;
+            foreach (XmlNode logger in loggerList)
+            {
+                string name = logger.Attributes["name"]?.Value;
+                children.Add(new LoggerModel("logger", name, logger, false));
+            }
         }
 
         private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
@@ -319,6 +332,10 @@ namespace Editor
             {
                 OpenElementWindow(appenderModel.Descriptor, appenderModel.Node, "appender");
             }
+            else if (dataContext is LoggerModel loggerModel)
+            {
+                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node, "logger");
+            }
             else if (dataContext is ChildModel childModel)
             {
                 OpenElementWindow(LoggerDescriptor.Root, childModel.Node, "root");
@@ -374,18 +391,20 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase descriptor, XmlNode appenderNode, string elementName)
+        private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode, string elementName)
         {
-            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(elementName));
-            ElementWindow elementWindow = new ElementWindow(appenderConfiguration,
-                                                            DefinitionFactory.Create(descriptor, appenderConfiguration),
+            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(elementName));
+
+            ElementWindow elementWindow = new ElementWindow(configuration,
+                                                            DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppenderSaveStrategy(appenderConfiguration));
+                                                            new AppenderSaveStrategy(configuration))
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
 
-        private void AddLoggerOnClick(object sender)
+        private void AddRootClick(object sender, RoutedEventArgs e)
         {
             if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
             {
@@ -394,6 +413,11 @@ namespace Editor
             }
 
             OpenElementWindow(LoggerDescriptor.Root, null, "root");
+        }
+
+        private void AddLoggerClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(LoggerDescriptor.Logger, null, "logger");
         }
 
         private class AppenderSaveStrategy : ISaveStrategy

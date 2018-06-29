@@ -27,6 +27,7 @@ namespace Editor.Utilities
             }
         }
 
+        //TODO support for generic loggers(?)
         public static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
         {
             XmlNodeList asyncAppenders = log4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");

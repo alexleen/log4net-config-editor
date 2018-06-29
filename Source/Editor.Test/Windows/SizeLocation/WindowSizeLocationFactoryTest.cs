@@ -25,7 +25,7 @@ namespace Editor.Test.Windows.SizeLocation
             new TestCaseData(FilterDescriptor.String, null, ResizeMode.CanResize, SizeToContent.WidthAndHeight, new Interfaces.Size(min: 350), new Interfaces.Size(min: 147, max: 147)),
 
             //Loggers
-            new TestCaseData(LoggerDescriptor.Root, null, ResizeMode.CanResize, SizeToContent.Manual, new Interfaces.Size(350, min: 350), new Interfaces.Size(280, min: 280)),
+            new TestCaseData(LoggerDescriptor.Root, null, ResizeMode.CanResize, SizeToContent.Manual, new Interfaces.Size(350, min: 350), new Interfaces.Size(350, min: 350)),
 
             //Maping
             new TestCaseData(MappingDescriptor.Mapping, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Interfaces.Size(), new Interfaces.Size())
