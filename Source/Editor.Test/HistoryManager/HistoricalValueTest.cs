@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Collections.Generic;
 using Editor.HistoryManager;
 using Editor.Test.TestUtilities;
 using NUnit.Framework;

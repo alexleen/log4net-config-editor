@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Utilities;
-using log4net.Core;
 using System;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Utilities;
+using log4net.Core;
 
 namespace Editor.Models
 {

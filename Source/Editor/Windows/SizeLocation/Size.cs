@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Editor.Interfaces
+namespace Editor.Windows.SizeLocation
 {
     public class Size : IEquatable<Size>
     {

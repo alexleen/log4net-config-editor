@@ -1,8 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Models;
 using System.Collections.Generic;
 using System.Xml;
+using Editor.Models;
 
 namespace Editor.Utilities
 {

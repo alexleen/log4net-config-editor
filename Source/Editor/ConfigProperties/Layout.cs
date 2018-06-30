@@ -9,7 +9,6 @@ using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows;
 
 namespace Editor.ConfigProperties
 {

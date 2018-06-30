@@ -1,8 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Windows;
+using Editor.Interfaces;
 
-namespace Editor.Interfaces
+namespace Editor.Windows.SizeLocation
 {
     internal class LoggerWindowSizeLocation : IWindowSizeLocation
     {

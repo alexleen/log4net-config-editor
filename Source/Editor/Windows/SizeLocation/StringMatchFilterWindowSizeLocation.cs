@@ -2,7 +2,7 @@
 
 using System.Windows;
 
-namespace Editor.Interfaces
+namespace Editor.Windows.SizeLocation
 {
     internal class StringMatchFilterWindowSizeLocation : FilterWindowSizeLocation
     {

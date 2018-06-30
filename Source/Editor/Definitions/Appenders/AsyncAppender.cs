@@ -3,7 +3,6 @@
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Windows;
 
 namespace Editor.Definitions.Appenders
 {

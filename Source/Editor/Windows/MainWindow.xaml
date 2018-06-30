@@ -1,4 +1,4 @@
-﻿<Windows:SizeRetentionWindow x:Class="Editor.MainWindow"
+﻿<Windows:SizeRetentionWindow x:Class="Editor.Windows.MainWindow"
                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:Windows="clr-namespace:Editor.Windows"
@@ -82,16 +82,14 @@
                       SelectedIndex="0" 
                       VerticalAlignment="Center" 
                       Width="100"
-                      ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration.">
-            </ComboBox>
+                      ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration." />
 
             <Label ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to.">Threshold:</Label>
             <ComboBox x:Name="xThresholdComboBox" 
                       SelectedIndex="0"
                       Width="100" 
                       VerticalAlignment="Center"
-                      ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to.">
-            </ComboBox>
+                      ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to." />
         </StackPanel>
 
         <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">

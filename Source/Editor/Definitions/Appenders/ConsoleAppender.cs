@@ -3,7 +3,6 @@
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Windows;
 
 namespace Editor.Definitions.Appenders
 {
@@ -13,7 +12,7 @@ namespace Editor.Definitions.Appenders
             : base(appenderConfiguration)
         {
         }
-        
+
         public override string Name => "Console Appender";
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.Console;

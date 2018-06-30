@@ -1,9 +1,11 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.Definitions.Base;
 
 namespace Editor.Definitions.Mapping
 {
-    class MappingDefinition : ElementDefinition
+    internal class MappingDefinition : ElementDefinition
     {
         public override string Name => "Mapping";
 

@@ -1,15 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Definitions.Factory;
-using Editor.Descriptors;
-using Editor.Descriptors.Base;
-using Editor.HistoryManager;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Utilities;
-using Editor.Windows;
-using log4net.Core;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,8 +8,18 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using Editor.Definitions.Factory;
+using Editor.Descriptors;
+using Editor.Descriptors.Base;
+using Editor.HistoryManager;
+using Editor.Interfaces;
+using Editor.Models;
+using Editor.Utilities;
+using Editor.Windows.SizeLocation;
+using log4net.Core;
+using Microsoft.Win32;
 
-namespace Editor
+namespace Editor.Windows
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
