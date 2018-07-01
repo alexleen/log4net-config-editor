@@ -400,9 +400,9 @@ namespace Editor.Windows
         {
             private readonly IElementConfiguration mConfiguration;
 
-            public AppenderSaveStrategy(IElementConfiguration mConfiguration)
+            public AppenderSaveStrategy(IElementConfiguration configuration)
             {
-                this.mConfiguration = mConfiguration ?? throw new ArgumentNullException(nameof(mConfiguration));
+                mConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             }
 
             public void Execute()

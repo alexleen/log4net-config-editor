@@ -20,11 +20,11 @@ namespace Editor.Test.Definitions.Appenders
         public void SetUp()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlElement log4netNode = xmlDoc.CreateElement("log4net");
+            XmlElement log4NetNode = xmlDoc.CreateElement("log4net");
 
             IElementConfiguration configuration = Substitute.For<IElementConfiguration>();
             configuration.ConfigXml.Returns(xmlDoc);
-            configuration.Log4NetNode.Returns(log4netNode);
+            configuration.Log4NetNode.Returns(log4NetNode);
 
             mSut = new ConsoleAppender(configuration);
         }

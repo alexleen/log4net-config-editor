@@ -26,10 +26,10 @@ namespace Editor.Models
             Remove = new Command(RemoveFilterOnClick);
         }
 
-        public MappingModel(Action<MappingModel> mRemove,
-                            Action<MappingModel> mShowMappingWindow,
+        public MappingModel(Action<MappingModel> remove,
+                            Action<MappingModel> showMappingWindow,
                             XmlNode node)
-            : this(mRemove, mShowMappingWindow)
+            : this(remove, showMappingWindow)
         {
             Node = node ?? throw new ArgumentNullException(nameof(node));
         }

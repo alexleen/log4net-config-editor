@@ -16,7 +16,7 @@ namespace Editor.Test.Windows.SizeLocation
     [TestFixture]
     public class WindowSizeLocationFactoryTest
     {
-        private static readonly IEnumerable<TestCaseData> DescriptorCases = new[]
+        private static readonly IEnumerable<TestCaseData> sDescriptorCases = new[]
         {
             //Appenders
             new TestCaseData(AppenderDescriptor.Console, "AppenderWindowPlacement", ResizeMode.CanResize, SizeToContent.Manual, new Size(550, min: 550), new Size(500, min: 500)),
@@ -35,7 +35,7 @@ namespace Editor.Test.Windows.SizeLocation
             new TestCaseData(MappingDescriptor.Mapping, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size())
         };
 
-        [TestCaseSource(nameof(DescriptorCases))]
+        [TestCaseSource(nameof(sDescriptorCases))]
         public void Create_ShouldCreateTheCorrectSizeLocation(DescriptorBase descriptorBase, string retentionKey, ResizeMode mode, SizeToContent sizeToContent, Size width, Size height)
         {
             IWindowSizeLocation windowSizeLocation = WindowSizeLocationFactory.Create(descriptorBase);
