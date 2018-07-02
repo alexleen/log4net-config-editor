@@ -1,6 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
 using Editor.Utilities;
@@ -8,7 +10,7 @@ using log4net.Core;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel> //TODO INotifyPropertyChanged - editing a mapping won't update
+    public class MappingModel : IEquatable<MappingModel>, INotifyPropertyChanged
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
@@ -68,15 +70,18 @@ namespace Editor.Models
             }
 
             Level = parsedLevel;
+            OnPropertyChanged(nameof(Level));
 
             if (Enum.TryParse(foreColor, out ConsoleColor foreParsed))
             {
                 ForeColor = foreParsed;
+                OnPropertyChanged(nameof(ForeColor));
             }
 
             if (Enum.TryParse(backColor, out ConsoleColor backParsed))
             {
                 BackColor = backParsed;
+                OnPropertyChanged(nameof(BackColor));
             }
         }
 
@@ -138,6 +143,13 @@ namespace Editor.Models
                 // ReSharper restore NonReadonlyMemberInGetHashCode
                 return hashCode;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
