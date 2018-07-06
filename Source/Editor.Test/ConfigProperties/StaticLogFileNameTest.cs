@@ -69,7 +69,7 @@ namespace Editor.Test.ConfigProperties
             XmlNode staticNode = appender.SelectSingleNode("staticLogFileName");
 
             Assert.IsNotNull(staticNode);
-            Assert.AreEqual("True", staticNode.Attributes?["value"].Value);
+            Assert.AreEqual("true", staticNode.Attributes?["value"].Value);
         }
     }
 }
