@@ -12,7 +12,7 @@ namespace Editor.Test.TestUtilities
         protected TSutType Sut;
 
         [SetUp]
-        public void SetUp()
+        public virtual void SetUp()
         {
             Sut = GetSut();
         }

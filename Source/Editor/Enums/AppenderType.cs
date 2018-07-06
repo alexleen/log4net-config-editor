@@ -9,7 +9,7 @@ namespace Editor.Enums
         RollingFile,
         EventLog,
         Async,
-        Forwarding,        
+        Forwarding,
         ManagedColor
     }
 }

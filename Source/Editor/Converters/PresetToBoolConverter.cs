@@ -3,7 +3,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using Editor.Windows.Appenders.Properties;
+using Editor.ConfigProperties;
 
 namespace Editor.Converters
 {

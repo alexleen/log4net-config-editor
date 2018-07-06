@@ -1,0 +1,42 @@
+﻿<Windows:SizeRetentionWindow x:Class="Editor.Windows.ElementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Windows="clr-namespace:Editor.Windows"
+        xmlns:Utilities="clr-namespace:Editor.Utilities"
+        mc:Ignorable="d"        
+        WindowStartupLocation="CenterOwner"
+        x:ClassModifier="internal"
+        Title="{Binding PropertyDefinition.Name}" 
+        d:DataContext="{d:ElementWindow }">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="60"/>
+                    <Setter Property="Margin" Value="0,5,5,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Click="SaveOnClick">Save</Button>
+            <Button Click="CloseOnClick">Close</Button>
+        </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding Properties}" Grid.IsSharedSizeScope="True">
+            <ItemsControl.Resources>
+                <ResourceDictionary Source="../ConfigProperties/PropertyDictionary.xaml" />
+            </ItemsControl.Resources>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid Utilities:GridHelper.BindableRows="{Binding Properties}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding RowIndex}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </DockPanel>
+</Windows:SizeRetentionWindow>

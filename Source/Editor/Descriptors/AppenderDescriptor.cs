@@ -1,11 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
+using Editor.Descriptors.Base;
 using Editor.Enums;
 
 namespace Editor.Descriptors
 {
-    public class AppenderDescriptor
+    public class AppenderDescriptor : DescriptorBase
     {
         public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor;
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
@@ -33,8 +34,8 @@ namespace Editor.Descriptors
         }
 
         private AppenderDescriptor(string name, AppenderType type, string typeNamespace)
+            : base(name)
         {
-            Name = name;
             Type = type;
             TypeNamespace = typeNamespace;
         }
@@ -49,8 +50,6 @@ namespace Editor.Descriptors
 
             return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out appender);
         }
-
-        public string Name { get; }
 
         public AppenderType Type { get; }
 

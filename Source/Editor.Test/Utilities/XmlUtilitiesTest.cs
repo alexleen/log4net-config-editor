@@ -31,7 +31,7 @@ namespace Editor.Test.Utilities
                            " </root>\r\n" +
                            "</log4net>");
 
-            IEnumerable<RefModel> refs = XmlUtilities.FindAppenderRefs(xmlDoc.FirstChild, "appender1");
+            IEnumerable<XmlNode> refs = XmlUtilities.FindAppenderRefs(xmlDoc.FirstChild, "appender1");
 
             Assert.AreEqual(2, refs.Count());
         }

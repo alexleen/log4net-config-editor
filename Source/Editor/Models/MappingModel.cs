@@ -1,51 +1,93 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.Windows;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Xml;
 using Editor.Utilities;
-using Editor.Windows.Appenders;
 using log4net.Core;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel>
+    public class MappingModel : IEquatable<MappingModel>, INotifyPropertyChanged
     {
-        private readonly Window mOwner;
-        private readonly Action<MappingModel> mRemove;
-        private readonly Action<MappingModel, MappingModel> mReplace;
+        private const string LevelName = "level";
+        private const string ForeColorName = "foreColor";
+        private const string BackColorName = "backColor";
 
-        public MappingModel(Window owner, Level level, ConsoleColor? foreColor, ConsoleColor? backColor, Action<MappingModel> remove, Action<MappingModel, MappingModel> replace)
+        private readonly Action<MappingModel> mRemove;
+        private readonly Action<MappingModel> mShowMappingWindow;
+
+        public MappingModel(Action<MappingModel> remove,
+                            Action<MappingModel> showMappingWindow)
         {
-            mOwner = owner;
-            mRemove = remove;
-            mReplace = replace;
-            Level = level;
-            ForeColor = foreColor;
-            BackColor = backColor;
+            mRemove = remove ?? throw new ArgumentNullException(nameof(remove));
+            mShowMappingWindow = showMappingWindow ?? throw new ArgumentNullException(nameof(showMappingWindow));
             Edit = new Command(EditFilterOnClick);
             Remove = new Command(RemoveFilterOnClick);
         }
 
-        public Level Level { get; }
+        public MappingModel(Action<MappingModel> remove,
+                            Action<MappingModel> showMappingWindow,
+                            XmlNode node)
+            : this(remove, showMappingWindow)
+        {
+            Node = node ?? throw new ArgumentNullException(nameof(node));
+        }
 
-        public ConsoleColor? ForeColor { get; }
+        public Level Level { get; private set; }
 
-        public ConsoleColor? BackColor { get; }
+        public ConsoleColor? ForeColor { get; private set; }
+
+        public ConsoleColor? BackColor { get; private set; }
 
         public ICommand Edit { get; }
 
         public ICommand Remove { get; }
 
+        private XmlNode mNode;
+
+        public XmlNode Node
+        {
+            get => mNode;
+            set
+            {
+                mNode = value;
+                ParseNode();
+            }
+        }
+
+        private void ParseNode()
+        {
+            string level = Node.GetValueAttributeValueFromChildElement(LevelName);
+            string foreColor = Node.GetValueAttributeValueFromChildElement(ForeColorName);
+            string backColor = Node.GetValueAttributeValueFromChildElement(BackColorName);
+
+            if (string.IsNullOrEmpty(level) || !Log4NetUtilities.TryParseLevel(level, out Level parsedLevel))
+            {
+                return;
+            }
+
+            Level = parsedLevel;
+            OnPropertyChanged(nameof(Level));
+
+            if (Enum.TryParse(foreColor, out ConsoleColor foreParsed))
+            {
+                ForeColor = foreParsed;
+                OnPropertyChanged(nameof(ForeColor));
+            }
+
+            if (Enum.TryParse(backColor, out ConsoleColor backParsed))
+            {
+                BackColor = backParsed;
+                OnPropertyChanged(nameof(BackColor));
+            }
+        }
+
         private void EditFilterOnClick()
         {
-            MappingWindow mappingWindow = new MappingWindow(this) { Owner = mOwner };
-            mappingWindow.ShowDialog();
-
-            if (!mappingWindow.Result.Equals(default))
-            {
-                mReplace(this, new MappingModel(mOwner, mappingWindow.Result.Level, mappingWindow.Result.ForeColor, mappingWindow.Result.BackColor, mRemove, mReplace));
-            }
+            mShowMappingWindow(this);
         }
 
         private void RemoveFilterOnClick()
@@ -92,11 +134,22 @@ namespace Editor.Models
         {
             unchecked
             {
-                int hashCode = Level != null ? Level.GetHashCode() : 0;
+                //I shouldn't disable this, but I am in order to facilitate easier testing.
+                //Should we ever need to put thses in a set, this will need to be fixed.
+                // ReSharper disable NonReadonlyMemberInGetHashCode
+                int hashCode = Level.GetHashCode();
                 hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();
                 hashCode = (hashCode * 397) ^ BackColor.GetHashCode();
+                // ReSharper restore NonReadonlyMemberInGetHashCode
                 return hashCode;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
