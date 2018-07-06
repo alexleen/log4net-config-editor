@@ -1,8 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
-using Editor.Properties;
-using Editor.Utilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;

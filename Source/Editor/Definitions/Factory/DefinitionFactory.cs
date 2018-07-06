@@ -1,5 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.ComponentModel;
 using Editor.Definitions.Appenders;
 using Editor.Definitions.Filters;
 using Editor.Definitions.Loggers;
@@ -8,8 +10,6 @@ using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.Interfaces;
-using System;
-using System.ComponentModel;
 
 namespace Editor.Definitions.Factory
 {

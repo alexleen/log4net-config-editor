@@ -2,7 +2,6 @@
 
 using System.Windows;
 using System.Xml;
-using Editor.Windows;
 
 namespace Editor.Interfaces
 {
