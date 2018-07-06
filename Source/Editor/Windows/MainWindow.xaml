@@ -5,7 +5,7 @@
                              xmlns:Converters="clr-namespace:Editor.Converters"
                              xmlns:Controls="clr-namespace:Editor.Controls"
                              Title="log4net Configuration Editor"
-                             MinHeight="380"
+                             MinHeight="405"
                              MinWidth="640"
                              Loaded="MainWindowOnLoaded"
                              Icon="../document_edit.ico"

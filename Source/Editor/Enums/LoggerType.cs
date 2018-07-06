@@ -9,7 +9,9 @@ namespace Editor.Enums
         /// </summary>
         Root,
 
-        //Generic, custom logger.
+        /// <summary>
+        /// Generic, custom logger.
+        /// </summary>
         Logger
     }
 }
