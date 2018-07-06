@@ -1,14 +1,16 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Utilities;
-using log4net.Core;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Utilities;
+using log4net.Core;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel> //TODO INotifyPropertyChanged - editing a mapping won't update
+    public class MappingModel : IEquatable<MappingModel>, INotifyPropertyChanged
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
@@ -26,10 +28,10 @@ namespace Editor.Models
             Remove = new Command(RemoveFilterOnClick);
         }
 
-        public MappingModel(Action<MappingModel> mRemove,
-                            Action<MappingModel> mShowMappingWindow,
+        public MappingModel(Action<MappingModel> remove,
+                            Action<MappingModel> showMappingWindow,
                             XmlNode node)
-            : this(mRemove, mShowMappingWindow)
+            : this(remove, showMappingWindow)
         {
             Node = node ?? throw new ArgumentNullException(nameof(node));
         }
@@ -68,15 +70,18 @@ namespace Editor.Models
             }
 
             Level = parsedLevel;
+            OnPropertyChanged(nameof(Level));
 
             if (Enum.TryParse(foreColor, out ConsoleColor foreParsed))
             {
                 ForeColor = foreParsed;
+                OnPropertyChanged(nameof(ForeColor));
             }
 
             if (Enum.TryParse(backColor, out ConsoleColor backParsed))
             {
                 BackColor = backParsed;
+                OnPropertyChanged(nameof(BackColor));
             }
         }
 
@@ -129,11 +134,22 @@ namespace Editor.Models
         {
             unchecked
             {
+                //I shouldn't disable this, but I am in order to facilitate easier testing.
+                //Should we ever need to put thses in a set, this will need to be fixed.
+                // ReSharper disable NonReadonlyMemberInGetHashCode
                 int hashCode = Level.GetHashCode();
                 hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();
                 hashCode = (hashCode * 397) ^ BackColor.GetHashCode();
+                // ReSharper restore NonReadonlyMemberInGetHashCode
                 return hashCode;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

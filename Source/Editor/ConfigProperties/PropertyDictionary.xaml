@@ -141,14 +141,26 @@
             </StackPanel>
         </Grid>
     </DataTemplate>
-     
+    
+    <DataTemplate DataType="{x:Type FiltersProperties:PreserveExtension}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Preserve Extension:</Label>
+            <CheckBox Grid.Column="1" IsChecked="{Binding Preserve}" VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type FiltersProperties:CountDirection}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-        
+
             <Label>Count Direction:</Label>
             <ComboBox Grid.Column="1" 
                       ItemsSource="{Binding Directions}" 

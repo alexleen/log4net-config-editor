@@ -1,7 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
 using System.Collections.ObjectModel;
+using Editor.Interfaces;
 
 namespace Editor.Definitions.Base
 {

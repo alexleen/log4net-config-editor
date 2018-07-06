@@ -1,9 +1,11 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Linq;
+using Editor.ConfigProperties;
 using Editor.Definitions.Mapping;
 using NUnit.Framework;
-using System.Linq;
 
-namespace Editor.Test.Definitions.Loggers
+namespace Editor.Test.Definitions.Mapping
 {
     [TestFixture]
     public class MappingDefinitionTest

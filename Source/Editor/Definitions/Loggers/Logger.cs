@@ -8,9 +8,9 @@ namespace Editor.Definitions.Loggers
     {
         private readonly IElementConfiguration mConfiguration;
 
-        public Logger(IElementConfiguration Configuration)
+        public Logger(IElementConfiguration configuration)
         {
-            mConfiguration = Configuration;
+            mConfiguration = configuration;
         }
 
         public override string Name => "Logger";

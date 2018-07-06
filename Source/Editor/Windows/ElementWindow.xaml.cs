@@ -77,7 +77,6 @@ namespace Editor.Windows
 
         private void WindowOnLoaded(object sender, EventArgs e)
         {
-            //TODO combine initialize and load to better facilitate dymanic properties? Why not just add all properties in ctor?
             //This will add all properties to collection via event handler
             PropertyDefinition.Initialize();
 

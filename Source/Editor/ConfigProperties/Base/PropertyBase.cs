@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Interfaces;
+using Editor.Properties;
+using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {

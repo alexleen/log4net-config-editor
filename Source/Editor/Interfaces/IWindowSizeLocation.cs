@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Windows;
+using Size = Editor.Windows.SizeLocation.Size;
 
 namespace Editor.Interfaces
 {

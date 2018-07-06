@@ -1,13 +1,15 @@
-﻿using Editor.Interfaces;
-using Editor.Utilities;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
+using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
-    class BooleanPropertyBase : PropertyBase
+    internal class BooleanPropertyBase : PropertyBase
     {
         private readonly string mElementName;
         private readonly bool mIgnoreValue;

@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.ComponentModel;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using System.ComponentModel;
 using static log4net.Appender.RollingFileAppender;
 
 namespace Editor.Definitions.Appenders

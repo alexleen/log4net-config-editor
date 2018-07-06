@@ -1,15 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Definitions.Factory;
-using Editor.Descriptors;
-using Editor.Descriptors.Base;
-using Editor.HistoryManager;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Utilities;
-using Editor.Windows;
-using log4net.Core;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,8 +8,18 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using Editor.Definitions.Factory;
+using Editor.Descriptors;
+using Editor.Descriptors.Base;
+using Editor.HistoryManager;
+using Editor.Interfaces;
+using Editor.Models;
+using Editor.Utilities;
+using Editor.Windows.SizeLocation;
+using log4net.Core;
+using Microsoft.Win32;
 
-namespace Editor
+namespace Editor.Windows
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -253,6 +253,7 @@ namespace Editor
 
             return unrecognized;
         }
+
         private void LoadLoggers(ICollection<ChildModel> children)
         {
             XmlNode root = mLog4NetNode.SelectSingleNode("root");
@@ -394,12 +395,11 @@ namespace Editor
         private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode, string elementName)
         {
             IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(elementName));
-
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppenderSaveStrategy(configuration))
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -424,9 +424,9 @@ namespace Editor
         {
             private readonly IElementConfiguration mConfiguration;
 
-            public AppenderSaveStrategy(IElementConfiguration mConfiguration)
+            public AppenderSaveStrategy(IElementConfiguration configuration)
             {
-                this.mConfiguration = mConfiguration ?? throw new ArgumentNullException(nameof(mConfiguration));
+                mConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             }
 
             public void Execute()
