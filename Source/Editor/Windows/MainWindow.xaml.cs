@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,6 +59,8 @@ namespace Editor.Windows
             xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
 
             xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
+
+            Title = $"log4net Configuration Editor - v{Assembly.GetEntryAssembly().GetName().Version.ToString(3)}";
         }
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
