@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigProperties\AcceptOnMatchTest.cs" />
+    <Compile Include="ConfigProperties\AditivityTest.cs" />
     <Compile Include="ConfigProperties\ApplicationNameTest.cs" />
     <Compile Include="ConfigProperties\BackColorTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
