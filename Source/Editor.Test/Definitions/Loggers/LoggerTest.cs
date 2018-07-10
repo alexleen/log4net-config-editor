@@ -1,0 +1,62 @@
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.ConfigProperties;
+using Editor.Definitions.Loggers;
+using Editor.Interfaces;
+using NSubstitute;
+using NUnit.Framework;
+using System.Linq;
+using System.Xml;
+
+namespace Editor.Test.Definitions.Loggers
+{
+    [TestFixture]
+    public class LoggerTest
+    {
+        private Logger mSut;
+
+        [SetUp]
+        public void SetUp()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement log4NetNode = xmlDoc.CreateElement("log4net");
+
+            IElementConfiguration configuration = Substitute.For<IElementConfiguration>();
+            configuration.ConfigXml.Returns(xmlDoc);
+            configuration.Log4NetNode.Returns(log4NetNode);
+
+            mSut = new Logger(configuration);
+        }
+
+        [Test]
+        public void Name_ShouldReturnCorrectValue()
+        {
+            Assert.AreEqual("Logger", mSut.Name);
+        }
+
+        [Test]
+        public void Icon_ShouldReturnCorrectValue()
+        {
+            Assert.AreEqual("pack://application:,,,/Editor;component/Images/text-x-log.png", mSut.Icon);
+        }
+
+        [Test]
+        public void Initialize_ShouldAddDefaultProperties()
+        {
+            mSut.Initialize();
+
+            mSut.Properties.Single(p => p.GetType() == typeof(Name));
+            mSut.Properties.Single(p => p.GetType() == typeof(Aditivity));
+            mSut.Properties.Single(p => p.GetType() == typeof(LevelProperty));
+            mSut.Properties.Single(p => p.GetType() == typeof(OutgoingRefs));
+        }
+
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(4, mSut.Properties.Count);
+        }
+    }
+}

@@ -1,7 +1,9 @@
-﻿using Editor.ConfigProperties;
-using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.Generic;
 using System.Linq;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
 
 namespace Editor.Test.Definitions.Appenders
 {

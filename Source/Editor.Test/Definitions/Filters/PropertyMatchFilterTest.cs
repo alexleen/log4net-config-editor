@@ -1,8 +1,10 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Linq;
+using Editor.ConfigProperties;
 using Editor.Definitions.Filters;
 using Editor.Descriptors;
 using NUnit.Framework;
-using System.Linq;
 
 namespace Editor.Test.Definitions.Filters
 {

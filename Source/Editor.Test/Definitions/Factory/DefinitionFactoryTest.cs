@@ -1,4 +1,6 @@
-﻿using Editor.Definitions.Appenders;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.Definitions.Appenders;
 using Editor.Definitions.Factory;
 using Editor.Definitions.Filters;
 using Editor.Definitions.Loggers;
@@ -37,6 +39,7 @@ namespace Editor.Test.Definitions.Factory
 
             //Logger
             new TestCaseData(LoggerDescriptor.Root, typeof(RootLogger)),
+            new TestCaseData(LoggerDescriptor.Logger, typeof(Logger)),
 
             //Mapping
             new TestCaseData(MappingDescriptor.Mapping, typeof(MappingDefinition))

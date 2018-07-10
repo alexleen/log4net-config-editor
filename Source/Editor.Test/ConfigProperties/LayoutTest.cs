@@ -7,7 +7,6 @@ using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
-using Editor.Windows;
 using NSubstitute;
 using NUnit.Framework;
 

@@ -7,19 +7,20 @@ using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
-using Editor.Windows;
+using Editor.Windows.SizeLocation;
 using log4net.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 
-namespace Editor
+namespace Editor.Windows
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -50,14 +51,11 @@ namespace Editor
                 AppenderDescriptor.ManagedColor
             };
 
-            xAddLoggerButton.ItemsSource = new[]
-            {
-                LoggerDescriptor.Root
-            };
-
             xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
 
             xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
+
+            Title = $"log4net Configuration Editor - v{Assembly.GetEntryAssembly().GetName().Version.ToString(3)}";
         }
 
         private void MainWindowOnLoaded(object sender, RoutedEventArgs e)
@@ -222,6 +220,21 @@ namespace Editor
 
             ICollection<ChildModel> children = new List<ChildModel>();
 
+            bool unrecognized = LoadAppenders(children);
+            LoadLoggers(children);
+            LoadRenderers(children);
+
+            xChildren.ItemsSource = children;
+
+            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
+
+            LoadRootAttributes();
+
+            return unrecognized;
+        }
+
+        private bool LoadAppenders(ICollection<ChildModel> children)
+        {
             //Only selects appenders under this log4net element
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
 
@@ -242,27 +255,35 @@ namespace Editor
                 }
             }
 
-            XmlNode root = mLog4NetNode.SelectSingleNode(LoggerDescriptor.Root.ElementName);
+            return unrecognized;
+        }
+
+        private void LoadLoggers(ICollection<ChildModel> children)
+        {
+            XmlNode root = mLog4NetNode.SelectSingleNode("root");
 
             if (root != null)
             {
                 children.Add(new ChildModel(LoggerDescriptor.Root.ElementName, root));
             }
 
+            XmlNodeList loggerList = mLog4NetNode.SelectNodes("logger");
+
+            foreach (XmlNode logger in loggerList)
+            {
+                string name = logger.Attributes["name"]?.Value;
+                children.Add(new LoggerModel("logger", name, logger, false));
+            }
+        }
+
+        private void LoadRenderers(ICollection<ChildModel> children)
+        {
             XmlNodeList rendererList = mLog4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
 
             foreach (XmlNode renderer in rendererList)
             {
                 children.Add(new RendererModel(renderer));
             }
-
-            xChildren.ItemsSource = children;
-
-            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
-
-            LoadRootAttributes();
-
-            return unrecognized;
         }
 
         private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
@@ -330,6 +351,10 @@ namespace Editor
             {
                 OpenElementWindow(RendererDescriptor.Renderer, rendererModel.Node);
             }
+            else if (dataContext is LoggerModel loggerModel)
+            {
+                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
+            }
             else if (dataContext is ChildModel childModel)
             {
                 OpenElementWindow(LoggerDescriptor.Root, childModel.Node);
@@ -385,19 +410,19 @@ namespace Editor
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase descriptor, XmlNode appenderNode)
+        private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode)
         {
-            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfigXml, mLog4NetNode, appenderNode, mConfigXml.CreateElement(descriptor.ElementName));
-            ElementWindow elementWindow = new ElementWindow(appenderConfiguration,
-                                                            DefinitionFactory.Create(descriptor, appenderConfiguration),
+            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(descriptor.ElementName));
+            ElementWindow elementWindow = new ElementWindow(configuration,
+                                                            DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppenderSaveStrategy(appenderConfiguration))
+                                                            new AppenderSaveStrategy(configuration))
             { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
 
-        private void AddLoggerOnClick(object sender)
+        private void AddRootClick(object sender, RoutedEventArgs e)
         {
             if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
             {
@@ -413,13 +438,18 @@ namespace Editor
             OpenElementWindow(RendererDescriptor.Renderer, null);
         }
 
+        private void AddLoggerClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(LoggerDescriptor.Logger, null);
+        }
+
         private class AppenderSaveStrategy : ISaveStrategy
         {
             private readonly IElementConfiguration mConfiguration;
 
-            public AppenderSaveStrategy(IElementConfiguration mConfiguration)
+            public AppenderSaveStrategy(IElementConfiguration configuration)
             {
-                this.mConfiguration = mConfiguration ?? throw new ArgumentNullException(nameof(mConfiguration));
+                mConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             }
 
             public void Execute()

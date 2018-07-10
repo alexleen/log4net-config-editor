@@ -1,4 +1,6 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.Definitions.Loggers;
 using Editor.Interfaces;
 using NSubstitute;
@@ -17,11 +19,11 @@ namespace Editor.Test.Definitions.Loggers
         public void SetUp()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlElement log4netNode = xmlDoc.CreateElement("log4net");
+            XmlElement log4NetNode = xmlDoc.CreateElement("log4net");
 
             IElementConfiguration configuration = Substitute.For<IElementConfiguration>();
             configuration.ConfigXml.Returns(xmlDoc);
-            configuration.Log4NetNode.Returns(log4netNode);
+            configuration.Log4NetNode.Returns(log4NetNode);
 
             mSut = new RootLogger(configuration);
         }
@@ -45,6 +47,14 @@ namespace Editor.Test.Definitions.Loggers
 
             mSut.Properties.Single(p => p.GetType() == typeof(LevelProperty));
             mSut.Properties.Single(p => p.GetType() == typeof(OutgoingRefs));
+        }
+
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(2, mSut.Properties.Count);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Editor.Interfaces
+﻿// Copyright © 2018 Alex Leendertsen
+
+namespace Editor.Interfaces
 {
     /// <summary>
     /// Strategy for saving an element.

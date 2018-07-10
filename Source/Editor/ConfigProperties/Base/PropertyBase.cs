@@ -10,7 +10,6 @@ using System.Xml;
 using Editor.Interfaces;
 using Editor.Properties;
 using Editor.Utilities;
-using Editor.Windows;
 
 namespace Editor.ConfigProperties.Base
 {

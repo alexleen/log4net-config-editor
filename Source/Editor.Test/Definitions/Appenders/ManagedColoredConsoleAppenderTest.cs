@@ -1,11 +1,13 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Linq;
+using System.Xml;
+using Editor.ConfigProperties;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
-using System.Linq;
-using System.Xml;
 
 namespace Editor.Test.Definitions.Appenders
 {
@@ -18,11 +20,11 @@ namespace Editor.Test.Definitions.Appenders
         public void SetUp()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlElement log4netNode = xmlDoc.CreateElement("log4net");
+            XmlElement log4NetNode = xmlDoc.CreateElement("log4net");
 
             IElementConfiguration configuration = Substitute.For<IElementConfiguration>();
             configuration.ConfigXml.Returns(xmlDoc);
-            configuration.Log4NetNode.Returns(log4netNode);
+            configuration.Log4NetNode.Returns(log4NetNode);
 
             mSut = new ManagedColoredConsoleAppender(configuration);
         }
@@ -66,7 +68,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(Mapping));
+            mSut.Properties.Single(p => p.GetType() == typeof(Editor.ConfigProperties.Mapping));
         }
     }
 }

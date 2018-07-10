@@ -1,24 +1,24 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Windows;
 using NSubstitute;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
     [TestFixture, Apartment(ApartmentState.STA)]
     public class MappingTest
     {
-        XmlDocument mXmlDoc;
-        IMessageBoxService mMessageBoxService;
+        private XmlDocument mXmlDoc;
+        private IMessageBoxService mMessageBoxService;
         private Mapping mSut;
 
         [SetUp]
@@ -26,24 +26,24 @@ namespace Editor.Test.ConfigProperties
         {
             mXmlDoc = new XmlDocument();
             mXmlDoc.LoadXml("<appender>\r\n" +
-                           "<mapping>\r\n" +
-                           " <level value=\"ERROR\" />\r\n" +
-                           " <foreColor value=\"DarkRed\" />\r\n" +
-                           " <backColor value=\"White\" />\r\n" +
-                           "</mapping>\r\n" +
-                           "<mapping>\r\n" +
-                           " <level value=\"WARN\" />\r\n" +
-                           " <foreColor value=\"Yellow\" />\r\n" +
-                           "</mapping>\r\n" +
-                           "<mapping>\r\n" +
-                           " <level value=\"info\" />\r\n" +
-                           " <backColor value=\"White\" />\r\n" +
-                           "</mapping>\r\n" +
-                           "<mapping>\r\n" +
-                           " <level value=\"\" />\r\n" +
-                           " <foreColor value=\"Blue\" />\r\n" +
-                           "</mapping>\r\n" +
-                           "</appender>");
+                            "<mapping>\r\n" +
+                            " <level value=\"ERROR\" />\r\n" +
+                            " <foreColor value=\"DarkRed\" />\r\n" +
+                            " <backColor value=\"White\" />\r\n" +
+                            "</mapping>\r\n" +
+                            "<mapping>\r\n" +
+                            " <level value=\"WARN\" />\r\n" +
+                            " <foreColor value=\"Yellow\" />\r\n" +
+                            "</mapping>\r\n" +
+                            "<mapping>\r\n" +
+                            " <level value=\"info\" />\r\n" +
+                            " <backColor value=\"White\" />\r\n" +
+                            "</mapping>\r\n" +
+                            "<mapping>\r\n" +
+                            " <level value=\"\" />\r\n" +
+                            " <foreColor value=\"Blue\" />\r\n" +
+                            "</mapping>\r\n" +
+                            "</appender>");
 
             mMessageBoxService = Substitute.For<IMessageBoxService>();
 

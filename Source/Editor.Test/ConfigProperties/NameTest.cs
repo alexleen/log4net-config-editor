@@ -6,7 +6,6 @@ using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using Editor.Utilities;
-using Editor.Windows;
 using NSubstitute;
 using NUnit.Framework;
 

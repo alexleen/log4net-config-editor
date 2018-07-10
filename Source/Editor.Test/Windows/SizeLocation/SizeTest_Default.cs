@@ -1,7 +1,9 @@
-﻿using Editor.Interfaces;
-using Editor.Test.TestUtilities;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.Generic;
+using Editor.Test.TestUtilities;
+using Editor.Windows.SizeLocation;
+using NUnit.Framework;
 
 namespace Editor.Test.Windows.SizeLocation
 {

@@ -1,12 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.ComponentModel;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
-using System;
-using System.ComponentModel;
+using Editor.Interfaces;
 
-namespace Editor.Interfaces
+namespace Editor.Windows.SizeLocation
 {
     internal static class WindowSizeLocationFactory
     {
