@@ -50,6 +50,8 @@ namespace Editor.Definitions.Factory
                     return new ForwardingAppender(appenderConfiguration);
                 case AppenderType.ManagedColor:
                     return new ManagedColoredConsoleAppender(appenderConfiguration);
+                case AppenderType.Udp:
+                    return new UdpAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

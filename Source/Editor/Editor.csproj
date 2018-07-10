@@ -74,6 +74,8 @@
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
+    <Compile Include="ConfigProperties\Port.cs" />
+    <Compile Include="ConfigProperties\RemoteAddress.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
     <Compile Include="Controls\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
@@ -82,6 +84,7 @@
     <Compile Include="Definitions\Appenders\AsyncAppender.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppender.cs" />
     <Compile Include="Definitions\Appenders\EventLogAppender.cs" />
+    <Compile Include="Definitions\Appenders\UdpAppender.cs" />
     <Compile Include="Definitions\Factory\DefinitionFactory.cs" />
     <Compile Include="ConfigProperties\File.cs" />
     <Compile Include="ConfigProperties\Filters.cs" />
