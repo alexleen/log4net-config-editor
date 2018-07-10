@@ -32,6 +32,15 @@ namespace Editor.Utilities
             List<LoggerModel> loggers = new List<LoggerModel>();
 
             loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']"));
+            loggers.AddRange(GetRootLoggerAndLoggers(log4NetNode));
+
+            return loggers;
+        }
+
+        public static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
+        {
+            List<LoggerModel> loggers = new List<LoggerModel>();
+
             loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "logger"));
 
             XmlNode root = log4NetNode.SelectSingleNode("root");

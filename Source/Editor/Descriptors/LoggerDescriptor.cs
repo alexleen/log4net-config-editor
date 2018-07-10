@@ -18,11 +18,8 @@ namespace Editor.Descriptors
         public LoggerDescriptor(string name, LoggerType loggerType)
             : base(name)
         {
-            Name = name;
             LoggerType = loggerType;
         }
-
-        public string Name { get; }
 
         public LoggerType LoggerType { get; }
     }
