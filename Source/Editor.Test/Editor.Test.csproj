@@ -125,6 +125,7 @@
     <Compile Include="Definitions\Loggers\LoggerTest.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinitionTest.cs" />
     <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
+    <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
