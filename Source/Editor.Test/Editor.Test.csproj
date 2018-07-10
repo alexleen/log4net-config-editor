@@ -121,6 +121,7 @@
     <Compile Include="Definitions\Filters\LoggerMatchFilterTest.cs" />
     <Compile Include="Definitions\Filters\PropertyMatchFilterTest.cs" />
     <Compile Include="Definitions\Filters\StringMatchFilterTest.cs" />
+    <Compile Include="Definitions\Loggers\LoggerTest.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinitionTest.cs" />
     <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />

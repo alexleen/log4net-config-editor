@@ -1,12 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Linq;
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Definitions.Loggers;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using System.Linq;
+using System.Xml;
 
 namespace Editor.Test.Definitions.Loggers
 {
@@ -47,6 +47,14 @@ namespace Editor.Test.Definitions.Loggers
 
             mSut.Properties.Single(p => p.GetType() == typeof(LevelProperty));
             mSut.Properties.Single(p => p.GetType() == typeof(OutgoingRefs));
+        }
+
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(2, mSut.Properties.Count);
         }
     }
 }
