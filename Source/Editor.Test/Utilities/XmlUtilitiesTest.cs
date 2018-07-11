@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Models;
-using Editor.Utilities;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using Editor.Models;
+using Editor.Utilities;
+using NUnit.Framework;
 
 namespace Editor.Test.Utilities
 {
