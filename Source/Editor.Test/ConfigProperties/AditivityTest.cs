@@ -21,6 +21,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Aditivity:", mSut.Name);
+        }
+
+        [Test]
         public void Value_ShouldDefaultToTrue()
         {
             Assert.IsTrue(mSut.Value);

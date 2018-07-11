@@ -21,6 +21,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Static Log File Name:", mSut.Name);
+        }
+
+        [Test]
         public void Value_ShouldBeFalseByDefault()
         {
             Assert.IsFalse(mSut.Value);
