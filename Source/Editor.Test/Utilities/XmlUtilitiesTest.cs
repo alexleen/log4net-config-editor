@@ -58,12 +58,16 @@ namespace Editor.Test.Utilities
                            "  <root>\n" +
                            "    <appender-ref ref=\"asyncAppender\" />\n" +
                            "  </root>\n" +
+                           "  <logger name=\"whatev\">\n" +
+                           "  </logger>\n" +
                            "</log4net>");
 
             IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
-            Assert.AreEqual(2, refs.Count());
-            Assert.IsTrue(refs.All(r => r.Node.Name == "root" || r.Node.Attributes?["type"].Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async"));
+            Assert.AreEqual(3, refs.Count());
+            refs.Single(r => r.Node.Name == "root");
+            refs.Single(r => r.Node.Attributes?["type"]?.Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async");
+            refs.Single(r => r.ElementName == "logger");
         }
 
         [Test]
@@ -98,20 +102,23 @@ namespace Editor.Test.Utilities
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<log4net>\n" +
-                           "  <appender name=\"appender0\">\n" +
-                           "    <appender-ref ref=\"appender1\" />\n" +
-                           "    <appender-ref ref=\"appender2\" />\n" +
-                           "  </appender>\n" +
-                           "  <appender name=\"appender1\">\n" +
-                           "    <appender-ref ref=\"appender2\" />\n" +
-                           "  </appender>\n" +
-                           "  <appender name=\"appender2\">\n" +
-                           "  </appender>\n" +
-                           "  <appender name=\"appender3\">\n" +
-                           "  </appender>\n" +
                            "  <appender type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
                            "    <appender-ref ref=\"appender0\" />\n" +
                            "  </appender>\n" +
+                           "</log4net>");
+
+            IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
+
+            Assert.AreEqual(0, refs.Count());
+        }
+
+        [Test]
+        public void FindAvailableAppenderRefLocations_ShouldNotLoadLogger_WithNoName()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<log4net>\n" +
+                           "  <logger>\n" +
+                           "  </logger>\n" +
                            "</log4net>");
 
             IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);

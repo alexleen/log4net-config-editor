@@ -11,9 +11,9 @@ using NUnit.Framework;
 namespace Editor.Test.Definitions.Loggers
 {
     [TestFixture]
-    public class RootLoggerTest
+    public class LoggerTest
     {
-        private RootLogger mSut;
+        private Logger mSut;
 
         [SetUp]
         public void SetUp()
@@ -25,13 +25,13 @@ namespace Editor.Test.Definitions.Loggers
             configuration.ConfigXml.Returns(xmlDoc);
             configuration.Log4NetNode.Returns(log4NetNode);
 
-            mSut = new RootLogger(configuration);
+            mSut = new Logger(configuration);
         }
 
         [Test]
         public void Name_ShouldReturnCorrectValue()
         {
-            Assert.AreEqual("Root Logger", mSut.Name);
+            Assert.AreEqual("Logger", mSut.Name);
         }
 
         [Test]
@@ -45,6 +45,8 @@ namespace Editor.Test.Definitions.Loggers
         {
             mSut.Initialize();
 
+            mSut.Properties.Single(p => p.GetType() == typeof(Name));
+            mSut.Properties.Single(p => p.GetType() == typeof(Aditivity));
             mSut.Properties.Single(p => p.GetType() == typeof(LevelProperty));
             mSut.Properties.Single(p => p.GetType() == typeof(OutgoingRefs));
         }
@@ -54,7 +56,7 @@ namespace Editor.Test.Definitions.Loggers
         {
             mSut.Initialize();
 
-            Assert.AreEqual(2, mSut.Properties.Count);
+            Assert.AreEqual(4, mSut.Properties.Count);
         }
     }
 }

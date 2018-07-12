@@ -21,9 +21,15 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Preserve Extension:", mSut.Name);
+        }
+
+        [Test]
         public void Preserve_ShouldBeFalseByDefault()
         {
-            Assert.IsFalse(mSut.Preserve);
+            Assert.IsFalse(mSut.Value);
         }
 
         [TestCase("<preserveLogFileNameExtension value=\"true\" />", true)]
@@ -43,7 +49,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Load(xmlDoc.FirstChild);
 
-            Assert.AreEqual(expected, mSut.Preserve);
+            Assert.AreEqual(expected, mSut.Value);
         }
 
         [Test]
@@ -63,13 +69,13 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.Preserve = true;
+            mSut.Value = true;
             mSut.Save(xmlDoc, appender);
 
             XmlNode preserveNode = appender.SelectSingleNode("preserveLogFileNameExtension");
 
             Assert.IsNotNull(preserveNode);
-            Assert.AreEqual("true", preserveNode.Attributes?["value"].Value);
+            Assert.AreEqual("True", preserveNode.Attributes?["value"].Value);
         }
     }
 }

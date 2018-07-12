@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigProperties\AcceptOnMatchTest.cs" />
+    <Compile Include="ConfigProperties\AditivityTest.cs" />
     <Compile Include="ConfigProperties\ApplicationNameTest.cs" />
     <Compile Include="ConfigProperties\BackColorTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
@@ -121,8 +122,10 @@
     <Compile Include="Definitions\Filters\LoggerMatchFilterTest.cs" />
     <Compile Include="Definitions\Filters\PropertyMatchFilterTest.cs" />
     <Compile Include="Definitions\Filters\StringMatchFilterTest.cs" />
+    <Compile Include="Definitions\Loggers\LoggerTest.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinitionTest.cs" />
     <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
+    <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />

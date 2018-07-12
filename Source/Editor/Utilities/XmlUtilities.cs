@@ -29,23 +29,42 @@ namespace Editor.Utilities
 
         public static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
         {
-            XmlNodeList asyncAppenders = log4NetNode.SelectNodes("appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']");
+            List<LoggerModel> loggers = new List<LoggerModel>();
 
-            foreach (XmlNode asyncAppender in asyncAppenders)
-            {
-                string name = asyncAppender.Attributes["name"]?.Value;
+            loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']"));
+            loggers.AddRange(GetRootLoggerAndLoggers(log4NetNode));
 
-                if (!string.IsNullOrEmpty(name))
-                {
-                    yield return new LoggerModel("appender", name, asyncAppender, false);
-                }
-            }
+            return loggers;
+        }
+
+        public static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
+        {
+            List<LoggerModel> loggers = new List<LoggerModel>();
+
+            loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "logger"));
 
             XmlNode root = log4NetNode.SelectSingleNode("root");
 
             if (root != null)
             {
-                yield return new LoggerModel("root", "root", root, false);
+                loggers.Add(new LoggerModel("root", "root", root, false));
+            }
+
+            return loggers;
+        }
+
+        private static IEnumerable<LoggerModel> CreateLoggerModelsFromNodes(XmlNode log4NetNode, string nodesXPath)
+        {
+            XmlNodeList nodes = log4NetNode.SelectNodes(nodesXPath);
+
+            foreach (XmlNode node in nodes)
+            {
+                string name = node.Attributes["name"]?.Value;
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    yield return new LoggerModel(node.Name, name, node, false);
+                }
             }
         }
 

@@ -1,0 +1,31 @@
+version: 0.4.{build}
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+before_build:
+- cmd: nuget restore Source\log4net-config-editor.sln
+build:
+  project: Source\log4net-config-editor.sln
+  verbosity: minimal
+after_build:
+- cmd: >-
+    7z a Executable-v%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\Source\Editor\bin\Release\*.dll
+
+    7z a Executable-v%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\Source\Editor\bin\Release\Editor.exe
+
+    7z a Executable-v%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\Source\Editor\bin\Release\Editor.exe.config
+test_script:
+- cmd: >-
+    nuget install OpenCover -Version 4.6.519
+
+    nuget install NUnit.Console -Version 3.8.0
+
+    nuget install Codecov -Version 1.0.3
+
+
+    OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe" -targetargs:"Source\Editor.Test\bin\Release\Editor.Test.dll" -filter:"+[*]* -[nunit*]* -[*]Editor.Properties.* -[Editor.Test]*" -output:".\MyProject_coverage.xml" -returntargetcode
+
+    Codecov.1.0.3\tools\codecov.exe -f ".\MyProject_coverage.xml"
+artifacts:
+- path: Executable-v%APPVEYOR_BUILD_VERSION%.zip
+  name: Executable

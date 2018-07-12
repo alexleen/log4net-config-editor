@@ -39,6 +39,7 @@ namespace Editor.Test.Definitions.Factory
 
             //Logger
             new TestCaseData(LoggerDescriptor.Root, typeof(RootLogger)),
+            new TestCaseData(LoggerDescriptor.Logger, typeof(Logger)),
 
             //Mapping
             new TestCaseData(MappingDescriptor.Mapping, typeof(MappingDefinition))

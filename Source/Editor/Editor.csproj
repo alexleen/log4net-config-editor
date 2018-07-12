@@ -60,8 +60,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigProperties\AcceptOnMatch.cs" />
+    <Compile Include="ConfigProperties\Aditivity.cs" />
     <Compile Include="ConfigProperties\ApplicationName.cs" />
     <Compile Include="ConfigProperties\BackColor.cs" />
+    <Compile Include="ConfigProperties\Base\BooleanPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\ColorPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Definitions\Filters\LoggerMatchFilter.cs" />
     <Compile Include="Definitions\Filters\PropertyMatchFilter.cs" />
     <Compile Include="Definitions\Filters\StringMatchFilter.cs" />
+    <Compile Include="Definitions\Loggers\Logger.cs" />
     <Compile Include="Definitions\Loggers\RootLogger.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinition.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Descriptors\MappingDescriptor.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
+    <Compile Include="Enums\LoggerType.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Interfaces\IElementConfiguration.cs" />
