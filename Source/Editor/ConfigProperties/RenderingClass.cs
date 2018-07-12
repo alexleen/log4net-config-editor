@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -14,7 +13,7 @@ namespace Editor.ConfigProperties
         private const string RenderingClassName = "renderingClass";
 
         internal RenderingClass(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Rendering Class:")
+            : base(container, "Rendering Class:", null)
         {
             ToolTip = "Value must be the type name for this renderer. " +
                       "If the type is not defined in the log4net assembly this type name must be fully assembly qualified. " +
