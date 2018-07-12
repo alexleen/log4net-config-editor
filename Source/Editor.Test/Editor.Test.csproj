@@ -133,6 +133,7 @@
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
+    <Compile Include="Models\RendererModelTest.cs" />
     <Compile Include="TestUtilities\EqualityTests.cs" />
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
