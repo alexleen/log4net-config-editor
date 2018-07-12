@@ -65,7 +65,9 @@
     <Compile Include="ConfigProperties\BackColor.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\ColorPropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\EnumPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\MultiValuePropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\RefsBase.cs" />
     <Compile Include="ConfigProperties\Base\StringValueProperty.cs" />
@@ -74,8 +76,10 @@
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
+    <Compile Include="ConfigProperties\LocalSyslogFacility.cs" />
     <Compile Include="ConfigProperties\Port.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
+    <Compile Include="ConfigProperties\RemoteSyslogFacility.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
     <Compile Include="Controls\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>

@@ -20,9 +20,7 @@ namespace Editor.ConfigProperties.Base
 
         public bool IsFocused { get; set; }
 
-        public bool IsReadOnly { get; set; }
-
-        public string ToolTip { get; set; }
+        public bool IsReadOnly { get; set; }        
 
         protected void SetValueIfNotNullOrEmpty(string value)
         {

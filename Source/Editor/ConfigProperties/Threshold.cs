@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class Threshold : LevelPropertyBase
+    internal class Threshold : LevelPropertyBase
     {
         private const string ThresholdName = "threshold";
 
@@ -25,9 +25,9 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (!string.IsNullOrEmpty(SelectedLevel))
+            if (!string.IsNullOrEmpty(SelectedValue))
             {
-                xmlDoc.CreateElementWithValueAttribute(ThresholdName, SelectedLevel).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(ThresholdName, SelectedValue).AppendTo(newNode);
             }
         }
     }

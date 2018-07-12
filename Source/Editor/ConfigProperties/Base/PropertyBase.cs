@@ -1,5 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Interfaces;
+using Editor.Properties;
+using Editor.Utilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,9 +10,6 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
-using Editor.Interfaces;
-using Editor.Properties;
-using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
@@ -29,6 +29,8 @@ namespace Editor.ConfigProperties.Base
         public GridLength RowHeight { get; }
 
         public ICommand Navigate { get; }
+
+        public string ToolTip { get; set; }
 
         public abstract void Load(XmlNode originalNode);
 

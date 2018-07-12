@@ -4,7 +4,8 @@
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
                     xmlns:FiltersProperties="clr-namespace:Editor.ConfigProperties"
-                    xmlns:Controls="clr-namespace:Editor.Controls">
+                    xmlns:Controls="clr-namespace:Editor.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -46,8 +47,8 @@
             <CheckBox Grid.Column="1" IsChecked="{Binding Value}" VerticalAlignment="Center" />
         </Grid>
     </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
+
+    <DataTemplate DataType="{x:Type Base:MultiValuePropertyBase(sys:String)}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -60,7 +61,7 @@
                       SelectedItem="{Binding SelectedLevel}" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Left" 
-                      Width="100"
+                      Width="{Binding Width}"
                       Margin="0,0,5,0"
                       ToolTip="All log events with lower level than the threshold level are ignored by the appender."/>
         </Grid>
@@ -132,25 +133,13 @@
             <StackPanel Grid.Column="1">
                 <DockPanel>
                     <Button DockPanel.Dock="Right" Width="50" Height="21" Margin="0,5,5,5" Command="{Binding Open}">Open</Button>
-                    <TextBox Text="{Binding FilePath}" />                    
+                    <TextBox Text="{Binding FilePath}" />
                 </DockPanel>
                 <StackPanel Orientation="Horizontal">
                     <RadioButton IsChecked="{Binding Overwrite, Converter={StaticResource BoolInvConv}}">Append</RadioButton>
                     <RadioButton IsChecked="{Binding Overwrite}" Margin="5,0">Overwrite</RadioButton>
                 </StackPanel>
             </StackPanel>
-        </Grid>
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type FiltersProperties:PreserveExtension}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label>Preserve Extension:</Label>
-            <CheckBox Grid.Column="1" IsChecked="{Binding Preserve}" VerticalAlignment="Center"/>
         </Grid>
     </DataTemplate>
 

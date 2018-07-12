@@ -32,13 +32,13 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Levels_ShouldBeAllLevels()
         {
-            CollectionAssert.AreEqual(new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys), mSut.Levels);
+            CollectionAssert.AreEqual(new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys), mSut.Values);
         }
 
         [Test]
         public void SelectedLevel_ShouldBeNone()
         {
-            Assert.AreEqual(string.Empty, mSut.SelectedLevel);
+            Assert.AreEqual(string.Empty, mSut.SelectedValue);
         }
 
         [TestCase("<threshold />", "")]
@@ -55,7 +55,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Load(xmlDoc.FirstChild);
 
-            Assert.AreEqual(expected, mSut.SelectedLevel);
+            Assert.AreEqual(expected, mSut.SelectedValue);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.SelectedLevel = Level.All.Name;
+            mSut.SelectedValue = Level.All.Name;
             mSut.Save(xmlDoc, appender);
 
             XmlNode thresholdNode = appender.SelectSingleNode("threshold");
