@@ -218,11 +218,11 @@ namespace Editor.Windows
 
             mLog4NetNode = log4NetNodes[0];
 
-            ICollection<ChildModel> children = new List<ChildModel>();
+            List<ChildModel> children = new List<ChildModel>();
 
             bool unrecognized = LoadAppenders(children);
-            LoadLoggers(children);
             LoadRenderers(children);
+            children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode));
 
             xChildren.ItemsSource = children;
 
@@ -260,10 +260,6 @@ namespace Editor.Windows
 
         private void LoadLoggers(ICollection<ChildModel> children)
         {
-            XmlNode root = mLog4NetNode.SelectSingleNode("root");
-
-            if (root != null)
-            {
                 children.Add(new ChildModel(LoggerDescriptor.Root.ElementName, root));
             }
 
@@ -417,7 +413,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppenderSaveStrategy(configuration))
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }

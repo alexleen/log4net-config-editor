@@ -140,9 +140,8 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type FiltersProperties:PreserveExtension}">
+    </DataTemplate>    
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>

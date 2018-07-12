@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties;
-using Editor.Interfaces;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -18,6 +18,12 @@ namespace Editor.Test.ConfigProperties
         public void SetUp()
         {
             mSut = new Aditivity(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+        }
+
+        [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Aditivity:", mSut.Name);
         }
 
         [Test]

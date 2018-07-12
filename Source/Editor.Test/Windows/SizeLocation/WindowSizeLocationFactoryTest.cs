@@ -19,7 +19,7 @@ namespace Editor.Test.Windows.SizeLocation
         private static readonly IEnumerable<TestCaseData> sDescriptorCases = new[]
         {
             //Appenders
-            new TestCaseData(AppenderDescriptor.Console, "AppenderWindowPlacement", ResizeMode.CanResize, SizeToContent.Manual, new Size(550, min: 550), new Size(500, min: 500)),
+            new TestCaseData(AppenderDescriptor.Console, "AppenderWindowPlacement", ResizeMode.CanResize, SizeToContent.Manual, new Size(550, min: 550), new Size(650, min: 650)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size()),
