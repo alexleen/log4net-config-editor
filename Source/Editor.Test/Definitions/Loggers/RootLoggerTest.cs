@@ -1,12 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Linq;
+using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Definitions.Loggers;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
-using System.Linq;
-using System.Xml;
 
 namespace Editor.Test.Definitions.Loggers
 {

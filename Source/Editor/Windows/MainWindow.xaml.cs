@@ -1,5 +1,14 @@
 // Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
@@ -10,15 +19,6 @@ using Editor.Utilities;
 using Editor.Windows.SizeLocation;
 using log4net.Core;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Xml;
 
 namespace Editor.Windows
 {
@@ -256,20 +256,6 @@ namespace Editor.Windows
             }
 
             return unrecognized;
-        }
-
-        private void LoadLoggers(ICollection<ChildModel> children)
-        {
-                children.Add(new ChildModel(LoggerDescriptor.Root.ElementName, root));
-            }
-
-            XmlNodeList loggerList = mLog4NetNode.SelectNodes("logger");
-
-            foreach (XmlNode logger in loggerList)
-            {
-                string name = logger.Attributes["name"]?.Value;
-                children.Add(new LoggerModel("logger", name, logger, false));
-            }
         }
 
         private void LoadRenderers(ICollection<ChildModel> children)
