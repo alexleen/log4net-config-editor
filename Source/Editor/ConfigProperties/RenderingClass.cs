@@ -15,6 +15,7 @@ namespace Editor.ConfigProperties
         internal RenderingClass(ReadOnlyCollection<IProperty> container)
             : base(container, "Rendering Class:", null)
         {
+            IsFocused = true;
             ToolTip = "Value must be the type name for this renderer. " +
                       "If the type is not defined in the log4net assembly this type name must be fully assembly qualified. " +
                       "This is the type of the object that will take responsibility for rendering the 'Rendered Class'.";
