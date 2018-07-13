@@ -103,6 +103,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
+            //TODO check required - handle accordingly
             if (LayoutDescriptor.TryFindByTypeNamespace(originalNode[LayoutName]?.Attributes["type"]?.Value, out LayoutDescriptor descriptor))
             {
                 SelectedLayout = descriptor;
