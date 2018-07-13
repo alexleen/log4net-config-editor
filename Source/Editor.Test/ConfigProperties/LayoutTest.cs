@@ -1,14 +1,14 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -29,9 +29,17 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Ctor_ShouldInitLayoutsCorrectly()
+        public void Ctor_ShouldInitLayoutsCorrectly_WhenRequired()
         {
             CollectionAssert.AreEquivalent(new[] { LayoutDescriptor.Simple, LayoutDescriptor.Pattern }, mSut.Layouts);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitLayoutsCorrectly_WhenNotRequired()
+        {
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, false);
+
+            CollectionAssert.AreEquivalent(new[] { LayoutDescriptor.None, LayoutDescriptor.Simple, LayoutDescriptor.Pattern }, mSut.Layouts);
         }
 
         [Test]
@@ -47,9 +55,17 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Ctor_ShouldInitSelectedLayoutCorrectly()
+        public void Ctor_ShouldInitSelectedLayoutCorrectly_WhenRequired()
         {
             Assert.AreEqual(LayoutDescriptor.Simple, mSut.SelectedLayout);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitSelectedLayoutCorrectly_WhenNotRequired()
+        {
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, false);
+
+            Assert.AreEqual(LayoutDescriptor.None, mSut.SelectedLayout);
         }
 
         [Test]
@@ -74,6 +90,13 @@ namespace Editor.Test.ConfigProperties
         {
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
             Assert.AreEqual(SimplePattern, mSut.Pattern);
+        }
+
+        [Test]
+        public void SelectedLayout_ShouldSetEmptyPattern_WhenSetToNone()
+        {
+            mSut.SelectedLayout = LayoutDescriptor.None;
+            Assert.AreEqual(string.Empty, mSut.Pattern);
         }
 
         [Test]
@@ -182,7 +205,7 @@ namespace Editor.Test.ConfigProperties
 
         [TestCase("")]
         [TestCase(null)]
-        public void TryValidate_ShouldShowMessageBox_WhenPatternIsNullOrEmpty(string pattern)
+        public void TryValidate_ShouldShowMessageBox_WhenPatternIsNullOrEmpty_WhenRequired(string pattern)
         {
             mSut.Pattern = pattern;
 
@@ -195,11 +218,21 @@ namespace Editor.Test.ConfigProperties
 
         [TestCase("")]
         [TestCase(null)]
-        public void TryValidate_ShouldReturnFalse_WhenPatternIsNullOrEmpty(string pattern)
+        public void TryValidate_ShouldReturnFalse_WhenPatternIsNullOrEmpty_WhenRequired(string pattern)
         {
             mSut.Pattern = pattern;
 
             Assert.IsFalse(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void TryValidate_ShouldReturnTrue_WhenPatternIsNullOrEmpty_WhenNoneIsSelected(string pattern)
+        {
+            mSut.SelectedLayout = LayoutDescriptor.None;
+            mSut.Pattern = pattern;
+
+            Assert.IsTrue(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
         }
 
         [Test]
@@ -254,6 +287,18 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(appender[LayoutName][ConversionPatternName]);
             Assert.AreEqual(mSut.Pattern, appender[LayoutName][ConversionPatternName].Attributes["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldNotSaveLayout_WhenNoneIsSelected()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.SelectedLayout = LayoutDescriptor.None;
+            mSut.Save(xmlDoc, appender);
+
+            CollectionAssert.IsEmpty(appender.ChildNodes);
         }
 
         [Test]

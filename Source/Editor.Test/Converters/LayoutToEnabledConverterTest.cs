@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using Editor.Converters;
 using Editor.Descriptors;
 using NUnit.Framework;
+using System;
 
 namespace Editor.Test.Converters
 {
@@ -25,14 +25,27 @@ namespace Editor.Test.Converters
         }
 
         [Test]
-        public void Convert_ShouldReturnCorrectValue()
+        public void Convert_ShouldReturnFalse_WhenNone()
+        {
+            object value = mSut.Convert(LayoutDescriptor.None, null, null, null);
+
+            Assert.IsNotNull(value);
+            Assert.IsFalse((bool)value);
+        }
+
+        [Test]
+        public void Convert_ShouldReturnFalse_WhenSimple()
         {
             object value = mSut.Convert(LayoutDescriptor.Simple, null, null, null);
 
             Assert.IsNotNull(value);
             Assert.IsFalse((bool)value);
+        }
 
-            value = mSut.Convert(LayoutDescriptor.Pattern, null, null, null);
+        [Test]
+        public void Convert_ShouldReturnTrue_WhenPattern()
+        {
+            object value = mSut.Convert(LayoutDescriptor.Pattern, null, null, null);
 
             Assert.IsNotNull(value);
             Assert.IsTrue((bool)value);
