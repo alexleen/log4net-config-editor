@@ -1,14 +1,16 @@
-﻿using Editor.Descriptors;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Xml;
+using Editor.Descriptors;
 using Editor.Models;
 using NUnit.Framework;
-using System.Xml;
 
 namespace Editor.Test.Models
 {
     [TestFixture]
     public class RendererModelTest
     {
-        XmlElement mRenderer;
+        private XmlElement mRenderer;
         private RendererModel mSut;
 
         [SetUp]
