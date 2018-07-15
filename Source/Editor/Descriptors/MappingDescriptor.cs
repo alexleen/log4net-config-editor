@@ -10,11 +10,11 @@ namespace Editor.Descriptors
 
         static MappingDescriptor()
         {
-            Mapping = new MappingDescriptor("Root");
+            Mapping = new MappingDescriptor("Mapping");
         }
 
         public MappingDescriptor(string name)
-            : base(name)
+            : base(name, "mapping")
         {
         }
     }

@@ -6,6 +6,7 @@ using Editor.Definitions.Appenders;
 using Editor.Definitions.Filters;
 using Editor.Definitions.Loggers;
 using Editor.Definitions.Mapping;
+using Editor.Definitions.Renderer;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
@@ -27,6 +28,8 @@ namespace Editor.Definitions.Factory
                     return CreateLoggerDefinition(loggerDescriptor, configuration);
                 case MappingDescriptor mappingDescriptor:
                     return new MappingDefinition();
+                case RendererDescriptor rendererDescriptor:
+                    return new RendererDefinition();
                 default:
                     throw new ArgumentException($"Property definitions do not exist for {descriptor.GetType().Name}");
             }

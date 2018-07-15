@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -15,7 +14,7 @@ namespace Editor.ConfigProperties
         private const string NameName = "name";
 
         public Name(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration)
-            : base(container, GridLength.Auto, "Name:")
+            : base(container, "Name:", NameName)
         {
             mAppenderConfiguration = appenderConfiguration;
             IsFocused = true;

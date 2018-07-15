@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -12,7 +11,7 @@ namespace Editor.ConfigProperties
     public class ApplicationName : StringValueProperty
     {
         public ApplicationName(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Application Name:")
+            : base(container, "Application Name:", null)
         {
         }
 

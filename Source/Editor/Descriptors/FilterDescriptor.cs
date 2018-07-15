@@ -32,7 +32,7 @@ namespace Editor.Descriptors
         }
 
         private FilterDescriptor(string name, FilterType type, string typeNamespace)
-            : base(name)
+            : base(name, "filter")
         {
             Type = type;
             TypeNamespace = typeNamespace;

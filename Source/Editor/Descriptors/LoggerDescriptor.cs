@@ -11,12 +11,12 @@ namespace Editor.Descriptors
 
         static LoggerDescriptor()
         {
-            Root = new LoggerDescriptor("Root", LoggerType.Root);
-            Logger = new LoggerDescriptor("Logger", LoggerType.Logger);
+            Root = new LoggerDescriptor("Root", "root", LoggerType.Root);
+            Logger = new LoggerDescriptor("Logger", "logger", LoggerType.Logger);
         }
 
-        public LoggerDescriptor(string name, LoggerType loggerType)
-            : base(name)
+        public LoggerDescriptor(string name, string elementName, LoggerType loggerType)
+            : base(name, elementName)
         {
             LoggerType = loggerType;
         }

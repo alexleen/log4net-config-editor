@@ -8,7 +8,7 @@ namespace Editor.Models
     internal class AppenderModel : ChildModel
     {
         public AppenderModel(AppenderDescriptor descriptor, XmlNode appender, string name, int incomingReferences)
-            : base("appender", appender)
+            : base(descriptor.ElementName, appender)
         {
             Descriptor = descriptor;
             Name = name;

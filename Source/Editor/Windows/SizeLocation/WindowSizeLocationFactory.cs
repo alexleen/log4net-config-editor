@@ -23,6 +23,8 @@ namespace Editor.Windows.SizeLocation
                     return new LoggerWindowSizeLocation();
                 case MappingDescriptor mappingDescriptor:
                     return new FilterWindowSizeLocation();
+                case RendererDescriptor rendererDescriptor:
+                    return new RendererWindowSizeLocation();
                 default:
                     throw new ArgumentException($"Window size & locations do not exist for {descriptor.GetType().Name}");
             }
