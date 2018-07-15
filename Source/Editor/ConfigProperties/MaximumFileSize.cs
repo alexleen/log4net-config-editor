@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -15,15 +14,10 @@ namespace Editor.ConfigProperties
         private const string DefaultMaxFileSize = "10MB";
 
         public MaximumFileSize(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Maximum File Size:")
+            : base(container, "Maximum File Size:", MaximumFileSizeName)
         {
             Value = DefaultMaxFileSize;
             ToolTip = "The maximum size that the output file is allowed to reach before being rolled over to backup files. Must be suffixed with \"KB\", \"MB\", or \"GB\".";
-        }
-
-        public override void Load(XmlNode originalNode)
-        {
-            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(MaximumFileSizeName));
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)

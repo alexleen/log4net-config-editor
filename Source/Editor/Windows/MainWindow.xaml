@@ -51,7 +51,7 @@
             
             <Button Click="AddLoggerClick">Add Logger</Button>
 
-            <Button IsEnabled="false">Add Renderer</Button>
+            <Button Click="AddRendererClick">Add Renderer</Button>
 
             <Separator Margin="5,0,5,5"/>
 

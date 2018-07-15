@@ -8,6 +8,7 @@ using Editor.Definitions.Factory;
 using Editor.Definitions.Filters;
 using Editor.Definitions.Loggers;
 using Editor.Definitions.Mapping;
+using Editor.Definitions.Renderer;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Interfaces;
@@ -42,7 +43,10 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(LoggerDescriptor.Logger, typeof(Logger)),
 
             //Mapping
-            new TestCaseData(MappingDescriptor.Mapping, typeof(MappingDefinition))
+            new TestCaseData(MappingDescriptor.Mapping, typeof(MappingDefinition)),
+
+            //Renderer
+            new TestCaseData(RendererDescriptor.Renderer, typeof(RendererDefinition))
         };
 
         [TestCaseSource(nameof(DescriptorDefinitions))]

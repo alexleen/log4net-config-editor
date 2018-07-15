@@ -221,6 +221,7 @@ namespace Editor.Windows
             List<ChildModel> children = new List<ChildModel>();
 
             bool unrecognized = LoadAppenders(children);
+            LoadRenderers(children);
             children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode));
 
             xChildren.ItemsSource = children;
@@ -255,6 +256,16 @@ namespace Editor.Windows
             }
 
             return unrecognized;
+        }
+
+        private void LoadRenderers(ICollection<ChildModel> children)
+        {
+            XmlNodeList rendererList = mLog4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
+
+            foreach (XmlNode renderer in rendererList)
+            {
+                children.Add(new RendererModel(renderer));
+            }
         }
 
         private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
@@ -307,7 +318,7 @@ namespace Editor.Windows
 
         private void AddAppenderItemOnClick(object appender)
         {
-            OpenElementWindow((AppenderDescriptor)appender, null, "appender");
+            OpenElementWindow((AppenderDescriptor)appender, null);
         }
 
         private void EditAppenderOnClick(object sender, RoutedEventArgs e)
@@ -316,15 +327,19 @@ namespace Editor.Windows
 
             if (dataContext is AppenderModel appenderModel)
             {
-                OpenElementWindow(appenderModel.Descriptor, appenderModel.Node, "appender");
+                OpenElementWindow(appenderModel.Descriptor, appenderModel.Node);
+            }
+            else if (dataContext is RendererModel rendererModel)
+            {
+                OpenElementWindow(RendererDescriptor.Renderer, rendererModel.Node);
             }
             else if (dataContext is LoggerModel loggerModel)
             {
-                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node, "logger");
+                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
             }
             else if (dataContext is ChildModel childModel)
             {
-                OpenElementWindow(LoggerDescriptor.Root, childModel.Node, "root");
+                OpenElementWindow(LoggerDescriptor.Root, childModel.Node);
             }
         }
 
@@ -377,9 +392,9 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode, string elementName)
+        private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode)
         {
-            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(elementName));
+            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(descriptor.ElementName));
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
@@ -397,12 +412,17 @@ namespace Editor.Windows
                 return;
             }
 
-            OpenElementWindow(LoggerDescriptor.Root, null, "root");
+            OpenElementWindow(LoggerDescriptor.Root, null);
+        }
+
+        private void AddRendererClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(RendererDescriptor.Renderer, null);
         }
 
         private void AddLoggerClick(object sender, RoutedEventArgs e)
         {
-            OpenElementWindow(LoggerDescriptor.Logger, null, "logger");
+            OpenElementWindow(LoggerDescriptor.Logger, null);
         }
 
         private class AppenderSaveStrategy : ISaveStrategy
