@@ -2,6 +2,7 @@
 
 using Editor.ConfigProperties;
 using Editor.Descriptors;
+using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using NSubstitute;
@@ -151,37 +152,46 @@ namespace Editor.Test.ConfigProperties
             Assert.IsTrue(fired);
         }
 
-        [Test]
-        public void Load_ShouldLoadCorrectTypeAndPattern()
+        //Required = false
+        [TestCase(null, false, LayoutType.None, "")]
+        [TestCase("", false, LayoutType.None, "")]
+        [TestCase("<lay>\r\n" +
+                  "</lay>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout>\r\n" +
+                  "</layout>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout>\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout type=\"log4net.Layout.PatternLayout\">\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", false, LayoutType.Pattern, "%date{HH:mm:ss:fff} %message%newline")]
+        //Required = true
+        [TestCase(null, true, LayoutType.Simple, SimplePattern)]
+        [TestCase("", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<lay>\r\n" +
+                  "</lay>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout>\r\n" +
+                  "</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout>\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout type=\"log4net.Layout.PatternLayout\">\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", true, LayoutType.Pattern, "%date{HH:mm:ss:fff} %message%newline")]
+        public void Load_ShouldLoadCorrectTypeAndPattern(string layoutXml, bool required, LayoutType expectedLayout, string expectedPattern)
         {
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, required);
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <layout type=\"log4net.Layout.PatternLayout\">\r\n" +
-                           "      <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                           "    </layout>\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(LayoutDescriptor.Pattern, mSut.SelectedLayout);
-            Assert.AreEqual("%date{HH:mm:ss:fff} %message%newline", mSut.Pattern);
-        }
-
-        [Test]
-        public void Load_ShouldNotChangeTypeOrPattern_WhenTypeIsUnknown()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <layout>\r\n" +
-                           "      <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                           "    </layout>\r\n" +
+                           $"    {layoutXml}" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
             //Verified they're unchanged
-            Assert.AreEqual(LayoutDescriptor.Simple, mSut.SelectedLayout);
-            Assert.AreEqual(SimplePattern, mSut.Pattern);
+            Assert.AreEqual(expectedLayout, mSut.SelectedLayout.Type);
+            Assert.AreEqual(expectedPattern, mSut.Pattern);
         }
 
         [TestCase("<conversionPattern value=\"\" />\r\n")]
