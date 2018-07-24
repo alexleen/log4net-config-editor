@@ -1,14 +1,14 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Utilities;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Xml;
 
 namespace Editor.ConfigProperties
 {
@@ -28,20 +28,20 @@ namespace Editor.ConfigProperties
             if (required)
             {
                 Layouts = new[]
-                    {
+                {
                     LayoutDescriptor.Simple,
                     LayoutDescriptor.Pattern
-                    };
+                };
 
                 SelectedLayout = LayoutDescriptor.Simple;
             }
             else
             {
                 Layouts = new[]
-                    {
+                {
                     LayoutDescriptor.None,
-                LayoutDescriptor.Simple,
-                LayoutDescriptor.Pattern
+                    LayoutDescriptor.Simple,
+                    LayoutDescriptor.Pattern
                 };
 
                 SelectedLayout = LayoutDescriptor.None;

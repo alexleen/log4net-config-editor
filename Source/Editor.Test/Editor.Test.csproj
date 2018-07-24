@@ -93,6 +93,8 @@
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
     <Compile Include="ConfigProperties\PreserveExtensionTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
+    <Compile Include="ConfigProperties\RenderedClassTest.cs" />
+    <Compile Include="ConfigProperties\RenderingClassTest.cs" />
     <Compile Include="ConfigProperties\RollingStyleTest.cs" />
     <Compile Include="ConfigProperties\StaticLogFileNameTest.cs" />
     <Compile Include="ConfigProperties\StringMatchTest.cs" />
@@ -125,10 +127,13 @@
     <Compile Include="Definitions\Loggers\LoggerTest.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinitionTest.cs" />
     <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
+    <Compile Include="Definitions\Renderer\RendererDefinitionTest.cs" />
     <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
+    <Compile Include="Descriptors\RendererDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
+    <Compile Include="Models\RendererModelTest.cs" />
     <Compile Include="TestUtilities\EqualityTests.cs" />
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
 using Editor.Converters;
 using Editor.Descriptors;
 using NUnit.Framework;
-using System;
 
 namespace Editor.Test.Converters
 {

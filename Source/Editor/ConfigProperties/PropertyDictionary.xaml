@@ -140,7 +140,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-    </DataTemplate>    
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type FiltersProperties:CountDirection}">
         <Grid>
