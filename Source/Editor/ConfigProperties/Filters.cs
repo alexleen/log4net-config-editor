@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -17,7 +16,7 @@ using Editor.Windows.SizeLocation;
 
 namespace Editor.ConfigProperties
 {
-    public class Filters : PropertyBase
+    public partial class Filters : PropertyBase
     {
         private readonly IConfiguration mConfiguration;
         private readonly IMessageBoxService mMessageBoxService;
@@ -46,7 +45,7 @@ namespace Editor.ConfigProperties
 
         public IEnumerable<FilterDescriptor> AvailableFilters { get; }
 
-        public ObservableCollection<FilterModel> ExistingFilters { get; }
+        internal ObservableCollection<FilterModel> ExistingFilters { get; }
 
         public ICommand AddFilter { get; }
 
@@ -78,7 +77,7 @@ namespace Editor.ConfigProperties
 
             IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
 
-            ISaveStrategy saveStrategy = new FilterSaveStrategy(filterModel, Add, newFilter);
+            ISaveStrategy saveStrategy = new AddSaveStrategy<FilterModel>(filterModel, Add, newFilter);
 
             Window filterWindow = new ElementWindow(appenderConfiguration,
                                                     DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration),
@@ -135,30 +134,6 @@ namespace Editor.ConfigProperties
             foreach (FilterModel filter in ExistingFilters)
             {
                 newNode.AppendChild(filter.Node);
-            }
-        }
-
-        private class FilterSaveStrategy : ISaveStrategy
-        {
-            private readonly FilterModel mFilterModel;
-            private readonly Action<FilterModel> mAdd;
-            private readonly XmlElement mNewFilter;
-
-            public FilterSaveStrategy(FilterModel filterModel, Action<FilterModel> add, XmlElement newFilter)
-            {
-                mFilterModel = filterModel ?? throw new ArgumentNullException(nameof(filterModel));
-                mAdd = add ?? throw new ArgumentNullException(nameof(add));
-                mNewFilter = newFilter ?? throw new ArgumentNullException(nameof(newFilter));
-            }
-
-            public void Execute()
-            {
-                if (mFilterModel.Node == null)
-                {
-                    mAdd(mFilterModel);
-                }
-
-                mFilterModel.Node = mNewFilter;
             }
         }
     }

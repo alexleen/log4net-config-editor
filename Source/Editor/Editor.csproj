@@ -72,8 +72,10 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
+    <Compile Include="ConfigProperties\Params.cs" />
     <Compile Include="ConfigProperties\RenderedClass.cs" />
     <Compile Include="ConfigProperties\RenderingClass.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
@@ -150,6 +152,8 @@
     <Compile Include="Interfaces\IElementConfiguration.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Models\RendererModel.cs" />
+    <Compile Include="SaveStrategies\AddSaveStrategy.cs" />
+    <Compile Include="SaveStrategies\AppendReplaceSaveStrategy.cs" />
     <Compile Include="Windows\SizeLocation\AppenderWindowSizeLocation.cs" />
     <Compile Include="Windows\SizeLocation\FilterWindowSizeLocation.cs" />
     <Compile Include="Interfaces\IAppenderDefinition.cs" />

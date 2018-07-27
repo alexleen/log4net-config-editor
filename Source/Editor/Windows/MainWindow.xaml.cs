@@ -1,6 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -275,7 +274,7 @@ namespace Editor.Windows
 
             foreach (XmlNode param in paramList)
             {
-                children.Add(new ParamModel(param, param.Attributes?["name"].Value));
+                children.Add(new ParamModel(param));
             }
         }
 
@@ -413,7 +412,7 @@ namespace Editor.Windows
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppenderSaveStrategy(configuration))
+                                                            new AppendReplaceSaveStrategy(configuration))
                 { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
@@ -443,30 +442,6 @@ namespace Editor.Windows
         private void AddParamClick(object sender, RoutedEventArgs e)
         {
             OpenElementWindow(ParamDescriptor.Param, null);
-        }
-
-        private class AppenderSaveStrategy : ISaveStrategy
-        {
-            private readonly IElementConfiguration mConfiguration;
-
-            public AppenderSaveStrategy(IElementConfiguration configuration)
-            {
-                mConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            }
-
-            public void Execute()
-            {
-                if (mConfiguration.OriginalNode == null)
-                {
-                    //New node - add
-                    mConfiguration.Log4NetNode.AppendChild(mConfiguration.NewNode);
-                }
-                else
-                {
-                    //Edit - replace
-                    mConfiguration.Log4NetNode.ReplaceChild(mConfiguration.NewNode, mConfiguration.OriginalNode);
-                }
-            }
         }
     }
 

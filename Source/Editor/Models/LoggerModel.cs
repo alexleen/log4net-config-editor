@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace Editor.Models
 {
-    public class LoggerModel : ChildModel
+    internal class LoggerModel : ChildModel
     {
         public LoggerModel(string elementName, string name, XmlNode node, bool isEnabled)
             : base(elementName, node)

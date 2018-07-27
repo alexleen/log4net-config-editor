@@ -1,10 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Models.Base;
 using System.Xml;
 
 namespace Editor.Models
 {
-    public class ChildModel
+    internal class ChildModel : ModelBase
     {
         public ChildModel(string elementName, XmlNode node)
         {
@@ -13,7 +14,5 @@ namespace Editor.Models
         }
 
         public string ElementName { get; }
-
-        public XmlNode Node { get; }
     }
 }

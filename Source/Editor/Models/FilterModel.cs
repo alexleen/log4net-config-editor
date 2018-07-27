@@ -4,11 +4,12 @@ using System;
 using System.Windows.Input;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Models.Base;
 using Editor.Utilities;
 
 namespace Editor.Models
 {
-    public class FilterModel
+    internal class FilterModel : ModelBase
     {
         private readonly Action<FilterModel> mShowFilterWindow;
         private readonly Action<FilterModel> mRemove;
@@ -36,9 +37,7 @@ namespace Editor.Models
             MoveDown = new Command(MoveFilterDownOnClick);
         }
 
-        public FilterDescriptor Descriptor { get; }
-
-        public XmlNode Node { get; set; }
+        public FilterDescriptor Descriptor { get; }        
 
         public ICommand Edit { get; }
 
