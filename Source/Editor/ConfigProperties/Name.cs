@@ -10,13 +10,13 @@ namespace Editor.ConfigProperties
 {
     public class Name : StringValueProperty
     {
-        private readonly IElementConfiguration mAppenderConfiguration;
+        private readonly IElementConfiguration mConfiguration;
         private const string NameName = "name";
 
-        public Name(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration)
+        public Name(ReadOnlyCollection<IProperty> container, IElementConfiguration configuration)
             : base(container, "Name:", NameName)
         {
-            mAppenderConfiguration = appenderConfiguration;
+            mConfiguration = configuration;
             IsFocused = true;
         }
 
@@ -33,9 +33,9 @@ namespace Editor.ConfigProperties
                 return false;
             }
 
-            foreach (XmlNode appender in mAppenderConfiguration.Log4NetNode.SelectNodes("appender"))
+            foreach (XmlNode appender in mConfiguration.Log4NetNode.SelectNodes("appender"))
             {
-                if (!Equals(appender, mAppenderConfiguration.OriginalNode) && appender.Attributes?[NameName].Value == Value)
+                if (!Equals(appender, mConfiguration.OriginalNode) && appender.Attributes?[NameName].Value == Value)
                 {
                     messageBoxService.ShowError("Name must be unique.");
                     return false;

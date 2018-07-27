@@ -13,6 +13,11 @@ namespace Editor.ConfigProperties
     {
         private const string TypeName = "type";
 
+        public TypeAttribute(ReadOnlyCollection<IProperty> container)
+            : base(container, "Type:", null)
+        {
+        }
+
         public TypeAttribute(ReadOnlyCollection<IProperty> container, AppenderDescriptor descriptor)
             : base(container, "Type:", null)
         {

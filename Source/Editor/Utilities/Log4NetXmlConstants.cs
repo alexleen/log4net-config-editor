@@ -7,5 +7,6 @@ namespace Editor.Utilities
         public const string DebugAttributeName = "debug";
         public const string UpdateAttributeName = "update";
         public const string ThresholdAttributeName = "threshold";
+        public const string Param = "param";
     }
 }

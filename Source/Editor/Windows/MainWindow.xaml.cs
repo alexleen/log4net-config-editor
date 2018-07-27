@@ -223,6 +223,7 @@ namespace Editor.Windows
             bool unrecognized = LoadAppenders(children);
             LoadRenderers(children);
             children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode));
+            LoadParams(children);
 
             xChildren.ItemsSource = children;
 
@@ -265,6 +266,16 @@ namespace Editor.Windows
             foreach (XmlNode renderer in rendererList)
             {
                 children.Add(new RendererModel(renderer));
+            }
+        }
+
+        private void LoadParams(ICollection<ChildModel> children)
+        {
+            XmlNodeList paramList = mLog4NetNode.SelectNodes(ParamDescriptor.Param.ElementName);
+
+            foreach (XmlNode param in paramList)
+            {
+                children.Add(new ParamModel(param, param.Attributes?["name"].Value));
             }
         }
 
@@ -336,6 +347,10 @@ namespace Editor.Windows
             else if (dataContext is LoggerModel loggerModel)
             {
                 OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
+            }
+            else if (dataContext is ParamModel paramModel)
+            {
+                OpenElementWindow(ParamDescriptor.Param, paramModel.Node);
             }
             else if (dataContext is ChildModel childModel)
             {
@@ -423,6 +438,11 @@ namespace Editor.Windows
         private void AddLoggerClick(object sender, RoutedEventArgs e)
         {
             OpenElementWindow(LoggerDescriptor.Logger, null);
+        }
+
+        private void AddParamClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(ParamDescriptor.Param, null);
         }
 
         private class AppenderSaveStrategy : ISaveStrategy
