@@ -132,8 +132,9 @@
             <StackPanel Grid.Column="1">
                 <DockPanel>
                     <Button DockPanel.Dock="Right" Width="50" Height="21" Margin="0,5,5,5" Command="{Binding Open}">Open</Button>
-                    <TextBox Text="{Binding FilePath}" />                    
+                    <TextBox Text="{Binding FilePath}" />
                 </DockPanel>
+                <CheckBox IsChecked="{Binding PatternString}" Margin="0,0,0,5" ToolTip="Should be checked if filename contains a log4net pattern">Pattern String</CheckBox>
                 <StackPanel Orientation="Horizontal">
                     <RadioButton IsChecked="{Binding Overwrite, Converter={StaticResource BoolInvConv}}">Append</RadioButton>
                     <RadioButton IsChecked="{Binding Overwrite}" Margin="5,0">Overwrite</RadioButton>
