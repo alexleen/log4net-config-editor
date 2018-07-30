@@ -76,12 +76,12 @@ namespace Editor.ConfigProperties
         {
             XmlElement newFilter = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace);
 
-            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
+            IElementConfiguration configuration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
 
             ISaveStrategy saveStrategy = new AddSaveStrategy<FilterModel>(filterModel, Add, newFilter);
 
-            Window filterWindow = new ElementWindow(appenderConfiguration,
-                                                    DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration),
+            Window filterWindow = new ElementWindow(configuration,
+                                                    DefinitionFactory.Create(filterModel.Descriptor, configuration),
                                                     WindowSizeLocationFactory.Create(filterModel.Descriptor),
                                                     saveStrategy);
 

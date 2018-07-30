@@ -135,7 +135,7 @@ namespace Editor.Models
             unchecked
             {
                 //I shouldn't disable this, but I am in order to facilitate easier testing.
-                //Should we ever need to put thses in a set, this will need to be fixed.
+                //Should we ever need to put these in a set, this will need to be fixed.
                 // ReSharper disable NonReadonlyMemberInGetHashCode
                 int hashCode = Level.GetHashCode();
                 hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();

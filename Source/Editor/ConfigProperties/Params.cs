@@ -44,12 +44,12 @@ namespace Editor.ConfigProperties
         {
             XmlElement newParam = mConfiguration.ConfigXml.CreateElement(ParamDescriptor.Param.ElementName);
 
-            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfiguration, paramModel.Node, newParam);
+            IElementConfiguration configuration = new ElementConfiguration(mConfiguration, paramModel.Node, newParam);
 
             ISaveStrategy saveStrategy = new AddSaveStrategy<ParamModel>(paramModel, AddModel, newParam);
 
-            Window paramWindow = new ElementWindow(appenderConfiguration,
-                                                   DefinitionFactory.Create(ParamDescriptor.Param, appenderConfiguration),
+            Window paramWindow = new ElementWindow(configuration,
+                                                   DefinitionFactory.Create(ParamDescriptor.Param, configuration),
                                                    WindowSizeLocationFactory.Create(ParamDescriptor.Param),
                                                    saveStrategy);
 

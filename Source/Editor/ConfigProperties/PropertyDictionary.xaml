@@ -23,7 +23,7 @@
         </Style.Triggers>
     </Style>
 
-    <!--StringValueProperty-->
+    <!-- StringValueProperty -->
     <DataTemplate DataType="{x:Type Base:StringValueProperty}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -36,7 +36,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--BooleanPropertyBase-->
+    <!-- BooleanPropertyBase -->
     <DataTemplate DataType="{x:Type Base:BooleanPropertyBase}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--LevelPropertyBase-->
+    <!-- LevelPropertyBase -->
     <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -69,7 +69,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--ColorPropertyBase-->
+    <!-- ColorPropertyBase -->
     <DataTemplate DataType="{x:Type Base:ColorPropertyBase}">
         <DataTemplate.Resources>
             <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
@@ -108,7 +108,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--Target-->
+    <!-- Target -->
     <DataTemplate DataType="{x:Type ConfigProperties:Target}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -126,7 +126,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--File-->
+    <!-- File -->
     <DataTemplate DataType="{x:Type ConfigProperties:File}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -149,7 +149,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--CountDirection-->
+    <!-- CountDirection -->
     <DataTemplate DataType="{x:Type ConfigProperties:CountDirection}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -168,7 +168,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--LockingModel-->
+    <!-- LockingModel -->
     <DataTemplate DataType="{x:Type ConfigProperties:LockingModel}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -202,7 +202,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--RollingStyle-->
+    <!-- RollingStyle -->
     <DataTemplate DataType="{x:Type ConfigProperties:RollingStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -236,7 +236,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--Fix-->
+    <!-- Fix -->
     <DataTemplate DataType="{x:Type ConfigProperties:Fix}">
         <DataTemplate.Resources>
             <Converters:BoolToColorConverter x:Key="BoolToColConv"/>
@@ -288,7 +288,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--Mapping-->
+    <!-- Mapping -->
     <DataTemplate DataType="{x:Type ConfigProperties:Mapping}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -354,7 +354,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--Layout-->
+    <!-- Layout -->
     <DataTemplate DataType="{x:Type ConfigProperties:Layout}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -395,7 +395,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--Filters-->
+    <!-- Filters -->
     <DataTemplate DataType="{x:Type ConfigProperties:Filters}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -407,7 +407,7 @@
             <DockPanel Grid.Column="1" Margin="0,5,0,0">
                 <StackPanel DockPanel.Dock="Right">
                     <StackPanel.Resources>
-                        <!--Override the Label style defined above so that drop down button uses the default style-->
+                        <!-- Override the Label style defined above so that drop down button uses the default style -->
                         <Style TargetType="Label" />
                         <Style TargetType="Button">
                             <Setter Property="Width" Value="85" />
@@ -441,7 +441,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--RefsBase-->
+    <!-- RefsBase -->
     <DataTemplate DataType="{x:Type Base:RefsBase}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -463,6 +463,7 @@
         </Grid>
     </DataTemplate>
 
+    <!-- Params -->
     <DataTemplate DataType="{x:Type ConfigProperties:Params}">
         <Grid>
             <Grid.ColumnDefinitions>
