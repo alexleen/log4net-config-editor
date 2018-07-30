@@ -9,7 +9,7 @@ namespace Editor.Definitions.Appenders
     internal class FileAppender : AppenderSkeleton
     {
         internal FileAppender(IElementConfiguration configuration)
-            : base(configuration)
+            : base(configuration, false)
         {
         }
 
