@@ -11,10 +11,12 @@ namespace Editor.Definitions.Appenders
     internal abstract class AppenderSkeleton : ElementDefinition, IAppenderDefinition
     {
         protected readonly IElementConfiguration Configuration;
+        private readonly bool mRequiresLayout;
 
-        protected AppenderSkeleton(IElementConfiguration configuration)
+        protected AppenderSkeleton(IElementConfiguration configuration, bool requiresLayout = true)
         {
             Configuration = configuration;
+            mRequiresLayout = requiresLayout;
         }
 
         public override string Icon => "pack://application:,,,/Editor;component/Images/list-add.png";
@@ -30,7 +32,7 @@ namespace Editor.Definitions.Appenders
 
             AddAppenderSpecificProperties();
 
-            AddProperty(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>())));
+            AddProperty(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>()), mRequiresLayout));
             AddProperty(new ConfigProperties.Filters(Properties, Configuration, MessageBoxService));
             AddProperty(new IncomingRefs(Properties, nameProperty, Configuration));
         }

@@ -20,20 +20,34 @@ namespace Editor.ConfigProperties
         private const string ConversionPatternName = "conversionPattern";
         private string mOriginalPattern;
 
-        public Layout(ReadOnlyCollection<IProperty> container, IHistoryManager historyManager)
+        public Layout(ReadOnlyCollection<IProperty> container, IHistoryManager historyManager, bool required = true)
             : base(container, GridLength.Auto)
         {
             mHistoryManager = historyManager;
 
-            Layouts = new[]
+            if (required)
             {
-                LayoutDescriptor.Simple,
-                LayoutDescriptor.Pattern
-            };
+                Layouts = new[]
+                {
+                    LayoutDescriptor.Simple,
+                    LayoutDescriptor.Pattern
+                };
+
+                SelectedLayout = LayoutDescriptor.Simple;
+            }
+            else
+            {
+                Layouts = new[]
+                {
+                    LayoutDescriptor.None,
+                    LayoutDescriptor.Simple,
+                    LayoutDescriptor.Pattern
+                };
+
+                SelectedLayout = LayoutDescriptor.None;
+            }
 
             HistoricalLayouts = mHistoryManager.Get();
-
-            SelectedLayout = LayoutDescriptor.Simple;
         }
 
         public IEnumerable<LayoutDescriptor> Layouts { get; }
@@ -52,7 +66,11 @@ namespace Editor.ConfigProperties
                     return;
                 }
 
-                if (value == LayoutDescriptor.Simple || string.IsNullOrEmpty(mOriginalPattern))
+                if (value == LayoutDescriptor.None)
+                {
+                    Pattern = string.Empty;
+                }
+                else if (value == LayoutDescriptor.Simple || string.IsNullOrEmpty(mOriginalPattern))
                 {
                     Pattern = SimplePattern;
                 }
@@ -101,7 +119,7 @@ namespace Editor.ConfigProperties
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
         {
-            if (string.IsNullOrEmpty(Pattern))
+            if (string.IsNullOrEmpty(Pattern) && SelectedLayout != LayoutDescriptor.None)
             {
                 messageBoxService.ShowError("A pattern must be assigned to this appender.");
                 return false;
@@ -112,6 +130,11 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
+            if (SelectedLayout == LayoutDescriptor.None)
+            {
+                return;
+            }
+
             XmlNode layoutNode = xmlDoc.CreateElementWithAttribute(LayoutName, "type", SelectedLayout.TypeNamespace);
 
             if (SelectedLayout != LayoutDescriptor.Simple)

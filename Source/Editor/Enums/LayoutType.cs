@@ -4,6 +4,7 @@ namespace Editor.Enums
 {
     public enum LayoutType
     {
+        None,
         Simple,
         Pattern
     }

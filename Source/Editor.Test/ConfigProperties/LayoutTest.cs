@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
+using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using NSubstitute;
@@ -29,9 +30,17 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Ctor_ShouldInitLayoutsCorrectly()
+        public void Ctor_ShouldInitLayoutsCorrectly_WhenRequired()
         {
             CollectionAssert.AreEquivalent(new[] { LayoutDescriptor.Simple, LayoutDescriptor.Pattern }, mSut.Layouts);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitLayoutsCorrectly_WhenNotRequired()
+        {
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, false);
+
+            CollectionAssert.AreEquivalent(new[] { LayoutDescriptor.None, LayoutDescriptor.Simple, LayoutDescriptor.Pattern }, mSut.Layouts);
         }
 
         [Test]
@@ -47,9 +56,17 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Ctor_ShouldInitSelectedLayoutCorrectly()
+        public void Ctor_ShouldInitSelectedLayoutCorrectly_WhenRequired()
         {
             Assert.AreEqual(LayoutDescriptor.Simple, mSut.SelectedLayout);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitSelectedLayoutCorrectly_WhenNotRequired()
+        {
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, false);
+
+            Assert.AreEqual(LayoutDescriptor.None, mSut.SelectedLayout);
         }
 
         [Test]
@@ -74,6 +91,13 @@ namespace Editor.Test.ConfigProperties
         {
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
             Assert.AreEqual(SimplePattern, mSut.Pattern);
+        }
+
+        [Test]
+        public void SelectedLayout_ShouldSetEmptyPattern_WhenSetToNone()
+        {
+            mSut.SelectedLayout = LayoutDescriptor.None;
+            Assert.AreEqual(string.Empty, mSut.Pattern);
         }
 
         [Test]
@@ -128,37 +152,46 @@ namespace Editor.Test.ConfigProperties
             Assert.IsTrue(fired);
         }
 
-        [Test]
-        public void Load_ShouldLoadCorrectTypeAndPattern()
+        //Required = false
+        [TestCase(null, false, LayoutType.None, "")]
+        [TestCase("", false, LayoutType.None, "")]
+        [TestCase("<lay>\r\n" +
+                  "</lay>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout>\r\n" +
+                  "</layout>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout>\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout type=\"log4net.Layout.PatternLayout\">\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", false, LayoutType.Pattern, "%date{HH:mm:ss:fff} %message%newline")]
+        //Required = true
+        [TestCase(null, true, LayoutType.Simple, SimplePattern)]
+        [TestCase("", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<lay>\r\n" +
+                  "</lay>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout>\r\n" +
+                  "</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout>\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout type=\"log4net.Layout.PatternLayout\">\r\n" +
+                  "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
+                  "</layout>\r\n", true, LayoutType.Pattern, "%date{HH:mm:ss:fff} %message%newline")]
+        public void Load_ShouldLoadCorrectTypeAndPattern(string layoutXml, bool required, LayoutType expectedLayout, string expectedPattern)
         {
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, required);
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <layout type=\"log4net.Layout.PatternLayout\">\r\n" +
-                           "      <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                           "    </layout>\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(LayoutDescriptor.Pattern, mSut.SelectedLayout);
-            Assert.AreEqual("%date{HH:mm:ss:fff} %message%newline", mSut.Pattern);
-        }
-
-        [Test]
-        public void Load_ShouldNotChangeTypeOrPattern_WhenTypeIsUnknown()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <layout>\r\n" +
-                           "      <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                           "    </layout>\r\n" +
+                           $"    {layoutXml}" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
             //Verified they're unchanged
-            Assert.AreEqual(LayoutDescriptor.Simple, mSut.SelectedLayout);
-            Assert.AreEqual(SimplePattern, mSut.Pattern);
+            Assert.AreEqual(expectedLayout, mSut.SelectedLayout.Type);
+            Assert.AreEqual(expectedPattern, mSut.Pattern);
         }
 
         [TestCase("<conversionPattern value=\"\" />\r\n")]
@@ -182,7 +215,7 @@ namespace Editor.Test.ConfigProperties
 
         [TestCase("")]
         [TestCase(null)]
-        public void TryValidate_ShouldShowMessageBox_WhenPatternIsNullOrEmpty(string pattern)
+        public void TryValidate_ShouldShowMessageBox_WhenPatternIsNullOrEmpty_WhenRequired(string pattern)
         {
             mSut.Pattern = pattern;
 
@@ -195,11 +228,21 @@ namespace Editor.Test.ConfigProperties
 
         [TestCase("")]
         [TestCase(null)]
-        public void TryValidate_ShouldReturnFalse_WhenPatternIsNullOrEmpty(string pattern)
+        public void TryValidate_ShouldReturnFalse_WhenPatternIsNullOrEmpty_WhenRequired(string pattern)
         {
             mSut.Pattern = pattern;
 
             Assert.IsFalse(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void TryValidate_ShouldReturnTrue_WhenPatternIsNullOrEmpty_WhenNoneIsSelected(string pattern)
+        {
+            mSut.SelectedLayout = LayoutDescriptor.None;
+            mSut.Pattern = pattern;
+
+            Assert.IsTrue(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
         }
 
         [Test]
@@ -254,6 +297,18 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(appender[LayoutName][ConversionPatternName]);
             Assert.AreEqual(mSut.Pattern, appender[LayoutName][ConversionPatternName].Attributes["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldNotSaveLayout_WhenNoneIsSelected()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.SelectedLayout = LayoutDescriptor.None;
+            mSut.Save(xmlDoc, appender);
+
+            CollectionAssert.IsEmpty(appender.ChildNodes);
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace Editor.Converters
         {
             if (value is LayoutDescriptor descriptor)
             {
-                return descriptor != LayoutDescriptor.Simple;
+                return !(descriptor == LayoutDescriptor.Simple || descriptor == LayoutDescriptor.None);
             }
 
             return null;
