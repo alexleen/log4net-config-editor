@@ -46,7 +46,7 @@ namespace Editor.ConfigProperties
 
         public IEnumerable<FilterDescriptor> AvailableFilters { get; }
 
-        internal ObservableCollection<FilterModel> ExistingFilters { get; }
+        public ObservableCollection<FilterModel> ExistingFilters { get; }
 
         public ICommand AddFilter { get; }
 

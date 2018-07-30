@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.Models
 {
-    internal class FilterModel : ModelBase
+    public class FilterModel : ModelBase
     {
         private readonly Action<FilterModel> mShowFilterWindow;
         private readonly Action<FilterModel> mRemove;

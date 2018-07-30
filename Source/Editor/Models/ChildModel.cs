@@ -5,7 +5,7 @@ using Editor.Models.Base;
 
 namespace Editor.Models
 {
-    internal class ChildModel : ModelBase
+    public class ChildModel : ModelBase
     {
         public ChildModel(string elementName, XmlNode node)
         {

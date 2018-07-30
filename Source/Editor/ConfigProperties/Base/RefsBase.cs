@@ -21,6 +21,6 @@ namespace Editor.ConfigProperties.Base
 
         public string Description { get; }
 
-        internal ObservableCollection<LoggerModel> RefsCollection { get; set; }
+        public ObservableCollection<LoggerModel> RefsCollection { get; set; }
     }
 }
