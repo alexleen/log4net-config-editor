@@ -37,7 +37,7 @@ namespace Editor.Models
             MoveDown = new Command(MoveFilterDownOnClick);
         }
 
-        public FilterDescriptor Descriptor { get; }        
+        public FilterDescriptor Descriptor { get; }
 
         public ICommand Edit { get; }
 

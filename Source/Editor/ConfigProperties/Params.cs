@@ -1,15 +1,18 @@
-﻿using Editor.ConfigProperties.Base;
-using Editor.Definitions.Factory;
-using Editor.Descriptors;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Utilities;
-using Editor.Windows;
-using Editor.Windows.SizeLocation;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
+using Editor.ConfigProperties.Base;
+using Editor.Definitions.Factory;
+using Editor.Descriptors;
+using Editor.Interfaces;
+using Editor.Models;
+using Editor.SaveStrategies;
+using Editor.Utilities;
+using Editor.Windows;
+using Editor.Windows.SizeLocation;
 
 namespace Editor.ConfigProperties
 {
@@ -46,9 +49,9 @@ namespace Editor.ConfigProperties
             ISaveStrategy saveStrategy = new AddSaveStrategy<ParamModel>(paramModel, AddModel, newParam);
 
             Window paramWindow = new ElementWindow(appenderConfiguration,
-                                                    DefinitionFactory.Create(ParamDescriptor.Param, appenderConfiguration),
-                                                    WindowSizeLocationFactory.Create(ParamDescriptor.Param),
-                                                    saveStrategy);
+                                                   DefinitionFactory.Create(ParamDescriptor.Param, appenderConfiguration),
+                                                   WindowSizeLocationFactory.Create(ParamDescriptor.Param),
+                                                   saveStrategy);
 
             mMessageBoxService.ShowWindow(paramWindow);
         }

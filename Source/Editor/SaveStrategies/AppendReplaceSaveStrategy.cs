@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
 using System;
+using Editor.Interfaces;
 
-namespace Editor.Windows
+namespace Editor.SaveStrategies
 {
     internal class AppendReplaceSaveStrategy : ISaveStrategy
     {

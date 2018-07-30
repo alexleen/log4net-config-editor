@@ -14,6 +14,7 @@ using Editor.Descriptors.Base;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows.SizeLocation;
 using log4net.Core;

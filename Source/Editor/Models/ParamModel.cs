@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors;
-using Editor.Utilities;
 using System;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Utilities;
 
 namespace Editor.Models
 {

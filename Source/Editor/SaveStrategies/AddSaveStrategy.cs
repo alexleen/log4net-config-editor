@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
-using Editor.Models.Base;
 using System;
 using System.Xml;
+using Editor.Interfaces;
+using Editor.Models.Base;
 
-namespace Editor.ConfigProperties
+namespace Editor.SaveStrategies
 {
     internal class AddSaveStrategy<TModelType> : ISaveStrategy where TModelType : ModelBase
     {

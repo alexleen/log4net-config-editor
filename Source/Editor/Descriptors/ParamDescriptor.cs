@@ -1,4 +1,6 @@
-﻿using Editor.Descriptors.Base;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.Descriptors.Base;
 using Editor.Utilities;
 
 namespace Editor.Descriptors

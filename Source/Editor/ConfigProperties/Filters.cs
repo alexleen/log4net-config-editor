@@ -10,13 +10,14 @@ using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.SizeLocation;
 
 namespace Editor.ConfigProperties
 {
-    public partial class Filters : PropertyBase
+    public class Filters : PropertyBase
     {
         private readonly IConfiguration mConfiguration;
         private readonly IMessageBoxService mMessageBoxService;
