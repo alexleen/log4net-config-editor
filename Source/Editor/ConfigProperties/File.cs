@@ -1,12 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
-using Editor.Utilities;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
