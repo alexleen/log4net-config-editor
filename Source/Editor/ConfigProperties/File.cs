@@ -14,6 +14,8 @@ namespace Editor.ConfigProperties
     {
         private const string FileName = "file";
         private const string AppendToFileName = "appendToFile";
+        private const string TypeName = "type";
+        private const string PatternStringTypeName = "log4net.Util.PatternString";
         private readonly IMessageBoxService mMessageBoxService;
 
         public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService)
@@ -38,6 +40,23 @@ namespace Editor.ConfigProperties
                 }
 
                 mFilePath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool mPatternString;
+
+        public bool PatternString
+        {
+            get => mPatternString;
+            set
+            {
+                if (value == mPatternString)
+                {
+                    return;
+                }
+
+                mPatternString = value;
                 OnPropertyChanged();
             }
         }
@@ -77,6 +96,8 @@ namespace Editor.ConfigProperties
                 FilePath = file;
             }
 
+            PatternString = originalNode[FileName]?.Attributes[TypeName]?.Value == PatternStringTypeName;
+
             string appendToFile = originalNode.GetValueAttributeValueFromChildElement(AppendToFileName);
             if (!string.IsNullOrEmpty(appendToFile) && bool.TryParse(appendToFile, out bool append))
             {
@@ -97,7 +118,14 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(FileName, FilePath).AppendTo(newNode);
+            XmlElement fileElement = xmlDoc.CreateElementWithValueAttribute(FileName, FilePath);
+
+            if (PatternString)
+            {
+                fileElement.AppendAttribute(xmlDoc, TypeName, PatternStringTypeName);
+            }
+
+            fileElement.AppendTo(newNode);
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (Overwrite)

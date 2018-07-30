@@ -8,11 +8,12 @@ namespace Editor.Descriptors
 {
     public class LayoutDescriptor : DescriptorBase
     {
-        public static readonly LayoutDescriptor Simple, Pattern;
+        public static readonly LayoutDescriptor None, Simple, Pattern;
         private static readonly IDictionary<string, LayoutDescriptor> sDescriptorsByTypeNamespace;
 
         static LayoutDescriptor()
         {
+            None = new LayoutDescriptor("None", LayoutType.None, null);
             Simple = new LayoutDescriptor("Simple", LayoutType.Simple, "log4net.Layout.SimpleLayout");
             Pattern = new LayoutDescriptor("Pattern", LayoutType.Pattern, "log4net.Layout.PatternLayout");
 

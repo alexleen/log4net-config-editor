@@ -60,6 +60,14 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Properties_ShouldBeInitializedCorrectly()
+        {
+            Assert.IsNull(mSut.FilePath);
+            Assert.IsFalse(mSut.PatternString);
+            Assert.IsFalse(mSut.Overwrite);
+        }
+
+        [Test]
         public void FilePath_ShouldNotFirePropChange_WhenValueHasNotChanged()
         {
             mSut.FilePath = "filepath";
@@ -84,6 +92,33 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsTrue(fired);
             Assert.AreEqual("newfilepath", mSut.FilePath);
+        }
+
+        [Test]
+        public void PatternString_ShouldNotFirePropChange_WhenValueHasNotChanged()
+        {
+            mSut.PatternString = true;
+
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.PatternString = true;
+
+            Assert.IsFalse(fired);
+        }
+
+        [Test]
+        public void PatternString_ShouldFirePropChange_AndChange_WhenValueHasChanged()
+        {
+            mSut.PatternString = true;
+
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.PatternString = false;
+
+            Assert.IsTrue(fired);
+            Assert.IsFalse(mSut.PatternString);
         }
 
         [Test]
@@ -156,6 +191,23 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual("file.log", mSut.FilePath);
         }
 
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("type=\"\"", false)]
+        [TestCase("type=\"whatev\"", false)]
+        [TestCase("type=\"log4net.Util.PatternString\"", true)]
+        public void Load_ShouldLoadPatternStringCorrectly(string xml, bool expected)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender type=\"log4net.Appender.FileAppender\" name=\"file\">\n" +
+                           $"    <file value=\"file.log\" {xml}/>\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.AreEqual(expected, mSut.PatternString);
+        }
+
         [TestCase("<appendToFile value=\"true\" />", false)]
         [TestCase("<appendToFile value=\"True\" />", false)]
         [TestCase("<appendToFile value=\"TRUE\" />", false)]
@@ -205,6 +257,34 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(fileNode);
             Assert.AreEqual("filepath", fileNode.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldSavePatternString_WhenPatternStringIsTrue()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.PatternString = true;
+            mSut.Save(xmlDoc, appender);
+
+            XmlNode fileNode = appender.SelectSingleNode("file");
+
+            Assert.AreEqual("log4net.Util.PatternString", fileNode.Attributes["type"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldNotSavePatternString_WhenPatternStringIsFalse()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.PatternString = false;
+            mSut.Save(xmlDoc, appender);
+
+            XmlNode fileNode = appender.SelectSingleNode("file");
+
+            Assert.IsNull(fileNode.Attributes["type"]);
         }
 
         [Test]
