@@ -281,6 +281,8 @@
   <ItemGroup>
     <Resource Include="Images\fill-color.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\run-build-configure.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

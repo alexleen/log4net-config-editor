@@ -17,7 +17,7 @@ namespace Editor.Definitions.Param
 
         public override string Name => "Param";
 
-        public override string Icon => "pack://application:,,,/Editor;component/Images/list-add.png";
+        public override string Icon => "pack://application:,,,/Editor;component/Images/run-build-configure.png";
 
         public override void Initialize()
         {
