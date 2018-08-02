@@ -9,6 +9,8 @@ namespace Editor.Interfaces
     /// </summary>
     public interface IMessageBoxService
     {
+        void ShowWarning(string message);
+
         /// <summary>
         /// Shows a Windows message box with an OK button and an Error icon along with the specified message.
         /// </summary>

@@ -1,14 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
@@ -17,21 +8,27 @@ using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows.SizeLocation;
-using log4net.Core;
+using Editor.XML;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Editor.Windows
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : IMessageBoxService
     {
         private const string UpdateMerge = "Merge";
         private const string UpdateOverwrite = "Overwrite";
-        private XmlDocument mConfigXml;
-        private XmlNode mLog4NetNode;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
+        private IConfigurationXml mConfigurationXml;
 
         public MainWindow()
             : base("MainWindowPlacement")
@@ -136,44 +133,7 @@ namespace Editor.Windows
 
         private void SaveToFile()
         {
-            SaveRootAttributes();
-
-            using (XmlTextWriter xtw = new XmlTextWriter((string)xConfigComboBox.SelectedItem, Encoding.UTF8) { Formatting = Formatting.Indented })
-            {
-                mConfigXml.Save(xtw);
-            }
-        }
-
-        private void SaveRootAttributes()
-        {
-            if (xDebugCheckBox.IsChecked.HasValue && xDebugCheckBox.IsChecked.Value)
-            {
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.DebugAttributeName, "true");
-            }
-            else
-            {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.DebugAttributeName);
-            }
-
-            if (Equals(xUpdateComboBox.SelectedItem, UpdateOverwrite))
-            {
-                //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.UpdateAttributeName, UpdateOverwrite);
-            }
-            else
-            {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.UpdateAttributeName);
-            }
-
-            if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
-            {
-                //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.ThresholdAttributeName, (string)xThresholdComboBox.SelectedItem);
-            }
-            else
-            {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.ThresholdAttributeName);
-            }
+            mConfigurationXml.Save();
         }
 
         private void ReloadFromFile()
@@ -181,139 +141,15 @@ namespace Editor.Windows
             LoadFromFile((string)xConfigComboBox.SelectedItem);
         }
 
-        private void LoadFromFile(string fileName)
+        private void LoadFromRam()
         {
-            mConfigXml = new XmlDocument();
-            mConfigXml.Load(fileName);
-
-            bool? unrecognizedAppender = LoadFromRam();
-
-            if (unrecognizedAppender.HasValue && unrecognizedAppender.Value)
-            {
-                MessageBox.Show(this, "At least one unrecognized appender was found in this configuration.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            mConfigurationXml.Reload();
         }
 
-        /// <summary>
-        /// Loads current state of <see cref="mConfigXml"/> into view.
-        /// Overwrites any existing values in the view not saved to <see cref="mConfigXml"/>.
-        /// Returns true if an unrecognized/unsupported appender was found.
-        /// Returns null if configuration can not be loaded.
-        /// </summary>
-        /// <returns></returns>
-        private bool? LoadFromRam()
+        private void LoadFromFile(string filename)
         {
-            XmlNodeList log4NetNodes = mConfigXml.SelectNodes("//log4net");
-
-            if (log4NetNodes == null || log4NetNodes.Count == 0)
-            {
-                MessageBox.Show(this, "Could not find log4net configuration.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return null;
-            }
-
-            if (log4NetNodes.Count > 1)
-            {
-                MessageBox.Show(this, "More than one 'log4net' element was found in the specified file. Using the first occurrence.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-
-            mLog4NetNode = log4NetNodes[0];
-
-            List<ChildModel> children = new List<ChildModel>();
-
-            bool unrecognized = LoadAppenders(children);
-            LoadRenderers(children);
-            children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode));
-
-            xChildren.ItemsSource = children;
-
-            xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(mLog4NetNode);
-
-            LoadRootAttributes();
-
-            return unrecognized;
-        }
-
-        private bool LoadAppenders(ICollection<ChildModel> children)
-        {
-            //Only selects appenders under this log4net element
-            XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
-
-            bool unrecognized = false;
-
-            if (appenderList != null)
-            {
-                foreach (XmlNode node in appenderList)
-                {
-                    if (TryCreate(node, out AppenderModel model))
-                    {
-                        children.Add(model);
-                    }
-                    else
-                    {
-                        unrecognized = true;
-                    }
-                }
-            }
-
-            return unrecognized;
-        }
-
-        private void LoadRenderers(ICollection<ChildModel> children)
-        {
-            XmlNodeList rendererList = mLog4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
-
-            foreach (XmlNode renderer in rendererList)
-            {
-                children.Add(new RendererModel(renderer));
-            }
-        }
-
-        private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
-        {
-            string type = appender.Attributes?["type"]?.Value;
-
-            if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
-            {
-                string name = appender.Attributes?["name"].Value;
-                int incomingReferences = mLog4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
-                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
-                return true;
-            }
-
-            appenderModel = null;
-            return false;
-        }
-
-        private void LoadRootAttributes()
-        {
-            if (bool.TryParse(mLog4NetNode.Attributes?[Log4NetXmlConstants.DebugAttributeName]?.Value, out bool debugResult) && debugResult)
-            {
-                xDebugCheckBox.IsChecked = true;
-            }
-            else
-            {
-                xDebugCheckBox.IsChecked = false;
-            }
-
-            string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.UpdateAttributeName]?.Value;
-
-            if (Equals(update, UpdateOverwrite))
-            {
-                xUpdateComboBox.SelectedItem = UpdateOverwrite;
-            }
-            else
-            {
-                xUpdateComboBox.SelectedItem = UpdateMerge;
-            }
-
-            if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.ThresholdAttributeName]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
-            {
-                xThresholdComboBox.SelectedItem = levelResult.Name;
-            }
-            else
-            {
-                xThresholdComboBox.SelectedItem = Level.All.Name;
-            }
+            mConfigurationXml = new ConfigurationXml(filename, this);
+            mConfigurationXml.Load();
         }
 
         private void AddAppenderItemOnClick(object appender)
@@ -327,19 +163,19 @@ namespace Editor.Windows
 
             if (dataContext is AppenderModel appenderModel)
             {
-                OpenElementWindow(appenderModel.Descriptor, appenderModel.Node);
+                OpenElementWindow(appenderModel.Descriptor, appenderModel);
             }
             else if (dataContext is RendererModel rendererModel)
             {
-                OpenElementWindow(RendererDescriptor.Renderer, rendererModel.Node);
+                OpenElementWindow(RendererDescriptor.Renderer, rendererModel);
             }
             else if (dataContext is LoggerModel loggerModel)
             {
-                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
+                OpenElementWindow(LoggerDescriptor.Logger, loggerModel);
             }
             else if (dataContext is ChildModel childModel)
             {
-                OpenElementWindow(LoggerDescriptor.Root, childModel.Node);
+                OpenElementWindow(LoggerDescriptor.Root, childModel);
             }
         }
 
@@ -347,11 +183,11 @@ namespace Editor.Windows
         {
             foreach (ChildModel childModel in xChildren.SelectedItems)
             {
-                mLog4NetNode.RemoveChild(childModel.Node);
+                mConfigurationXml.Children.Remove(childModel);
 
                 if (childModel is AppenderModel appenderModel)
                 {
-                    RemoveRefsTo(appenderModel);
+                    mConfigurationXml.RemoveRefsTo(appenderModel);
                 }
             }
 
@@ -364,20 +200,11 @@ namespace Editor.Windows
             {
                 if (childModel is AppenderModel appenderModel)
                 {
-                    RemoveRefsTo(appenderModel);
+                    mConfigurationXml.RemoveRefsTo(appenderModel);
                 }
             }
 
             LoadFromRam();
-        }
-
-        private void RemoveRefsTo(AppenderModel appenderModel)
-        {
-            //Remove all appender refs
-            foreach (XmlNode refModel in XmlUtilities.FindAppenderRefs(mLog4NetNode, appenderModel.Name))
-            {
-                refModel.ParentNode?.RemoveChild(refModel);
-            }
         }
 
         private void AddRefsButtonOnItemClick(object obj)
@@ -386,21 +213,24 @@ namespace Editor.Windows
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
-                XmlUtilities.AddAppenderRefToNode(mConfigXml, destination.Node, appenderModel.Name);
+                XmlUtilities.AddAppenderRefToNode(mConfigurationXml.ConfigXml, destination.Node, appenderModel.Name);
             }
 
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode)
+        private void OpenElementWindow(DescriptorBase descriptor, ChildModel model)
         {
-            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(descriptor.ElementName));
+            IElementConfiguration configuration = mConfigurationXml.CreateElementConfigurationFor(model, descriptor);
+
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppenderSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
+
             elementWindow.ShowDialog();
+
             LoadFromRam();
         }
 
@@ -425,6 +255,47 @@ namespace Editor.Windows
             OpenElementWindow(LoggerDescriptor.Logger, null);
         }
 
+        #region IMessageBoxService
+
+        public void ShowError(string message)
+        {
+            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public void ShowWarning(string message)
+        {
+            MessageBox.Show(this, message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        public void ShowInformation(string message)
+        {
+            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ShowWindow(Window window)
+        {
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
+        public bool? ShowOpenFileDialog(out string fileName)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool? showDialog = ofd.ShowDialog();
+
+            if (showDialog.HasValue && showDialog.Value)
+            {
+                fileName = ofd.FileName;
+                return true;
+            }
+
+            fileName = null;
+            return showDialog;
+        }
+
+        #endregion
+
         private class AppenderSaveStrategy : ISaveStrategy
         {
             private readonly IElementConfiguration mConfiguration;
@@ -448,29 +319,5 @@ namespace Editor.Windows
                 }
             }
         }
-    }
-
-    internal class ElementConfiguration : IElementConfiguration
-    {
-        public ElementConfiguration(XmlDocument xmlDocument, XmlNode log4NetNode, XmlNode originalNode, XmlNode newNode)
-        {
-            ConfigXml = xmlDocument;
-            Log4NetNode = log4NetNode;
-            OriginalNode = originalNode;
-            NewNode = newNode;
-        }
-
-        public ElementConfiguration(IConfiguration configuration, XmlNode originalNode, XmlNode newNode)
-            : this(configuration.ConfigXml, configuration.Log4NetNode, originalNode, newNode)
-        {
-        }
-
-        public XmlNode OriginalNode { get; }
-
-        public XmlNode NewNode { get; }
-
-        public XmlDocument ConfigXml { get; }
-
-        public XmlNode Log4NetNode { get; }
     }
 }

@@ -142,10 +142,12 @@
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="Enums\LoggerType.cs" />
+    <Compile Include="Enums\Update.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Interfaces\IElementConfiguration.cs" />
     <Compile Include="Models\RendererModel.cs" />
+    <Compile Include="XML\ElementConfiguration.cs" />
     <Compile Include="Windows\SizeLocation\AppenderWindowSizeLocation.cs" />
     <Compile Include="Windows\SizeLocation\FilterWindowSizeLocation.cs" />
     <Compile Include="Interfaces\IAppenderDefinition.cs" />
@@ -197,6 +199,8 @@
     <Compile Include="HistoryManager\HistoricalValue.cs" />
     <Compile Include="Utilities\GridHelper.cs" />
     <Compile Include="Windows\SizeRetentionWindow.cs" />
+    <Compile Include="XML\ConfigurationXml.cs" />
+    <Compile Include="XML\IConfigurationXml.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

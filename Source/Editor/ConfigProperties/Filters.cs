@@ -14,6 +14,7 @@ using Editor.Models;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.SizeLocation;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {

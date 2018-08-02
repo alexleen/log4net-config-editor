@@ -115,6 +115,11 @@ namespace Editor.Windows
             Close();
         }
 
+        public void ShowWarning(string message)
+        {
+            throw new NotImplementedException();
+        }
+
         #region IMessageBoxService
 
         public void ShowError(string message)
