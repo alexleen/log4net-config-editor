@@ -28,7 +28,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes?[TypeName]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes[TypeName]?.Value);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

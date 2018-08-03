@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Descriptors;
+using Editor.Utilities;
 using System;
 using System.Windows.Input;
 using System.Xml;
-using Editor.Descriptors;
-using Editor.Utilities;
 
 namespace Editor.Models
 {
@@ -25,11 +25,11 @@ namespace Editor.Models
             Remove = new Command(RemoveFilterOnClick);
         }
 
-        public string Name => Node.Attributes?["name"].Value;
+        public string Name => Node.Attributes[Log4NetXmlConstants.Name]?.Value;
 
-        public string Value => Node.Attributes?["value"].Value;
+        public string Value => Node.Attributes[Log4NetXmlConstants.Value]?.Value;
 
-        public string Type => Node.Attributes?["type"].Value;
+        public string Type => Node.Attributes[Log4NetXmlConstants.Type]?.Value;
 
         public ICommand Edit { get; }
 

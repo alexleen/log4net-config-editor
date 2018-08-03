@@ -63,6 +63,22 @@ namespace Editor.Test.ConfigProperties
             Assert.IsTrue(mSut.IsReadOnly);
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("type=\"\"")]
+        public void Load_ShouldNotLoadType_RegularCtor(string xml)
+        {
+            mSut = new TypeAttribute(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {xml}>\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.IsNull(mSut.Value);
+        }
+
         [Test]
         public void Load_ShouldLoadCorrectType()
         {

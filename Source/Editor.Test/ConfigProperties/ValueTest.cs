@@ -33,6 +33,20 @@ namespace Editor.Test.ConfigProperties
             Assert.IsNull(mSut.Value);
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("value=\"\"")]
+        public void Load_ShouldNotLoadValue(string xml)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {xml}>\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.IsNull(mSut.Value);
+        }
+
         [Test]
         public void Load_ShouldLoadCorrectValue()
         {

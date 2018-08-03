@@ -148,31 +148,31 @@ namespace Editor.Windows
         {
             if (xDebugCheckBox.IsChecked.HasValue && xDebugCheckBox.IsChecked.Value)
             {
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.DebugAttributeName, "true");
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
             }
             else
             {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.DebugAttributeName);
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
             }
 
             if (Equals(xUpdateComboBox.SelectedItem, UpdateOverwrite))
             {
                 //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.UpdateAttributeName, UpdateOverwrite);
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, UpdateOverwrite);
             }
             else
             {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.UpdateAttributeName);
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
             }
 
             if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
             {
                 //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.ThresholdAttributeName, (string)xThresholdComboBox.SelectedItem);
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, (string)xThresholdComboBox.SelectedItem);
             }
             else
             {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.ThresholdAttributeName);
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
             }
         }
 
@@ -297,7 +297,7 @@ namespace Editor.Windows
 
         private void LoadRootAttributes()
         {
-            if (bool.TryParse(mLog4NetNode.Attributes?[Log4NetXmlConstants.DebugAttributeName]?.Value, out bool debugResult) && debugResult)
+            if (bool.TryParse(mLog4NetNode.Attributes?[Log4NetXmlConstants.Debug]?.Value, out bool debugResult) && debugResult)
             {
                 xDebugCheckBox.IsChecked = true;
             }
@@ -306,7 +306,7 @@ namespace Editor.Windows
                 xDebugCheckBox.IsChecked = false;
             }
 
-            string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.UpdateAttributeName]?.Value;
+            string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.Update]?.Value;
 
             if (Equals(update, UpdateOverwrite))
             {
@@ -317,7 +317,7 @@ namespace Editor.Windows
                 xUpdateComboBox.SelectedItem = UpdateMerge;
             }
 
-            if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.ThresholdAttributeName]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
+            if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.Threshold]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
             {
                 xThresholdComboBox.SelectedItem = levelResult.Name;
             }
