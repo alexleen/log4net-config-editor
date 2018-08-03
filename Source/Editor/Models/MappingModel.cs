@@ -5,12 +5,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel>, INotifyPropertyChanged
+    public sealed class MappingModel : ModelBase, IEquatable<MappingModel>, INotifyPropertyChanged
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
@@ -48,7 +49,7 @@ namespace Editor.Models
 
         private XmlNode mNode;
 
-        public XmlNode Node
+        public override XmlNode Node
         {
             get => mNode;
             set
@@ -147,7 +148,7 @@ namespace Editor.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

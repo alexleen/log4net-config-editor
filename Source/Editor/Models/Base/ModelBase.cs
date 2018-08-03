@@ -6,6 +6,6 @@ namespace Editor.Models.Base
 {
     public class ModelBase
     {
-        public XmlNode Node { get; set; }
+        public virtual XmlNode Node { get; set; }
     }
 }

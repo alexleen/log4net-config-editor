@@ -21,7 +21,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes?[Log4NetXmlConstants.Name]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes[Log4NetXmlConstants.Name]?.Value);
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
