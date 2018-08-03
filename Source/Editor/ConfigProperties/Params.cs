@@ -70,11 +70,6 @@ namespace Editor.ConfigProperties
         {
             XmlNodeList paramNodes = originalNode.SelectNodes(Log4NetXmlConstants.Param);
 
-            if (paramNodes == null)
-            {
-                return;
-            }
-
             foreach (XmlNode paramNode in paramNodes)
             {
                 AddModel(new ParamModel(paramNode, ShowParamWindow, RemoveModel));

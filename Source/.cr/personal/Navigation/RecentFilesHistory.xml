@@ -2,7 +2,7 @@
 <Root Type="DevExpress.CodeRush.Foundation.Navigation.QuickFileNav.SolutionFileInfosContainer">
   <Options Language="Neutral">
     <Items>
-      <Item Id="{e4225c0b-5b37-4aaa-95ca-e6b0fdfa69d5}">
+      <Item Id="{5848d27a-0c4e-4481-b2ec-dba05e82eb34}">
         <Filename>LoggerModel.cs</Filename>
         <FilePath>d:\github\log4net-config-editor\source\editor\models\loggermodel.cs</FilePath>
         <Folders>

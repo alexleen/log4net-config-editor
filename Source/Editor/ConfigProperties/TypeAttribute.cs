@@ -33,7 +33,10 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newNode.AppendAttribute(xmlDoc, TypeName, Value);
+            if (!string.IsNullOrEmpty(Value))
+            {
+                newNode.AppendAttribute(xmlDoc, TypeName, Value);
+            }
         }
     }
 }

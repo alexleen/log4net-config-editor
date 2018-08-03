@@ -91,6 +91,7 @@
     <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
+    <Compile Include="ConfigProperties\ParamsTest.cs" />
     <Compile Include="ConfigProperties\PreserveExtensionTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
     <Compile Include="ConfigProperties\RenderedClassTest.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="ConfigProperties\TargetTest.cs" />
     <Compile Include="ConfigProperties\ThresholdTest.cs" />
     <Compile Include="ConfigProperties\TypeAttributeTest.cs" />
+    <Compile Include="ConfigProperties\ValueTest.cs" />
     <Compile Include="Converters\BoolInterverConverterTest.cs" />
     <Compile Include="Converters\BoolToColorConverterTest.cs" />
     <Compile Include="Converters\CapsDelimiterConverterTest.cs" />
