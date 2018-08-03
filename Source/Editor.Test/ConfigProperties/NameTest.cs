@@ -102,6 +102,18 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void TryValidate_ShouldNotShowCollisionMessageBox_WhenOtherAppenderHasNoName()
+        {
+            mSut.Value = "appName";
+            mXmlDoc.CreateElement("appender").AppendTo(mLog4NetNode);
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsTrue(mSut.TryValidate(messageBoxService));
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+        }
+
+        [Test]
         public void TryValidate_ShouldNotShowCollisionMessageBox_WhenAppenderNameCollides_ButIsSameAppender()
         {
             mSut.Load(mOriginalAppender);

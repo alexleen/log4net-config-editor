@@ -11,10 +11,9 @@ namespace Editor.ConfigProperties
     public class Name : StringValueProperty
     {
         private readonly IElementConfiguration mConfiguration;
-        private const string NameName = "name";
 
         public Name(ReadOnlyCollection<IProperty> container, IElementConfiguration configuration)
-            : base(container, "Name:", NameName)
+            : base(container, "Name:", Log4NetXmlConstants.Name)
         {
             mConfiguration = configuration;
             IsFocused = true;
@@ -22,7 +21,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes?[NameName]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes?[Log4NetXmlConstants.Name]?.Value);
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
@@ -35,7 +34,7 @@ namespace Editor.ConfigProperties
 
             foreach (XmlNode appender in mConfiguration.Log4NetNode.SelectNodes("appender"))
             {
-                if (!Equals(appender, mConfiguration.OriginalNode) && appender.Attributes?[NameName].Value == Value)
+                if (!Equals(appender, mConfiguration.OriginalNode) && appender.Attributes[Log4NetXmlConstants.Name]?.Value == Value)
                 {
                     messageBoxService.ShowError("Name must be unique.");
                     return false;
@@ -47,7 +46,7 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newNode.AppendAttribute(xmlDoc, NameName, Value);
+            newNode.AppendAttribute(xmlDoc, Log4NetXmlConstants.Name, Value);
         }
     }
 }
