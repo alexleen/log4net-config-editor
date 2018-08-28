@@ -10,14 +10,6 @@ namespace Editor.Test.SaveStrategies
     [TestFixture]
     public class AppendReplaceSaveStrategyTest
     {
-        //private AppendReplaceSaveStrategy mSut;
-
-        //[SetUp]
-        //public void SetUp()
-        //{
-        //    mSut = new AppendReplaceSaveStrategy();
-        //}
-
         [Test]
         public void Ctor_ShouldThrow_WhenConfigurationIsNull()
         {
