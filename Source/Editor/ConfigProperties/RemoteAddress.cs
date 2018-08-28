@@ -11,7 +11,7 @@ namespace Editor.ConfigProperties
     internal class RemoteAddress : StringValueProperty
     {
         internal RemoteAddress(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Remote Address:")
+            : base(container, "Remote Address:", "remoteAddress")
         {
         }
 

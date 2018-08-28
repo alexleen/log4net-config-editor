@@ -3,15 +3,14 @@ using Editor.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Net;
-using System.Windows;
 using System.Xml;
 
 namespace Editor.ConfigProperties
 {
     internal abstract class Port : StringValueProperty
     {
-        protected Port(ReadOnlyCollection<IProperty> container, string name)
-            : base(container, GridLength.Auto, name)
+        protected Port(ReadOnlyCollection<IProperty> container, string name, string elementName)
+            : base(container, name, elementName)
         {
         }
 

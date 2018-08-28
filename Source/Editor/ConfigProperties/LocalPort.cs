@@ -6,7 +6,7 @@ namespace Editor.ConfigProperties
     internal class LocalPort : Port
     {
         internal LocalPort(ReadOnlyCollection<IProperty> container)
-            : base(container, "Local Port:")
+            : base(container, "Local Port:", "localPort")
         {
         }
     }
