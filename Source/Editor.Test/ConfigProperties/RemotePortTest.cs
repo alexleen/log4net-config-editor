@@ -19,5 +19,20 @@ namespace Editor.Test.ConfigProperties
         {
             Assert.AreEqual("Remote Port:", Sut.Name);
         }
+
+        [TestCase(null, null)]
+        [TestCase("<remotePort />", null)]
+        [TestCase("<remotePort value=\"\" />", null)]
+        [TestCase("<remotePort value=\"1234\" />", "1234")]
+        public void Load_ShouldLoadCorrectly(string xml, string expected)
+        {
+            TestLoadWithXml(xml, expected);
+        }
+
+        [Test]
+        public void Save_ShouldSave()
+        {
+            TestSave("remotePort");
+        }
     }
 }

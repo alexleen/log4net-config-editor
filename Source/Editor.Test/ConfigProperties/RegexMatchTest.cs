@@ -58,7 +58,7 @@ namespace Editor.Test.ConfigProperties
 
         [TestCase(null)]
         [TestCase("")]
-        public void Save_ShouldNotSave_WhenNullOrEmtpyValue(string value)
+        public void Save_ShouldNotSave_WhenNullOrEmptyValue(string value)
         {
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement filterElement = xmlDoc.CreateElement("filter");

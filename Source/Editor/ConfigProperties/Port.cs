@@ -1,9 +1,7 @@
 ﻿using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
-using System;
 using System.Collections.ObjectModel;
 using System.Net;
-using System.Xml;
 
 namespace Editor.ConfigProperties
 {
@@ -12,11 +10,6 @@ namespace Editor.ConfigProperties
         protected Port(ReadOnlyCollection<IProperty> container, string name, string elementName)
             : base(container, name, elementName)
         {
-        }
-
-        public override void Load(XmlNode originalNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
@@ -28,11 +21,6 @@ namespace Editor.ConfigProperties
             }
 
             return base.TryValidate(messageBoxService);
-        }
-
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -3,6 +3,7 @@ using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 using System.Net;
+using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -18,6 +19,18 @@ namespace Editor.Test.ConfigProperties
         }
 
         internal abstract Port GetSut();
+
+        protected void TestLoadWithXml(string xml, string expected)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\n" +
+                           $"      {xml}\n" +
+                           "</appender>");
+
+            Sut.Load(xmlDoc.FirstChild);
+
+            Assert.AreEqual(expected, Sut.Value);
+        }
 
         [TestCase(null, false)]
         [TestCase("", false)]
@@ -56,6 +69,33 @@ namespace Editor.Test.ConfigProperties
             Sut.TryValidate(messageBoxService);
 
             messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void Save_ShouldNotSave_WhenNullOrEmptyValue(string value)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+
+            Sut.Value = value;
+            Sut.Save(xmlDoc, appenderElement);
+
+            CollectionAssert.IsEmpty(appenderElement.ChildNodes);
+        }
+
+        protected void TestSave(string elementName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+
+            Sut.Value = "1234";
+            Sut.Save(xmlDoc, appenderElement);
+
+            XmlNode regexNode = appenderElement.SelectSingleNode(elementName);
+
+            Assert.IsNotNull(regexNode);
+            Assert.AreEqual(Sut.Value, regexNode.Attributes["value"].Value);
         }
     }
 }

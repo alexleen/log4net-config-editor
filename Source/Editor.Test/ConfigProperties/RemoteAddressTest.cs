@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -29,6 +30,22 @@ namespace Editor.Test.ConfigProperties
         public void Name_ShouldBeCorrect()
         {
             Assert.AreEqual("Remote Address:", mSut.Name);
+        }
+
+        [TestCase(null, null)]
+        [TestCase("<remoteAddress />", null)]
+        [TestCase("<remoteAddress value=\"\" />", null)]
+        [TestCase("<remoteAddress value=\"str\" />", "str")]
+        public void Load_ShouldLoadCorrectly(string xml, string expected)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\n" +
+                           $"      {xml}\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.AreEqual(expected, mSut.Value);
         }
 
         [TestCase(null, false)]
@@ -72,6 +89,34 @@ namespace Editor.Test.ConfigProperties
             mSut.TryValidate(messageBoxService);
 
             messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void Save_ShouldNotSave_WhenNullOrEmptyValue(string value)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+
+            mSut.Value = value;
+            mSut.Save(xmlDoc, appenderElement);
+
+            CollectionAssert.IsEmpty(appenderElement.ChildNodes);
+        }
+
+        [Test]
+        public void Save_ShouldSave()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+
+            mSut.Value = "1.2.3.4";
+            mSut.Save(xmlDoc, appenderElement);
+
+            XmlNode regexNode = appenderElement.SelectSingleNode("remoteAddress");
+
+            Assert.IsNotNull(regexNode);
+            Assert.AreEqual(mSut.Value, regexNode.Attributes["value"].Value);
         }
     }
 }

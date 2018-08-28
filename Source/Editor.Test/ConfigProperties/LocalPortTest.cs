@@ -20,6 +20,19 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual("Local Port:", Sut.Name);
         }
 
+        [TestCase(null, null)]
+        [TestCase("<localPort />", null)]
+        [TestCase("<localPort value=\"\" />", null)]
+        [TestCase("<localPort value=\"1234\" />", "1234")]
+        public void Load_ShouldLoadCorrectly(string xml, string expected)
+        {
+            TestLoadWithXml(xml, expected);
+        }
 
+        [Test]
+        public void Save_ShouldSave()
+        {
+            TestSave("localPort");
+        }
     }
 }
