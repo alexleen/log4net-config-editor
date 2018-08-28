@@ -4,8 +4,7 @@
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
                     xmlns:FiltersProperties="clr-namespace:Editor.ConfigProperties"
-                    xmlns:Controls="clr-namespace:Editor.Controls"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    xmlns:Controls="clr-namespace:Editor.Controls">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -48,7 +47,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Base:MultiValuePropertyBase(sys:String)}">
+    <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>

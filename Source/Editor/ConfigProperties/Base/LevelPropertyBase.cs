@@ -13,7 +13,7 @@ namespace Editor.ConfigProperties.Base
     internal abstract class LevelPropertyBase : MultiValuePropertyBase<string>
     {
         protected LevelPropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight, string name, bool prependEmpty = false)
-            : base(container, rowHeight, prependEmpty ? new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys) : Log4NetUtilities.LevelsByName.Keys, 100)
+            : base(container, rowHeight, name, prependEmpty ? new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys) : Log4NetUtilities.LevelsByName.Keys, 100)
         {
             SelectedValue = Values.First();
         }

@@ -7,8 +7,8 @@ namespace Editor.ConfigProperties.Base
 {
     internal abstract class EnumPropertyBase<TEnumType> : MultiValuePropertyBase<string>
     {
-        protected EnumPropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight, double width)
-            : base(container, rowHeight, Enum.GetNames(typeof(TEnumType)), width)
+        protected EnumPropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight, string name, double width)
+            : base(container, rowHeight, name, Enum.GetNames(typeof(TEnumType)), width)
         {
         }
     }
