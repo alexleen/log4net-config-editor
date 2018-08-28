@@ -92,6 +92,8 @@
     <Compile Include="Definitions\Appenders\AsyncAppender.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppender.cs" />
     <Compile Include="Definitions\Appenders\EventLogAppender.cs" />
+    <Compile Include="Definitions\Appenders\LocalSyslogAppender.cs" />
+    <Compile Include="Definitions\Appenders\RemoteSyslogAppender.cs" />
     <Compile Include="Definitions\Appenders\UdpAppender.cs" />
     <Compile Include="Definitions\Factory\DefinitionFactory.cs" />
     <Compile Include="ConfigProperties\File.cs" />

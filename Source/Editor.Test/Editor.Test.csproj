@@ -121,7 +121,9 @@
     <Compile Include="Definitions\Appenders\EventLogAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\FileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\ForwardingAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\LocalSyslogAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\RemoteSyslogAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
     <Compile Include="Definitions\Appenders\UdpAppenderTest.cs" />

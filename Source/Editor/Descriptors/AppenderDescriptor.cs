@@ -8,7 +8,7 @@ namespace Editor.Descriptors
 {
     public class AppenderDescriptor : DescriptorBase
     {
-        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp;
+        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp, LocalSyslog, RemoteSyslog;
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
 
         static AppenderDescriptor()
@@ -21,6 +21,8 @@ namespace Editor.Descriptors
             Forwarding = new AppenderDescriptor("Forwarding", AppenderType.Forwarding, "log4net.Appender.ForwardingAppender");
             ManagedColor = new AppenderDescriptor("Managed Color", AppenderType.ManagedColor, "log4net.Appender.ManagedColoredConsoleAppender");
             Udp = new AppenderDescriptor("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender");
+            LocalSyslog = new AppenderDescriptor("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender");
+            RemoteSyslog = new AppenderDescriptor("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender");
 
             sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
             {
@@ -31,7 +33,9 @@ namespace Editor.Descriptors
                 { Async.TypeNamespace, Async },
                 { Forwarding.TypeNamespace, Forwarding },
                 { ManagedColor.TypeNamespace, ManagedColor },
-                { Udp.TypeNamespace, Udp }
+                { Udp.TypeNamespace, Udp },
+                { LocalSyslog.TypeNamespace, LocalSyslog },
+                { RemoteSyslog.TypeNamespace, RemoteSyslog }
             };
         }
 

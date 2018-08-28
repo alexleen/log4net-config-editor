@@ -11,6 +11,8 @@ namespace Editor.Enums
         Async,
         Forwarding,
         ManagedColor,
-        Udp
+        Udp,
+        LocalSyslog,
+        RemoteSyslog
     }
 }

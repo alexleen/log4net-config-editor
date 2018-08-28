@@ -55,6 +55,10 @@ namespace Editor.Definitions.Factory
                     return new ManagedColoredConsoleAppender(appenderConfiguration);
                 case AppenderType.Udp:
                     return new UdpAppender(appenderConfiguration);
+                case AppenderType.LocalSyslog:
+                    return new LocalSyslogAppender(appenderConfiguration);
+                case AppenderType.RemoteSyslog:
+                    return new RemoteSyslogAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }
