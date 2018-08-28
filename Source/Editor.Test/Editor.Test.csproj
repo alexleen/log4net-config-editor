@@ -81,6 +81,8 @@
     <Compile Include="ConfigProperties\LayoutTest.cs" />
     <Compile Include="ConfigProperties\LevelPropertyTest.cs" />
     <Compile Include="ConfigProperties\LevelToMatchTest.cs" />
+    <Compile Include="ConfigProperties\LocalPortTest.cs" />
+    <Compile Include="ConfigProperties\LocalSyslogFacilityTest.cs" />
     <Compile Include="ConfigProperties\LockingModelTest.cs" />
     <Compile Include="ConfigProperties\LoggerToMatchTest.cs" />
     <Compile Include="ConfigProperties\LogNameTest.cs" />
@@ -91,8 +93,12 @@
     <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
+    <Compile Include="ConfigProperties\PortTestBase.cs" />
     <Compile Include="ConfigProperties\PreserveExtensionTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
+    <Compile Include="ConfigProperties\RemoteAddressTest.cs" />
+    <Compile Include="ConfigProperties\RemotePortTest.cs" />
+    <Compile Include="ConfigProperties\RemoteSyslogFacilityTest.cs" />
     <Compile Include="ConfigProperties\RollingStyleTest.cs" />
     <Compile Include="ConfigProperties\StaticLogFileNameTest.cs" />
     <Compile Include="ConfigProperties\StringMatchTest.cs" />
@@ -116,6 +122,7 @@
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
+    <Compile Include="Definitions\Appenders\UdpAppenderTest.cs" />
     <Compile Include="Definitions\Factory\DefinitionFactoryTest.cs" />
     <Compile Include="Definitions\Filters\LevelMatchFilterTest.cs" />
     <Compile Include="Definitions\Filters\LevelRangeFilterTest.cs" />

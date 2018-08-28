@@ -10,7 +10,7 @@ namespace Editor.ConfigProperties
 {
     internal class RemoteSyslogFacility : EnumPropertyBase<SyslogFacility>
     {
-        protected RemoteSyslogFacility(ReadOnlyCollection<IProperty> container, GridLength rowHeight)
+        internal RemoteSyslogFacility(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Facility:", 100)
         {
         }

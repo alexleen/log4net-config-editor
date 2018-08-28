@@ -22,7 +22,7 @@ namespace Editor.ConfigProperties
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
         {
-            if (!int.TryParse(Value, out int valueInt) || (valueInt < IPEndPoint.MinPort || valueInt > IPEndPoint.MaxPort))
+            if (!int.TryParse(Value, out int valueInt) || valueInt < IPEndPoint.MinPort || valueInt > IPEndPoint.MaxPort)
             {
                 messageBoxService.ShowError($"Port must be a valid integer between {IPEndPoint.MinPort} and {IPEndPoint.MaxPort}.");
                 return false;
@@ -34,22 +34,6 @@ namespace Editor.ConfigProperties
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    internal class RemotePort : Port
-    {
-        internal RemotePort(ReadOnlyCollection<IProperty> container)
-            : base(container, "Remote Port:")
-        {
-        }
-    }
-
-    internal class LocalPort : Port
-    {
-        internal LocalPort(ReadOnlyCollection<IProperty> container)
-            : base(container, "Local Port:")
-        {
         }
     }
 }

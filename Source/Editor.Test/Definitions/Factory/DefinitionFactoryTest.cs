@@ -29,6 +29,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.Async, typeof(AsyncAppender)),
             new TestCaseData(AppenderDescriptor.Forwarding, typeof(ForwardingAppender)),
             new TestCaseData(AppenderDescriptor.ManagedColor, typeof(ManagedColoredConsoleAppender)),
+            new TestCaseData(AppenderDescriptor.Udp, typeof(UdpAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

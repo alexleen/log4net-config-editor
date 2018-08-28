@@ -76,9 +76,11 @@
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
+    <Compile Include="ConfigProperties\LocalPort.cs" />
     <Compile Include="ConfigProperties\LocalSyslogFacility.cs" />
     <Compile Include="ConfigProperties\Port.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
+    <Compile Include="ConfigProperties\RemotePort.cs" />
     <Compile Include="ConfigProperties\RemoteSyslogFacility.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
     <Compile Include="Controls\DropDownButton.xaml.cs">

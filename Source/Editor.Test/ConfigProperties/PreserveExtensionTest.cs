@@ -21,6 +21,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void PreserveExtension_ShouldUseCorrectName()
+        {
+            Assert.AreEqual("Preserve Extension:", mSut.Name);
+        }
+
+        [Test]
         public void Preserve_ShouldBeFalseByDefault()
         {
             Assert.IsFalse(mSut.Value);

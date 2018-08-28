@@ -24,7 +24,7 @@ namespace Editor.ConfigProperties
         {
             if (!IPAddress.TryParse(Value, out _))
             {
-                messageBoxService.ShowError("Remote address must be a valid IP adress.");
+                messageBoxService.ShowError("Remote address must be a valid IP address.");
                 return false;
             }
 
