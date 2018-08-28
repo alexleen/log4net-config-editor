@@ -39,5 +39,13 @@ namespace Editor.Test.Definitions.Mapping
             mSut.Properties.Single(p => p.GetType() == typeof(ForeColor));
             mSut.Properties.Single(p => p.GetType() == typeof(BackColor));
         }
+
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(3, mSut.Properties.Count);
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace Editor.Descriptors
         }
 
         private AppenderDescriptor(string name, AppenderType type, string typeNamespace)
-            : base(name)
+            : base(name, "appender")
         {
             Type = type;
             TypeNamespace = typeNamespace;

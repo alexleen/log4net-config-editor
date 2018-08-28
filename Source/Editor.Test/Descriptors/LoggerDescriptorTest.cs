@@ -1,4 +1,6 @@
-﻿using Editor.Descriptors;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using Editor.Descriptors;
 using Editor.Enums;
 using NUnit.Framework;
 

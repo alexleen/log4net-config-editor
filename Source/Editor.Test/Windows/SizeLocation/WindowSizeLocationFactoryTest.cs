@@ -19,7 +19,7 @@ namespace Editor.Test.Windows.SizeLocation
         private static readonly IEnumerable<TestCaseData> sDescriptorCases = new[]
         {
             //Appenders
-            new TestCaseData(AppenderDescriptor.Console, "AppenderWindowPlacement", ResizeMode.CanResize, SizeToContent.Manual, new Size(550, min: 550), new Size(500, min: 500)),
+            new TestCaseData(AppenderDescriptor.Console, "AppenderWindowPlacement", ResizeMode.CanResize, SizeToContent.Manual, new Size(550, min: 550), new Size(650, min: 650)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size()),
@@ -32,7 +32,10 @@ namespace Editor.Test.Windows.SizeLocation
             new TestCaseData(LoggerDescriptor.Root, null, ResizeMode.CanResize, SizeToContent.Manual, new Size(360, min: 360), new Size(350, min: 350)),
 
             //Maping
-            new TestCaseData(MappingDescriptor.Mapping, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size())
+            new TestCaseData(MappingDescriptor.Mapping, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size()),
+
+            //Renderer
+            new TestCaseData(RendererDescriptor.Renderer, null, ResizeMode.CanResize, SizeToContent.WidthAndHeight, new Size(min: 450), new Size(min: 120, max: 120))
         };
 
         [TestCaseSource(nameof(sDescriptorCases))]

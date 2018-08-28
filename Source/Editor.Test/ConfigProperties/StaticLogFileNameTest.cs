@@ -21,6 +21,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Static Log File Name:", mSut.Name);
+        }
+
+        [Test]
         public void Value_ShouldBeFalseByDefault()
         {
             Assert.IsFalse(mSut.Value);
@@ -69,7 +75,7 @@ namespace Editor.Test.ConfigProperties
             XmlNode staticNode = appender.SelectSingleNode("staticLogFileName");
 
             Assert.IsNotNull(staticNode);
-            Assert.AreEqual("true", staticNode.Attributes?["value"].Value);
+            Assert.AreEqual("True", staticNode.Attributes?["value"].Value);
         }
     }
 }
