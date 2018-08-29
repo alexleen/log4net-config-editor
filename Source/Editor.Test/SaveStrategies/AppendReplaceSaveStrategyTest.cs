@@ -1,9 +1,11 @@
-﻿using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System;
+using System.Xml;
+using Editor.Interfaces;
 using Editor.SaveStrategies;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Xml;
 
 namespace Editor.Test.SaveStrategies
 {

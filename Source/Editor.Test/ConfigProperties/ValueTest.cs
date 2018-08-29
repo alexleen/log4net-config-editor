@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Descriptors;
 using Editor.Interfaces;
 using NUnit.Framework;
 

@@ -1,7 +1,9 @@
-﻿using Editor.Models;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Xml;
+using Editor.Models;
 using Editor.Utilities;
 using NUnit.Framework;
-using System.Xml;
 
 namespace Editor.Test.Models
 {
@@ -60,13 +62,14 @@ namespace Editor.Test.Models
             XmlDocument xmlDoc = new XmlDocument();
 
             bool shown = false;
-            mSut = new ParamModel(xmlDoc.CreateElement(Log4NetXmlConstants.Param), model =>
-            {
-                if (model == mSut)
-                {
-                    shown = true;
-                }
-            });
+            mSut = new ParamModel(xmlDoc.CreateElement(Log4NetXmlConstants.Param),
+                                  model =>
+                                      {
+                                          if (model == mSut)
+                                          {
+                                              shown = true;
+                                          }
+                                      });
 
             mSut.Edit.Execute(null);
 
@@ -79,13 +82,14 @@ namespace Editor.Test.Models
             XmlDocument xmlDoc = new XmlDocument();
 
             bool shown = false;
-            mSut = new ParamModel(xmlDoc.CreateElement(Log4NetXmlConstants.Param), remove: model =>
-             {
-                 if (model == mSut)
-                 {
-                     shown = true;
-                 }
-             });
+            mSut = new ParamModel(xmlDoc.CreateElement(Log4NetXmlConstants.Param),
+                                  remove: model =>
+                                      {
+                                          if (model == mSut)
+                                          {
+                                              shown = true;
+                                          }
+                                      });
 
             mSut.Remove.Execute(null);
 
