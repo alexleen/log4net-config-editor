@@ -23,12 +23,6 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void RowHeight_ShouldBeCorrect()
-        {
-            Assert.AreEqual(mSut.RowHeight, GridLength.Auto);
-        }
-
-        [Test]
         public void Name_ShouldBeCorrect()
         {
             Assert.AreEqual("Remote Address:", mSut.Name);
