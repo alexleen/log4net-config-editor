@@ -69,7 +69,7 @@ namespace Editor.Utilities
         }
 
         /// <summary>
-        /// Adds the specified <paramref name="appenderName"/> to the specified <paramref name="node"/> as an appender-ref.
+        /// Adds the specified <paramref name="appenderName"/> to the specified <paramref name="node"/> as an appender-ref child element.
         /// If an appender-ref for this <paramref name="appenderName"/> already exists, this method does nothing.
         /// If more than one appender-ref for this <paramref name="appenderName"/> exists, the count is reduced to one.
         /// </summary>

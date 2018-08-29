@@ -14,6 +14,7 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class NameTest
     {
+        private const string OriginalName = "appName";
         private Name mSut;
         private XmlNode mLog4NetNode;
         private XmlDocument mXmlDoc;
@@ -25,7 +26,7 @@ namespace Editor.Test.ConfigProperties
         {
             mXmlDoc = new XmlDocument();
             mLog4NetNode = mXmlDoc.CreateElement("log4net");
-            mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", "appName");
+            mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", OriginalName);
             mOriginalAppender.AppendTo(mLog4NetNode);
 
             mAppenderConfiguration = Substitute.For<IElementConfiguration>();
@@ -93,7 +94,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void TryValidate_ShouldNotShowCollisionMessageBox_WhenNoAppenderNamesCollide()
         {
-            mSut.Value = "appName";
+            mSut.Value = OriginalName;
             mXmlDoc.CreateElementWithAttribute("appender", "name", "otherName").AppendTo(mLog4NetNode);
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
@@ -116,7 +117,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void TryValidate_ShouldShowCollisionMessageBox_WhenAppenderNameCollides()
         {
-            mSut.Value = "appName";
+            mSut.Value = OriginalName;
             mXmlDoc.CreateElementWithAttribute("appender", "name", mSut.Value).AppendTo(mLog4NetNode);
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
@@ -142,7 +143,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void OriginalName_ShouldMatchOriginalName_WhenOriginalNameExists()
         {
-            Assert.AreEqual("appName", mSut.OriginalName);
+            Assert.AreEqual(OriginalName, mSut.OriginalName);
         }
 
         [Test]
@@ -165,8 +166,8 @@ namespace Editor.Test.ConfigProperties
         public void Changed_ShouldBeTrue_WhenValueDoesNotMatchOriginal()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"appName\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
+                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
@@ -179,8 +180,8 @@ namespace Editor.Test.ConfigProperties
         public void Changed_ShouldBeFalse_WhenValueDoesMatchOriginal()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"appName\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
+                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
