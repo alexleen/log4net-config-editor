@@ -30,6 +30,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Tooltip_ShouldBeCorrect()
+        {
+            Assert.AreEqual("All log events with lower level than the threshold level are ignored by the appender.", mSut.ToolTip);
+        }
+
+        [Test]
         public void Levels_ShouldBeAllLevels()
         {
             CollectionAssert.AreEqual(new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys), mSut.Values);

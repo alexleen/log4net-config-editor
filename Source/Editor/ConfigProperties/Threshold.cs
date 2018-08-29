@@ -16,6 +16,7 @@ namespace Editor.ConfigProperties
         public Threshold(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Threshold:", true)
         {
+            ToolTip = "All log events with lower level than the threshold level are ignored by the appender.";
         }
 
         public override void Load(XmlNode originalNode)
