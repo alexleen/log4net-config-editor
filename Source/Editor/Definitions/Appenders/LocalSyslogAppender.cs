@@ -6,7 +6,7 @@ using Editor.Interfaces;
 
 namespace Editor.Definitions.Appenders
 {
-    internal class LocalSyslogAppender : UdpAppender
+    internal class LocalSyslogAppender : AppenderSkeleton
     {
         internal LocalSyslogAppender(IElementConfiguration configuration)
             : base(configuration)

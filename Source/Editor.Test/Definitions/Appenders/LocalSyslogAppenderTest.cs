@@ -56,16 +56,6 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
-        public void Initialize_ShouldAddUdpProperties()
-        {
-            mSut.Initialize();
-
-            mSut.Properties.Single(p => p.GetType() == typeof(RemoteAddress));
-            mSut.Properties.Single(p => p.GetType() == typeof(RemotePort));
-            mSut.Properties.Single(p => p.GetType() == typeof(LocalPort));
-        }
-
-        [Test]
         public void Initialize_ShouldAddLocalSyslogProperties()
         {
             mSut.Initialize();
@@ -79,7 +69,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(11, mSut.Properties.Count);
+            Assert.AreEqual(8, mSut.Properties.Count);
         }
     }
 }
