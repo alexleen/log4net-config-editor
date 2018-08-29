@@ -66,6 +66,44 @@
         </Grid>
     </DataTemplate>
 
+    <!-- LocalSyslogFacility -->
+    <DataTemplate DataType="{x:Type FiltersProperties:LocalSyslogFacility}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedItem="{Binding SelectedValue}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="{Binding Width}"
+                      Margin="0,0,5,0" />
+        </Grid>
+    </DataTemplate>
+
+    <!-- RemoteSyslogFacility -->
+    <DataTemplate DataType="{x:Type FiltersProperties:RemoteSyslogFacility}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedItem="{Binding SelectedValue}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="{Binding Width}"
+                      Margin="0,0,5,0" />
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Base:ColorPropertyBase}">
         <DataTemplate.Resources>
             <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>

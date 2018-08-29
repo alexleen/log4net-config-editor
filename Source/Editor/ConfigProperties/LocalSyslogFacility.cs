@@ -13,8 +13,9 @@ namespace Editor.ConfigProperties
     internal class LocalSyslogFacility : EnumPropertyBase<SyslogFacility>
     {
         internal LocalSyslogFacility(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Facility:", 100)
+            : base(container, GridLength.Auto, "Facility:", 110)
         {
+            SelectedValue = SyslogFacility.User.ToString();
         }
 
         public override void Load(XmlNode originalNode)

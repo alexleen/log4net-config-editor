@@ -6,6 +6,7 @@ using System.Windows;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NUnit.Framework;
+using static log4net.Appender.LocalSyslogAppender;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -35,7 +36,13 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Width_ShouldBeCorrect()
         {
-            Assert.AreEqual(100, mSut.Width);
+            Assert.AreEqual(110, mSut.Width);
+        }
+
+        [Test]
+        public void SelectedValue_ShouldBeInitializedToUser()
+        {
+            Assert.AreEqual(SyslogFacility.User.ToString(), mSut.SelectedValue);
         }
     }
 }
