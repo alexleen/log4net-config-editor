@@ -1,8 +1,10 @@
-﻿using Editor.ConfigProperties;
-using Editor.Interfaces;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {

@@ -1,8 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using Editor.Descriptors.Base;
 using Editor.Enums;
-using System.Collections.Generic;
 
 namespace Editor.Descriptors
 {

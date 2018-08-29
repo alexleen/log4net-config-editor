@@ -1,9 +1,11 @@
-﻿using Editor.ConfigProperties;
+// Copyright © 2018 Alex Leendertsen
+
+using System.Net;
+using System.Xml;
+using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
-using System.Net;
-using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {

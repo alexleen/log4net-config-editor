@@ -1,16 +1,18 @@
-﻿using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using static log4net.Appender.LocalSyslogAppender;
 
 namespace Editor.ConfigProperties
 {
     internal class LocalSyslogFacility : EnumPropertyBase<SyslogFacility>
     {
-        internal LocalSyslogFacility(ReadOnlyCollection<IProperty> container) 
+        internal LocalSyslogFacility(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Facility:", 100)
         {
         }

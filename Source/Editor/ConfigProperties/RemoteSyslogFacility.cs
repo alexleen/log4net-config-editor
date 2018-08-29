@@ -1,9 +1,11 @@
-﻿using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using static log4net.Appender.RemoteSyslogAppender;
 
 namespace Editor.ConfigProperties

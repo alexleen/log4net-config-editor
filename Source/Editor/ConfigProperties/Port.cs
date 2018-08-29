@@ -1,7 +1,9 @@
-﻿using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.ObjectModel;
 using System.Net;
+using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {

@@ -1,5 +1,7 @@
-﻿using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.ObjectModel;
+using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {

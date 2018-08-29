@@ -1,5 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using Editor.Definitions.Appenders;
 using Editor.Definitions.Factory;
 using Editor.Definitions.Filters;
@@ -11,9 +14,6 @@ using Editor.Descriptors.Base;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Editor.Test.Definitions.Factory
 {
