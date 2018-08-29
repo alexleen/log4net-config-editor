@@ -147,9 +147,17 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void OriginalName_ShouldBeNull_WhenNoOriginalNameExists()
+        public void OriginalName_ShouldBeNull_WhenNoOriginalNodeExists()
         {
             mAppenderConfiguration.OriginalNode.Returns((XmlNode)null);
+
+            Assert.IsNull(mSut.OriginalName);
+        }
+
+        [Test]
+        public void OriginalName_ShouldBeNull_WhenNoOriginalNameAttrExists()
+        {
+            mAppenderConfiguration.OriginalNode.Attributes.RemoveNamedItem("name");
 
             Assert.IsNull(mSut.OriginalName);
         }
