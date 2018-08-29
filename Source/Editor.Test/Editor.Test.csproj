@@ -76,6 +76,7 @@
     <Compile Include="ConfigProperties\FiltersTest.cs" />
     <Compile Include="ConfigProperties\FixTest.cs" />
     <Compile Include="ConfigProperties\ForeColorTest.cs" />
+    <Compile Include="ConfigProperties\IdentityTest.cs" />
     <Compile Include="ConfigProperties\IncomingRefsTest.cs" />
     <Compile Include="ConfigProperties\KeyTest.cs" />
     <Compile Include="ConfigProperties\LayoutTest.cs" />

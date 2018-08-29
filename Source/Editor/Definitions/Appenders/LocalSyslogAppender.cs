@@ -22,7 +22,7 @@ namespace Editor.Definitions.Appenders
             base.AddAppenderSpecificProperties();
 
             AddProperty(new LocalSyslogFacility(Properties));
-            //AddProperty(new Identity(Properties));
+            AddProperty(new Identity(Properties));
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteSyslogFacility));
-            //mSut.Properties.Single(p => p.GetType() == typeof(Identity));
+            mSut.Properties.Single(p => p.GetType() == typeof(Identity));
         }
 
         [Test]

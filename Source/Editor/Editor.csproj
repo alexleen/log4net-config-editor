@@ -75,6 +75,7 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
+    <Compile Include="ConfigProperties\Identity.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
     <Compile Include="ConfigProperties\LocalPort.cs" />
     <Compile Include="ConfigProperties\LocalSyslogFacility.cs" />
