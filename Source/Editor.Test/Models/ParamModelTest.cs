@@ -95,5 +95,27 @@ namespace Editor.Test.Models
 
             Assert.IsTrue(shown);
         }
+
+        [TestCase(nameof(ParamModel.Name))]
+        [TestCase(nameof(ParamModel.Type))]
+        [TestCase(nameof(ParamModel.Value))]
+        public void NodeSet_ShouldFireOnPropertyChanged(string propName)
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == propName)
+                {
+                    fired = true;
+                }
+            };
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<param name=\"someName\" value=\"someValue\" type=\"someType\" />");
+
+            mSut.Node = xmlDoc.FirstChild;
+
+            Assert.IsTrue(fired);
+        }
     }
 }

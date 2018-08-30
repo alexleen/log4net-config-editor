@@ -31,6 +31,18 @@ namespace Editor.Models
 
         public string Type => Node.Attributes[Log4NetXmlConstants.Type]?.Value;
 
+        public override XmlNode Node
+        {
+            get => base.Node;
+            set
+            {
+                base.Node = value;
+                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(Value));
+                OnPropertyChanged(nameof(Type));
+            }
+        }
+
         public ICommand Edit { get; }
 
         public ICommand Remove { get; }
