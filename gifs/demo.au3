@@ -67,18 +67,45 @@ $pos = WinGetPos("Console Appender")
 ;Click on 'Up' to move logger filter above deny all
 MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 285, $pos[1] + 280, 1, $mouseSpeed)
 
+Sleep(250)
+
 ;Enable root incoming ref
 MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 457, $pos[1] + 375, 1, $mouseSpeed)
 
-Sleep(500)
+Sleep(250)
 
 ;Click on Save
 MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 305, $pos[1] + 625, 1, $mouseSpeed)
 
-;--- TODO --
-;Save & show
-;Remove ref
-;Save & show
-;Remove appender and root
-;Save & show - shold be back to empty
+SaveAndShow()
+
+;Click on appender in grid
+MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 450, $pos[1] + 110, 1, $mouseSpeed)
+
+;Click on Remove Ref
+MouseClick($MOUSE_CLICK_LEFT, $mainWindowRightButtonsX, $pos[1] + 235, 1, $mouseSpeed)
+
+SaveAndShow()
+
+;Click on appender in grid
+MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 450, $pos[1] + 110, 1, $mouseSpeed)
+
+;Ctrl + Click on root in grid so that both are selected
+Send("{CTRLDOWN}")
+MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 450, $pos[1] + 125, 1, $mouseSpeed)
+Send("{CTRLUP}")
+
+;Click on Remove
+MouseClick($MOUSE_CLICK_LEFT, $mainWindowRightButtonsX, $pos[1] + 210, 1, $mouseSpeed)
+
+SaveAndShow()
+
 ;TODO some of the above coordinates need to be relative to the LEFT of the window and not the right
+
+Func SaveAndShow()
+   $pos = WinGetPos($title)
+
+   ;Click on Save (relative to center bottom)
+   ;MouseClick($MOUSE_CLICK_LEFT, ($pos[0] + $pos[2] / 2) - 90, $pos[1] + $pos[3] - 25, 1, $mouseSpeed)
+   ;TODO show
+EndFunc
