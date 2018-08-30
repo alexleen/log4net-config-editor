@@ -53,20 +53,27 @@ namespace Editor.ConfigProperties
             {
                 if (loggerModel.IsEnabled)
                 {
+                    if (mNameProperty.Changed.HasValue && mNameProperty.Changed.Value)
+                    {
+                        RemoveOldRefsFrom(loggerModel, mNameProperty.OriginalName);
+                    }
+
                     XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.Node, mNameProperty.Value);
                 }
                 else
                 {
-                    XmlNodeList appenderRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
-
-                    if (appenderRefs.Count > 0)
-                    {
-                        foreach (XmlNode appenderRef in appenderRefs)
-                        {
-                            loggerModel.Node.RemoveChild(appenderRef);
-                        }
-                    }
+                    RemoveOldRefsFrom(loggerModel, mNameProperty.Changed.HasValue && mNameProperty.Changed.Value ? mNameProperty.OriginalName : mNameProperty.Value);
                 }
+            }
+        }
+
+        private static void RemoveOldRefsFrom(LoggerModel loggerModel, string name)
+        {
+            XmlNodeList oldRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref='{name}']");
+
+            foreach (XmlNode appenderRef in oldRefs)
+            {
+                loggerModel.Node.RemoveChild(appenderRef);
             }
         }
     }
