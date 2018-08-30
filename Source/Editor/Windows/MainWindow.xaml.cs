@@ -178,6 +178,12 @@ namespace Editor.Windows
 
         private void ReloadFromFile()
         {
+            if (xConfigComboBox.SelectedItem == null)
+            {
+                //Reload was pressed without ever opening a config file
+                return;
+            }
+
             LoadFromFile((string)xConfigComboBox.SelectedItem);
         }
 
