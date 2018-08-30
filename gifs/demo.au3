@@ -1,8 +1,5 @@
 #include <AutoItConstants.au3>
 
-;Mouse coordinates are relative to window
-;Opt("MouseCoordMode", 0)
-
 ;Title match mode = start
 Opt("WinTitleMatchMode", 1)
 
@@ -27,6 +24,7 @@ MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 210, $pos[1] + 325, 1, $mouseS
 
 ;--------------------------------- Main
 
+WinWaitActive($title)
 $pos = WinGetPos($title)
 
 ;Click on Add Appender
