@@ -49,5 +49,29 @@ namespace Editor.ConfigProperties
         {
             newNode.AppendAttribute(xmlDoc, NameName, Value);
         }
+
+        /// <summary>
+        /// Original name value. Null if no original name (i.e. new appender).
+        /// </summary>
+        public string OriginalName => mAppenderConfiguration.OriginalNode?.Attributes?[NameName]?.Value;
+
+        /// <summary>
+        /// Whether or not the value for the Name property has changed.
+        /// Null if there was no original appender (and therefore no original name).
+        /// True if there was an original appender and the name has changed.
+        /// False otherwise.
+        /// </summary>
+        public bool? Changed
+        {
+            get
+            {
+                if (mAppenderConfiguration.OriginalNode == null)
+                {
+                    return null;
+                }
+
+                return Value != OriginalName;
+            }
+        }
     }
 }

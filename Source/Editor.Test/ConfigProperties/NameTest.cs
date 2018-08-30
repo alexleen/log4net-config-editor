@@ -14,25 +14,27 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class NameTest
     {
+        private const string OriginalName = "appName";
         private Name mSut;
         private XmlNode mLog4NetNode;
         private XmlDocument mXmlDoc;
         private XmlNode mOriginalAppender;
+        private IElementConfiguration mAppenderConfiguration;
 
         [SetUp]
         public void SetUp()
         {
             mXmlDoc = new XmlDocument();
             mLog4NetNode = mXmlDoc.CreateElement("log4net");
-            mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", "appName");
+            mOriginalAppender = mXmlDoc.CreateElementWithAttribute("appender", "name", OriginalName);
             mOriginalAppender.AppendTo(mLog4NetNode);
 
-            IElementConfiguration appenderConfiguration = Substitute.For<IElementConfiguration>();
-            appenderConfiguration.ConfigXml.Returns(mXmlDoc);
-            appenderConfiguration.Log4NetNode.Returns(mLog4NetNode);
-            appenderConfiguration.OriginalNode.Returns(mOriginalAppender);
+            mAppenderConfiguration = Substitute.For<IElementConfiguration>();
+            mAppenderConfiguration.ConfigXml.Returns(mXmlDoc);
+            mAppenderConfiguration.Log4NetNode.Returns(mLog4NetNode);
+            mAppenderConfiguration.OriginalNode.Returns(mOriginalAppender);
 
-            mSut = new Name(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
+            mSut = new Name(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mAppenderConfiguration);
         }
 
         [Test]
@@ -92,7 +94,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void TryValidate_ShouldNotShowCollisionMessageBox_WhenNoAppenderNamesCollide()
         {
-            mSut.Value = "appName";
+            mSut.Value = OriginalName;
             mXmlDoc.CreateElementWithAttribute("appender", "name", "otherName").AppendTo(mLog4NetNode);
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
@@ -115,7 +117,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void TryValidate_ShouldShowCollisionMessageBox_WhenAppenderNameCollides()
         {
-            mSut.Value = "appName";
+            mSut.Value = OriginalName;
             mXmlDoc.CreateElementWithAttribute("appender", "name", mSut.Value).AppendTo(mLog4NetNode);
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
@@ -136,6 +138,62 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(xmlDoc, appender);
 
             Assert.AreEqual(nameValue, appender.Attributes["name"].Value);
+        }
+
+        [Test]
+        public void OriginalName_ShouldMatchOriginalName_WhenOriginalNameExists()
+        {
+            Assert.AreEqual(OriginalName, mSut.OriginalName);
+        }
+
+        [Test]
+        public void OriginalName_ShouldBeNull_WhenNoOriginalNodeExists()
+        {
+            mAppenderConfiguration.OriginalNode.Returns((XmlNode)null);
+
+            Assert.IsNull(mSut.OriginalName);
+        }
+
+        [Test]
+        public void OriginalName_ShouldBeNull_WhenNoOriginalNameAttrExists()
+        {
+            mAppenderConfiguration.OriginalNode.Attributes.RemoveNamedItem("name");
+
+            Assert.IsNull(mSut.OriginalName);
+        }
+
+        [Test]
+        public void Changed_ShouldBeNull_WhenNoOriginalNameExists()
+        {
+            mAppenderConfiguration.OriginalNode.Returns((XmlNode)null);
+
+            Assert.IsNull(mSut.Changed);
+        }
+
+        [Test]
+        public void Changed_ShouldBeTrue_WhenValueDoesNotMatchOriginal()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            mSut.Value = "someOtherName";
+
+            Assert.IsTrue(mSut.Changed);
+        }
+
+        [Test]
+        public void Changed_ShouldBeFalse_WhenValueDoesMatchOriginal()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.IsFalse(mSut.Changed);
         }
     }
 }

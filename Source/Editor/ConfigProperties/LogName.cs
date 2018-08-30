@@ -37,7 +37,7 @@ namespace Editor.ConfigProperties
                                                new[]
                                                {
                                                    (Name: "name", Value: "LogName"),
-                                                   (Name: "value", Value: Value)
+                                                   (Name: "value", Value)
                                                })
                   .AppendTo(newNode);
         }

@@ -44,7 +44,7 @@ namespace Editor.Test.Models
         protected override IEnumerable<MappingModel> GetOthersNotEqual()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<mapping><level value = \"ALERT\" /><foreColor value = \"Blue\" /><backColor value = \"Red\" /></mapping> ");
+            xmlDoc.LoadXml("<mapping><level value = \"ALERT\" /><foreColor value = \"Blue\" /><backColor value = \"Red\" /></mapping> ");
 
             yield return new MappingModel(Dummy, Dummy, xmlDoc.FirstChild);
 
