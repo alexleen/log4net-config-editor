@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -11,6 +10,7 @@ using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.SizeLocation;
@@ -76,12 +76,12 @@ namespace Editor.ConfigProperties
         {
             XmlElement newFilter = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace);
 
-            IElementConfiguration appenderConfiguration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
+            IElementConfiguration configuration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
 
-            ISaveStrategy saveStrategy = new FilterSaveStrategy(filterModel, Add, newFilter);
+            ISaveStrategy saveStrategy = new AddSaveStrategy<FilterModel>(filterModel, Add, newFilter);
 
-            Window filterWindow = new ElementWindow(appenderConfiguration,
-                                                    DefinitionFactory.Create(filterModel.Descriptor, appenderConfiguration),
+            Window filterWindow = new ElementWindow(configuration,
+                                                    DefinitionFactory.Create(filterModel.Descriptor, configuration),
                                                     WindowSizeLocationFactory.Create(filterModel.Descriptor),
                                                     saveStrategy);
 
@@ -135,30 +135,6 @@ namespace Editor.ConfigProperties
             foreach (FilterModel filter in ExistingFilters)
             {
                 newNode.AppendChild(filter.Node);
-            }
-        }
-
-        private class FilterSaveStrategy : ISaveStrategy
-        {
-            private readonly FilterModel mFilterModel;
-            private readonly Action<FilterModel> mAdd;
-            private readonly XmlElement mNewFilter;
-
-            public FilterSaveStrategy(FilterModel filterModel, Action<FilterModel> add, XmlElement newFilter)
-            {
-                mFilterModel = filterModel ?? throw new ArgumentNullException(nameof(filterModel));
-                mAdd = add ?? throw new ArgumentNullException(nameof(add));
-                mNewFilter = newFilter ?? throw new ArgumentNullException(nameof(newFilter));
-            }
-
-            public void Execute()
-            {
-                if (mFilterModel.Node == null)
-                {
-                    mAdd(mFilterModel);
-                }
-
-                mFilterModel.Node = mNewFilter;
             }
         }
     }

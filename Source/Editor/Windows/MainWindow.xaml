@@ -52,6 +52,8 @@
             <Button Click="AddLoggerClick">Add Logger</Button>
 
             <Button Click="AddRendererClick">Add Renderer</Button>
+            
+            <Button Click="AddParamClick">Add Param</Button>
 
             <Separator Margin="5,0,5,5"/>
 

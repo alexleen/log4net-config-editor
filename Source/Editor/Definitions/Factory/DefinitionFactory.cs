@@ -6,6 +6,7 @@ using Editor.Definitions.Appenders;
 using Editor.Definitions.Filters;
 using Editor.Definitions.Loggers;
 using Editor.Definitions.Mapping;
+using Editor.Definitions.Param;
 using Editor.Definitions.Renderer;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
@@ -30,6 +31,8 @@ namespace Editor.Definitions.Factory
                     return new MappingDefinition();
                 case RendererDescriptor rendererDescriptor:
                     return new RendererDefinition();
+                case ParamDescriptor paramDescriptor:
+                    return new ParamDefinition(configuration);
                 default:
                     throw new ArgumentException($"Property definitions do not exist for {descriptor.GetType().Name}");
             }

@@ -5,12 +5,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
 
 namespace Editor.Models
 {
-    public class MappingModel : IEquatable<MappingModel>, INotifyPropertyChanged
+    public sealed class MappingModel : ModelBase, IEquatable<MappingModel>, INotifyPropertyChanged
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
@@ -48,7 +49,7 @@ namespace Editor.Models
 
         private XmlNode mNode;
 
-        public XmlNode Node
+        public override XmlNode Node
         {
             get => mNode;
             set
@@ -135,7 +136,7 @@ namespace Editor.Models
             unchecked
             {
                 //I shouldn't disable this, but I am in order to facilitate easier testing.
-                //Should we ever need to put thses in a set, this will need to be fixed.
+                //Should we ever need to put these in a set, this will need to be fixed.
                 // ReSharper disable NonReadonlyMemberInGetHashCode
                 int hashCode = Level.GetHashCode();
                 hashCode = (hashCode * 397) ^ ForeColor.GetHashCode();
@@ -147,7 +148,7 @@ namespace Editor.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

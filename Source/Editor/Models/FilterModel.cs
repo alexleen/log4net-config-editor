@@ -4,11 +4,12 @@ using System;
 using System.Windows.Input;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Models.Base;
 using Editor.Utilities;
 
 namespace Editor.Models
 {
-    public class FilterModel
+    public class FilterModel : ModelBase
     {
         private readonly Action<FilterModel> mShowFilterWindow;
         private readonly Action<FilterModel> mRemove;
@@ -37,8 +38,6 @@ namespace Editor.Models
         }
 
         public FilterDescriptor Descriptor { get; }
-
-        public XmlNode Node { get; set; }
 
         public ICommand Edit { get; }
 

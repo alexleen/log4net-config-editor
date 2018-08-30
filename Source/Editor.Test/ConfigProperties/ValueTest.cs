@@ -4,72 +4,39 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Descriptors;
 using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {
     [TestFixture]
-    public class TypeAttributeTest
+    public class ValueTest
     {
-        private TypeAttribute mSut;
+        private Value mSut;
 
         [SetUp]
         public void SetUp()
         {
-            mSut = new TypeAttribute(new ReadOnlyCollection<IProperty>(new List<IProperty>()), AppenderDescriptor.Async);
+            mSut = new Value(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]
         public void Name_ShouldBeCorrect_RegularCtor()
         {
-            mSut = new TypeAttribute(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
-
-            Assert.AreEqual("Type:", mSut.Name);
+            Assert.AreEqual("Value:", mSut.Name);
         }
 
         [Test]
         public void Value_ShouldBeCorrect_RegularCtor()
         {
-            mSut = new TypeAttribute(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
-
             Assert.IsNull(mSut.Value);
-        }
-
-        [Test]
-        public void IsReadOnly_ShouldBeFalse_RegularCtor()
-        {
-            mSut = new TypeAttribute(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
-
-            Assert.IsFalse(mSut.IsReadOnly);
-        }
-
-        [Test]
-        public void Name_ShouldBeCorrect_AppenderDescriptorCtor()
-        {
-            Assert.AreEqual("Type:", mSut.Name);
-        }
-
-        [Test]
-        public void Value_ShouldBeCorrect_AppenderDescriptorCtor()
-        {
-            Assert.AreEqual(AppenderDescriptor.Async.TypeNamespace, mSut.Value);
-        }
-
-        [Test]
-        public void IsReadOnly_ShouldBeTrue_AppenderDescriptorCtor()
-        {
-            Assert.IsTrue(mSut.IsReadOnly);
         }
 
         [TestCase(null)]
         [TestCase("")]
-        [TestCase("type=\"\"")]
-        public void Load_ShouldNotLoadType_RegularCtor(string xml)
+        [TestCase("value=\"\"")]
+        public void Load_ShouldNotLoadValue(string xml)
         {
-            mSut = new TypeAttribute(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
-
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {xml}>\r\n" +
                            "</appender>");
@@ -80,10 +47,10 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Load_ShouldLoadCorrectType()
+        public void Load_ShouldLoadCorrectValue()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"ColoredConsoleAppender\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
+            xmlDoc.LoadXml("<appender name=\"ColoredConsoleAppender\" value=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
@@ -91,17 +58,17 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual("log4net.Appender.ColoredConsoleAppender", mSut.Value);
         }
 
-        [TestCase("type=\"\"")]
+        [TestCase("value=\"\"")]
         [TestCase("")]
-        public void Load_ShouldMaintainType_FromCtor(string type)
+        public void Load_ShouldMaintainValue_FromCtor(string value)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {type}>\r\n" +
+            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {value}>\r\n" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
-            Assert.AreEqual(AppenderDescriptor.Async.TypeNamespace, mSut.Value);
+            Assert.IsNull(mSut.Value);
         }
 
         [Test]
@@ -110,12 +77,12 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            const string value = "type";
+            const string value = "whatev";
             mSut.Value = value;
 
             mSut.Save(xmlDoc, appender);
 
-            Assert.AreEqual(value, appender.Attributes["type"].Value);
+            Assert.AreEqual(value, appender.Attributes["value"].Value);
         }
 
         [TestCase(null)]
@@ -129,7 +96,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(xmlDoc, appender);
 
-            Assert.IsNull(appender.Attributes["type"]);
+            Assert.IsNull(appender.Attributes["value"]);
         }
     }
 }

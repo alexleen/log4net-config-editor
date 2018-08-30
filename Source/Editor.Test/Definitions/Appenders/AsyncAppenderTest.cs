@@ -73,6 +73,14 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(10, mSut.Properties.Count);
+        }
+
+        [Test]
         public void FixProperty_ShouldDefaultToPartial()
         {
             mSut.Initialize();

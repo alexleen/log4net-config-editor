@@ -72,11 +72,14 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
+    <Compile Include="ConfigProperties\Params.cs" />
     <Compile Include="ConfigProperties\RenderedClass.cs" />
     <Compile Include="ConfigProperties\RenderingClass.cs" />
     <Compile Include="ConfigProperties\TypeAttribute.cs" />
+    <Compile Include="ConfigProperties\Value.cs" />
     <Compile Include="Controls\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
     </Compile>
@@ -132,12 +135,14 @@
     <Compile Include="Definitions\Loggers\Logger.cs" />
     <Compile Include="Definitions\Loggers\RootLogger.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinition.cs" />
+    <Compile Include="Definitions\Param\ParamDefinition.cs" />
     <Compile Include="Definitions\Renderer\RendererDefinition.cs" />
     <Compile Include="Descriptors\AppenderDescriptor.cs" />
     <Compile Include="Descriptors\Base\DescriptorBase.cs" />
     <Compile Include="Descriptors\LockingModelDescriptor.cs" />
     <Compile Include="Descriptors\LoggerDescriptor.cs" />
     <Compile Include="Descriptors\MappingDescriptor.cs" />
+    <Compile Include="Descriptors\ParamDescriptor.cs" />
     <Compile Include="Descriptors\RendererDescriptor.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
@@ -145,7 +150,10 @@
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Interfaces\IElementConfiguration.cs" />
+    <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Models\RendererModel.cs" />
+    <Compile Include="SaveStrategies\AddSaveStrategy.cs" />
+    <Compile Include="SaveStrategies\AppendReplaceSaveStrategy.cs" />
     <Compile Include="Windows\SizeLocation\AppenderWindowSizeLocation.cs" />
     <Compile Include="Windows\SizeLocation\FilterWindowSizeLocation.cs" />
     <Compile Include="Interfaces\IAppenderDefinition.cs" />
@@ -273,6 +281,8 @@
   <ItemGroup>
     <Resource Include="Images\fill-color.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\run-build-configure.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -35,7 +35,10 @@ namespace Editor.Test.Windows.SizeLocation
             new TestCaseData(MappingDescriptor.Mapping, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size()),
 
             //Renderer
-            new TestCaseData(RendererDescriptor.Renderer, null, ResizeMode.CanResize, SizeToContent.WidthAndHeight, new Size(min: 450), new Size(min: 120, max: 120))
+            new TestCaseData(RendererDescriptor.Renderer, null, ResizeMode.CanResize, SizeToContent.WidthAndHeight, new Size(min: 450), new Size(min: 120, max: 120)),
+
+            //Param
+            new TestCaseData(ParamDescriptor.Param, null, ResizeMode.CanResize, SizeToContent.WidthAndHeight, new Size(min: 350), new Size(min: 147, max: 147))
         };
 
         [TestCaseSource(nameof(sDescriptorCases))]

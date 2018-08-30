@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.ObjectModel;
 using System.Xml;
@@ -10,19 +10,18 @@ namespace Editor.ConfigProperties
 {
     public class Name : StringValueProperty
     {
-        private readonly IElementConfiguration mAppenderConfiguration;
-        private const string NameName = "name";
+        private readonly IElementConfiguration mConfiguration;
 
-        public Name(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration)
-            : base(container, "Name:", NameName)
+        public Name(ReadOnlyCollection<IProperty> container, IElementConfiguration configuration)
+            : base(container, "Name:", Log4NetXmlConstants.Name)
         {
-            mAppenderConfiguration = appenderConfiguration;
+            mConfiguration = configuration;
             IsFocused = true;
         }
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes?[NameName]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes[Log4NetXmlConstants.Name]?.Value);
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
@@ -33,9 +32,9 @@ namespace Editor.ConfigProperties
                 return false;
             }
 
-            foreach (XmlNode appender in mAppenderConfiguration.Log4NetNode.SelectNodes("appender"))
+            foreach (XmlNode appender in mConfiguration.Log4NetNode.SelectNodes("appender"))
             {
-                if (!Equals(appender, mAppenderConfiguration.OriginalNode) && appender.Attributes?[NameName].Value == Value)
+                if (!Equals(appender, mConfiguration.OriginalNode) && appender.Attributes[Log4NetXmlConstants.Name]?.Value == Value)
                 {
                     messageBoxService.ShowError("Name must be unique.");
                     return false;
@@ -47,13 +46,13 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newNode.AppendAttribute(xmlDoc, NameName, Value);
+            newNode.AppendAttribute(xmlDoc, Log4NetXmlConstants.Name, Value);
         }
 
         /// <summary>
         /// Original name value. Null if no original name (i.e. new appender).
         /// </summary>
-        public string OriginalName => mAppenderConfiguration.OriginalNode?.Attributes?[NameName]?.Value;
+        public string OriginalName => mConfiguration.OriginalNode?.Attributes?[Log4NetXmlConstants.Name]?.Value;
 
         /// <summary>
         /// Whether or not the value for the Name property has changed.
@@ -65,7 +64,7 @@ namespace Editor.ConfigProperties
         {
             get
             {
-                if (mAppenderConfiguration.OriginalNode == null)
+                if (mConfiguration.OriginalNode == null)
                 {
                     return null;
                 }

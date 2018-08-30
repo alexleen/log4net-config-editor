@@ -27,7 +27,7 @@ namespace Editor.Utilities
             }
         }
 
-        public static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
+        internal static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
         {
             List<LoggerModel> loggers = new List<LoggerModel>();
 
@@ -37,7 +37,7 @@ namespace Editor.Utilities
             return loggers;
         }
 
-        public static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
+        internal static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
         {
             List<LoggerModel> loggers = new List<LoggerModel>();
 

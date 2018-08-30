@@ -70,5 +70,13 @@ namespace Editor.Test.Definitions.Appenders
 
             mSut.Properties.Single(p => p.GetType() == typeof(Editor.ConfigProperties.Mapping));
         }
+
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(9, mSut.Properties.Count);
+        }
     }
 }

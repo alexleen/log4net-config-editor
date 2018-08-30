@@ -1,6 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,6 +14,7 @@ using Editor.Descriptors.Base;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows.SizeLocation;
 using log4net.Core;
@@ -148,31 +148,31 @@ namespace Editor.Windows
         {
             if (xDebugCheckBox.IsChecked.HasValue && xDebugCheckBox.IsChecked.Value)
             {
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.DebugAttributeName, "true");
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
             }
             else
             {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.DebugAttributeName);
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
             }
 
             if (Equals(xUpdateComboBox.SelectedItem, UpdateOverwrite))
             {
                 //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.UpdateAttributeName, UpdateOverwrite);
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, UpdateOverwrite);
             }
             else
             {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.UpdateAttributeName);
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
             }
 
             if (!Equals(xThresholdComboBox.SelectedItem, Level.All.Name))
             {
                 //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.ThresholdAttributeName, (string)xThresholdComboBox.SelectedItem);
+                mLog4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, (string)xThresholdComboBox.SelectedItem);
             }
             else
             {
-                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.ThresholdAttributeName);
+                mLog4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
             }
         }
 
@@ -223,6 +223,7 @@ namespace Editor.Windows
             bool unrecognized = LoadAppenders(children);
             LoadRenderers(children);
             children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode));
+            LoadParams(children);
 
             xChildren.ItemsSource = children;
 
@@ -268,6 +269,16 @@ namespace Editor.Windows
             }
         }
 
+        private void LoadParams(ICollection<ChildModel> children)
+        {
+            XmlNodeList paramList = mLog4NetNode.SelectNodes(ParamDescriptor.Param.ElementName);
+
+            foreach (XmlNode param in paramList)
+            {
+                children.Add(new ParamModel(param));
+            }
+        }
+
         private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
         {
             string type = appender.Attributes?["type"]?.Value;
@@ -286,7 +297,7 @@ namespace Editor.Windows
 
         private void LoadRootAttributes()
         {
-            if (bool.TryParse(mLog4NetNode.Attributes?[Log4NetXmlConstants.DebugAttributeName]?.Value, out bool debugResult) && debugResult)
+            if (bool.TryParse(mLog4NetNode.Attributes?[Log4NetXmlConstants.Debug]?.Value, out bool debugResult) && debugResult)
             {
                 xDebugCheckBox.IsChecked = true;
             }
@@ -295,7 +306,7 @@ namespace Editor.Windows
                 xDebugCheckBox.IsChecked = false;
             }
 
-            string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.UpdateAttributeName]?.Value;
+            string update = mLog4NetNode.Attributes?[Log4NetXmlConstants.Update]?.Value;
 
             if (Equals(update, UpdateOverwrite))
             {
@@ -306,7 +317,7 @@ namespace Editor.Windows
                 xUpdateComboBox.SelectedItem = UpdateMerge;
             }
 
-            if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.ThresholdAttributeName]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
+            if (Log4NetUtilities.TryParseLevel(mLog4NetNode.Attributes?[Log4NetXmlConstants.Threshold]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
             {
                 xThresholdComboBox.SelectedItem = levelResult.Name;
             }
@@ -336,6 +347,10 @@ namespace Editor.Windows
             else if (dataContext is LoggerModel loggerModel)
             {
                 OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
+            }
+            else if (dataContext is ParamModel paramModel)
+            {
+                OpenElementWindow(ParamDescriptor.Param, paramModel.Node);
             }
             else if (dataContext is ChildModel childModel)
             {
@@ -398,7 +413,7 @@ namespace Editor.Windows
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppenderSaveStrategy(configuration))
+                                                            new AppendReplaceSaveStrategy(configuration))
                 { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
@@ -425,28 +440,9 @@ namespace Editor.Windows
             OpenElementWindow(LoggerDescriptor.Logger, null);
         }
 
-        private class AppenderSaveStrategy : ISaveStrategy
+        private void AddParamClick(object sender, RoutedEventArgs e)
         {
-            private readonly IElementConfiguration mConfiguration;
-
-            public AppenderSaveStrategy(IElementConfiguration configuration)
-            {
-                mConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            }
-
-            public void Execute()
-            {
-                if (mConfiguration.OriginalNode == null)
-                {
-                    //New node - add
-                    mConfiguration.Log4NetNode.AppendChild(mConfiguration.NewNode);
-                }
-                else
-                {
-                    //Edit - replace
-                    mConfiguration.Log4NetNode.ReplaceChild(mConfiguration.NewNode, mConfiguration.OriginalNode);
-                }
-            }
+            OpenElementWindow(ParamDescriptor.Param, null);
         }
     }
 
