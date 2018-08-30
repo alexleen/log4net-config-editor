@@ -52,7 +52,7 @@ namespace Editor.ConfigProperties
         /// <summary>
         /// Original name value. Null if no original name (i.e. new appender).
         /// </summary>
-        public string OriginalName => mAppenderConfiguration.OriginalNode?.Attributes?[NameName]?.Value;
+        public string OriginalName => mConfiguration.OriginalNode?.Attributes?[Log4NetXmlConstants.Name]?.Value;
 
         /// <summary>
         /// Whether or not the value for the Name property has changed.
@@ -64,7 +64,7 @@ namespace Editor.ConfigProperties
         {
             get
             {
-                if (mAppenderConfiguration.OriginalNode == null)
+                if (mConfiguration.OriginalNode == null)
                 {
                     return null;
                 }
