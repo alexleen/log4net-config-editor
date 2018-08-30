@@ -295,7 +295,7 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
 
             //Selects all "appender-ref" nodes with the "ref" attribute
-            XmlNodeList appenderRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref]");
+            XmlNodeList appenderRefs = loggerModel.Node.SelectNodes("appender-ref[@ref]");
 
             Assert.IsNotNull(appenderRefs);
             Assert.AreEqual(1, appenderRefs.Count);

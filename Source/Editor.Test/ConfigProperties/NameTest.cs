@@ -175,7 +175,7 @@ namespace Editor.Test.ConfigProperties
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                            "</appender>");
+                           "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
@@ -189,7 +189,7 @@ namespace Editor.Test.ConfigProperties
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                            "</appender>");
+                           "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
 
