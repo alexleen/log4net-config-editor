@@ -13,6 +13,11 @@ namespace Editor.ConfigProperties
     {
         private const string TypeName = "type";
 
+        public TypeAttribute(ReadOnlyCollection<IProperty> container)
+            : base(container, "Type:", null)
+        {
+        }
+
         public TypeAttribute(ReadOnlyCollection<IProperty> container, AppenderDescriptor descriptor)
             : base(container, "Type:", null)
         {
@@ -23,12 +28,15 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes?[TypeName]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.Attributes[TypeName]?.Value);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newNode.AppendAttribute(xmlDoc, TypeName, Value);
+            if (!string.IsNullOrEmpty(Value))
+            {
+                newNode.AppendAttribute(xmlDoc, TypeName, Value);
+            }
         }
     }
 }

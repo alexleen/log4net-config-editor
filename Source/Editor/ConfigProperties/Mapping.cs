@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -10,6 +9,7 @@ using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.SizeLocation;
@@ -50,7 +50,7 @@ namespace Editor.ConfigProperties
             ElementWindow elementWindow = new ElementWindow(elementConfiguration,
                                                             DefinitionFactory.Create(MappingDescriptor.Mapping, elementConfiguration),
                                                             WindowSizeLocationFactory.Create(MappingDescriptor.Mapping),
-                                                            new MappingSaveStrategy(mappingModel, model => Mappings.Add(model), newMapping));
+                                                            new AddSaveStrategy<MappingModel>(mappingModel, model => Mappings.Add(model), newMapping));
 
             mMessageBoxService.ShowWindow(elementWindow);
         }
@@ -75,30 +75,6 @@ namespace Editor.ConfigProperties
             foreach (MappingModel mappingModel in Mappings)
             {
                 newNode.AppendChild(mappingModel.Node);
-            }
-        }
-
-        private class MappingSaveStrategy : ISaveStrategy
-        {
-            private readonly MappingModel mMappingModel;
-            private readonly Action<MappingModel> mAdd;
-            private readonly XmlElement mNewMapping;
-
-            public MappingSaveStrategy(MappingModel mappingModel, Action<MappingModel> add, XmlElement newMapping)
-            {
-                mMappingModel = mappingModel ?? throw new ArgumentNullException(nameof(mappingModel));
-                mAdd = add ?? throw new ArgumentNullException(nameof(add));
-                mNewMapping = newMapping ?? throw new ArgumentNullException(nameof(newMapping));
-            }
-
-            public void Execute()
-            {
-                if (mMappingModel.Node == null)
-                {
-                    mAdd(mMappingModel);
-                }
-
-                mMappingModel.Node = mNewMapping;
             }
         }
     }

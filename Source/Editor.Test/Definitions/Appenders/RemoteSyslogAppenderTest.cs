@@ -79,7 +79,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(11, mSut.Properties.Count);
+            Assert.AreEqual(12, mSut.Properties.Count);
         }
     }
 }

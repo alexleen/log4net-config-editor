@@ -27,7 +27,7 @@ namespace Editor.Utilities
             }
         }
 
-        public static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
+        internal static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
         {
             List<LoggerModel> loggers = new List<LoggerModel>();
 
@@ -37,7 +37,7 @@ namespace Editor.Utilities
             return loggers;
         }
 
-        public static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
+        internal static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
         {
             List<LoggerModel> loggers = new List<LoggerModel>();
 
@@ -68,6 +68,14 @@ namespace Editor.Utilities
             }
         }
 
+        /// <summary>
+        /// Adds the specified <paramref name="appenderName"/> to the specified <paramref name="node"/> as an appender-ref child element.
+        /// If an appender-ref for this <paramref name="appenderName"/> already exists, this method does nothing.
+        /// If more than one appender-ref for this <paramref name="appenderName"/> exists, the count is reduced to one.
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="node"></param>
+        /// <param name="appenderName"></param>
         public static void AddAppenderRefToNode(XmlDocument xmlDoc, XmlNode node, string appenderName)
         {
             XmlNodeList appenderRefs = node.SelectNodes($"appender-ref[@ref='{appenderName}']");
