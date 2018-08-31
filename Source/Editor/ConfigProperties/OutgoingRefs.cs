@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
@@ -34,7 +35,7 @@ namespace Editor.ConfigProperties
                     continue;
                 }
 
-                RefsCollection.Add(new LoggerModel("appender", name, mAppenderConfiguration.OriginalNode, false));
+                RefsCollection.Add(new LoggerModel(name, mAppenderConfiguration.OriginalNode, false, LoggerDescriptor.Logger));
             }
         }
 

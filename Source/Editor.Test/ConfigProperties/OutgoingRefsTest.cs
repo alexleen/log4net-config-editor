@@ -1,14 +1,15 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
 using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Xml;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -85,9 +86,9 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("element0", "name0", appender, true),
-                new LoggerModel("element1", "name1", appender, true),
-                new LoggerModel("element2", "name2", appender, false)
+                new LoggerModel("name0", appender, true, LoggerDescriptor.Logger),
+                new LoggerModel("name1", appender, true, LoggerDescriptor.Logger),
+                new LoggerModel("name2", appender, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(xmlDoc, appender);

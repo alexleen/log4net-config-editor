@@ -1,6 +1,17 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System;
+using Editor.Definitions.Factory;
+using Editor.Descriptors;
+using Editor.Descriptors.Base;
+using Editor.HistoryManager;
+using Editor.Interfaces;
+using Editor.Models;
+using Editor.Models.Base;
+using Editor.SaveStrategies;
+using Editor.Utilities;
+using Editor.Windows.SizeLocation;
+using log4net.Core;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,17 +20,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
-using Editor.Definitions.Factory;
-using Editor.Descriptors;
-using Editor.Descriptors.Base;
-using Editor.HistoryManager;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.SaveStrategies;
-using Editor.Utilities;
-using Editor.Windows.SizeLocation;
-using log4net.Core;
-using Microsoft.Win32;
 
 namespace Editor.Windows
 {
@@ -219,7 +219,7 @@ namespace Editor.Windows
 
             mLog4NetNode = log4NetNodes[0];
 
-            List<ChildModel> children = new List<ChildModel>();
+            List<ModelBase> children = new List<ModelBase>();
 
             bool unrecognized = LoadAppenders(children);
             LoadRenderers(children);
@@ -235,7 +235,7 @@ namespace Editor.Windows
             return unrecognized;
         }
 
-        private bool LoadAppenders(ICollection<ChildModel> children)
+        private bool LoadAppenders(ICollection<ModelBase> children)
         {
             //Only selects appenders under this log4net element
             XmlNodeList appenderList = mLog4NetNode.SelectNodes("appender");
@@ -260,7 +260,7 @@ namespace Editor.Windows
             return unrecognized;
         }
 
-        private void LoadRenderers(ICollection<ChildModel> children)
+        private void LoadRenderers(ICollection<ModelBase> children)
         {
             XmlNodeList rendererList = mLog4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
 
@@ -270,7 +270,7 @@ namespace Editor.Windows
             }
         }
 
-        private void LoadParams(ICollection<ChildModel> children)
+        private void LoadParams(ICollection<ModelBase> children)
         {
             XmlNodeList paramList = mLog4NetNode.SelectNodes(ParamDescriptor.Param.ElementName);
 
@@ -330,39 +330,42 @@ namespace Editor.Windows
 
         private void AddAppenderItemOnClick(object appender)
         {
-            OpenElementWindow((AppenderDescriptor)appender, null);
+            OpenElementWindow((AppenderDescriptor)appender);
         }
 
-        private void EditAppenderOnClick(object sender, RoutedEventArgs e)
+        private void AddRootClick(object sender, RoutedEventArgs e)
         {
-            object dataContext = ((DataGridRow)sender).DataContext;
-
-            switch (dataContext)
+            if (xChildren.ItemsSource.Cast<ModelBase>().Any(cm => cm.ElementName == "root"))
             {
-                case AppenderModel appenderModel:
-                    OpenElementWindow(appenderModel.Descriptor, appenderModel.Node);
-                    break;
-                case RendererModel rendererModel:
-                    OpenElementWindow(RendererDescriptor.Renderer, rendererModel.Node);
-                    break;
-                case LoggerModel loggerModel:
-                    OpenElementWindow(loggerModel.ElementName == Log4NetXmlConstants.Root ? LoggerDescriptor.Root : LoggerDescriptor.Logger, loggerModel.Node);
-                    break;
-                case ParamModel paramModel:
-                    OpenElementWindow(ParamDescriptor.Param, paramModel.Node);
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown row DataContext type: {dataContext.GetType()}");
+                MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
+
+            OpenElementWindow(LoggerDescriptor.Root);
+        }
+
+        private void AddLoggerClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(LoggerDescriptor.Logger);
+        }
+
+        private void AddRendererClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(RendererDescriptor.Renderer);
+        }
+
+        private void AddParamClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(ParamDescriptor.Param);
         }
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            foreach (ChildModel childModel in xChildren.SelectedItems)
+            foreach (ModelBase ModelBase in xChildren.SelectedItems)
             {
-                mLog4NetNode.RemoveChild(childModel.Node);
+                mLog4NetNode.RemoveChild(ModelBase.Node);
 
-                if (childModel is AppenderModel appenderModel)
+                if (ModelBase is AppenderModel appenderModel)
                 {
                     RemoveRefsTo(appenderModel);
                 }
@@ -373,9 +376,9 @@ namespace Editor.Windows
 
         private void RemoveRefsOnClick(object sender, RoutedEventArgs e)
         {
-            foreach (ChildModel childModel in xChildren.SelectedItems)
+            foreach (ModelBase ModelBase in xChildren.SelectedItems)
             {
-                if (childModel is AppenderModel appenderModel)
+                if (ModelBase is AppenderModel appenderModel)
                 {
                     RemoveRefsTo(appenderModel);
                 }
@@ -395,7 +398,7 @@ namespace Editor.Windows
 
         private void AddRefsButtonOnItemClick(object obj)
         {
-            ChildModel destination = (ChildModel)obj;
+            ModelBase destination = (ModelBase)obj;
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
@@ -405,42 +408,32 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase descriptor, XmlNode originalNode)
+        private void EditAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, originalNode, mConfigXml.CreateElement(descriptor.ElementName));
+            OpenElementWindow((ModelBase)((DataGridRow)sender).DataContext);
+        }
+
+        private void OpenElementWindow(DescriptorBase descriptor)
+        {
+            OpenElementWindow(null, descriptor.ElementName, descriptor);
+        }
+
+        private void OpenElementWindow(ModelBase model)
+        {
+            OpenElementWindow(model.Node, model.ElementName, model.Descriptor);
+        }
+
+        private void OpenElementWindow(XmlNode node, string elementName, DescriptorBase descriptor)
+        {
+            IElementConfiguration configuration = new ElementConfiguration(mConfigXml, mLog4NetNode, node, mConfigXml.CreateElement(elementName));
+
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
-        }
-
-        private void AddRootClick(object sender, RoutedEventArgs e)
-        {
-            if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
-            {
-                MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            OpenElementWindow(LoggerDescriptor.Root, null);
-        }
-
-        private void AddRendererClick(object sender, RoutedEventArgs e)
-        {
-            OpenElementWindow(RendererDescriptor.Renderer, null);
-        }
-
-        private void AddLoggerClick(object sender, RoutedEventArgs e)
-        {
-            OpenElementWindow(LoggerDescriptor.Logger, null);
-        }
-
-        private void AddParamClick(object sender, RoutedEventArgs e)
-        {
-            OpenElementWindow(ParamDescriptor.Param, null);
         }
     }
 

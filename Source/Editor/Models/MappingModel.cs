@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
@@ -20,6 +21,7 @@ namespace Editor.Models
 
         public MappingModel(Action<MappingModel> remove,
                             Action<MappingModel> showMappingWindow)
+            :base(null, MappingDescriptor.Mapping)
         {
             mRemove = remove ?? throw new ArgumentNullException(nameof(remove));
             mShowMappingWindow = showMappingWindow ?? throw new ArgumentNullException(nameof(showMappingWindow));

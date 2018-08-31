@@ -8,7 +8,7 @@ using Editor.Utilities;
 
 namespace Editor.Models
 {
-    internal class ParamModel : ChildModel
+    internal class ParamModel : NamedModel
     {
         private readonly Action<ParamModel> mShowFilterWindow;
         private readonly Action<ParamModel> mRemove;
@@ -16,7 +16,7 @@ namespace Editor.Models
         public ParamModel(XmlNode node,
                           Action<ParamModel> showFilterWindow = null,
                           Action<ParamModel> remove = null)
-            : base(ParamDescriptor.Param.ElementName, node)
+            : base(null, node, ParamDescriptor.Param)
         {
             mShowFilterWindow = showFilterWindow;
             mRemove = remove;

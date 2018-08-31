@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Models;
 
 namespace Editor.Utilities
@@ -47,7 +48,7 @@ namespace Editor.Utilities
 
             if (root != null)
             {
-                loggers.Add(new LoggerModel(Log4NetXmlConstants.Root, Log4NetXmlConstants.Root, root, false));
+                loggers.Add(new LoggerModel(Log4NetXmlConstants.Root, root, false, LoggerDescriptor.Root));
             }
 
             return loggers;
@@ -63,7 +64,7 @@ namespace Editor.Utilities
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    yield return new LoggerModel(node.Name, name, node, false);
+                    yield return new LoggerModel(name, node, false, LoggerDescriptor.Logger);
                 }
             }
         }

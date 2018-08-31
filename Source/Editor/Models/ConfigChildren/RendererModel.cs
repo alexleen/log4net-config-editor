@@ -1,14 +1,15 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Xml;
 using Editor.Descriptors;
+using Editor.Models.Base;
+using System.Xml;
 
 namespace Editor.Models
 {
-    internal class RendererModel : ChildModel
+    internal class RendererModel : ModelBase
     {
         public RendererModel(XmlNode node)
-            : base(RendererDescriptor.Renderer.ElementName, node)
+            : base(node, RendererDescriptor.Renderer)
         {
         }
     }

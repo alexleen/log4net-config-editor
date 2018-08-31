@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
@@ -194,7 +195,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", "name", loggerElement, true)
+                new LoggerModel("name", loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -213,7 +214,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", "name", loggerElement, true)
+                new LoggerModel("name", loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -233,7 +234,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", "name", loggerElement, true)
+                new LoggerModel("name", loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -253,7 +254,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", "name", loggerElement, false)
+                new LoggerModel("name", loggerElement, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -271,7 +272,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", "name", loggerElement, false)
+                new LoggerModel("name", loggerElement, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -311,7 +312,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<LoggerModel>
             {
-                new LoggerModel("logger", "name", loggerElement, false)
+                new LoggerModel("name", loggerElement, false, LoggerDescriptor.Logger)
             };
 
             //Original name is "appender0"
