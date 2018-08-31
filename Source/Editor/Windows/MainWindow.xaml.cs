@@ -1,5 +1,6 @@
 // Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -346,15 +347,15 @@ namespace Editor.Windows
             }
             else if (dataContext is LoggerModel loggerModel)
             {
-                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
+                OpenElementWindow(loggerModel.ElementName == Log4NetXmlConstants.Root ? LoggerDescriptor.Root : LoggerDescriptor.Logger, loggerModel.Node);
             }
             else if (dataContext is ParamModel paramModel)
             {
                 OpenElementWindow(ParamDescriptor.Param, paramModel.Node);
             }
-            else if (dataContext is ChildModel childModel)
+            else
             {
-                OpenElementWindow(LoggerDescriptor.Root, childModel.Node);
+                throw new ArgumentException($"Unknown row DataContext type: {dataContext.GetType()}");
             }
         }
 

@@ -1,8 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
 using Editor.Models.Base;
@@ -11,7 +9,7 @@ using log4net.Core;
 
 namespace Editor.Models
 {
-    public sealed class MappingModel : ModelBase, IEquatable<MappingModel>, INotifyPropertyChanged
+    public sealed class MappingModel : ModelBase, IEquatable<MappingModel>
     {
         private const string LevelName = "level";
         private const string ForeColorName = "foreColor";
@@ -144,13 +142,6 @@ namespace Editor.Models
                 // ReSharper restore NonReadonlyMemberInGetHashCode
                 return hashCode;
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
