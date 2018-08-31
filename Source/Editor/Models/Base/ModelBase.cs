@@ -12,12 +12,12 @@ namespace Editor.Models.Base
     {
         protected ModelBase(XmlNode node, DescriptorBase descriptor)
         {
-            Node = node ?? throw new ArgumentNullException(nameof(node));
+            Node = node;
             Descriptor = descriptor ?? throw new ArgumentNullException(nameof(descriptor));
 
-            if (ElementName != descriptor.ElementName)
+            if (ElementName != null && ElementName != descriptor.ElementName)
             {
-                throw new ArgumentException($"Specified node has incorrect element name for {GetType().Name}.");
+                throw new ArgumentException($"Specified node has incorrect element name ({ElementName}) for {GetType().Name} ({descriptor.ElementName}).");
             }
         }
 
@@ -38,13 +38,13 @@ namespace Editor.Models.Base
             }
         }
 
-        public string ElementName => Node.Name;
+        public string ElementName => Node?.Name;
 
         public DescriptorBase Descriptor { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
