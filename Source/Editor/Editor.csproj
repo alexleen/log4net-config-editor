@@ -72,6 +72,7 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Interfaces\IElementConfiguration.cs" />
     <Compile Include="Models\Base\NamedModel.cs" />
+    <Compile Include="Models\ConfigChildren\AsyncAppenderModel.cs" />
     <Compile Include="Models\ConfigChildren\ParamModel.cs" />
     <Compile Include="Models\ConfigChildren\RendererModel.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategy.cs" />

@@ -84,11 +84,11 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<AppenderModel>
             {
-                new LoggerModel("name0", appender, true, LoggerDescriptor.Logger),
-                new LoggerModel("name1", appender, true, LoggerDescriptor.Logger),
-                new LoggerModel("name2", appender, false, LoggerDescriptor.Logger)
+                new AppenderModel(AppenderDescriptor.Console, appender, "name0", 0){ IsEnabled = true},
+                new AppenderModel(AppenderDescriptor.Console, appender, "name1", 0){ IsEnabled = true},
+                new AppenderModel(AppenderDescriptor.Console, appender, "name2", 0),
             };
 
             mSut.Save(xmlDoc, appender);

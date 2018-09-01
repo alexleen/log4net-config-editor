@@ -3,7 +3,9 @@
 using System.Collections.Generic;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Interfaces;
 using Editor.Models;
+using Editor.Models.ConfigChildren;
 
 namespace Editor.Utilities
 {
@@ -28,21 +30,38 @@ namespace Editor.Utilities
             }
         }
 
-        internal static IEnumerable<LoggerModel> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
+        internal static IEnumerable<IAcceptAppenderRef> FindAvailableAppenderRefLocations(XmlNode log4NetNode)
         {
-            List<LoggerModel> loggers = new List<LoggerModel>();
+            List<IAcceptAppenderRef> loggers = new List<IAcceptAppenderRef>();
 
-            loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "appender[@type='Log4Net.Async.AsyncForwardingAppender,Log4Net.Async']"));
+            foreach (XmlNode node in log4NetNode.SelectNodes($"appender[@type='{AppenderDescriptor.Async.TypeNamespace}']"))
+            {
+                string name = node.Attributes[Log4NetXmlConstants.Name]?.Value;
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    loggers.Add(new AsyncAppenderModel(node, name, log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count));
+                }
+            }
+
             loggers.AddRange(GetRootLoggerAndLoggers(log4NetNode));
 
             return loggers;
         }
 
-        internal static IEnumerable<LoggerModel> GetRootLoggerAndLoggers(XmlNode log4NetNode)
+        internal static IEnumerable<IAcceptAppenderRef> GetRootLoggerAndLoggers(XmlNode log4NetNode)
         {
-            List<LoggerModel> loggers = new List<LoggerModel>();
+            List<IAcceptAppenderRef> loggers = new List<IAcceptAppenderRef>();
 
-            loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "logger"));
+            foreach (XmlNode node in log4NetNode.SelectNodes(Log4NetXmlConstants.Logger))
+            {
+                string name = node.Attributes[Log4NetXmlConstants.Name]?.Value;
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    loggers.Add(new LoggerModel(name, node, false, LoggerDescriptor.Logger));
+                }
+            }
 
             XmlNode root = log4NetNode.SelectSingleNode(Log4NetXmlConstants.Root);
 
@@ -52,21 +71,6 @@ namespace Editor.Utilities
             }
 
             return loggers;
-        }
-
-        private static IEnumerable<LoggerModel> CreateLoggerModelsFromNodes(XmlNode log4NetNode, string nodesXPath)
-        {
-            XmlNodeList nodes = log4NetNode.SelectNodes(nodesXPath);
-
-            foreach (XmlNode node in nodes)
-            {
-                string name = node.Attributes["name"]?.Value;
-
-                if (!string.IsNullOrEmpty(name))
-                {
-                    yield return new LoggerModel(name, node, false, LoggerDescriptor.Logger);
-                }
-            }
         }
 
         /// <summary>

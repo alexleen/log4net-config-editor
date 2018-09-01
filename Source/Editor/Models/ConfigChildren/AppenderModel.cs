@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace Editor.Models
 {
-    internal class AppenderModel : NamedModel
+    public class AppenderModel : NamedModel
     {
         public AppenderModel(AppenderDescriptor descriptor, XmlNode node, string name, int incomingReferences)
             : base(name, node, descriptor)
@@ -14,5 +14,7 @@ namespace Editor.Models
         }
 
         public int IncomingReferences { get; }
+
+        public bool IsEnabled { get; set; }
     }
 }

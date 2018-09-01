@@ -38,6 +38,7 @@ namespace Editor.Models.Base
             }
         }
 
+        //TODO is this really needed? We can probably inline...
         public string ElementName => Node?.Name;
 
         public DescriptorBase Descriptor { get; }

@@ -223,7 +223,7 @@ namespace Editor.Windows
 
             bool unrecognized = LoadAppenders(children);
             LoadRenderers(children);
-            children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode));
+            children.AddRange(XmlUtilities.GetRootLoggerAndLoggers(mLog4NetNode).Cast<ModelBase>());
             LoadParams(children);
 
             xChildren.ItemsSource = children;

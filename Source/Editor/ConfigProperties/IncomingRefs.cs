@@ -20,7 +20,10 @@ namespace Editor.ConfigProperties
             mNameProperty = nameProperty;
             mAppenderConfiguration = appenderConfiguration;
             LoadAvailableLocations();
+            RefsCollection = new ObservableCollection<IAcceptAppenderRef>();
         }
+
+        public ObservableCollection<IAcceptAppenderRef> RefsCollection { get; set; }
 
         /// <summary>
         /// Finds all available locations for appender-refs.
