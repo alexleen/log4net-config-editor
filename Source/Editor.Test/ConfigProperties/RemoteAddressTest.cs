@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
