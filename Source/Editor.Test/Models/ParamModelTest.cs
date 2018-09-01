@@ -103,12 +103,12 @@ namespace Editor.Test.Models
         {
             bool fired = false;
             mSut.PropertyChanged += (sender, args) =>
-            {
-                if (args.PropertyName == propName)
                 {
-                    fired = true;
-                }
-            };
+                    if (args.PropertyName == propName)
+                    {
+                        fired = true;
+                    }
+                };
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<param name=\"someName\" value=\"someValue\" type=\"someType\" />");

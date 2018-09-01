@@ -43,11 +43,11 @@ namespace Editor.Utilities
 
             loggers.AddRange(CreateLoggerModelsFromNodes(log4NetNode, "logger"));
 
-            XmlNode root = log4NetNode.SelectSingleNode("root");
+            XmlNode root = log4NetNode.SelectSingleNode(Log4NetXmlConstants.Root);
 
             if (root != null)
             {
-                loggers.Add(new LoggerModel("root", "root", root, false));
+                loggers.Add(new LoggerModel(Log4NetXmlConstants.Root, Log4NetXmlConstants.Root, root, false));
             }
 
             return loggers;

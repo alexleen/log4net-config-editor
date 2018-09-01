@@ -1,5 +1,6 @@
 // Copyright © 2018 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -336,25 +337,22 @@ namespace Editor.Windows
         {
             object dataContext = ((DataGridRow)sender).DataContext;
 
-            if (dataContext is AppenderModel appenderModel)
+            switch (dataContext)
             {
-                OpenElementWindow(appenderModel.Descriptor, appenderModel.Node);
-            }
-            else if (dataContext is RendererModel rendererModel)
-            {
-                OpenElementWindow(RendererDescriptor.Renderer, rendererModel.Node);
-            }
-            else if (dataContext is LoggerModel loggerModel)
-            {
-                OpenElementWindow(LoggerDescriptor.Logger, loggerModel.Node);
-            }
-            else if (dataContext is ParamModel paramModel)
-            {
-                OpenElementWindow(ParamDescriptor.Param, paramModel.Node);
-            }
-            else if (dataContext is ChildModel childModel)
-            {
-                OpenElementWindow(LoggerDescriptor.Root, childModel.Node);
+                case AppenderModel appenderModel:
+                    OpenElementWindow(appenderModel.Descriptor, appenderModel.Node);
+                    break;
+                case RendererModel rendererModel:
+                    OpenElementWindow(RendererDescriptor.Renderer, rendererModel.Node);
+                    break;
+                case LoggerModel loggerModel:
+                    OpenElementWindow(loggerModel.ElementName == Log4NetXmlConstants.Root ? LoggerDescriptor.Root : LoggerDescriptor.Logger, loggerModel.Node);
+                    break;
+                case ParamModel paramModel:
+                    OpenElementWindow(ParamDescriptor.Param, paramModel.Node);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown row DataContext type: {dataContext.GetType()}");
             }
         }
 
