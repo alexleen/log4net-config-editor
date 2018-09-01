@@ -179,6 +179,12 @@ namespace Editor.Windows
 
         private void ReloadFromFile()
         {
+            if (xConfigComboBox.SelectedItem == null)
+            {
+                //Reload was pressed without ever opening a config file
+                return;
+            }
+
             LoadFromFile((string)xConfigComboBox.SelectedItem);
         }
 
@@ -193,6 +199,10 @@ namespace Editor.Windows
             {
                 MessageBox.Show(this, "At least one unrecognized appender was found in this configuration.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+            xRightSp.IsEnabled = true;
+            xSaveButton.IsEnabled = true;
+            xSaveAndCloseButton.IsEnabled = true;
         }
 
         /// <summary>
