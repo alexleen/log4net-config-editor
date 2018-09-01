@@ -176,7 +176,6 @@
     <Compile Include="Descriptors\FilterDescriptor.cs" />
     <Compile Include="Descriptors\LayoutDescriptor.cs" />
     <Compile Include="Enums\LayoutType.cs" />
-    <Compile Include="Models\AppenderRefModel.cs" />
     <Compile Include="Models\ChildModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\FixModel.cs" />
