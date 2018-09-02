@@ -22,7 +22,7 @@ namespace Editor.Definitions.Appenders
             base.AddAppenderSpecificProperties();
 
             AddProperty(new RemoteSyslogFacility(Properties));
-            AddProperty(new Identity(Properties));
+            AddProperty(new RemoteIdentity(Properties));
         }
     }
 }

@@ -10,14 +10,14 @@ using NUnit.Framework;
 namespace Editor.Test.ConfigProperties
 {
     [TestFixture]
-    public class IdentityTest
+    public class LocalIdentityTest
     {
-        private Identity mSut;
+        private LocalIdentity mSut;
 
         [SetUp]
         public void SetUp()
         {
-            mSut = new Identity(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new LocalIdentity(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
         }
 
         [Test]
@@ -64,10 +64,10 @@ namespace Editor.Test.ConfigProperties
             mSut.Value = "str";
             mSut.Save(xmlDoc, appenderElement);
 
-            XmlNode regexNode = appenderElement.SelectSingleNode("identity");
+            XmlNode identityNode = appenderElement.SelectSingleNode("identity");
 
-            Assert.IsNotNull(regexNode);
-            Assert.AreEqual(mSut.Value, regexNode.Attributes["value"].Value);
+            Assert.IsNotNull(identityNode);
+            Assert.AreEqual(mSut.Value, identityNode.Attributes["value"].Value);
         }
     }
 }
