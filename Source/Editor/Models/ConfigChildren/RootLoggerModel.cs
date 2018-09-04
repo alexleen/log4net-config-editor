@@ -1,0 +1,15 @@
+﻿using Editor.Descriptors.Base;
+using System.Xml;
+
+namespace Editor.Models.ConfigChildren
+{
+    internal class RootLoggerModel : LoggerModel
+    {
+        public RootLoggerModel(XmlNode node, bool isEnabled, DescriptorBase descriptor)
+            : base(node, isEnabled, descriptor)
+        {
+        }
+
+        public override string Name => Node.Name;
+    }
+}

@@ -67,7 +67,7 @@ namespace Editor.Utilities
 
             if (root != null)
             {
-                loggers.Add(new LoggerModel(root, false, LoggerDescriptor.Root));
+                loggers.Add(new RootLoggerModel(root, false, LoggerDescriptor.Root));
             }
 
             return loggers;
