@@ -246,7 +246,7 @@ namespace Editor.Windows
             {
                 foreach (XmlNode node in appenderList)
                 {
-                    if (TryCreate(node, out AppenderModel model))
+                    if (AppenderModel.TryCreate(node, mLog4NetNode, out AppenderModel model))
                     {
                         children.Add(model);
                     }
@@ -278,22 +278,6 @@ namespace Editor.Windows
             {
                 children.Add(new ParamModel(param));
             }
-        }
-
-        private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
-        {
-            string type = appender.Attributes?["type"]?.Value;
-
-            if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
-            {
-                string name = appender.Attributes?["name"].Value;
-                int incomingReferences = mLog4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
-                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
-                return true;
-            }
-
-            appenderModel = null;
-            return false;
         }
 
         private void LoadRootAttributes()

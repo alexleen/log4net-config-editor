@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using Editor.ConfigProperties.Base;
-using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
@@ -38,28 +37,11 @@ namespace Editor.ConfigProperties
                     continue;
                 }
 
-                if (TryCreate(appender, out AppenderModel appenderModel))
+                if (AppenderModel.TryCreate(appender, mConfiguration.Log4NetNode, out AppenderModel appenderModel))
                 {
                     RefsCollection.Add(appenderModel);
                 }
             }
-        }
-
-        //TODO move to AppenderDescriptor and use here and in MainWindow
-        private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
-        {
-            string type = appender.Attributes?["type"]?.Value;
-
-            if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
-            {
-                string name = appender.Attributes?["name"].Value;
-                int incomingReferences = mConfiguration.Log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
-                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
-                return true;
-            }
-
-            appenderModel = null;
-            return false;
         }
 
         public override void Load(XmlNode originalNode)

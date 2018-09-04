@@ -16,5 +16,21 @@ namespace Editor.Models
         public int IncomingReferences { get; }
 
         public bool IsEnabled { get; set; }
+
+        public static bool TryCreate(XmlNode appender, XmlNode log4NetNode, out AppenderModel appenderModel)
+        {
+            string type = appender.Attributes?["type"]?.Value;
+
+            if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
+            {
+                string name = appender.Attributes?["name"].Value;
+                int incomingReferences = log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
+                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
+                return true;
+            }
+
+            appenderModel = null;
+            return false;
+        }
     }
 }
