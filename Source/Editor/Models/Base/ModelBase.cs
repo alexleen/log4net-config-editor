@@ -15,9 +15,9 @@ namespace Editor.Models.Base
             Node = node;
             Descriptor = descriptor ?? throw new ArgumentNullException(nameof(descriptor));
 
-            if (ElementName != null && ElementName != descriptor.ElementName)
+            if (Node != null && Node.Name != descriptor.ElementName)
             {
-                throw new ArgumentException($"Specified node has incorrect element name ({ElementName}) for {GetType().Name} ({descriptor.ElementName}).");
+                throw new ArgumentException($"Specified node has incorrect element name ({Node.Name}) for {GetType().Name} ({descriptor.ElementName}).");
             }
         }
 
@@ -37,9 +37,6 @@ namespace Editor.Models.Base
                 OnPropertyChanged();
             }
         }
-
-        //TODO is this really needed? We can probably inline...
-        public string ElementName => Node?.Name;
 
         public DescriptorBase Descriptor { get; }
 

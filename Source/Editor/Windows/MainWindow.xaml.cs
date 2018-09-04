@@ -319,7 +319,7 @@ namespace Editor.Windows
 
         private void AddRootClick(object sender, RoutedEventArgs e)
         {
-            if (xChildren.ItemsSource.Cast<ModelBase>().Any(cm => cm.ElementName == "root"))
+            if (xChildren.ItemsSource.Cast<ModelBase>().Any(cm => cm.Node.Name == "root"))
             {
                 MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -404,7 +404,7 @@ namespace Editor.Windows
 
         private void OpenElementWindow(ModelBase model)
         {
-            OpenElementWindow(model.Node, model.ElementName, model.Descriptor);
+            OpenElementWindow(model.Node, model.Node.Name, model.Descriptor);
         }
 
         private void OpenElementWindow(XmlNode node, string elementName, DescriptorBase descriptor)
