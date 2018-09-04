@@ -6,8 +6,8 @@ namespace Editor.Models.ConfigChildren
 {
     internal class AsyncAppenderModel : AppenderModel, IAcceptAppenderRef
     {
-        public AsyncAppenderModel(XmlNode node, string name, int incomingReferences)
-            : base(AppenderDescriptor.Async, node, name, incomingReferences)
+        public AsyncAppenderModel(XmlNode node, int incomingReferences)
+            : base(AppenderDescriptor.Async, node, incomingReferences)
         {
         }
     }

@@ -195,7 +195,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("name", loggerElement, true, LoggerDescriptor.Logger)
+                new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -214,7 +214,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("name", loggerElement, true, LoggerDescriptor.Logger)
+                new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -234,7 +234,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("name", loggerElement, true, LoggerDescriptor.Logger)
+                new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -254,7 +254,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("name", loggerElement, false, LoggerDescriptor.Logger)
+                new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -272,7 +272,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("name", loggerElement, false, LoggerDescriptor.Logger)
+                new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -312,7 +312,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("name", loggerElement, false, LoggerDescriptor.Logger)
+                new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
             //Original name is "appender0"

@@ -7,8 +7,8 @@ namespace Editor.Models
 {
     public class AppenderModel : NamedModel
     {
-        public AppenderModel(AppenderDescriptor descriptor, XmlNode node, string name, int incomingReferences)
-            : base(name, node, descriptor)
+        public AppenderModel(AppenderDescriptor descriptor, XmlNode node, int incomingReferences)
+            : base(node, descriptor)
         {
             IncomingReferences = incomingReferences;
         }
@@ -25,7 +25,7 @@ namespace Editor.Models
             {
                 string name = appender.Attributes?["name"].Value;
                 int incomingReferences = log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
-                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
+                appenderModel = new AppenderModel(descriptor, appender, incomingReferences);
                 return true;
             }
 

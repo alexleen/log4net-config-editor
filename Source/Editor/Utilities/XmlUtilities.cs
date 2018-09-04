@@ -40,7 +40,7 @@ namespace Editor.Utilities
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    loggers.Add(new AsyncAppenderModel(node, name, log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count));
+                    loggers.Add(new AsyncAppenderModel(node, log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count));
                 }
             }
 
@@ -59,7 +59,7 @@ namespace Editor.Utilities
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    loggers.Add(new LoggerModel(name, node, false, LoggerDescriptor.Logger));
+                    loggers.Add(new LoggerModel(node, false, LoggerDescriptor.Logger));
                 }
             }
 
@@ -67,7 +67,7 @@ namespace Editor.Utilities
 
             if (root != null)
             {
-                loggers.Add(new LoggerModel(Log4NetXmlConstants.Root, root, false, LoggerDescriptor.Root));
+                loggers.Add(new LoggerModel(root, false, LoggerDescriptor.Root));
             }
 
             return loggers;

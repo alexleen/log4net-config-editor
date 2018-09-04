@@ -9,8 +9,8 @@ namespace Editor.Models
 {
     public class LoggerModel : NamedModel, IAcceptAppenderRef
     {
-        public LoggerModel(string name, XmlNode node, bool isEnabled, DescriptorBase descriptor)
-            : base(name, node, descriptor)
+        public LoggerModel(XmlNode node, bool isEnabled, DescriptorBase descriptor)
+            : base(node, descriptor)
         {
             IsEnabled = isEnabled;
         }

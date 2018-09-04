@@ -86,9 +86,9 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<AppenderModel>
             {
-                new AppenderModel(AppenderDescriptor.Console, appender, "name0", 0){ IsEnabled = true},
-                new AppenderModel(AppenderDescriptor.Console, appender, "name1", 0){ IsEnabled = true},
-                new AppenderModel(AppenderDescriptor.Console, appender, "name2", 0),
+                new AppenderModel(AppenderDescriptor.Console, appender, 0){ IsEnabled = true},
+                new AppenderModel(AppenderDescriptor.Console, appender, 0){ IsEnabled = true},
+                new AppenderModel(AppenderDescriptor.Console, appender, 0),
             };
 
             mSut.Save(xmlDoc, appender);
