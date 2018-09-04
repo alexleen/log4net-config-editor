@@ -79,6 +79,14 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Properties.Single(p => p.GetType() == typeof(CountDirection));
         }
 
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(16, mSut.Properties.Count);
+        }
+
         [TestCase(RollingMode.Once, false)]
         [TestCase(RollingMode.Size, false)]
         [TestCase(RollingMode.Date, true)]
@@ -124,7 +132,7 @@ namespace Editor.Test.Definitions.Appenders
             //Composite is the default, and Date also specifies these two properties.
             rollingStyle.SelectedMode = RollingMode.Date;
 
-            Assert.AreEqual(15, mSut.Properties.Count);
+            Assert.AreEqual(16, mSut.Properties.Count);
         }
     }
 }

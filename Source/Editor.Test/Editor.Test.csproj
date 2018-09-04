@@ -91,6 +91,7 @@
     <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
+    <Compile Include="ConfigProperties\ParamsTest.cs" />
     <Compile Include="ConfigProperties\PreserveExtensionTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
     <Compile Include="ConfigProperties\RenderedClassTest.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="ConfigProperties\TargetTest.cs" />
     <Compile Include="ConfigProperties\ThresholdTest.cs" />
     <Compile Include="ConfigProperties\TypeAttributeTest.cs" />
+    <Compile Include="ConfigProperties\ValueTest.cs" />
     <Compile Include="Converters\BoolInterverConverterTest.cs" />
     <Compile Include="Converters\BoolToColorConverterTest.cs" />
     <Compile Include="Converters\CapsDelimiterConverterTest.cs" />
@@ -127,13 +129,17 @@
     <Compile Include="Definitions\Loggers\LoggerTest.cs" />
     <Compile Include="Definitions\Mapping\MappingDefinitionTest.cs" />
     <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
+    <Compile Include="Definitions\Param\ParamDefinitionTest.cs" />
     <Compile Include="Definitions\Renderer\RendererDefinitionTest.cs" />
     <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
     <Compile Include="Descriptors\RendererDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
+    <Compile Include="Models\ParamModelTest.cs" />
     <Compile Include="Models\RendererModelTest.cs" />
+    <Compile Include="SaveStrategies\AddSaveStrategyTest.cs" />
+    <Compile Include="SaveStrategies\AppendReplaceSaveStrategyTest.cs" />
     <Compile Include="TestUtilities\EqualityTests.cs" />
     <Compile Include="Utilities\XmlUtilitiesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

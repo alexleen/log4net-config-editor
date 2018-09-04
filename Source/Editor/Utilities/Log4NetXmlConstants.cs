@@ -2,10 +2,15 @@
 
 namespace Editor.Utilities
 {
-    public class Log4NetXmlConstants
+    public static class Log4NetXmlConstants
     {
-        public const string DebugAttributeName = "debug";
-        public const string UpdateAttributeName = "update";
-        public const string ThresholdAttributeName = "threshold";
+        public const string Debug = "debug";
+        public const string Update = "update";
+        public const string Threshold = "threshold";
+        public const string Param = "param";
+        public const string Name = "name";
+        public const string Value = "value";
+        public const string Type = "type";
+        public const string Root = "root";
     }
 }

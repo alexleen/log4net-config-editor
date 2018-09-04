@@ -6,6 +6,7 @@ using Editor.Descriptors.Base;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows.SizeLocation;
 using Editor.XML;
@@ -138,6 +139,12 @@ namespace Editor.Windows
 
         private void ReloadFromFile()
         {
+            if (xConfigComboBox.SelectedItem == null)
+            {
+                //Reload was pressed without ever opening a config file
+                return;
+            }
+
             LoadFromFile((string)xConfigComboBox.SelectedItem);
         }
 
@@ -161,21 +168,22 @@ namespace Editor.Windows
         {
             object dataContext = ((DataGridRow)sender).DataContext;
 
-            if (dataContext is AppenderModel appenderModel)
+            switch (dataContext)
             {
-                OpenElementWindow(appenderModel.Descriptor, appenderModel);
-            }
-            else if (dataContext is RendererModel rendererModel)
-            {
-                OpenElementWindow(RendererDescriptor.Renderer, rendererModel);
-            }
-            else if (dataContext is LoggerModel loggerModel)
-            {
-                OpenElementWindow(LoggerDescriptor.Logger, loggerModel);
-            }
-            else if (dataContext is ChildModel childModel)
-            {
-                OpenElementWindow(LoggerDescriptor.Root, childModel);
+                case AppenderModel appenderModel:
+                    OpenElementWindow(appenderModel.Descriptor, appenderModel);
+                    break;
+                case RendererModel rendererModel:
+                    OpenElementWindow(RendererDescriptor.Renderer, rendererModel);
+                    break;
+                case LoggerModel loggerModel:
+                    OpenElementWindow(loggerModel.ElementName == Log4NetXmlConstants.Root ? LoggerDescriptor.Root : LoggerDescriptor.Logger, loggerModel);
+                    break;
+                case ParamModel paramModel:
+                    OpenElementWindow(ParamDescriptor.Param, paramModel);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown row DataContext type: {dataContext.GetType()}");
             }
         }
 
@@ -226,7 +234,7 @@ namespace Editor.Windows
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppenderSaveStrategy(configuration))
+                                                            new AppendReplaceSaveStrategy(configuration))
             { Owner = this };
 
             elementWindow.ShowDialog();
@@ -253,6 +261,11 @@ namespace Editor.Windows
         private void AddLoggerClick(object sender, RoutedEventArgs e)
         {
             OpenElementWindow(LoggerDescriptor.Logger, null);
+        }
+
+        private void AddParamClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(ParamDescriptor.Param, null);
         }
 
         #region IMessageBoxService
@@ -294,30 +307,6 @@ namespace Editor.Windows
             return showDialog;
         }
 
-        #endregion
-
-        private class AppenderSaveStrategy : ISaveStrategy
-        {
-            private readonly IElementConfiguration mConfiguration;
-
-            public AppenderSaveStrategy(IElementConfiguration configuration)
-            {
-                mConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            }
-
-            public void Execute()
-            {
-                if (mConfiguration.OriginalNode == null)
-                {
-                    //New node - add
-                    mConfiguration.Log4NetNode.AppendChild(mConfiguration.NewNode);
-                }
-                else
-                {
-                    //Edit - replace
-                    mConfiguration.Log4NetNode.ReplaceChild(mConfiguration.NewNode, mConfiguration.OriginalNode);
-                }
-            }
-        }
+        #endregion        
     }
 }

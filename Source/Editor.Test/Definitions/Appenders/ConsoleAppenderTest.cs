@@ -62,5 +62,13 @@ namespace Editor.Test.Definitions.Appenders
 
             mSut.Properties.Single(p => p.GetType() == typeof(Target));
         }
+
+        [Test]
+        public void Initialize_ShouldAddCorrectNumberOfProperties()
+        {
+            mSut.Initialize();
+
+            Assert.AreEqual(8, mSut.Properties.Count);
+        }
     }
 }

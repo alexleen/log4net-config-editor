@@ -44,11 +44,11 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             mXmlDoc = new XmlDocument();
-            mXmlDoc.LoadXml(xml);
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(mXmlDoc, xml);
             mNameProperty = new Name(properties, appenderConfiguration);
+            mNameProperty.Load(appenderConfiguration.OriginalNode);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
         }
@@ -108,7 +108,7 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(mXmlDoc, xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -139,7 +139,7 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(mXmlDoc, xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -170,7 +170,7 @@ namespace Editor.Test.ConfigProperties
                                "</log4net>";
 
             ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
-            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(xml);
+            IElementConfiguration appenderConfiguration = GetAppenderConfiguration(mXmlDoc, xml);
             mNameProperty = new Name(properties, appenderConfiguration);
 
             mSut = new IncomingRefs(properties, mNameProperty, appenderConfiguration);
@@ -178,9 +178,8 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual(0, mSut.RefsCollection.Count);
         }
 
-        private IElementConfiguration GetAppenderConfiguration(string xml)
+        private IElementConfiguration GetAppenderConfiguration(XmlDocument xmlDoc, string xml)
         {
-            XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
 
             IElementConfiguration appenderConfiguration = new ElementConfiguration(xmlDoc, xmlDoc.FirstChild, xmlDoc.FirstChild["appender"], null);
@@ -278,6 +277,49 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
+
+            Assert.IsNotNull(appenderRefs);
+            Assert.AreEqual(0, appenderRefs.Count);
+        }
+
+        [Test]
+        public void Save_ShouldRemoveOldIncomingRefs_WhenNameHasChanged_AndRefIsEnabled()
+        {
+            //Original name is "appender0"
+            mNameProperty.Value = "someOtherName";
+
+            //Let's try to add a ref to the asyncAppender (which already exists with the original name)
+            LoggerModel loggerModel = mSut.RefsCollection.First(r => r.Name == "asyncAppender");
+            loggerModel.IsEnabled = true;
+
+            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+
+            //Selects all "appender-ref" nodes with the "ref" attribute
+            XmlNodeList appenderRefs = loggerModel.Node.SelectNodes("appender-ref[@ref]");
+
+            Assert.IsNotNull(appenderRefs);
+            Assert.AreEqual(1, appenderRefs.Count);
+            Assert.AreEqual("someOtherName", appenderRefs[0].Attributes["ref"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldRemoveExistingRefs_WhenNotEnabled_AndNameHasChanged()
+        {
+            XmlElement loggerElement = mXmlDoc.CreateElement("logger");
+            mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
+            mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
+
+            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            {
+                new LoggerModel("logger", "name", loggerElement, false)
+            };
+
+            //Original name is "appender0"
+            mNameProperty.Value = "someOtherName";
+
+            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+
+            XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}' or @ref='{mNameProperty.OriginalName}']");
 
             Assert.IsNotNull(appenderRefs);
             Assert.AreEqual(0, appenderRefs.Count);

@@ -62,7 +62,7 @@ namespace Editor.XML
             {
                 Children.Add(logger);
             }
-
+            //TODO params
             //TODO we can probably figure this out in the MainWindow by filtering the Children
             //xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(Log4NetNode);
 
@@ -124,7 +124,7 @@ namespace Editor.XML
 
         private void LoadRootAttributes()
         {
-            if (bool.TryParse(Log4NetNode.Attributes?[Log4NetXmlConstants.DebugAttributeName]?.Value, out bool debugResult) && debugResult)
+            if (bool.TryParse(Log4NetNode.Attributes?[Log4NetXmlConstants.Debug]?.Value, out bool debugResult) && debugResult)
             {
                 Debug = true;
             }
@@ -133,7 +133,7 @@ namespace Editor.XML
                 Debug = false;
             }
 
-            if (Enum.TryParse(Log4NetNode.Attributes?[Log4NetXmlConstants.UpdateAttributeName]?.Value, out Update update) && Equals(update, Update.Overwrite))
+            if (Enum.TryParse(Log4NetNode.Attributes?[Log4NetXmlConstants.Update]?.Value, out Update update) && Equals(update, Update.Overwrite))
             {
                 Update = Update.Overwrite;
             }
@@ -142,7 +142,7 @@ namespace Editor.XML
                 Update = Update.Merge;
             }
 
-            if (Log4NetUtilities.TryParseLevel(Log4NetNode.Attributes?[Log4NetXmlConstants.ThresholdAttributeName]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
+            if (Log4NetUtilities.TryParseLevel(Log4NetNode.Attributes?[Log4NetXmlConstants.Threshold]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
             {
                 Threshold = levelResult;
             }
@@ -166,31 +166,31 @@ namespace Editor.XML
         {
             if (Debug)
             {
-                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.DebugAttributeName, "true");
+                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.Debug, "true");
             }
             else
             {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.DebugAttributeName);
+                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
             }
 
             if (Update == Update.Overwrite)
             {
                 //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.UpdateAttributeName, Update.ToString());
+                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.Update, Update.ToString());
             }
             else
             {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.UpdateAttributeName);
+                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
             }
 
             if (!Equals(Threshold, Level.All))
             {
                 //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.ThresholdAttributeName, Threshold.Name);
+                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.Threshold, Threshold.Name);
             }
             else
             {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.ThresholdAttributeName);
+                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
             }
         }
 

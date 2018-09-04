@@ -3,7 +3,7 @@
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
-                    xmlns:FiltersProperties="clr-namespace:Editor.ConfigProperties"
+                    xmlns:ConfigProperties="clr-namespace:Editor.ConfigProperties"
                     xmlns:Controls="clr-namespace:Editor.Controls">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
@@ -23,6 +23,7 @@
         </Style.Triggers>
     </Style>
 
+    <!-- StringValueProperty -->
     <DataTemplate DataType="{x:Type Base:StringValueProperty}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -35,6 +36,7 @@
         </Grid>
     </DataTemplate>
 
+    <!-- BooleanPropertyBase -->
     <DataTemplate DataType="{x:Type Base:BooleanPropertyBase}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -46,7 +48,8 @@
             <CheckBox Grid.Column="1" IsChecked="{Binding Value}" VerticalAlignment="Center" />
         </Grid>
     </DataTemplate>
-    
+
+    <!-- LevelPropertyBase -->
     <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -66,6 +69,7 @@
         </Grid>
     </DataTemplate>
 
+    <!-- ColorPropertyBase -->
     <DataTemplate DataType="{x:Type Base:ColorPropertyBase}">
         <DataTemplate.Resources>
             <Converters:ConsoleColorToBrushConverter x:Key="Cctbc"/>
@@ -104,7 +108,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:Target}">
+    <!-- Target -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Target}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -121,7 +126,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:File}">
+    <!-- File -->
+    <DataTemplate DataType="{x:Type ConfigProperties:File}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -143,7 +149,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:CountDirection}">
+    <!-- CountDirection -->
+    <DataTemplate DataType="{x:Type ConfigProperties:CountDirection}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -160,8 +167,9 @@
                       ToolTip="Indicates if the current file is the lowest numbered file or the highest numbered file."/>
         </Grid>
     </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type FiltersProperties:LockingModel}">
+
+    <!-- LockingModel -->
+    <DataTemplate DataType="{x:Type ConfigProperties:LockingModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -194,7 +202,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:RollingStyle}">
+    <!-- RollingStyle -->
+    <DataTemplate DataType="{x:Type ConfigProperties:RollingStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -227,7 +236,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:Fix}">
+    <!-- Fix -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Fix}">
         <DataTemplate.Resources>
             <Converters:BoolToColorConverter x:Key="BoolToColConv"/>
             <Converters:PresetToBoolConverter x:Key="PresetToBoolConv"/>
@@ -278,7 +288,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:Mapping}">
+    <!-- Mapping -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Mapping}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -343,7 +354,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:Layout}">
+    <!-- Layout -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Layout}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -383,7 +395,8 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type FiltersProperties:Filters}">
+    <!-- Filters -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Filters}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="FirstColumn"/>
@@ -394,7 +407,7 @@
             <DockPanel Grid.Column="1" Margin="0,5,0,0">
                 <StackPanel DockPanel.Dock="Right">
                     <StackPanel.Resources>
-                        <!--Override the Label style defined above so that drop down button uses the default style-->
+                        <!-- Override the Label style defined above so that drop down button uses the default style -->
                         <Style TargetType="Label" />
                         <Style TargetType="Button">
                             <Setter Property="Width" Value="85" />
@@ -428,6 +441,7 @@
         </Grid>
     </DataTemplate>
 
+    <!-- RefsBase -->
     <DataTemplate DataType="{x:Type Base:RefsBase}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -445,6 +459,38 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+            </DockPanel>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Params -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Params}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label>Params:</Label>
+            <DockPanel Grid.Column="1" Margin="0,5,0,0">
+                <Button Command="{Binding Add}" DockPanel.Dock="Right" Width="85" Margin="5,0,5,5" VerticalAlignment="Top">Add</Button>
+                <DataGrid ItemsSource="{Binding ExistingParams}" AutoGenerateColumns="false" IsReadOnly="True" CanUserSortColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
+                        <DataGridTemplateColumn Header="Options">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type Models:ParamModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Edit}">Edit</Button>
+                                        <Button Width="50" Margin="5,5,0,5" Command="{Binding Remove}">Remove</Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </DockPanel>
         </Grid>
     </DataTemplate>
