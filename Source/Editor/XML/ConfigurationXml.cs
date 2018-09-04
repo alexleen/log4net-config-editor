@@ -3,6 +3,7 @@ using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
 using System;
@@ -21,7 +22,7 @@ namespace Editor.XML
         {
             mFilename = mFilename ?? throw new ArgumentNullException(nameof(mFilename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
-            Children = new ObservableCollection<ChildModel>();
+            Children = new ObservableCollection<ModelBase>();
         }
 
         public void Load()
@@ -82,7 +83,7 @@ namespace Editor.XML
             {
                 foreach (XmlNode node in appenderList)
                 {
-                    if (TryCreate(node, out AppenderModel model))
+                    if (AppenderModel.TryCreate(node, Log4NetNode, out AppenderModel model))
                     {
                         Children.Add(model);
                     }
@@ -104,22 +105,6 @@ namespace Editor.XML
             {
                 Children.Add(new RendererModel(renderer));
             }
-        }
-
-        private bool TryCreate(XmlNode appender, out AppenderModel appenderModel)
-        {
-            string type = appender.Attributes?["type"]?.Value;
-
-            if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
-            {
-                string name = appender.Attributes?["name"].Value;
-                int incomingReferences = Log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
-                appenderModel = new AppenderModel(descriptor, appender, name, incomingReferences);
-                return true;
-            }
-
-            appenderModel = null;
-            return false;
         }
 
         private void LoadRootAttributes()
@@ -203,9 +188,9 @@ namespace Editor.XML
             }
         }
 
-        public IElementConfiguration CreateElementConfigurationFor(ChildModel model, DescriptorBase descriptor)
+        public IElementConfiguration CreateElementConfigurationFor(XmlNode originalNode, string newElementName)
         {
-            return new ElementConfiguration(this, model.Node, ConfigXml.CreateElement(descriptor.ElementName));
+            return new ElementConfiguration(this, originalNode, ConfigXml.CreateElement(newElementName));
         }
 
         public XmlDocument ConfigXml { get; private set; }
@@ -218,7 +203,7 @@ namespace Editor.XML
 
         public Level Threshold { get; set; }
 
-        public ObservableCollection<ChildModel> Children { get; private set; }
+        public ObservableCollection<ModelBase> Children { get; private set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
@@ -192,9 +193,9 @@ namespace Editor.Test.ConfigProperties
         {
             XmlElement loggerElement = mXmlDoc.CreateElement("logger");
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("logger", "name", loggerElement, true)
+                new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -211,9 +212,9 @@ namespace Editor.Test.ConfigProperties
             XmlElement loggerElement = mXmlDoc.CreateElement("logger");
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("logger", "name", loggerElement, true)
+                new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -231,9 +232,9 @@ namespace Editor.Test.ConfigProperties
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("logger", "name", loggerElement, true)
+                new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -251,9 +252,9 @@ namespace Editor.Test.ConfigProperties
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("logger", "name", loggerElement, false)
+                new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -269,9 +270,9 @@ namespace Editor.Test.ConfigProperties
         {
             XmlElement loggerElement = mXmlDoc.CreateElement("logger");
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("logger", "name", loggerElement, false)
+                new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -289,7 +290,7 @@ namespace Editor.Test.ConfigProperties
             mNameProperty.Value = "someOtherName";
 
             //Let's try to add a ref to the asyncAppender (which already exists with the original name)
-            LoggerModel loggerModel = mSut.RefsCollection.First(r => r.Name == "asyncAppender");
+            IAcceptAppenderRef loggerModel = mSut.RefsCollection.First(r => ((NamedModel)r).Name == "asyncAppender");
             loggerModel.IsEnabled = true;
 
             mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
@@ -309,9 +310,9 @@ namespace Editor.Test.ConfigProperties
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
             mXmlDoc.CreateElementWithAttribute("appender-ref", "ref", mNameProperty.Value).AppendTo(loggerElement);
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<IAcceptAppenderRef>
             {
-                new LoggerModel("logger", "name", loggerElement, false)
+                new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
             //Original name is "appender0"

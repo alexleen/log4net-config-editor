@@ -19,8 +19,11 @@ namespace Editor.ConfigProperties
         {
             mNameProperty = nameProperty;
             mAppenderConfiguration = appenderConfiguration;
-            LoadAvailableLocations();
+            RefsCollection = new ObservableCollection<IAcceptAppenderRef>();
+            LoadAvailableLocations();            
         }
+
+        public ObservableCollection<IAcceptAppenderRef> RefsCollection { get; set; }
 
         /// <summary>
         /// Finds all available locations for appender-refs.
@@ -28,7 +31,7 @@ namespace Editor.ConfigProperties
         /// </summary>
         private void LoadAvailableLocations()
         {
-            foreach (LoggerModel logger in XmlUtilities.FindAvailableAppenderRefLocations(mAppenderConfiguration.Log4NetNode))
+            foreach (IAcceptAppenderRef logger in XmlUtilities.FindAvailableAppenderRefLocations(mAppenderConfiguration.Log4NetNode))
             {
                 if (Equals(logger.Node, mAppenderConfiguration.OriginalNode))
                 {
@@ -41,7 +44,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            foreach (LoggerModel loggerModel in RefsCollection)
+            foreach (IAcceptAppenderRef loggerModel in RefsCollection)
             {
                 loggerModel.IsEnabled = loggerModel.Node.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
             }
@@ -49,7 +52,7 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            foreach (LoggerModel loggerModel in RefsCollection)
+            foreach (IAcceptAppenderRef loggerModel in RefsCollection)
             {
                 if (loggerModel.IsEnabled)
                 {
@@ -67,7 +70,7 @@ namespace Editor.ConfigProperties
             }
         }
 
-        private static void RemoveOldRefsFrom(LoggerModel loggerModel, string name)
+        private static void RemoveOldRefsFrom(IAcceptAppenderRef loggerModel, string name)
         {
             XmlNodeList oldRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref='{name}']");
 

@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.Windows.Input;
-using System.Xml;
 using Editor.Descriptors;
 using Editor.Models.Base;
 using Editor.Utilities;
+using System;
+using System.Windows.Input;
+using System.Xml;
 
 namespace Editor.Models
 {
@@ -22,6 +22,7 @@ namespace Editor.Models
                            Action<FilterModel> remove,
                            Action<FilterModel> moveUp,
                            Action<FilterModel> moveDown)
+            : base(node, descriptor)
         {
             mShowFilterWindow = showFilterWindow;
             mRemove = remove;

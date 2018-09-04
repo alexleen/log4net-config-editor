@@ -3,7 +3,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Interfaces;
 using Editor.Models;
+using Editor.Models.Base;
 using Editor.Utilities;
 using NUnit.Framework;
 
@@ -62,12 +65,12 @@ namespace Editor.Test.Utilities
                            "  </logger>\n" +
                            "</log4net>");
 
-            IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
+            IEnumerable<IAcceptAppenderRef> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(3, refs.Count());
             refs.Single(r => r.Node.Name == "root");
-            refs.Single(r => r.Node.Attributes?["type"]?.Value == "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async");
-            refs.Single(r => r.ElementName == "logger");
+            refs.Single(r => r.Node.Attributes?["type"]?.Value == AppenderDescriptor.Async.TypeNamespace);
+            refs.Single(r => r.Node.Name == "logger");
         }
 
         [Test]
@@ -91,7 +94,7 @@ namespace Editor.Test.Utilities
                            "  </appender>\n" +
                            "</log4net>");
 
-            IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
+            IEnumerable<IAcceptAppenderRef> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(1, refs.Count());
             Assert.IsTrue(refs.All(r => r.Node.Name != "root"));
@@ -107,7 +110,7 @@ namespace Editor.Test.Utilities
                            "  </appender>\n" +
                            "</log4net>");
 
-            IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
+            IEnumerable<IAcceptAppenderRef> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(0, refs.Count());
         }
@@ -121,7 +124,7 @@ namespace Editor.Test.Utilities
                            "  </logger>\n" +
                            "</log4net>");
 
-            IEnumerable<LoggerModel> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
+            IEnumerable<IAcceptAppenderRef> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(0, refs.Count());
         }

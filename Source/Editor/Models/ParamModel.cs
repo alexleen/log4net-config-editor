@@ -8,7 +8,7 @@ using Editor.Utilities;
 
 namespace Editor.Models
 {
-    internal class ParamModel : ChildModel
+    internal class ParamModel : NamedModel
     {
         private readonly Action<ParamModel> mShowFilterWindow;
         private readonly Action<ParamModel> mRemove;
@@ -16,7 +16,7 @@ namespace Editor.Models
         public ParamModel(XmlNode node,
                           Action<ParamModel> showFilterWindow = null,
                           Action<ParamModel> remove = null)
-            : base(ParamDescriptor.Param.ElementName, node)
+            : base(node, ParamDescriptor.Param)
         {
             mShowFilterWindow = showFilterWindow;
             mRemove = remove;
@@ -24,8 +24,6 @@ namespace Editor.Models
             Edit = new Command(EditFilterOnClick);
             Remove = new Command(RemoveFilterOnClick);
         }
-
-        public string Name => Node.Attributes[Log4NetXmlConstants.Name]?.Value;
 
         public string Value => Node.Attributes[Log4NetXmlConstants.Value]?.Value;
 

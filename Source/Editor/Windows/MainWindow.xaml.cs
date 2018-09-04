@@ -6,18 +6,19 @@ using Editor.Descriptors.Base;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.Models.Base;
 using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows.SizeLocation;
 using Editor.XML;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
 
 namespace Editor.Windows
 {
@@ -161,39 +162,42 @@ namespace Editor.Windows
 
         private void AddAppenderItemOnClick(object appender)
         {
-            OpenElementWindow((AppenderDescriptor)appender, null);
+            OpenElementWindow((AppenderDescriptor)appender);
         }
 
-        private void EditAppenderOnClick(object sender, RoutedEventArgs e)
+        private void AddRootClick(object sender, RoutedEventArgs e)
         {
-            object dataContext = ((DataGridRow)sender).DataContext;
-
-            switch (dataContext)
+            if (xChildren.ItemsSource.Cast<ModelBase>().Any(cm => cm.Node.Name == "root"))
             {
-                case AppenderModel appenderModel:
-                    OpenElementWindow(appenderModel.Descriptor, appenderModel);
-                    break;
-                case RendererModel rendererModel:
-                    OpenElementWindow(RendererDescriptor.Renderer, rendererModel);
-                    break;
-                case LoggerModel loggerModel:
-                    OpenElementWindow(loggerModel.ElementName == Log4NetXmlConstants.Root ? LoggerDescriptor.Root : LoggerDescriptor.Logger, loggerModel);
-                    break;
-                case ParamModel paramModel:
-                    OpenElementWindow(ParamDescriptor.Param, paramModel);
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown row DataContext type: {dataContext.GetType()}");
+                MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
+
+            OpenElementWindow(LoggerDescriptor.Root);
+        }
+
+        private void AddLoggerClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(LoggerDescriptor.Logger);
+        }
+
+        private void AddRendererClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(RendererDescriptor.Renderer);
+        }
+
+        private void AddParamClick(object sender, RoutedEventArgs e)
+        {
+            OpenElementWindow(ParamDescriptor.Param);
         }
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            foreach (ChildModel childModel in xChildren.SelectedItems)
+            foreach (ModelBase modelBase in xChildren.SelectedItems)
             {
-                mConfigurationXml.Children.Remove(childModel);
+                mConfigurationXml.Children.Remove(modelBase);
 
-                if (childModel is AppenderModel appenderModel)
+                if (modelBase is AppenderModel appenderModel)
                 {
                     mConfigurationXml.RemoveRefsTo(appenderModel);
                 }
@@ -204,9 +208,9 @@ namespace Editor.Windows
 
         private void RemoveRefsOnClick(object sender, RoutedEventArgs e)
         {
-            foreach (ChildModel childModel in xChildren.SelectedItems)
+            foreach (ModelBase modelBase in xChildren.SelectedItems)
             {
-                if (childModel is AppenderModel appenderModel)
+                if (modelBase is AppenderModel appenderModel)
                 {
                     mConfigurationXml.RemoveRefsTo(appenderModel);
                 }
@@ -217,7 +221,7 @@ namespace Editor.Windows
 
         private void AddRefsButtonOnItemClick(object obj)
         {
-            ChildModel destination = (ChildModel)obj;
+            ModelBase destination = (ModelBase)obj;
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
@@ -227,45 +231,32 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void OpenElementWindow(DescriptorBase descriptor, ChildModel model)
+        private void EditAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            IElementConfiguration configuration = mConfigurationXml.CreateElementConfigurationFor(model, descriptor);
+            OpenElementWindow((ModelBase)((DataGridRow)sender).DataContext);
+        }
+
+        private void OpenElementWindow(DescriptorBase descriptor)
+        {
+            OpenElementWindow(null, descriptor.ElementName, descriptor);
+        }
+
+        private void OpenElementWindow(ModelBase model)
+        {
+            OpenElementWindow(model.Node, model.Node.Name, model.Descriptor);
+        }
+
+        private void OpenElementWindow(XmlNode node, string elementName, DescriptorBase descriptor)
+        {
+            IElementConfiguration configuration = mConfigurationXml.CreateElementConfigurationFor(node, elementName);
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
             { Owner = this };
-
             elementWindow.ShowDialog();
-
             LoadFromRam();
-        }
-
-        private void AddRootClick(object sender, RoutedEventArgs e)
-        {
-            if (xChildren.ItemsSource.Cast<ChildModel>().Any(cm => cm.ElementName == "root"))
-            {
-                MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            OpenElementWindow(LoggerDescriptor.Root, null);
-        }
-
-        private void AddRendererClick(object sender, RoutedEventArgs e)
-        {
-            OpenElementWindow(RendererDescriptor.Renderer, null);
-        }
-
-        private void AddLoggerClick(object sender, RoutedEventArgs e)
-        {
-            OpenElementWindow(LoggerDescriptor.Logger, null);
-        }
-
-        private void AddParamClick(object sender, RoutedEventArgs e)
-        {
-            OpenElementWindow(ParamDescriptor.Param, null);
         }
 
         #region IMessageBoxService
