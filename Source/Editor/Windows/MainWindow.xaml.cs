@@ -1,5 +1,14 @@
 // Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
@@ -179,6 +188,12 @@ namespace Editor.Windows
 
         private void ReloadFromFile()
         {
+            if (xConfigComboBox.SelectedItem == null)
+            {
+                //Reload was pressed without ever opening a config file
+                return;
+            }
+
             LoadFromFile((string)xConfigComboBox.SelectedItem);
         }
 
@@ -193,6 +208,10 @@ namespace Editor.Windows
             {
                 MessageBox.Show(this, "At least one unrecognized appender was found in this configuration.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+            xRightSp.IsEnabled = true;
+            xSaveButton.IsEnabled = true;
+            xSaveAndCloseButton.IsEnabled = true;
         }
 
         /// <summary>

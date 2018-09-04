@@ -1,13 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using Editor.Descriptors;
+using System;
+using System.Windows.Input;
+using System.Xml;
 using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
-using System;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Xml;
 
 namespace Editor.Models
 {
