@@ -4,7 +4,7 @@
                              xmlns:Windows="clr-namespace:Editor.Windows"
                              xmlns:Converters="clr-namespace:Editor.Converters"
                              xmlns:Controls="clr-namespace:Editor.Controls"
-                             MinHeight="405"
+                             MinHeight="430"
                              MinWidth="640"
                              Loaded="MainWindowOnLoaded"
                              Icon="../document_edit.ico"
