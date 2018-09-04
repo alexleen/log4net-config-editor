@@ -68,9 +68,9 @@ namespace Editor.Test.Utilities
             IEnumerable<IAcceptAppenderRef> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(3, refs.Count());
-            refs.Single(r => ((ModelBase)r).ElementName == "root");
-            refs.Single(r => ((ModelBase)r).Node.Attributes?["type"]?.Value == AppenderDescriptor.Async.TypeNamespace);
-            refs.Single(r => ((ModelBase)r).ElementName == "logger");
+            refs.Single(r => r.Node.Name == "root");
+            refs.Single(r => r.Node.Attributes?["type"]?.Value == AppenderDescriptor.Async.TypeNamespace);
+            refs.Single(r => r.Node.Name == "logger");
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Editor.Test.Utilities
             IEnumerable<IAcceptAppenderRef> refs = XmlUtilities.FindAvailableAppenderRefLocations(xmlDoc.FirstChild);
 
             Assert.AreEqual(1, refs.Count());
-            Assert.IsTrue(refs.All(r => ((ModelBase)r).ElementName != "root"));
+            Assert.IsTrue(refs.All(r => r.Node.Name != "root"));
         }
 
         [Test]

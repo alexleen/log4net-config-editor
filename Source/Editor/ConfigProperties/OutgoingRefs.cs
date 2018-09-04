@@ -19,13 +19,13 @@ namespace Editor.ConfigProperties
             : base(container, "↑ Refs:", "This element can reference the following appenders:")
         {
             mConfiguration = appenderConfiguration;
-            LoadAvailableLocations();
             RefsCollection = new ObservableCollection<AppenderModel>();
+            LoadPossibleReferences();
         }
 
         public ObservableCollection<AppenderModel> RefsCollection { get; set; }
 
-        private void LoadAvailableLocations()
+        private void LoadPossibleReferences()
         {
             XmlNodeList availableRefs = mConfiguration.Log4NetNode.SelectNodes("appender");
 

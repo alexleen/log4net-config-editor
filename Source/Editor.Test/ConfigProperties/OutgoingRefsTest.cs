@@ -24,18 +24,18 @@ namespace Editor.Test.ConfigProperties
         {
             mXmlDoc = new XmlDocument();
             mXmlDoc.LoadXml("<log4net>\n" +
-                            "  <appender name=\"appender0\">\n" +
+                            $"  <appender name=\"appender0\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "    <appender-ref ref=\"appender1\" />\n" +
                             "    <appender-ref ref=\"appender2\" />\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"appender1\">\n" +
+                            $"  <appender name=\"appender1\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "    <appender-ref ref=\"appender2\" />\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"appender2\">\n" +
+                            $"  <appender name=\"appender2\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"appender3\">\n" +
+                            $"  <appender name=\"appender3\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"asyncAppender\" type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
+                            $"  <appender name=\"asyncAppender\" type=\"{AppenderDescriptor.Async.TypeNamespace}\">\n" +
                             "  </appender>\n" +
                             "  <root>\n" +
                             "  </root>\n" +

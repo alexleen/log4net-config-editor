@@ -153,7 +153,7 @@
     <Compile Include="Interfaces\IElementConfiguration.cs" />
     <Compile Include="Models\Base\NamedModel.cs" />
     <Compile Include="Models\ConfigChildren\AsyncAppenderModel.cs" />
-    <Compile Include="Models\ConfigChildren\ParamModel.cs" />
+    <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Models\ConfigChildren\RendererModel.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategy.cs" />
     <Compile Include="SaveStrategies\AppendReplaceSaveStrategy.cs" />
