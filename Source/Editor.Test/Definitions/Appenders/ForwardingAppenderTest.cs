@@ -6,6 +6,7 @@ using Editor.ConfigProperties;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.Utilities;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -20,7 +21,7 @@ namespace Editor.Test.Definitions.Appenders
         public void SetUp()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlElement log4NetNode = xmlDoc.CreateElement("log4net");
+            XmlElement log4NetNode = xmlDoc.CreateElement(Log4NetXmlConstants.Log4Net);
 
             IElementConfiguration configuration = Substitute.For<IElementConfiguration>();
             configuration.ConfigXml.Returns(xmlDoc);
