@@ -18,7 +18,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml;
 
 namespace Editor.Windows
 {
@@ -158,6 +157,12 @@ namespace Editor.Windows
         {
             mConfigurationXml = new ConfigurationXml(filename, this);
             mConfigurationXml.Load();
+
+            xChildren.ItemsSource = mConfigurationXml.Children;
+            xAddRefsButton.ItemsSource = mConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            xRightSp.IsEnabled = true;
+            xSaveButton.IsEnabled = true;
+            xSaveAndCloseButton.IsEnabled = true;
         }
 
         private void AddAppenderItemOnClick(object appender)
@@ -243,12 +248,12 @@ namespace Editor.Windows
 
         private void OpenElementWindow(ModelBase model)
         {
-            OpenElementWindow(model.Node, model.Node.Name, model.Descriptor);
+            OpenElementWindow(model, model.Node.Name, model.Descriptor);
         }
 
-        private void OpenElementWindow(XmlNode node, string elementName, DescriptorBase descriptor)
+        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor)
         {
-            IElementConfiguration configuration = mConfigurationXml.CreateElementConfigurationFor(node, elementName);
+            IElementConfiguration configuration = mConfigurationXml.CreateElementConfigurationFor(model, elementName);
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),

@@ -18,9 +18,9 @@ namespace Editor.XML
         private readonly string mFilename;
         private readonly IMessageBoxService mMessageBoxService;
 
-        public ConfigurationXml(string mFilename, IMessageBoxService messageBoxService)
+        public ConfigurationXml(string filename, IMessageBoxService messageBoxService)
         {
-            mFilename = mFilename ?? throw new ArgumentNullException(nameof(mFilename));
+            mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
             Children = new ObservableCollection<ModelBase>();
         }
@@ -58,14 +58,12 @@ namespace Editor.XML
             Children.Clear();
 
             bool unrecognized = LoadAppenders();
-            LoadRenderers();
+            LoadChildrenWithName(RendererDescriptor.Renderer.ElementName);
+            LoadChildrenWithName(ParamDescriptor.Param.ElementName);
             foreach (LoggerModel logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
             {
                 Children.Add(logger);
-            }
-            //TODO params
-            //TODO we can probably figure this out in the MainWindow by filtering the Children
-            //xAddRefsButton.ItemsSource = XmlUtilities.FindAvailableAppenderRefLocations(Log4NetNode);
+            }            
 
             LoadRootAttributes();
 
@@ -97,9 +95,9 @@ namespace Editor.XML
             return unrecognized;
         }
 
-        private void LoadRenderers()
+        private void LoadChildrenWithName(string elementName)
         {
-            XmlNodeList rendererList = Log4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
+            XmlNodeList rendererList = Log4NetNode.SelectNodes(elementName);
 
             foreach (XmlNode renderer in rendererList)
             {
@@ -188,9 +186,9 @@ namespace Editor.XML
             }
         }
 
-        public IElementConfiguration CreateElementConfigurationFor(XmlNode originalNode, string newElementName)
+        public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
         {
-            return new ElementConfiguration(this, originalNode, ConfigXml.CreateElement(newElementName));
+            return new ElementConfiguration(this, originalModel?.Node, ConfigXml.CreateElement(newElementName));
         }
 
         public XmlDocument ConfigXml { get; private set; }

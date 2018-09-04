@@ -1,18 +1,12 @@
-﻿using Editor.Descriptors.Base;
-using Editor.Interfaces;
+﻿using Editor.Interfaces;
 using Editor.Models;
 using Editor.Models.Base;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Xml;
 
 namespace Editor.XML
 {
     public interface IConfigurationXml : IConfiguration
     {
-        IElementConfiguration CreateElementConfigurationFor(XmlNode originalNode, string newElementName);
-
         /// <summary>
         /// Loads the log4net configuration from disk.
         /// </summary>
@@ -35,6 +29,14 @@ namespace Editor.XML
         /// </summary>
         /// <param name="appenderModel"></param>
         void RemoveRefsTo(AppenderModel appenderModel);
+
+        /// <summary>
+        /// Creates an element configuration.
+        /// </summary>
+        /// <param name="originalModel">Original model if editing. Null if new element.</param>
+        /// <param name="newElementName">Name of new element (even if editing - in which case it'll be the same as the original)</param>
+        /// <returns></returns>
+        IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName);
 
         /// <summary>
         /// Children of the log4net root element.
