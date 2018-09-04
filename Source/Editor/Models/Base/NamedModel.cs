@@ -18,6 +18,6 @@ namespace Editor.Models
         /// <see cref="Log4NetXmlConstants.Name"/> attribute's value for this model's node. 
         /// Null if node is not set or attribute does not exist.
         /// </summary>
-        public string Name => Node?.Attributes[Log4NetXmlConstants.Name]?.Value;
+        public virtual string Name => Node?.Attributes[Log4NetXmlConstants.Name]?.Value;
     }
 }
