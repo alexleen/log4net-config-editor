@@ -17,6 +17,7 @@
                 </Style>
             </DockPanel.Resources>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                <Button Margin="0,5,5,5" Click="NewClick" ToolTip="Creates a new log4net configuration file">New</Button>
                 <Button Margin="0,5,5,5" Click="OpenHereOnClick" ToolTip="Opens a log4net configuration in this editor">Open ↓</Button>
                 <Button Margin="0,5,5,5" Click="OpenThereOnClick" ToolTip="Opens this log4net configuration in another editor">Open ↑</Button>
                 <Button Margin="0,5,5,5" Click="ReloadOnClick" ToolTip="Reloads this configuration">Reload</Button>
