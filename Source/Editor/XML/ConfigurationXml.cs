@@ -1,5 +1,4 @@
 ﻿using Editor.Descriptors;
-using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
@@ -63,7 +62,7 @@ namespace Editor.XML
             foreach (LoggerModel logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
             {
                 Children.Add(logger);
-            }            
+            }
 
             LoadRootAttributes();
 
