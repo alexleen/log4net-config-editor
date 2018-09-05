@@ -477,7 +477,7 @@ namespace Editor.Windows
         private void AddParamClick(object sender, RoutedEventArgs e)
         {
             OpenElementWindow(ParamDescriptor.Param, null);
-        }        
+        }
     }
 
     internal class ElementConfiguration : IElementConfiguration
