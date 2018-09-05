@@ -29,7 +29,7 @@ namespace Editor.Test.Descriptors
             new TestCaseData("Managed Color", AppenderType.ManagedColor, "log4net.Appender.ManagedColoredConsoleAppender", "appender"),
             new TestCaseData("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender", "appender"),
             new TestCaseData("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender", "appender"),
-            new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender"),
+            new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender")
         };
 
         [TestCaseSource(nameof(AppenderData))]
@@ -42,6 +42,15 @@ namespace Editor.Test.Descriptors
         public void EachAppender_ShouldBeTested()
         {
             Assert.AreEqual(AppenderData.Count(), mAppenders.Length);
+        }
+
+        [Test]
+        public void EachAppender_ShouldHaveTestData()
+        {
+            foreach (FieldInfo info in mAppenders)
+            {
+                AppenderData.Single(f => AreEqual((AppenderDescriptor)info.GetValue(null), (string)f.Arguments[0], (AppenderType)f.Arguments[1], (string)f.Arguments[2], (string)f.Arguments[3]));
+            }
         }
 
         [TestCaseSource(nameof(AppenderData))]
