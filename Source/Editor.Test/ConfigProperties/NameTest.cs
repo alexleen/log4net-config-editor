@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

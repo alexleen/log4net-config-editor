@@ -26,7 +26,7 @@ namespace Editor.Test.ConfigProperties
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender name=\"WindowsEventLog\" type=\"log4net.Appender.EventLogAppender\">\r\n" +
-                           "    <param name=\"LogName\" value=\"SEL-5051\" />\r\n" +
+                           "    <logName value=\"SEL-5051\" />\r\n" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
@@ -51,7 +51,7 @@ namespace Editor.Test.ConfigProperties
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender name=\"WindowsEventLog\" type=\"log4net.Appender.EventLogAppender\">\r\n" +
-                           "    <param name=\"LogName\" />\r\n" +
+                           "    <logName />\r\n" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
@@ -69,9 +69,8 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(xmlDoc, appender);
 
-            XmlElement param = appender["param"];
+            XmlElement param = appender["logName"];
             Assert.IsNotNull(param);
-            Assert.AreEqual("LogName", param.Attributes["name"].Value);
             Assert.AreEqual(value, param.Attributes["value"].Value);
         }
 
