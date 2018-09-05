@@ -142,6 +142,7 @@
     <Compile Include="Definitions\Loggers\RootLoggerTest.cs" />
     <Compile Include="Definitions\Param\ParamDefinitionTest.cs" />
     <Compile Include="Definitions\Renderer\RendererDefinitionTest.cs" />
+    <Compile Include="Descriptors\AppenderDescriptorTest.cs" />
     <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
     <Compile Include="Descriptors\RendererDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
