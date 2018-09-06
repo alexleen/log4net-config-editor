@@ -1,9 +1,11 @@
-﻿using Editor.Descriptors;
-using Editor.Enums;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Editor.Descriptors;
+using Editor.Enums;
+using NUnit.Framework;
 
 namespace Editor.Test.Descriptors
 {
@@ -18,7 +20,7 @@ namespace Editor.Test.Descriptors
             mAppenders = typeof(AppenderDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static);
         }
 
-        private static readonly IEnumerable<TestCaseData> AppenderData = new[]
+        private static readonly IEnumerable<TestCaseData> sAppenderData = new[]
         {
             new TestCaseData("Console", AppenderType.Console, "log4net.Appender.ConsoleAppender", "appender"),
             new TestCaseData("File", AppenderType.File, "log4net.Appender.FileAppender", "appender"),
@@ -32,7 +34,7 @@ namespace Editor.Test.Descriptors
             new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender")
         };
 
-        [TestCaseSource(nameof(AppenderData))]
+        [TestCaseSource(nameof(sAppenderData))]
         public void EachAppender_ShouldHaveCorrectAppenderField(string name, AppenderType type, string typeNamespace, string elementName)
         {
             mAppenders.Single(a => AreEqual((AppenderDescriptor)a.GetValue(null), name, type, typeNamespace, elementName));
@@ -41,7 +43,7 @@ namespace Editor.Test.Descriptors
         [Test]
         public void EachAppender_ShouldBeTested()
         {
-            Assert.AreEqual(AppenderData.Count(), mAppenders.Length);
+            Assert.AreEqual(sAppenderData.Count(), mAppenders.Length);
         }
 
         [Test]
@@ -49,11 +51,11 @@ namespace Editor.Test.Descriptors
         {
             foreach (FieldInfo info in mAppenders)
             {
-                AppenderData.Single(f => AreEqual((AppenderDescriptor)info.GetValue(null), (string)f.Arguments[0], (AppenderType)f.Arguments[1], (string)f.Arguments[2], (string)f.Arguments[3]));
+                sAppenderData.Single(f => AreEqual((AppenderDescriptor)info.GetValue(null), (string)f.Arguments[0], (AppenderType)f.Arguments[1], (string)f.Arguments[2], (string)f.Arguments[3]));
             }
         }
 
-        [TestCaseSource(nameof(AppenderData))]
+        [TestCaseSource(nameof(sAppenderData))]
         public void EachAppender_ShouldBeFoundByTypeNamespace(string name, AppenderType type, string typeNamespace, string elementName)
         {
             Assert.IsTrue(AppenderDescriptor.TryFindByTypeNamespace(typeNamespace, out AppenderDescriptor appender));

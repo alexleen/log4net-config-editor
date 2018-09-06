@@ -1,9 +1,11 @@
-﻿using Editor.Descriptors;
-using Editor.Enums;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Editor.Descriptors;
+using Editor.Enums;
+using NUnit.Framework;
 
 namespace Editor.Test.Descriptors
 {
@@ -18,7 +20,7 @@ namespace Editor.Test.Descriptors
             mFilters = typeof(FilterDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static);
         }
 
-        private static readonly IEnumerable<TestCaseData> FilterData = new[]
+        private static readonly IEnumerable<TestCaseData> sFilterData = new[]
         {
             new TestCaseData("Deny All", FilterType.DenyAll, "log4net.Filter.DenyAllFilter", "filter"),
             new TestCaseData("Level", FilterType.LevelMatch, "log4net.Filter.LevelMatchFilter", "filter"),
@@ -28,7 +30,7 @@ namespace Editor.Test.Descriptors
             new TestCaseData("String", FilterType.String, "log4net.Filter.StringMatchFilter", "filter")
         };
 
-        [TestCaseSource(nameof(FilterData))]
+        [TestCaseSource(nameof(sFilterData))]
         public void EachFilter_ShouldHaveCorrectFilterField(string name, FilterType type, string typeNamespace, string elementName)
         {
             mFilters.Single(f => AreEqual((FilterDescriptor)f.GetValue(null), name, type, typeNamespace, elementName));
@@ -37,7 +39,7 @@ namespace Editor.Test.Descriptors
         [Test]
         public void EachFilter_ShouldBeTested()
         {
-            Assert.AreEqual(FilterData.Count(), mFilters.Length);
+            Assert.AreEqual(sFilterData.Count(), mFilters.Length);
         }
 
         [Test]
@@ -45,15 +47,15 @@ namespace Editor.Test.Descriptors
         {
             foreach (FieldInfo info in mFilters)
             {
-                FilterData.Single(f => AreEqual((FilterDescriptor)info.GetValue(null), (string)f.Arguments[0], (FilterType)f.Arguments[1], (string)f.Arguments[2], (string)f.Arguments[3]));
+                sFilterData.Single(f => AreEqual((FilterDescriptor)info.GetValue(null), (string)f.Arguments[0], (FilterType)f.Arguments[1], (string)f.Arguments[2], (string)f.Arguments[3]));
             }
         }
 
-        [TestCaseSource(nameof(FilterData))]
+        [TestCaseSource(nameof(sFilterData))]
         public void EachFilter_ShouldBeFoundByTypeNamespace(string name, FilterType type, string typeNamespace, string elementName)
         {
-            Assert.IsTrue(FilterDescriptor.TryFindByTypeNamespace(typeNamespace, out FilterDescriptor Filter));
-            Assert.IsTrue(AreEqual(Filter, name, type, typeNamespace, elementName));
+            Assert.IsTrue(FilterDescriptor.TryFindByTypeNamespace(typeNamespace, out FilterDescriptor filter));
+            Assert.IsTrue(AreEqual(filter, name, type, typeNamespace, elementName));
         }
 
         private bool AreEqual(FilterDescriptor descriptor, string name, FilterType type, string typeNamespace, string elementName)
