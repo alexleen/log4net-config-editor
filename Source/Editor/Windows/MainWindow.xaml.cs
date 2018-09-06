@@ -49,7 +49,10 @@ namespace Editor.Windows
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async,
                 AppenderDescriptor.Forwarding,
-                AppenderDescriptor.ManagedColor
+                AppenderDescriptor.ManagedColor,
+                AppenderDescriptor.Udp,
+                AppenderDescriptor.LocalSyslog,
+                AppenderDescriptor.RemoteSyslog
             };
 
             xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
@@ -299,7 +302,6 @@ namespace Editor.Windows
         private void LoadRenderers(ICollection<ChildModel> children)
         {
             XmlNodeList rendererList = mLog4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
-
             foreach (XmlNode renderer in rendererList)
             {
                 children.Add(new RendererModel(renderer));

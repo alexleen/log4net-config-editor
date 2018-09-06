@@ -59,13 +59,53 @@
 
             <Label Content="{Binding Name}" />
             <ComboBox Grid.Column="1" 
-                      ItemsSource="{Binding Levels}" 
-                      SelectedItem="{Binding SelectedLevel}" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedItem="{Binding SelectedValue}" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Left" 
-                      Width="100"
+                      Width="{Binding Width}"
                       Margin="0,0,5,0"
-                      ToolTip="All log events with lower level than the threshold level are ignored by the appender."/>
+                      ToolTip="{Binding ToolTip}" />
+        </Grid>
+    </DataTemplate>
+
+    <!-- LocalSyslogFacility -->
+    <DataTemplate DataType="{x:Type ConfigProperties:LocalSyslogFacility}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedItem="{Binding SelectedValue}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="{Binding Width}"
+                      Margin="0,0,5,0"
+                      ToolTip="{Binding ToolTip}" />
+        </Grid>
+    </DataTemplate>
+
+    <!-- RemoteSyslogFacility -->
+    <DataTemplate DataType="{x:Type ConfigProperties:RemoteSyslogFacility}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedItem="{Binding SelectedValue}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="{Binding Width}"
+                      Margin="0,0,5,0"
+                      ToolTip="{Binding ToolTip}" />
         </Grid>
     </DataTemplate>
 

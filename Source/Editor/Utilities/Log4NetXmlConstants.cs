@@ -13,5 +13,7 @@ namespace Editor.Utilities
         public const string Value = "value";
         public const string Type = "type";
         public const string Root = "root";
+        public const string Identity = "identity";
+        public const string Facility = "facility";
     }
 }

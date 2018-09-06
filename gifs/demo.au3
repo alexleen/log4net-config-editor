@@ -4,11 +4,32 @@
 Opt("WinTitleMatchMode", 1)
 
 $title = "log4net Configuration Editor"
-$mouseSpeed = 25
+$mouseSpeed = 20
 
 Run("..\Source\Editor\bin\Release\Editor.exe")
+;WinWaitActive($title)
+;$pos = WinGetPos($title)
+
+;Click on New (relative to top right)
+;MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 225, $pos[1] + 50, 1, $mouseSpeed)
+
+;--------------------------------- Save As
+
+;WinWaitActive("Save As")
+;$pos = WinGetPos("Save As")
+;Sleep(500)
+
+;Type new config file name
+;Send("demo")
+
+;Click on Save (relative to bottom right)
+;MouseClick($MOUSE_CLICK_LEFT, $pos[0] + $pos[2] - 200, $pos[1] + $pos[3] - 30, 1, $mouseSpeed)
+
+;--------------------------------- Main
+
 WinWaitActive($title)
 $pos = WinGetPos($title)
+
 $mainWindowRightButtonsX = $pos[0] + $pos[2] - 70
 
 ;Click on Add Root
@@ -121,4 +142,6 @@ Func SaveMain()
 
    ;Click on Save (relative to center bottom)
    MouseClick($MOUSE_CLICK_LEFT, ($pos[0] + $pos[2] / 2) - 90, $pos[1] + $pos[3] - 25, 1, $mouseSpeed)
+
+   Sleep(1000)
 EndFunc

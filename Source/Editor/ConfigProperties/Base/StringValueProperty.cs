@@ -27,8 +27,6 @@ namespace Editor.ConfigProperties.Base
 
         public bool IsReadOnly { get; set; }
 
-        public string ToolTip { get; set; }
-
         protected void SetValueIfNotNullOrEmpty(string value)
         {
             if (!string.IsNullOrEmpty(value))

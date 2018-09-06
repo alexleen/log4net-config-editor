@@ -31,13 +31,13 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Levels_ShouldBeAllLevels()
         {
-            CollectionAssert.AreEqual(Log4NetUtilities.LevelsByName.Keys, mSut.Levels);
+            CollectionAssert.AreEqual(Log4NetUtilities.LevelsByName.Keys, mSut.Values);
         }
 
         [Test]
         public void SelectedLevel_ShouldBeAll()
         {
-            Assert.AreEqual(Level.All.Name, mSut.SelectedLevel);
+            Assert.AreEqual(Level.All.Name, mSut.SelectedValue);
         }
 
         [TestCase("<levelToMatch />", "ALL")]
@@ -54,7 +54,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Load(xmlDoc.FirstChild);
 
-            Assert.AreEqual(expected, mSut.SelectedLevel);
+            Assert.AreEqual(expected, mSut.SelectedValue);
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.SelectedLevel = Level.All.Name;
+            mSut.SelectedValue = Level.All.Name;
             mSut.Save(xmlDoc, appender);
 
             XmlNode thresholdNode = appender.SelectSingleNode("levelToMatch");

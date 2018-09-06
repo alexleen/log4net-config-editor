@@ -20,7 +20,7 @@ namespace Editor.ConfigProperties.Base
         /// <param name="container">Collection of properties in which this property exists</param>
         /// <param name="name">Display name shown in the UI</param>
         /// <param name="elementName">Name of the element this property is read from and saved as</param>
-        /// <param name="defaultValue">Defaul value for the <see cref="Value"/> property</param>
+        /// <param name="defaultValue">Default value for the <see cref="Value"/> property</param>
         /// <param name="ignoreValue">Property will not be saved if <see cref="Value"/> equals this value</param>
         public BooleanPropertyBase(ReadOnlyCollection<IProperty> container, string name, string elementName, bool defaultValue, bool ignoreValue)
             : base(container, GridLength.Auto)

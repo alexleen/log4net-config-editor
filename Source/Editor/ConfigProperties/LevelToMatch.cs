@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class LevelToMatch : LevelPropertyBase
+    internal class LevelToMatch : LevelPropertyBase
     {
         private const string LevelMatchName = "levelToMatch";
 
@@ -25,7 +25,7 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            xmlDoc.CreateElementWithValueAttribute(LevelMatchName, SelectedLevel).AppendTo(newNode);
+            xmlDoc.CreateElementWithValueAttribute(LevelMatchName, SelectedValue).AppendTo(newNode);
         }
     }
 }

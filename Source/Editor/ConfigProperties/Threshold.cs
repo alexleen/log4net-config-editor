@@ -9,13 +9,14 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class Threshold : LevelPropertyBase
+    internal class Threshold : LevelPropertyBase
     {
         private const string ThresholdName = "threshold";
 
         public Threshold(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Threshold:", true)
         {
+            ToolTip = "All log events with lower level than the threshold level are ignored by the appender.";
         }
 
         public override void Load(XmlNode originalNode)
@@ -25,9 +26,9 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (!string.IsNullOrEmpty(SelectedLevel))
+            if (!string.IsNullOrEmpty(SelectedValue))
             {
-                xmlDoc.CreateElementWithValueAttribute(ThresholdName, SelectedLevel).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(ThresholdName, SelectedValue).AppendTo(newNode);
             }
         }
     }

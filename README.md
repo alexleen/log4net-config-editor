@@ -28,13 +28,13 @@ Currently under construction. log4net configuration files can be quite large and
 | EventLogAppender              | ✓         |
 | FileAppender                  | ✓         |
 | ForwardingAppender            | ✓         |
-| LocalSyslogAppender           |           |
+| LocalSyslogAppender           | ✓         |
 | ManagedColoredConsoleAppender | ✓         |
 | MemoryAppender                |           |
 | NetSendAppender               |           |
 | OutputDebugStringAppender     |           |
 | [ParallelForwardingAppender](https://github.com/cjbhaines/Log4Net.Async#parallelforwardingappender) |           |
-| RemoteSyslogAppender          |           |
+| RemoteSyslogAppender          | ✓         |
 | RemotingAppender              |           |
 | RollingFileAppender           | ✓         |
 | SmtpAppender                  |           |
@@ -42,7 +42,7 @@ Currently under construction. log4net configuration files can be quite large and
 | TelnetAppender                |           |
 | TextWriterAppender            |           |
 | TraceAppender                 |           |
-| UdpAppender                   |           |
+| UdpAppender                   | ✓         |
 #### Filters
 | Filter            | Supported | Notes                                 |
 |-------------------|-----------|---------------------------------------|

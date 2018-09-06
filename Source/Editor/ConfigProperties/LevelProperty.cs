@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class LevelProperty : LevelPropertyBase
+    internal class LevelProperty : LevelPropertyBase
     {
         private const string LevelName = "level";
 
@@ -25,9 +25,9 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (!string.IsNullOrEmpty(SelectedLevel))
+            if (!string.IsNullOrEmpty(SelectedValue))
             {
-                xmlDoc.CreateElementWithValueAttribute(LevelName, SelectedLevel).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(LevelName, SelectedValue).AppendTo(newNode);
             }
         }
     }
