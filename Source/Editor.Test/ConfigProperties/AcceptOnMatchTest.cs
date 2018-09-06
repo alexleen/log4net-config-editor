@@ -21,6 +21,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void AcceptOnMatch_ShouldUseCorrectName()
+        {
+            Assert.AreEqual("Accept on Match:", mSut.Name);
+        }
+
+        [Test]
         public void Name_ShouldBeInitializedCorrectly()
         {
             Assert.AreEqual("Accept on Match:", mSut.Name);

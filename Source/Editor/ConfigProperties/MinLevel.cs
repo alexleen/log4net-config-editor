@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class MinLevel : LevelPropertyBase
+    internal class MinLevel : LevelPropertyBase
     {
         private const string LevelMinName = "levelMin";
 
@@ -25,9 +25,9 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (!string.IsNullOrEmpty(SelectedLevel))
+            if (!string.IsNullOrEmpty(SelectedValue))
             {
-                xmlDoc.CreateElementWithValueAttribute(LevelMinName, SelectedLevel).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(LevelMinName, SelectedValue).AppendTo(newNode);
             }
         }
     }

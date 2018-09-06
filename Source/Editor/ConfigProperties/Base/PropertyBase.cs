@@ -30,6 +30,8 @@ namespace Editor.ConfigProperties.Base
 
         public ICommand Navigate { get; }
 
+        public string ToolTip { get; set; }
+
         public abstract void Load(XmlNode originalNode);
 
         public virtual bool TryValidate(IMessageBoxService messageBoxService)

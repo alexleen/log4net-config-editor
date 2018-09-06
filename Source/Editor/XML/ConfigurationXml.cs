@@ -24,6 +24,13 @@ namespace Editor.XML
             Children = new ObservableCollection<ModelBase>();
         }
 
+        public void CreateNew()
+        {
+            ConfigXml = new XmlDocument();
+            ConfigXml.AppendChild(ConfigXml.CreateElement(Log4NetXmlConstants.Log4Net));
+            Save();
+        }
+
         public void Load()
         {
             ConfigXml = new XmlDocument();

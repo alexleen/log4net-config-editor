@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class MaxLevel : LevelPropertyBase
+    internal class MaxLevel : LevelPropertyBase
     {
         private const string LevelMaxName = "levelMax";
 
@@ -25,9 +25,9 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (!string.IsNullOrEmpty(SelectedLevel))
+            if (!string.IsNullOrEmpty(SelectedValue))
             {
-                xmlDoc.CreateElementWithValueAttribute(LevelMaxName, SelectedLevel).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(LevelMaxName, SelectedValue).AppendTo(newNode);
             }
         }
     }

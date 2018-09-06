@@ -46,7 +46,10 @@ namespace Editor.Windows
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async,
                 AppenderDescriptor.Forwarding,
-                AppenderDescriptor.ManagedColor
+                AppenderDescriptor.ManagedColor,
+                AppenderDescriptor.Udp,
+                AppenderDescriptor.LocalSyslog,
+                AppenderDescriptor.RemoteSyslog
             };
 
             xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
@@ -73,6 +76,18 @@ namespace Editor.Windows
             string selectedConfig = (string)xConfigComboBox.SelectedItem;
             RefreshConfigComboBox(selectedConfig);
             LoadFromFile(selectedConfig);
+        }
+
+        private void NewClick(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "XML Config File | .xml" };
+
+            bool? result = sfd.ShowDialog(this);
+
+            if (result.HasValue && result.Value)
+            {
+                RefreshConfigComboBox(sfd.FileName);
+            }
         }
 
         private void OpenThereOnClick(object sender, RoutedEventArgs e)
@@ -132,6 +147,9 @@ namespace Editor.Windows
             Close();
         }
 
+        /// <summary>
+        /// Saves root attributes to <see cref="mConfigXml"/> then writes <see cref="mConfigXml"/> to disk at currently selected config location.
+        /// </summary>
         private void SaveToFile()
         {
             mConfigurationXml.Save();
