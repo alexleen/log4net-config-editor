@@ -16,12 +16,14 @@ namespace Editor.XML
     {
         private readonly string mFilename;
         private readonly IMessageBoxService mMessageBoxService;
+        private readonly ObservableCollection<ModelBase> mMutableChildren;
 
         public ConfigurationXml(string filename, IMessageBoxService messageBoxService)
         {
             mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
-            Children = new ObservableCollection<ModelBase>();
+            mMutableChildren = new ObservableCollection<ModelBase>();
+            Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
         public void CreateNew()
@@ -61,14 +63,14 @@ namespace Editor.XML
 
             Log4NetNode = log4NetNodes[0];
 
-            Children.Clear();
+            mMutableChildren.Clear();
 
             bool unrecognized = LoadAppenders();
             LoadChildrenWithName(RendererDescriptor.Renderer.ElementName);
             LoadChildrenWithName(ParamDescriptor.Param.ElementName);
             foreach (LoggerModel logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
             {
-                Children.Add(logger);
+                mMutableChildren.Add(logger);
             }
 
             LoadRootAttributes();
@@ -89,7 +91,7 @@ namespace Editor.XML
                 {
                     if (AppenderModel.TryCreate(node, Log4NetNode, out AppenderModel model))
                     {
-                        Children.Add(model);
+                        mMutableChildren.Add(model);
                     }
                     else
                     {
@@ -107,7 +109,7 @@ namespace Editor.XML
 
             foreach (XmlNode renderer in rendererList)
             {
-                Children.Add(new RendererModel(renderer));
+                mMutableChildren.Add(new RendererModel(renderer));
             }
         }
 
@@ -192,6 +194,18 @@ namespace Editor.XML
             }
         }
 
+        public void RemoveChild(ModelBase child)
+        {
+            Log4NetNode.RemoveChild(child.Node);
+
+            mMutableChildren.Remove(child);
+
+            if (child is AppenderModel appenderModel)
+            {
+                RemoveRefsTo(appenderModel);
+            }
+        }
+
         public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
         {
             return new ElementConfiguration(this, originalModel?.Node, ConfigXml.CreateElement(newElementName));
@@ -207,7 +221,6 @@ namespace Editor.XML
 
         public Level Threshold { get; set; }
 
-        public ObservableCollection<ModelBase> Children { get; private set; }
-
+        public ReadOnlyObservableCollection<ModelBase> Children { get; private set; }
     }
 }

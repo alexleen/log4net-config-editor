@@ -8,6 +8,12 @@ namespace Editor.XML
     public interface IConfigurationXml : IConfiguration
     {
         /// <summary>
+        /// Removes the specified child from XML and <see cref="Children"/> collection.
+        /// </summary>
+        /// <param name="child"></param>
+        void RemoveChild(ModelBase child);
+
+        /// <summary>
         /// Loads the log4net configuration from disk.
         /// </summary>
         void Load();
@@ -41,6 +47,6 @@ namespace Editor.XML
         /// <summary>
         /// Children of the log4net root element.
         /// </summary>
-        ObservableCollection<ModelBase> Children { get; }
+        ReadOnlyObservableCollection<ModelBase> Children { get; }
     }
 }

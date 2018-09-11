@@ -216,17 +216,10 @@ namespace Editor.Windows
 
         private void RemoveAppenderOnClick(object sender, RoutedEventArgs e)
         {
-            foreach (ModelBase modelBase in xChildren.SelectedItems)
+            foreach (ModelBase modelBase in xChildren.SelectedItems.OfType<ModelBase>().ToList())
             {
-                mConfigurationXml.Children.Remove(modelBase);
-
-                if (modelBase is AppenderModel appenderModel)
-                {
-                    mConfigurationXml.RemoveRefsTo(appenderModel);
-                }
+                mConfigurationXml.RemoveChild(modelBase);
             }
-
-            LoadFromRam();
         }
 
         private void RemoveRefsOnClick(object sender, RoutedEventArgs e)
