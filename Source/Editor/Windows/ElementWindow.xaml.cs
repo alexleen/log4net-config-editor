@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Editor.Interfaces;
+using Editor.Utilities;
 using Microsoft.Win32;
 
 namespace Editor.Windows
@@ -144,7 +145,7 @@ namespace Editor.Windows
 
             bool? showDialog = ofd.ShowDialog();
 
-            if (showDialog.HasValue && showDialog.Value)
+            if (showDialog.IsTrue())
             {
                 fileName = ofd.FileName;
                 return true;

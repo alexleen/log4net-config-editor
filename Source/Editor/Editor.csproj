@@ -169,6 +169,7 @@
     <Compile Include="Models\ConfigChildren\AsyncAppenderModel.cs" />
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
+    <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="XML\ElementConfiguration.cs" />
     <Compile Include="Models\ConfigChildren\RendererModel.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategy.cs" />

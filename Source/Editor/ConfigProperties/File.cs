@@ -82,7 +82,7 @@ namespace Editor.ConfigProperties
         {
             bool? showDialog = mMessageBoxService.ShowOpenFileDialog(out string filePath);
 
-            if (showDialog.HasValue && showDialog.Value)
+            if (showDialog.IsTrue())
             {
                 FilePath = filePath;
             }

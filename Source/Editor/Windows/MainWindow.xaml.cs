@@ -3,6 +3,7 @@
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
+using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Models;
@@ -26,8 +27,6 @@ namespace Editor.Windows
     /// </summary>
     public partial class MainWindow : IMessageBoxService
     {
-        private const string UpdateMerge = "Merge";
-        private const string UpdateOverwrite = "Overwrite";
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
         private IConfigurationXml mConfigurationXml;
 
@@ -52,7 +51,7 @@ namespace Editor.Windows
                 AppenderDescriptor.RemoteSyslog
             };
 
-            xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
+            xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 
             xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
 
@@ -84,9 +83,12 @@ namespace Editor.Windows
 
             bool? result = sfd.ShowDialog(this);
 
-            if (result.HasValue && result.Value)
+            if (result.IsTrue())
             {
                 RefreshConfigComboBox(sfd.FileName);
+                mConfigurationXml = new ConfigurationXml(sfd.FileName, this);
+                mConfigurationXml.CreateNew();
+                mConfigurationXml.Load();
             }
         }
 
@@ -114,9 +116,10 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Save the specified file name to the set of historical configs.
-        /// Sets the config ComboBox's ItemsSource to the set of historical configs.
-        /// Sets the config ComboBox's to the specified filename.
+        /// Performs the following actions:<para/>
+        /// 1. Save the specified file name to the set of historical configs.<para/>
+        /// 2. Sets the config ComboBox's ItemsSource to the set of historical configs.<para/>
+        /// 3. Sets the config ComboBox's to the specified filename.
         /// </summary>
         /// <param name="fileName"></param>
         private void RefreshConfigComboBox(string fileName)
@@ -152,6 +155,9 @@ namespace Editor.Windows
         /// </summary>
         private void SaveToFile()
         {
+            mConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
+            mConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
+            mConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
             mConfigurationXml.Save();
         }
 
@@ -304,7 +310,7 @@ namespace Editor.Windows
 
             bool? showDialog = ofd.ShowDialog();
 
-            if (showDialog.HasValue && showDialog.Value)
+            if (showDialog.IsTrue())
             {
                 fileName = ofd.FileName;
                 return true;

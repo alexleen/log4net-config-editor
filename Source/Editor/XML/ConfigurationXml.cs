@@ -40,7 +40,7 @@ namespace Editor.XML
 
             bool? unrecognizedAppender = Reload();
 
-            if (unrecognizedAppender.HasValue && unrecognizedAppender.Value)
+            if (unrecognizedAppender.IsTrue())
             {
                 mMessageBoxService.ShowWarning("At least one unrecognized appender was found in this configuration.");
             }

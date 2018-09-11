@@ -1,6 +1,8 @@
-﻿using Editor.Interfaces;
+﻿using Editor.Enums;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Models.Base;
+using log4net.Core;
 using System.Collections.ObjectModel;
 
 namespace Editor.XML
@@ -8,10 +10,9 @@ namespace Editor.XML
     public interface IConfigurationXml : IConfiguration
     {
         /// <summary>
-        /// Removes the specified child from XML and <see cref="Children"/> collection.
+        /// Creates an empty log4net configuration XML field.
         /// </summary>
-        /// <param name="child"></param>
-        void RemoveChild(ModelBase child);
+        void CreateNew();
 
         /// <summary>
         /// Loads the log4net configuration from disk.
@@ -37,6 +38,12 @@ namespace Editor.XML
         void RemoveRefsTo(AppenderModel appenderModel);
 
         /// <summary>
+        /// Removes the specified child from XML and <see cref="Children"/> collection.
+        /// </summary>
+        /// <param name="child"></param>
+        void RemoveChild(ModelBase child);
+
+        /// <summary>
         /// Creates an element configuration.
         /// </summary>
         /// <param name="originalModel">Original model if editing. Null if new element.</param>
@@ -48,5 +55,20 @@ namespace Editor.XML
         /// Children of the log4net root element.
         /// </summary>
         ReadOnlyObservableCollection<ModelBase> Children { get; }
+
+        /// <summary>
+        /// Configuration wide threshold.
+        /// </summary>
+        Level Threshold { get; set; }
+
+        /// <summary>
+        /// Whether this configuration merges or overwrites an existing configuration.
+        /// </summary>
+        Update Update { get; set; }
+
+        /// <summary>
+        /// Whether or not log4net is running in debug mode.
+        /// </summary>
+        bool Debug { get; set; }
     }
 }

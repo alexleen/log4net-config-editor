@@ -56,7 +56,7 @@ namespace Editor.ConfigProperties
             {
                 if (loggerModel.IsEnabled)
                 {
-                    if (mNameProperty.Changed.HasValue && mNameProperty.Changed.Value)
+                    if (mNameProperty.Changed.IsTrue())
                     {
                         RemoveOldRefsFrom(loggerModel, mNameProperty.OriginalName);
                     }
@@ -65,7 +65,7 @@ namespace Editor.ConfigProperties
                 }
                 else
                 {
-                    RemoveOldRefsFrom(loggerModel, mNameProperty.Changed.HasValue && mNameProperty.Changed.Value ? mNameProperty.OriginalName : mNameProperty.Value);
+                    RemoveOldRefsFrom(loggerModel, mNameProperty.Changed.IsTrue() ? mNameProperty.OriginalName : mNameProperty.Value);
                 }
             }
         }
