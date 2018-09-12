@@ -6,6 +6,7 @@ using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Models.ConfigChildren;
+using SystemInterface.Xml;
 
 namespace Editor.Utilities
 {
@@ -116,6 +117,13 @@ namespace Editor.Utilities
         /// <param name="name"></param>
         /// <param name="value"></param>
         public static void AppendAttribute(this XmlNode element, XmlDocument xmlDoc, string name, string value)
+        {
+            XmlAttribute attr = xmlDoc.CreateAttribute(name);
+            attr.Value = value;
+            element.Attributes.Append(attr);
+        }
+
+        public static void AppendAttribute(this XmlNode element, IXmlDocument xmlDoc, string name, string value)
         {
             XmlAttribute attr = xmlDoc.CreateAttribute(name);
             attr.Value = value;

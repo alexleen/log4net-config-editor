@@ -7,8 +7,11 @@ using Editor.Utilities;
 using log4net.Core;
 using System;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.IO;
 using System.Xml;
+using SystemInterface.IO;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
@@ -16,27 +19,40 @@ namespace Editor.XML
     {
         private readonly string mFilename;
         private readonly IMessageBoxService mMessageBoxService;
+        private readonly IXmlDocumentFactory mXmlDocFactory;
+        private readonly IFileStreamFactory mFileStreamFactory;
+        private readonly IXmlWriterFactory mXmlWriterFactory;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
+        private IXmlDocument mConfigXml;
 
-        public ConfigurationXml(string filename, IMessageBoxService messageBoxService)
+        public ConfigurationXml(string filename,
+                                IMessageBoxService messageBoxService,
+                                IXmlDocumentFactory xmlDocFactory,
+                                IFileStreamFactory fileStreamFactory,
+                                IXmlWriterFactory xmlWriterFactory)
         {
+
             mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
+            mXmlDocFactory = xmlDocFactory;
+            mFileStreamFactory = fileStreamFactory;
+            mXmlWriterFactory = xmlWriterFactory;
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
         public void CreateNew()
         {
-            ConfigXml = new XmlDocument();
-            ConfigXml.AppendChild(ConfigXml.CreateElement(Log4NetXmlConstants.Log4Net));
+            mConfigXml = mXmlDocFactory.Create();
+            Log4NetNode = mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net);
+            mConfigXml.AppendChild(Log4NetNode);
             Save();
         }
 
         public void Load()
         {
-            ConfigXml = new XmlDocument();
-            ConfigXml.Load(mFilename);
+            mConfigXml = mXmlDocFactory.Create();
+            mConfigXml.Load(mFilename);
 
             bool? unrecognizedAppender = Reload();
 
@@ -48,7 +64,7 @@ namespace Editor.XML
 
         public bool? Reload()
         {
-            XmlNodeList log4NetNodes = ConfigXml.SelectNodes("//log4net");
+            XmlNodeList log4NetNodes = mConfigXml.SelectNodes("//log4net");
 
             if (log4NetNodes == null || log4NetNodes.Count == 0)
             {
@@ -147,9 +163,14 @@ namespace Editor.XML
         {
             SaveRootAttributes();
 
-            using (XmlTextWriter xtw = new XmlTextWriter(mFilename, Encoding.UTF8) { Formatting = Formatting.Indented })
+            using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
             {
-                ConfigXml.Save(xtw);
+                XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+
+                using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                {
+                    mConfigXml.Save(xtw.Writer);
+                }
             }
         }
 
@@ -157,7 +178,7 @@ namespace Editor.XML
         {
             if (Debug)
             {
-                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.Debug, "true");
+                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
             }
             else
             {
@@ -167,7 +188,7 @@ namespace Editor.XML
             if (Update == Update.Overwrite)
             {
                 //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.Update, Update.ToString());
+                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, Update.ToString());
             }
             else
             {
@@ -177,7 +198,7 @@ namespace Editor.XML
             if (!Equals(Threshold, Level.All))
             {
                 //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                Log4NetNode.AppendAttribute(ConfigXml, Log4NetXmlConstants.Threshold, Threshold.Name);
+                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, Threshold.Name);
             }
             else
             {
@@ -208,10 +229,10 @@ namespace Editor.XML
 
         public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
         {
-            return new ElementConfiguration(this, originalModel?.Node, ConfigXml.CreateElement(newElementName));
+            return new ElementConfiguration(this, originalModel?.Node, mConfigXml.CreateElement(newElementName));
         }
 
-        public XmlDocument ConfigXml { get; private set; }
+        public XmlDocument ConfigXml => ((XmlDocumentWrap)mConfigXml).XmlDocumentInstance;
 
         public XmlNode Log4NetNode { get; private set; }
 
@@ -219,7 +240,7 @@ namespace Editor.XML
 
         public Update Update { get; set; }
 
-        public Level Threshold { get; set; }
+        public Level Threshold { get; set; } = Level.All;
 
         public ReadOnlyObservableCollection<ModelBase> Children { get; private set; }
     }

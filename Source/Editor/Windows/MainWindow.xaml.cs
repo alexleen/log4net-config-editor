@@ -19,6 +19,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using SystemWrapper.IO;
+using SystemWrapper.Xml;
 
 namespace Editor.Windows
 {
@@ -86,7 +88,7 @@ namespace Editor.Windows
             if (result.IsTrue())
             {
                 RefreshConfigComboBox(sfd.FileName);
-                mConfigurationXml = new ConfigurationXml(sfd.FileName, this);
+                mConfigurationXml = CreateNewConfigXml(sfd.FileName);
                 mConfigurationXml.CreateNew();
                 mConfigurationXml.Load();
             }
@@ -177,9 +179,13 @@ namespace Editor.Windows
             mConfigurationXml.Reload();
         }
 
+        /// <summary>
+        /// Replaces <see cref="mConfigurationXml"/> with a new instance for the specified file.
+        /// </summary>
+        /// <param name="filename"></param>
         private void LoadFromFile(string filename)
         {
-            mConfigurationXml = new ConfigurationXml(filename, this);
+            mConfigurationXml = CreateNewConfigXml(filename);
             mConfigurationXml.Load();
 
             xChildren.ItemsSource = mConfigurationXml.Children;
@@ -187,6 +193,11 @@ namespace Editor.Windows
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
+        }
+
+        private ConfigurationXml CreateNewConfigXml(string filename)
+        {
+            return new ConfigurationXml(filename, this, new XmlDocumentFactory(), new FileStreamWrapFactory(), new XmlWriterFactory());
         }
 
         private void AddAppenderItemOnClick(object appender)
