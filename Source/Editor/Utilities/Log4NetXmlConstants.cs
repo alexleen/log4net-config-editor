@@ -4,6 +4,7 @@ namespace Editor.Utilities
 {
     public static class Log4NetXmlConstants
     {
+        public const string Log4Net = "log4net";
         public const string Debug = "debug";
         public const string Update = "update";
         public const string Threshold = "threshold";
@@ -13,5 +14,7 @@ namespace Editor.Utilities
         public const string Type = "type";
         public const string Root = "root";
         public const string Logger = "logger";
+        public const string Identity = "identity";
+        public const string Facility = "facility";
     }
 }

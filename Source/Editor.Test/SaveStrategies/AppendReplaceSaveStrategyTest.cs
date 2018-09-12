@@ -4,6 +4,7 @@ using System;
 using System.Xml;
 using Editor.Interfaces;
 using Editor.SaveStrategies;
+using Editor.Utilities;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -22,7 +23,7 @@ namespace Editor.Test.SaveStrategies
         public void Execute_ShouldAppend_WhenOriginalNodeIsNull()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlElement log4NetElement = xmlDoc.CreateElement("log4net");
+            XmlElement log4NetElement = xmlDoc.CreateElement(Log4NetXmlConstants.Log4Net);
             XmlElement newElement = xmlDoc.CreateElement("appender");
 
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
@@ -39,7 +40,7 @@ namespace Editor.Test.SaveStrategies
         public void Execute_ShouldReplace_WhenOriginalNodeIsNotNull()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlElement log4NetElement = xmlDoc.CreateElement("log4net");
+            XmlElement log4NetElement = xmlDoc.CreateElement(Log4NetXmlConstants.Log4Net);
             XmlElement origElement = xmlDoc.CreateElement("origAppender");
             log4NetElement.AppendChild(origElement);
             XmlElement newElement = xmlDoc.CreateElement("newAppender");

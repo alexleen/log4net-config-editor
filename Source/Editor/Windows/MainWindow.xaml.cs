@@ -58,7 +58,10 @@ namespace Editor.Windows
                 AppenderDescriptor.EventLog,
                 AppenderDescriptor.Async,
                 AppenderDescriptor.Forwarding,
-                AppenderDescriptor.ManagedColor
+                AppenderDescriptor.ManagedColor,
+                AppenderDescriptor.Udp,
+                AppenderDescriptor.LocalSyslog,
+                AppenderDescriptor.RemoteSyslog
             };
 
             xUpdateComboBox.ItemsSource = new[] { UpdateMerge, UpdateOverwrite };
@@ -85,6 +88,21 @@ namespace Editor.Windows
             string selectedConfig = (string)xConfigComboBox.SelectedItem;
             RefreshConfigComboBox(selectedConfig);
             LoadFromFile(selectedConfig);
+        }
+
+        private void NewClick(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "XML Config File | .xml" };
+
+            bool? result = sfd.ShowDialog(this);
+
+            if (result.HasValue && result.Value)
+            {
+                mConfigXml = new XmlDocument();
+                mConfigXml.AppendChild(mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net));
+                SaveTo(sfd.FileName);
+                RefreshConfigComboBox(sfd.FileName);
+            }
         }
 
         private void OpenThereOnClick(object sender, RoutedEventArgs e)
@@ -144,11 +162,22 @@ namespace Editor.Windows
             Close();
         }
 
+        /// <summary>
+        /// Saves root attributes to <see cref="mConfigXml"/> then writes <see cref="mConfigXml"/> to disk at currently selected config location.
+        /// </summary>
         private void SaveToFile()
         {
             SaveRootAttributes();
+            SaveTo((string)xConfigComboBox.SelectedItem);
+        }
 
-            using (XmlTextWriter xtw = new XmlTextWriter((string)xConfigComboBox.SelectedItem, Encoding.UTF8) { Formatting = Formatting.Indented })
+        /// <summary>
+        /// Saves <see cref="mConfigXml"/> to the specified file.
+        /// </summary>
+        /// <param name="file"></param>
+        private void SaveTo(string file)
+        {
+            using (XmlTextWriter xtw = new XmlTextWriter(file, Encoding.UTF8) { Formatting = Formatting.Indented })
             {
                 mConfigXml.Save(xtw);
             }
@@ -282,7 +311,6 @@ namespace Editor.Windows
         private void LoadRenderers(ICollection<ModelBase> children)
         {
             XmlNodeList rendererList = mLog4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
-
             foreach (XmlNode renderer in rendererList)
             {
                 children.Add(new RendererModel(renderer));
