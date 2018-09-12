@@ -10,7 +10,8 @@ namespace Editor.XML
     public interface IConfigurationXml : IConfiguration
     {
         /// <summary>
-        /// Creates an empty log4net configuration XML field.
+        /// Resets this configuration to an empty log4net configuration (only log4net root element).
+        /// Does NOT save to disk.
         /// </summary>
         void CreateNew();
 

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.Test.XML
 {
@@ -14,7 +15,7 @@ namespace Editor.Test.XML
     public class ConfigurationXmlTest
     {
         private const string Filename = "filename";
-        private XmlElement mLog4NetElement;
+        //private XmlElement mLog4NetElement;
         private IXmlDocument mXmlDoc;
         private IMessageBoxService mMessageBoxService;
         private IXmlDocumentFactory mXmlDocFactory;
@@ -23,11 +24,11 @@ namespace Editor.Test.XML
         [SetUp]
         public void SetUp()
         {
-            XmlDocument actualXmlDoc = new XmlDocument();
-            mLog4NetElement = actualXmlDoc.CreateElement(Log4NetXmlConstants.Log4Net);
+            //XmlDocument actualXmlDoc = new XmlDocument();
+            //mLog4NetElement = actualXmlDoc.CreateElement(Log4NetXmlConstants.Log4Net);
 
-            mXmlDoc = Substitute.For<IXmlDocument>();
-            mXmlDoc.CreateElement(Log4NetXmlConstants.Log4Net).Returns(mLog4NetElement);
+            mXmlDoc = new XmlDocumentWrap();
+            //mXmlDoc.CreateElement(Log4NetXmlConstants.Log4Net).Returns(mLog4NetElement);
 
             mXmlDocFactory = Substitute.For<IXmlDocumentFactory>();
             mXmlDocFactory.Create().Returns(mXmlDoc);
@@ -47,35 +48,14 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void CreateNew_ShouldCallCreate_OnXmlDocumentFactory()
-        {
-            mSut.CreateNew();
-
-            mXmlDocFactory.Received(1).Create();
-        }
-
-        [Test]
         public void CreateNew_ShouldCreate_AndAssignLog4NetNode()
         {
             mSut.CreateNew();
 
-            Assert.AreSame(mLog4NetElement, mSut.Log4NetNode);
-        }
+            XmlNodeList roots = mXmlDoc.SelectNodes("//log4net");
 
-        [Test]
-        public void CreateNew_ShouldAppendLog4NetNodeToXmlDoc()
-        {
-            mSut.CreateNew();
-
-            mXmlDoc.Received(1).AppendChild(mLog4NetElement);
-        }
-
-        [Test]
-        public void CreateNew_ShouldSave()
-        {
-            mSut.CreateNew();
-            //TODO assert root attrs are saved(?)
-            mXmlDoc.Received(1).Save(Arg.Any<XmlWriter>());
+            Assert.AreEqual(1, roots.Count);
+            Assert.AreSame(roots[0], mSut.Log4NetNode);
         }
 
         [Test]
@@ -101,7 +81,7 @@ namespace Editor.Test.XML
             //TODO throw IOE if not loaded when Reload() is called?
             mSut.Reload();
 
-            //1 form Load, 1 from Reload
+            //1 from Load + 1 from Reload
             mMessageBoxService.Received(2).ShowError("Could not find log4net configuration.");
         }
     }

@@ -46,7 +46,6 @@ namespace Editor.XML
             mConfigXml = mXmlDocFactory.Create();
             Log4NetNode = mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net);
             mConfigXml.AppendChild(Log4NetNode);
-            Save();
         }
 
         public void Load()
