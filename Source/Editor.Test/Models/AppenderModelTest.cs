@@ -1,7 +1,10 @@
-﻿using Editor.Models;
+﻿using Editor.Descriptors;
+using Editor.Models;
 using Editor.Models.ConfigChildren;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Xml;
 
 namespace Editor.Test.Models
@@ -9,22 +12,44 @@ namespace Editor.Test.Models
     [TestFixture]
     public class AppenderModelTest
     {
-        [TestCase("<log4net>" +
-                    "<appender type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">" +
-                    "</appender>" +
-                  "</log4net>", typeof(AsyncAppenderModel))]
-        [TestCase("<log4net>" +
-                    "<appender type=\"log4net.Appender.ConsoleAppender\">" +
-                    "</appender>" +
-                  "</log4net>", typeof(AppenderModel))]
-        public void TryCreate_ShouldReturnCorrectType(string xml, Type modelType)
+        private static IEnumerable<TestCaseData> sAppenders
+        {
+            get
+            {
+                FieldInfo[] appenders = typeof(AppenderDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static);
+
+                foreach (FieldInfo fieldInfo in appenders)
+                {
+                    AppenderDescriptor descriptor = (AppenderDescriptor)fieldInfo.GetValue(null);
+
+                    Type expectedType = descriptor == AppenderDescriptor.Async ? typeof(AsyncAppenderModel) : typeof(AppenderModel);
+
+                    yield return new TestCaseData("<log4net>" +
+                                                   $"<appender type=\"{descriptor.TypeNamespace}\">" +
+                                                    "</appender>" +
+                                                  "</log4net>", expectedType);
+                }
+            }
+        }
+
+        [TestCaseSource(nameof(sAppenders))]
+        public void TryCreate_ShouldReturnCorrectType(string xml, Type expectedModelType)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
 
             AppenderModel.TryCreate(xmlDoc.FirstChild.FirstChild, xmlDoc.FirstChild, out AppenderModel model);
 
-            Assert.IsInstanceOf(modelType, model);
+            Assert.IsInstanceOf(expectedModelType, model);
+        }
+
+        [TestCaseSource(nameof(sAppenders))]
+        public void TryCreate_ShouldReturnTrue_ForKnownAppenders(string xml, Type expectedModelType)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xml);
+
+            Assert.IsTrue(AppenderModel.TryCreate(xmlDoc.FirstChild.FirstChild, xmlDoc.FirstChild, out AppenderModel _));
         }
     }
 }
