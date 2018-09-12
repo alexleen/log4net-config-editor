@@ -134,6 +134,7 @@
     <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
     <Compile Include="Descriptors\RendererDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
+    <Compile Include="Models\AppenderModelTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
     <Compile Include="Models\ParamModelTest.cs" />
