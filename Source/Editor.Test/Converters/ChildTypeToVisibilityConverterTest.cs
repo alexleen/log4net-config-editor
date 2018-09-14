@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 using Editor.Converters;
 using Editor.Descriptors;
-using Editor.Models;
+using Editor.Models.ConfigChildren;
 using NUnit.Framework;
 
 namespace Editor.Test.Converters

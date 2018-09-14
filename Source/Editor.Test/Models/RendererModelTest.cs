@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors;
-using Editor.Models;
-using NUnit.Framework;
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Models.ConfigChildren;
+using NUnit.Framework;
 
 namespace Editor.Test.Models
 {

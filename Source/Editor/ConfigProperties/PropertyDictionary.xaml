@@ -4,7 +4,8 @@
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
                     xmlns:ConfigProperties="clr-namespace:Editor.ConfigProperties"
-                    xmlns:Controls="clr-namespace:Editor.Controls">
+                    xmlns:Controls="clr-namespace:Editor.Controls"
+                    xmlns:ConfigChildren="clr-namespace:Editor.Models.ConfigChildren">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -494,7 +495,7 @@
                 <Label Content="{Binding Description}" FontWeight="Normal" HorizontalAlignment="Left" DockPanel.Dock="Top" Padding="0" Margin="0,5,0,0" />
                 <ListBox x:Name="xRefsListBox" Margin="0,5,5,0" ItemsSource="{Binding RefsCollection}">
                     <ListBox.ItemTemplate>
-                        <DataTemplate DataType="Models:LoggerModel">
+                        <DataTemplate DataType="ConfigChildren:LoggerModel">
                             <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

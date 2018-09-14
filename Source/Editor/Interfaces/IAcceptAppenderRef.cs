@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System.Xml;
 
 namespace Editor.Interfaces
 {

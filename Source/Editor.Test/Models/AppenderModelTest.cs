@@ -1,18 +1,19 @@
-﻿using Editor.Descriptors;
-using Editor.Models;
-using Editor.Models.ConfigChildren;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Models.ConfigChildren;
+using NUnit.Framework;
 
 namespace Editor.Test.Models
 {
     [TestFixture]
     public class AppenderModelTest
     {
-        private static IEnumerable<TestCaseData> sAppenders
+        private static IEnumerable<TestCaseData> Appenders
         {
             get
             {
@@ -25,14 +26,15 @@ namespace Editor.Test.Models
                     Type expectedType = descriptor == AppenderDescriptor.Async ? typeof(AsyncAppenderModel) : typeof(AppenderModel);
 
                     yield return new TestCaseData("<log4net>" +
-                                                   $"<appender type=\"{descriptor.TypeNamespace}\">" +
-                                                    "</appender>" +
-                                                  "</log4net>", expectedType);
+                                                  $"<appender type=\"{descriptor.TypeNamespace}\">" +
+                                                  "</appender>" +
+                                                  "</log4net>",
+                                                  expectedType);
                 }
             }
         }
 
-        [TestCaseSource(nameof(sAppenders))]
+        [TestCaseSource(nameof(Appenders))]
         public void TryCreate_ShouldReturnCorrectType(string xml, Type expectedModelType)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -43,7 +45,7 @@ namespace Editor.Test.Models
             Assert.IsInstanceOf(expectedModelType, model);
         }
 
-        [TestCaseSource(nameof(sAppenders))]
+        [TestCaseSource(nameof(Appenders))]
         public void TryCreate_ShouldReturnTrue_ForKnownAppenders(string xml, Type expectedModelType)
         {
             XmlDocument xmlDoc = new XmlDocument();

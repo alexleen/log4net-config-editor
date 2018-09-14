@@ -1,11 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors.Base;
-using Editor.Models.Base;
-using Editor.Utilities;
 using System.Xml;
+using Editor.Descriptors.Base;
+using Editor.Utilities;
 
-namespace Editor.Models
+namespace Editor.Models.Base
 {
     public abstract class NamedModel : ModelBase
     {

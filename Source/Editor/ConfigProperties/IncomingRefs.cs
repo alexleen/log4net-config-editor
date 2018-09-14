@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
-using Editor.Models;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -20,7 +19,7 @@ namespace Editor.ConfigProperties
             mNameProperty = nameProperty;
             mAppenderConfiguration = appenderConfiguration;
             RefsCollection = new ObservableCollection<IAcceptAppenderRef>();
-            LoadAvailableLocations();            
+            LoadAvailableLocations();
         }
 
         public ObservableCollection<IAcceptAppenderRef> RefsCollection { get; set; }

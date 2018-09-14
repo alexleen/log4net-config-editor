@@ -3,8 +3,8 @@
 using System;
 using System.Xml;
 using Editor.Interfaces;
-using Editor.Models;
 using Editor.Models.Base;
+using Editor.Models.ConfigChildren;
 using Editor.SaveStrategies;
 using NUnit.Framework;
 

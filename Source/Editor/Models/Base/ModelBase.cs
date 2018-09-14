@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors.Base;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Xml;
+using Editor.Descriptors.Base;
 
 namespace Editor.Models.Base
 {

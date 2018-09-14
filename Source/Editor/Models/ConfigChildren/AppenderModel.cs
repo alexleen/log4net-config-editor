@@ -1,10 +1,10 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors;
-using Editor.Models.ConfigChildren;
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Models.Base;
 
-namespace Editor.Models
+namespace Editor.Models.ConfigChildren
 {
     public class AppenderModel : NamedModel
     {

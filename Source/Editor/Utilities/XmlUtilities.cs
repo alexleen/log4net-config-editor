@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Models;
 using Editor.Models.ConfigChildren;
 
 namespace Editor.Utilities

@@ -1,5 +1,7 @@
-﻿using Editor.Descriptors.Base;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Xml;
+using Editor.Descriptors.Base;
 
 namespace Editor.Models.ConfigChildren
 {
