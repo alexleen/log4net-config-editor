@@ -82,6 +82,7 @@
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
+    <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LocalIdentity.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Utilities\ExtensionsMethods.cs" />
+    <Compile Include="XML\ConfigurationFactory.cs" />
     <Compile Include="XML\ElementConfiguration.cs" />
     <Compile Include="Models\ConfigChildren\RendererModel.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategy.cs" />
@@ -230,7 +232,8 @@
     <Compile Include="Utilities\GridHelper.cs" />
     <Compile Include="Windows\SizeRetentionWindow.cs" />
     <Compile Include="XML\ConfigurationXml.cs" />
-    <Compile Include="XML\IConfigurationXml.cs" />
+    <Compile Include="Interfaces\IConfigurationFactory.cs" />
+    <Compile Include="Interfaces\IConfigurationXml.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -2,12 +2,11 @@
 
 using System.Collections.ObjectModel;
 using Editor.Enums;
-using Editor.Interfaces;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using log4net.Core;
 
-namespace Editor.XML
+namespace Editor.Interfaces
 {
     public interface IConfigurationXml : IConfiguration
     {
@@ -15,7 +14,7 @@ namespace Editor.XML
         /// Resets this configuration to an empty log4net configuration (only log4net root element).
         /// Does NOT save to disk.
         /// </summary>
-        void CreateNew();
+        //void CreateNew();
 
         /// <summary>
         /// Loads the log4net configuration from disk.
@@ -25,6 +24,7 @@ namespace Editor.XML
         /// <summary>
         /// Loads current state of <see cref="mConfigXml"/> into view.
         /// Overwrites any existing values in the view not saved to <see cref="mConfigXml"/>.
+        /// Does NOT reload from disk.
         /// </summary>
         /// <returns>true if an unrecognized/unsupported appender was found. null if configuration can not be loaded.</returns>
         bool? Reload();

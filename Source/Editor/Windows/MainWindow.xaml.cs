@@ -30,6 +30,7 @@ namespace Editor.Windows
     public partial class MainWindow : IMessageBoxService
     {
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
+        private readonly IConfigurationFactory mConfigurationFactory;
         private IConfigurationXml mConfigurationXml;
 
         public MainWindow()
@@ -38,6 +39,7 @@ namespace Editor.Windows
             InitializeComponent();
 
             mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
+            mConfigurationFactory = new ConfigurationFactory(this);
 
             xAddAppenderButton.ItemsSource = new[]
             {
@@ -88,8 +90,8 @@ namespace Editor.Windows
             if (result.IsTrue())
             {
                 RefreshConfigComboBox(sfd.FileName);
-                mConfigurationXml = CreateNewConfigXml(sfd.FileName);
-                mConfigurationXml.CreateNew();
+                mConfigurationXml = mConfigurationFactory.Create(sfd.FileName);
+                //mConfigurationXml.CreateNew();
                 mConfigurationXml.Load();
             }
         }
@@ -185,7 +187,7 @@ namespace Editor.Windows
         /// <param name="filename"></param>
         private void LoadFromFile(string filename)
         {
-            mConfigurationXml = CreateNewConfigXml(filename);
+            mConfigurationXml = mConfigurationFactory.Create(filename);
             mConfigurationXml.Load();
 
             xChildren.ItemsSource = mConfigurationXml.Children;
@@ -193,11 +195,6 @@ namespace Editor.Windows
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
-        }
-
-        private ConfigurationXml CreateNewConfigXml(string filename)
-        {
-            return new ConfigurationXml(filename, this, new XmlDocumentFactory(), new FileStreamWrapFactory(), new XmlWriterFactory());
         }
 
         private void AddAppenderItemOnClick(object appender)

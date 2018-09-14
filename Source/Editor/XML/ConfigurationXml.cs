@@ -1,12 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Xml;
-using SystemInterface.IO;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -14,6 +7,11 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
+using System;
+using System.Collections.ObjectModel;
+using System.Xml;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
@@ -21,38 +19,32 @@ namespace Editor.XML
     {
         private readonly string mFilename;
         private readonly IMessageBoxService mMessageBoxService;
-        private readonly IXmlDocumentFactory mXmlDocFactory;
-        private readonly IFileStreamFactory mFileStreamFactory;
-        private readonly IXmlWriterFactory mXmlWriterFactory;
+        private readonly ICanLoadAndSaveXml mLoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
         private IXmlDocument mConfigXml;
 
         public ConfigurationXml(string filename,
                                 IMessageBoxService messageBoxService,
-                                IXmlDocumentFactory xmlDocFactory,
-                                IFileStreamFactory fileStreamFactory,
-                                IXmlWriterFactory xmlWriterFactory)
+                                ICanLoadAndSaveXml loadAndSave)
         {
+
             mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
-            mXmlDocFactory = xmlDocFactory;
-            mFileStreamFactory = fileStreamFactory;
-            mXmlWriterFactory = xmlWriterFactory;
+            mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
-        public void CreateNew()
-        {
-            mConfigXml = mXmlDocFactory.Create();
-            Log4NetNode = mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net);
-            mConfigXml.AppendChild(Log4NetNode);
-        }
+        //public void CreateNew()
+        //{
+        //    mConfigXml = mXmlDocFactory.Create();
+        //    Log4NetNode = mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net);
+        //    mConfigXml.AppendChild(Log4NetNode);
+        //}
 
         public void Load()
         {
-            mConfigXml = mXmlDocFactory.Create();
-            mConfigXml.Load(mFilename);
+            mConfigXml = mLoadAndSave.Load();
 
             bool? unrecognizedAppender = Reload();
 
@@ -162,16 +154,7 @@ namespace Editor.XML
         public void Save()
         {
             SaveRootAttributes();
-
-            using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
-            {
-                XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
-
-                using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
-                {
-                    mConfigXml.Save(xtw.Writer);
-                }
-            }
+            mLoadAndSave.Save();
         }
 
         private void SaveRootAttributes()
