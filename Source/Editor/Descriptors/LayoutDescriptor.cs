@@ -25,10 +25,9 @@ namespace Editor.Descriptors
         }
 
         private LayoutDescriptor(string name, LayoutType type, string typeNamespace)
-            : base(name, "layout")
+            : base(name, "layout", typeNamespace)
         {
             Type = type;
-            TypeNamespace = typeNamespace;
         }
 
         public static bool TryFindByTypeNamespace(string typeNamespace, out LayoutDescriptor layout)
@@ -43,7 +42,5 @@ namespace Editor.Descriptors
         }
 
         public LayoutType Type { get; }
-
-        public string TypeNamespace { get; }
     }
 }

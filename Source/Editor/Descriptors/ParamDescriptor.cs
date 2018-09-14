@@ -15,7 +15,7 @@ namespace Editor.Descriptors
         }
 
         private ParamDescriptor()
-            : base("Param", Log4NetXmlConstants.Param)
+            : base("Param", Log4NetXmlConstants.Param, null)
         {
         }
     }

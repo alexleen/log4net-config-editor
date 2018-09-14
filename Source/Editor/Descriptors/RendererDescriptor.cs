@@ -13,8 +13,8 @@ namespace Editor.Descriptors
             Renderer = new RendererDescriptor("Renderer");
         }
 
-        public RendererDescriptor(string name)
-            : base(name, "renderer")
+        private RendererDescriptor(string name)
+            : base(name, "renderer", null)
         {
         }
     }

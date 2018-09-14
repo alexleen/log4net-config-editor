@@ -40,10 +40,9 @@ namespace Editor.Descriptors
         }
 
         private AppenderDescriptor(string name, AppenderType type, string typeNamespace)
-            : base(name, "appender")
+            : base(name, "appender", typeNamespace)
         {
             Type = type;
-            TypeNamespace = typeNamespace;
         }
 
         public static bool TryFindByTypeNamespace(string typeNamespace, out AppenderDescriptor appender)
@@ -58,7 +57,5 @@ namespace Editor.Descriptors
         }
 
         public AppenderType Type { get; }
-
-        public string TypeNamespace { get; }
     }
 }
