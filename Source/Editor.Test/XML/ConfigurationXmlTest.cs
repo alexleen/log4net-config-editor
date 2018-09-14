@@ -24,7 +24,6 @@ namespace Editor.Test.XML
     {
         private const string Filename = "filename";
 
-        //private XmlElement mLog4NetElement;
         private IXmlDocument mXmlDoc;
         private IMessageBoxService mMessageBoxService;
         private ICanLoadAndSaveXml mLoadAndSave;
@@ -36,7 +35,7 @@ namespace Editor.Test.XML
             mMessageBoxService = Substitute.For<IMessageBoxService>();
 
             mXmlDoc = new XmlDocumentWrap();
-            mXmlDoc.Load(@"XML\test-config.xml");
+            mXmlDoc.Load(GetTestConfigXml());
 
             mLoadAndSave = Substitute.For<ICanLoadAndSaveXml>();
             mLoadAndSave.Load().Returns(mXmlDoc);
@@ -44,6 +43,31 @@ namespace Editor.Test.XML
             mSut = new ConfigurationXml(Filename,
                                         mMessageBoxService,
                                         mLoadAndSave);
+        }
+
+        /// <summary>
+        /// Retrieves a relative path to the test-config.xml file.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// This is a hack. Is there a better way to do this?
+        /// </remarks>
+        private string GetTestConfigXml()
+        {
+            string curDir = Environment.CurrentDirectory;
+
+            if (curDir.EndsWith("Debug") || curDir.EndsWith("Release"))
+            {
+                //Local
+                return @"XML\test-config.xml";
+            }
+            else if (curDir.EndsWith("log4net-config-editor"))
+            {
+                //AppVeyor
+                return @"Source\Editor.Test\bin\Release\XML\test-config.xml";
+            }
+
+            throw new NotSupportedException($"Unsupported test execution directory: {curDir}");
         }
 
         [Test]
