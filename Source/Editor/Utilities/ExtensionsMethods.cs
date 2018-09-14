@@ -1,4 +1,6 @@
-﻿namespace Editor.Utilities
+﻿// Copyright © 2018 Alex Leendertsen
+
+namespace Editor.Utilities
 {
     public static class ExtensionsMethods
     {

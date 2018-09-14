@@ -1,7 +1,7 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
 using System.Xml;
+using Editor.Interfaces;
 
 namespace Editor.XML
 {

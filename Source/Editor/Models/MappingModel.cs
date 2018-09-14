@@ -1,13 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors;
 using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
-using System.Runtime.CompilerServices;
 
 namespace Editor.Models
 {
@@ -33,7 +33,7 @@ namespace Editor.Models
 
         public MappingModel(Action<MappingModel> remove,
                             Action<MappingModel> showMappingWindow)
-                    : this(remove, showMappingWindow, null)
+            : this(remove, showMappingWindow, null)
         {
         }
 

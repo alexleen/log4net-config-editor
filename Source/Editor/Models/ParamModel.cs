@@ -4,6 +4,7 @@ using System;
 using System.Windows.Input;
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Models.Base;
 using Editor.Utilities;
 
 namespace Editor.Models

@@ -1,9 +1,11 @@
-﻿using Editor.Enums;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Models.Base;
-using log4net.Core;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Collections.ObjectModel;
+using Editor.Enums;
+using Editor.Interfaces;
+using Editor.Models.Base;
+using Editor.Models.ConfigChildren;
+using log4net.Core;
 
 namespace Editor.XML
 {

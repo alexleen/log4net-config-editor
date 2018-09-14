@@ -1,8 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Editor.Interfaces;
 
 namespace Editor.ConfigProperties.Base
 {

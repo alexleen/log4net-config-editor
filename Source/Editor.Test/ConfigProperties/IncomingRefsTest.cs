@@ -1,16 +1,17 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties;
-using Editor.Descriptors;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Utilities;
-using Editor.XML;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
+using Editor.ConfigProperties;
+using Editor.Descriptors;
+using Editor.Interfaces;
+using Editor.Models.Base;
+using Editor.Models.ConfigChildren;
+using Editor.Utilities;
+using Editor.XML;
+using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {

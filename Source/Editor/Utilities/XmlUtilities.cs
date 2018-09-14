@@ -2,11 +2,10 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using SystemInterface.Xml;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Models;
 using Editor.Models.ConfigChildren;
-using SystemInterface.Xml;
 
 namespace Editor.Utilities
 {

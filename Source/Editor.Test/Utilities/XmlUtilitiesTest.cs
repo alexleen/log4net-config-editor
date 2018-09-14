@@ -5,8 +5,6 @@ using System.Linq;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Models;
-using Editor.Models.Base;
 using Editor.Utilities;
 using NUnit.Framework;
 

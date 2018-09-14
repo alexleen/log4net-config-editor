@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Xml;
 using Editor.Descriptors;
 using Editor.Models.Base;
-using System.Xml;
 
-namespace Editor.Models
+namespace Editor.Models.ConfigChildren
 {
     internal class RendererModel : ModelBase
     {

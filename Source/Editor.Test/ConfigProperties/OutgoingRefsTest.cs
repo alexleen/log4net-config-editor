@@ -1,15 +1,15 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties;
-using Editor.Descriptors;
-using Editor.Interfaces;
-using Editor.Models;
-using NSubstitute;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
+using Editor.ConfigProperties;
+using Editor.Descriptors;
+using Editor.Interfaces;
+using Editor.Models.ConfigChildren;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {
@@ -86,9 +86,9 @@ namespace Editor.Test.ConfigProperties
 
             mSut.RefsCollection = new ObservableCollection<AppenderModel>
             {
-                new AppenderModel(AppenderDescriptor.Console, appender, 0){ IsEnabled = true},
-                new AppenderModel(AppenderDescriptor.Console, appender, 0){ IsEnabled = true},
-                new AppenderModel(AppenderDescriptor.Console, appender, 0),
+                new AppenderModel(AppenderDescriptor.Console, appender, 0) { IsEnabled = true },
+                new AppenderModel(AppenderDescriptor.Console, appender, 0) { IsEnabled = true },
+                new AppenderModel(AppenderDescriptor.Console, appender, 0)
             };
 
             mSut.Save(xmlDoc, appender);

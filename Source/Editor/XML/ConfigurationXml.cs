@@ -1,10 +1,5 @@
-﻿using Editor.Descriptors;
-using Editor.Enums;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Models.Base;
-using Editor.Utilities;
-using log4net.Core;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -12,6 +7,13 @@ using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
+using Editor.Descriptors;
+using Editor.Enums;
+using Editor.Interfaces;
+using Editor.Models.Base;
+using Editor.Models.ConfigChildren;
+using Editor.Utilities;
+using log4net.Core;
 
 namespace Editor.XML
 {
@@ -31,7 +33,6 @@ namespace Editor.XML
                                 IFileStreamFactory fileStreamFactory,
                                 IXmlWriterFactory xmlWriterFactory)
         {
-
             mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
             mXmlDocFactory = xmlDocFactory;

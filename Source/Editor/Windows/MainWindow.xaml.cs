@@ -1,18 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Definitions.Factory;
-using Editor.Descriptors;
-using Editor.Descriptors.Base;
-using Editor.Enums;
-using Editor.HistoryManager;
-using Editor.Interfaces;
-using Editor.Models;
-using Editor.Models.Base;
-using Editor.SaveStrategies;
-using Editor.Utilities;
-using Editor.Windows.SizeLocation;
-using Editor.XML;
-using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,6 +8,19 @@ using System.Windows;
 using System.Windows.Controls;
 using SystemWrapper.IO;
 using SystemWrapper.Xml;
+using Editor.Definitions.Factory;
+using Editor.Descriptors;
+using Editor.Descriptors.Base;
+using Editor.Enums;
+using Editor.HistoryManager;
+using Editor.Interfaces;
+using Editor.Models.Base;
+using Editor.Models.ConfigChildren;
+using Editor.SaveStrategies;
+using Editor.Utilities;
+using Editor.Windows.SizeLocation;
+using Editor.XML;
+using Microsoft.Win32;
 
 namespace Editor.Windows
 {
@@ -287,7 +287,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -331,6 +331,6 @@ namespace Editor.Windows
             return showDialog;
         }
 
-        #endregion        
+        #endregion
     }
 }

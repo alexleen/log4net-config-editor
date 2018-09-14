@@ -1,13 +1,14 @@
-﻿using Editor.Interfaces;
-using Editor.Utilities;
-using Editor.XML;
-using log4net.Core;
-using NSubstitute;
-using NUnit.Framework;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
+using Editor.Interfaces;
+using Editor.XML;
+using log4net.Core;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace Editor.Test.XML
 {
@@ -15,6 +16,7 @@ namespace Editor.Test.XML
     public class ConfigurationXmlTest
     {
         private const string Filename = "filename";
+
         //private XmlElement mLog4NetElement;
         private IXmlDocument mXmlDoc;
         private IMessageBoxService mMessageBoxService;

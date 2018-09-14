@@ -1,6 +1,8 @@
-﻿using Editor.Descriptors;
-using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System.Xml;
+using Editor.Descriptors;
+using Editor.Interfaces;
 
 namespace Editor.Models.ConfigChildren
 {

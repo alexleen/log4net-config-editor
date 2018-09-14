@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Descriptors;
+using System.Xml;
 using Editor.Descriptors.Base;
 using Editor.Interfaces;
-using System.Xml;
+using Editor.Models.Base;
 
-namespace Editor.Models
+namespace Editor.Models.ConfigChildren
 {
     public class LoggerModel : NamedModel, IAcceptAppenderRef
     {
