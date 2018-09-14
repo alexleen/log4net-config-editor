@@ -29,16 +29,11 @@ namespace Editor.Models
             mMoveUp = moveUp;
             mMoveDown = moveDown;
 
-            Descriptor = descriptor;
-            Node = node;
-
             Edit = new Command(EditFilterOnClick);
             Remove = new Command(RemoveFilterOnClick);
             MoveUp = new Command(MoveFilterUpOnClick);
             MoveDown = new Command(MoveFilterDownOnClick);
         }
-
-        public FilterDescriptor Descriptor { get; }
 
         public ICommand Edit { get; }
 

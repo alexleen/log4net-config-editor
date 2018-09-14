@@ -25,9 +25,8 @@ namespace Editor.Descriptors
         }
 
         private LockingModelDescriptor(string name, string typeNamespace)
-            : base(name, "lockingModel")
+            : base(name, "lockingModel", typeNamespace)
         {
-            TypeNamespace = typeNamespace;
         }
 
         public static bool TryFindByTypeNamespace(string typeNamespace, out LockingModelDescriptor appender)
@@ -40,7 +39,5 @@ namespace Editor.Descriptors
 
             return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out appender);
         }
-
-        public string TypeNamespace { get; }
     }
 }

@@ -2,6 +2,7 @@
 
 using Editor.Descriptors.Base;
 using Editor.Enums;
+using Editor.Utilities;
 
 namespace Editor.Descriptors
 {
@@ -11,12 +12,12 @@ namespace Editor.Descriptors
 
         static LoggerDescriptor()
         {
-            Root = new LoggerDescriptor("Root", "root", LoggerType.Root);
-            Logger = new LoggerDescriptor("Logger", "logger", LoggerType.Logger);
+            Root = new LoggerDescriptor("Root", Log4NetXmlConstants.Root, LoggerType.Root);
+            Logger = new LoggerDescriptor("Logger", Log4NetXmlConstants.Logger, LoggerType.Logger);
         }
 
-        public LoggerDescriptor(string name, string elementName, LoggerType loggerType)
-            : base(name, elementName)
+        private LoggerDescriptor(string name, string elementName, LoggerType loggerType)
+            : base(name, elementName, null)
         {
             LoggerType = loggerType;
         }

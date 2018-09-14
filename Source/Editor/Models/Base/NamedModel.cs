@@ -8,7 +8,7 @@ namespace Editor.Models.Base
 {
     public abstract class NamedModel : ModelBase
     {
-        public NamedModel(XmlNode node, DescriptorBase descriptor)
+        protected NamedModel(XmlNode node, DescriptorBase descriptor)
             : base(node, descriptor)
         {
         }

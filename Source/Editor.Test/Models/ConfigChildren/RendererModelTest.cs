@@ -5,7 +5,7 @@ using Editor.Descriptors;
 using Editor.Models.ConfigChildren;
 using NUnit.Framework;
 
-namespace Editor.Test.Models
+namespace Editor.Test.Models.ConfigChildren
 {
     [TestFixture]
     public class RendererModelTest
