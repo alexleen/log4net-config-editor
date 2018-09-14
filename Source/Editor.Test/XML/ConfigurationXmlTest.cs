@@ -181,6 +181,8 @@ namespace Editor.Test.XML
             mSut.Reload();
 
             Assert.AreEqual(2, mSut.Children.OfType<AppenderModel>().Count());
+            Assert.AreEqual(1, mSut.Children.OfType<AsyncAppenderModel>().Count());
+            Assert.AreEqual(1, mSut.Children.OfType<AsyncAppenderModel>().First().IncomingReferences);
         }
 
         [Test]
@@ -259,6 +261,58 @@ namespace Editor.Test.XML
             mSut.Save();
 
             mLoadAndSave.Received(1).Save();
+        }
+
+        [Test]
+        public void RemoveRefsTo_ShouldRemoveRefsToAppender()
+        {
+            mSut.Load();
+
+            AsyncAppenderModel appender = mSut.Children.OfType<AsyncAppenderModel>().First();
+            mSut.RemoveRefsTo(appender);
+
+            CollectionAssert.IsEmpty(XmlUtilities.FindAppenderRefs(mXmlDoc.DocumentElement.FirstChild, appender.Name));
+        }
+
+        [Test]
+        public void RemoveChild_ShouldRemoveChildFromXml()
+        {
+            mSut.Load();
+
+            AsyncAppenderModel appender = mSut.Children.OfType<AsyncAppenderModel>().First();
+            mSut.RemoveChild(appender);
+
+            CollectionAssert.IsEmpty(mXmlDoc.DocumentElement.FirstChild.SelectNodes($"//appender[@name='{appender.Name}']"));
+        }
+
+        [Test]
+        public void RemoveChild_ShouldRemoveChildFromCollection()
+        {
+            mSut.Load();
+
+            AsyncAppenderModel appender = mSut.Children.OfType<AsyncAppenderModel>().First();
+            mSut.RemoveChild(appender);
+
+            CollectionAssert.IsEmpty(mSut.Children.OfType<AsyncAppenderModel>());
+        }
+
+        [Test]
+        public void RemoveChild_ShouldRemoveReferencesToChild()
+        {
+            mSut.Load();
+
+            AsyncAppenderModel appender = mSut.Children.OfType<AsyncAppenderModel>().First();
+            mSut.RemoveChild(appender);
+
+            CollectionAssert.IsEmpty(mXmlDoc.DocumentElement.FirstChild.SelectNodes($"//appender-ref[@ref='{appender.Name}']"));
+        }
+
+        [Test]
+        public void ConfigXml_ShouldReturnUnderlyingConfig()
+        {
+            mSut.Load();
+
+            Assert.AreSame(((XmlDocumentWrap)mXmlDoc).XmlDocumentInstance, mSut.ConfigXml);
         }
     }
 }
