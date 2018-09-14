@@ -3,6 +3,7 @@
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
+using Editor.Models;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
@@ -74,8 +75,8 @@ namespace Editor.XML
             mMutableChildren.Clear();
 
             bool unrecognized = LoadAppenders();
-            LoadChildrenWithName(RendererDescriptor.Renderer.ElementName);
-            LoadChildrenWithName(ParamDescriptor.Param.ElementName);
+            LoadRenderers();
+            LoadParams();
             foreach (LoggerModel logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
             {
                 mMutableChildren.Add(logger);
@@ -111,13 +112,22 @@ namespace Editor.XML
             return unrecognized;
         }
 
-        private void LoadChildrenWithName(string elementName)
+        private void LoadRenderers()
         {
-            XmlNodeList rendererList = Log4NetNode.SelectNodes(elementName);
+            XmlNodeList rendererList = Log4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
 
             foreach (XmlNode renderer in rendererList)
             {
                 mMutableChildren.Add(new RendererModel(renderer));
+            }
+        }
+        private void LoadParams()
+        {
+            XmlNodeList rendererList = Log4NetNode.SelectNodes(ParamDescriptor.Param.ElementName);
+
+            foreach (XmlNode renderer in rendererList)
+            {
+                mMutableChildren.Add(new ParamModel(renderer));
             }
         }
 
