@@ -1,5 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.Collections.ObjectModel;
+using System.Xml;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -8,11 +13,6 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
-using System;
-using System.Collections.ObjectModel;
-using System.Xml;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
@@ -28,7 +28,6 @@ namespace Editor.XML
                                 IMessageBoxService messageBoxService,
                                 ICanLoadAndSaveXml loadAndSave)
         {
-
             mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
             mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
@@ -121,6 +120,7 @@ namespace Editor.XML
                 mMutableChildren.Add(new RendererModel(renderer));
             }
         }
+
         private void LoadParams()
         {
             XmlNodeList rendererList = Log4NetNode.SelectNodes(ParamDescriptor.Param.ElementName);

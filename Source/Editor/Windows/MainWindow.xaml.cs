@@ -6,8 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using SystemWrapper.IO;
-using SystemWrapper.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
@@ -155,7 +153,7 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Saves root attributes to <see cref="mConfigXml"/> then writes <see cref="mConfigXml"/> to disk at currently selected config location.
+        /// Saves root attributes to <see cref="mConfigurationXml"/> then writes <see cref="mConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
         private void SaveToFile()
         {

@@ -1,9 +1,11 @@
-﻿using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.IO;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
+using Editor.Interfaces;
 
 namespace Editor.XML
 {

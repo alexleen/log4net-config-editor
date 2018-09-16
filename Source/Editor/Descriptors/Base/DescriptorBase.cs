@@ -20,7 +20,7 @@ namespace Editor.Descriptors.Base
         /// Name of the element in the configuration XML.
         /// </summary>
         public string ElementName { get; }
-        
+
         /// <summary>
         /// log4net type namespace.
         /// </summary>

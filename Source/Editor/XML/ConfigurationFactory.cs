@@ -1,8 +1,10 @@
-﻿using Editor.Interfaces;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using SystemInterface.IO;
 using SystemInterface.Xml;
 using SystemWrapper.IO;
 using SystemWrapper.Xml;
+using Editor.Interfaces;
 
 namespace Editor.XML
 {

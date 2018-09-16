@@ -1,5 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Xml;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
@@ -9,13 +16,6 @@ using Editor.XML;
 using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Xml;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 
 namespace Editor.Test.XML
 {
@@ -61,7 +61,8 @@ namespace Editor.Test.XML
                 //Local
                 return @"XML\test-config.xml";
             }
-            else if (curDir.EndsWith("log4net-config-editor"))
+
+            if (curDir.EndsWith("log4net-config-editor"))
             {
                 //AppVeyor
                 return @"Source\Editor.Test\bin\Release\XML\test-config.xml";
@@ -246,11 +247,11 @@ namespace Editor.Test.XML
 
             mSut.Save();
 
-            XmlNode log4netNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
 
-            Assert.IsNull(log4netNode.Attributes[Log4NetXmlConstants.Debug]);
-            Assert.IsNull(log4netNode.Attributes[Log4NetXmlConstants.Update]);
-            Assert.IsNull(log4netNode.Attributes[Log4NetXmlConstants.Threshold]);
+            Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Debug]);
+            Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Update]);
+            Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Threshold]);
         }
 
         [Test]
