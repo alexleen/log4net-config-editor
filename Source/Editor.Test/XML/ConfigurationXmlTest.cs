@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Xml;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
+using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
@@ -302,6 +303,33 @@ namespace Editor.Test.XML
             mSut.Load();
 
             Assert.AreSame(((XmlDocumentWrap)mXmlDoc).XmlDocumentInstance, mSut.ConfigXml);
+        }
+
+        [Test]
+        public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties_WhenOriginalNodeIsNull()
+        {
+            mSut.Load();
+
+            IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(new AppenderModel(AppenderDescriptor.Async, null, 0), AppenderDescriptor.Async.ElementName);
+
+            Assert.IsNull(elementConfiguration.OriginalNode);
+            Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
+            Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
+            Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
+        }
+
+        [Test]
+        public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties()
+        {
+            mSut.Load();
+
+            AsyncAppenderModel originalModel = mSut.Children.OfType<AsyncAppenderModel>().First();
+            IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(originalModel, AppenderDescriptor.Async.ElementName);
+
+            Assert.AreSame(originalModel.Node, elementConfiguration.OriginalNode);
+            Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
+            Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
+            Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
         }
     }
 }
