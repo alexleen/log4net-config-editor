@@ -23,8 +23,6 @@ namespace Editor.Test.XML
     [TestFixture]
     public class ConfigurationXmlTest
     {
-        private const string Filename = "filename";
-
         private IXmlDocument mXmlDoc;
         private IMessageBoxService mMessageBoxService;
         private ICanLoadAndSaveXml mLoadAndSave;
@@ -41,8 +39,7 @@ namespace Editor.Test.XML
             mLoadAndSave = Substitute.For<ICanLoadAndSaveXml>();
             mLoadAndSave.Load().Returns(mXmlDoc);
 
-            mSut = new ConfigurationXml(Filename,
-                                        mMessageBoxService,
+            mSut = new ConfigurationXml(mMessageBoxService,
                                         mLoadAndSave);
         }
 
@@ -59,21 +56,15 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void Ctor_ShouldThrow_WhenFilenameIsNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(null, mMessageBoxService, Substitute.For<ICanLoadAndSaveXml>()));
-        }
-
-        [Test]
         public void Ctor_ShouldThrow_WhenMessageBoxServiceIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(Filename, null, Substitute.For<ICanLoadAndSaveXml>()));
+            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(null, Substitute.For<ICanLoadAndSaveXml>()));
         }
 
         [Test]
         public void Ctor_ShouldThrow_WhenLoadSaveIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(Filename, mMessageBoxService, null));
+            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(mMessageBoxService, null));
         }
 
         [Test]
@@ -293,6 +284,16 @@ namespace Editor.Test.XML
             mSut.RemoveChild(appender);
 
             CollectionAssert.IsEmpty(mXmlDoc.DocumentElement.FirstChild.SelectNodes($"//appender-ref[@ref='{appender.Name}']"));
+        }
+
+        [Test]
+        public void RemoveChild_ShouldOnlyRemoveRefsToAppenders()
+        {
+            mSut.Load();
+
+            //Only appenders can have incoming refs that need to be removed.
+            //If, somehow, we try to remove refs to something that is not an appender, it will throw
+            Assert.DoesNotThrow(() => mSut.Children.OfType<LoggerModel>().First());
         }
 
         [Test]

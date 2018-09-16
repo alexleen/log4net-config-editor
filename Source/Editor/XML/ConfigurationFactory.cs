@@ -26,7 +26,7 @@ namespace Editor.XML
 
         public IConfigurationXml Create(string filename)
         {
-            return new ConfigurationXml(filename, mMessageBoxService, new CanLoadAndSaveXml(filename, mXmlDocFactory, mFileStreamFactory, mXmlWriterFactory));
+            return new ConfigurationXml(mMessageBoxService, new CanLoadAndSaveXml(filename, mXmlDocFactory, mFileStreamFactory, mXmlWriterFactory));
         }
     }
 }

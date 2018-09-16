@@ -188,6 +188,7 @@ namespace Editor.Windows
             mConfigurationXml = mConfigurationFactory.Create(filename);
             mConfigurationXml.Load();
 
+            //TODO load root attributes
             xChildren.ItemsSource = mConfigurationXml.Children;
             xAddRefsButton.ItemsSource = mConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;

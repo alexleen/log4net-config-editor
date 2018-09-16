@@ -18,17 +18,13 @@ namespace Editor.XML
 {
     internal class ConfigurationXml : IConfigurationXml
     {
-        private readonly string mFilename;
         private readonly IMessageBoxService mMessageBoxService;
         private readonly ICanLoadAndSaveXml mLoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
         private IXmlDocument mConfigXml;
 
-        public ConfigurationXml(string filename,
-                                IMessageBoxService messageBoxService,
-                                ICanLoadAndSaveXml loadAndSave)
+        public ConfigurationXml(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave)
         {
-            mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
             mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
             mMutableChildren = new ObservableCollection<ModelBase>();
@@ -76,9 +72,9 @@ namespace Editor.XML
             bool unrecognized = LoadAppenders();
             LoadRenderers();
             LoadParams();
-            foreach (LoggerModel logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
+            foreach (IAcceptAppenderRef logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
             {
-                mMutableChildren.Add(logger);
+                mMutableChildren.Add((ModelBase)logger);
             }
 
             LoadRootAttributes();
