@@ -188,7 +188,9 @@ namespace Editor.Windows
             mConfigurationXml = mConfigurationFactory.Create(filename);
             mConfigurationXml.Load();
 
-            //TODO load root attributes
+            xDebugCheckBox.IsChecked = mConfigurationXml.Debug;
+            xUpdateComboBox.SelectedItem = mConfigurationXml.Update;
+            xThresholdComboBox.SelectedItem = mConfigurationXml.Threshold.Name;
             xChildren.ItemsSource = mConfigurationXml.Children;
             xAddRefsButton.ItemsSource = mConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
