@@ -212,7 +212,7 @@ namespace Editor.Test.XML
             Assert.AreEqual(Update.Overwrite, mSut.Update);
             Assert.AreEqual(Level.Error, mSut.Threshold);
         }
-        
+
         [Test]
         public void Reload_ShouldLoadDefaultAttributes_WhenNonExistent()
         {
@@ -318,11 +318,11 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties_WhenOriginalNodeIsNull()
+        public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties_WhenModelIsNull()
         {
             mSut.Load();
 
-            IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(new AppenderModel(AppenderDescriptor.Async, null, 0), AppenderDescriptor.Async.ElementName);
+            IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(null, AppenderDescriptor.Async.ElementName);
 
             Assert.IsNull(elementConfiguration.OriginalNode);
             Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
