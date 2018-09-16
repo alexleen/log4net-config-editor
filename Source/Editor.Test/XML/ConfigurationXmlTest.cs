@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -46,29 +47,15 @@ namespace Editor.Test.XML
         }
 
         /// <summary>
-        /// Retrieves a relative path to the test-config.xml file.
+        /// Retrieves a path to the test-config.xml file.
         /// </summary>
         /// <returns></returns>
         /// <remarks>
         /// This is a hack. Is there a better way to do this?
         /// </remarks>
-        private string GetTestConfigXml()
+        private static string GetTestConfigXml()
         {
-            string curDir = Environment.CurrentDirectory;
-
-            if (curDir.EndsWith("Debug") || curDir.EndsWith("Release"))
-            {
-                //Local
-                return @"XML\test-config.xml";
-            }
-
-            if (curDir.EndsWith("log4net-config-editor"))
-            {
-                //AppVeyor
-                return @"Source\Editor.Test\bin\Release\XML\test-config.xml";
-            }
-
-            throw new NotSupportedException($"Unsupported test execution directory: {curDir}");
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"XML\test-config.xml");
         }
 
         [Test]
