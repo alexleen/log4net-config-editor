@@ -212,6 +212,18 @@ namespace Editor.Test.XML
             Assert.AreEqual(Update.Overwrite, mSut.Update);
             Assert.AreEqual(Level.Error, mSut.Threshold);
         }
+        
+        [Test]
+        public void Reload_ShouldLoadDefaultAttributes_WhenNonExistent()
+        {
+            mXmlDoc.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><log4net></log4net>");
+            mSut.Load();
+            mSut.Reload();
+
+            Assert.IsFalse(mSut.Debug);
+            Assert.AreEqual(Update.Merge, mSut.Update);
+            Assert.AreEqual(Level.All, mSut.Threshold);
+        }
 
         [Test]
         public void Save_ShouldSaveAttributes()

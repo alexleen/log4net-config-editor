@@ -89,18 +89,15 @@ namespace Editor.XML
 
             bool unrecognized = false;
 
-            if (appenderList != null)
+            foreach (XmlNode node in appenderList)
             {
-                foreach (XmlNode node in appenderList)
+                if (AppenderModel.TryCreate(node, Log4NetNode, out AppenderModel model))
                 {
-                    if (AppenderModel.TryCreate(node, Log4NetNode, out AppenderModel model))
-                    {
-                        mMutableChildren.Add(model);
-                    }
-                    else
-                    {
-                        unrecognized = true;
-                    }
+                    mMutableChildren.Add(model);
+                }
+                else
+                {
+                    unrecognized = true;
                 }
             }
 
@@ -129,7 +126,7 @@ namespace Editor.XML
 
         private void LoadRootAttributes()
         {
-            if (bool.TryParse(Log4NetNode.Attributes?[Log4NetXmlConstants.Debug]?.Value, out bool debugResult) && debugResult)
+            if (bool.TryParse(Log4NetNode.Attributes[Log4NetXmlConstants.Debug]?.Value, out bool debugResult) && debugResult)
             {
                 Debug = true;
             }
@@ -138,7 +135,7 @@ namespace Editor.XML
                 Debug = false;
             }
 
-            if (Enum.TryParse(Log4NetNode.Attributes?[Log4NetXmlConstants.Update]?.Value, out Update update) && Equals(update, Update.Overwrite))
+            if (Enum.TryParse(Log4NetNode.Attributes[Log4NetXmlConstants.Update]?.Value, out Update update) && Equals(update, Update.Overwrite))
             {
                 Update = Update.Overwrite;
             }
@@ -147,7 +144,7 @@ namespace Editor.XML
                 Update = Update.Merge;
             }
 
-            if (Log4NetUtilities.TryParseLevel(Log4NetNode.Attributes?[Log4NetXmlConstants.Threshold]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
+            if (Log4NetUtilities.TryParseLevel(Log4NetNode.Attributes[Log4NetXmlConstants.Threshold]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
             {
                 Threshold = levelResult;
             }
