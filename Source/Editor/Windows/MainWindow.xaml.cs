@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -81,7 +82,7 @@ namespace Editor.Windows
 
         private void NewClick(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog { Filter = "XML Config File | .xml" };
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "XML Config File|*.xml" };
 
             bool? result = sfd.ShowDialog(this);
 
@@ -89,7 +90,6 @@ namespace Editor.Windows
             {
                 RefreshConfigComboBox(sfd.FileName);
                 mConfigurationXml = mConfigurationFactory.Create(sfd.FileName);
-                //mConfigurationXml.CreateNew();
                 mConfigurationXml.Load();
             }
         }
@@ -100,7 +100,14 @@ namespace Editor.Windows
 
             if (!string.IsNullOrEmpty(selectedConfig))
             {
-                Process.Start(selectedConfig);
+                if (File.Exists(selectedConfig))
+                {
+                    Process.Start(selectedConfig);
+                }
+                else
+                {
+                    ShowWarning("File has not been saved yet and therefore cannot be opened.");
+                }
             }
         }
 

@@ -1,11 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.IO;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
 using Editor.Interfaces;
+using Editor.Utilities;
+using System.IO;
 
 namespace Editor.XML
 {
@@ -17,20 +18,31 @@ namespace Editor.XML
             private readonly IXmlDocumentFactory mXmlDocFactory;
             private readonly IFileStreamFactory mFileStreamFactory;
             private readonly IXmlWriterFactory mXmlWriterFactory;
+            private readonly IFile mFile;
             private IXmlDocument mConfigXml;
 
-            public CanLoadAndSaveXml(string filename, IXmlDocumentFactory xmlDocFactory, IFileStreamFactory fileStreamFactory, IXmlWriterFactory xmlWriterFactory)
+            public CanLoadAndSaveXml(string filename, IXmlDocumentFactory xmlDocFactory, IFileStreamFactory fileStreamFactory, IXmlWriterFactory xmlWriterFactory, IFile fileWrap)
             {
                 mFilename = filename ?? throw new ArgumentNullException(nameof(filename));
                 mXmlDocFactory = xmlDocFactory ?? throw new ArgumentNullException(nameof(xmlDocFactory));
                 mFileStreamFactory = fileStreamFactory ?? throw new ArgumentNullException(nameof(fileStreamFactory));
                 mXmlWriterFactory = xmlWriterFactory ?? throw new ArgumentNullException(nameof(xmlWriterFactory));
+                mFile = fileWrap ?? throw new ArgumentNullException(nameof(fileWrap));
             }
 
             public IXmlDocument Load()
             {
                 mConfigXml = mXmlDocFactory.Create();
-                mConfigXml.Load(mFilename);
+
+                if (mFile.Exists(mFilename))
+                {
+                    mConfigXml.Load(mFilename);
+                }
+                else
+                {
+                    mConfigXml.AppendChild(mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net));
+                }
+
                 return mConfigXml;
             }
 

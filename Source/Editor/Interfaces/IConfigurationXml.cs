@@ -11,12 +11,6 @@ namespace Editor.Interfaces
     public interface IConfigurationXml : IConfiguration
     {
         /// <summary>
-        /// Resets this configuration to an empty log4net configuration (only log4net root element).
-        /// Does NOT save to disk.
-        /// </summary>
-        //void CreateNew();
-
-        /// <summary>
         /// Loads the log4net configuration from disk.
         /// </summary>
         void Load();
