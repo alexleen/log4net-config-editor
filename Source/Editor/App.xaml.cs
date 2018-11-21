@@ -1,9 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Windows;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Editor.Windows;
 
 namespace Editor
 {

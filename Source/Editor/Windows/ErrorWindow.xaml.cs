@@ -1,6 +1,9 @@
-﻿using System;
+﻿// Copyright © 2018 Alex Leendertsen
+
+using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace Editor.Windows
 {
@@ -17,7 +20,7 @@ namespace Editor.Windows
 
             InitializeComponent();
 
-            string githubLink = $"https://github.com/alexleen/log4net-config-editor/issues/new?title={source}: Unhandled Exception&body={ex.ToString()}&labels=bug,high priority";
+            string githubLink = $"https://github.com/alexleen/log4net-config-editor/issues/new?title={source}: Unhandled Exception&body={ex}&labels=bug,high priority";
 
             xGitHubHyperLink.NavigateUri = new Uri(githubLink);
         }
@@ -28,7 +31,7 @@ namespace Editor.Windows
             Clipboard.SetDataObject(mException.ToString());
         }
 
-        private void GitHubHyperLinkOnRequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        private void GitHubHyperLinkOnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;

@@ -1,12 +1,12 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using System.IO;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
-using System.IO;
 
 namespace Editor.XML
 {
