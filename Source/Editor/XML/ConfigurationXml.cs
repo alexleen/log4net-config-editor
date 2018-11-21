@@ -31,13 +31,6 @@ namespace Editor.XML
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
-        //public void CreateNew()
-        //{
-        //    mConfigXml = mXmlDocFactory.Create();
-        //    Log4NetNode = mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net);
-        //    mConfigXml.AppendChild(Log4NetNode);
-        //}
-
         public void Load()
         {
             mConfigXml = mLoadAndSave.Load();
