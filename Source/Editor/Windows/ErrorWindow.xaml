@@ -10,7 +10,7 @@
         MinWidth="360"
         SizeToContent="WidthAndHeight"
         Icon="../document_edit.ico"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterOwner">
     <StackPanel HorizontalAlignment="Center">
         <Label FontSize="48" HorizontalAlignment="Center">🤦‍♂️</Label>
         <Label>Aww snap! An unexpected error occurred. You can:</Label>

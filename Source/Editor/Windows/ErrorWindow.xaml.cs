@@ -20,6 +20,8 @@ namespace Editor.Windows
 
             InitializeComponent();
 
+            Owner = Application.Current.MainWindow;
+
             string githubLink = $"https://github.com/alexleen/log4net-config-editor/issues/new?title={source}: Unhandled Exception&body={ex}&labels=bug,high priority";
 
             xGitHubHyperLink.NavigateUri = new Uri(githubLink);
