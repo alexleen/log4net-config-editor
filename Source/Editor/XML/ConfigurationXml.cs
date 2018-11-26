@@ -45,6 +45,11 @@ namespace Editor.XML
 
         public bool? Reload()
         {
+            if (mConfigXml == null)
+            {
+                throw new InvalidOperationException($"{nameof(Load)} must be called before {nameof(Reload)}.");
+            }
+
             XmlNodeList log4NetNodes = mConfigXml.SelectNodes("//log4net");
 
             if (log4NetNodes == null || log4NetNodes.Count == 0)

@@ -5,12 +5,13 @@ using System.Xml;
 namespace Editor.Interfaces
 {
     /// <summary>
-    /// Marker interface for elements that can contain "appender-ref" children (e.g. loggers and async appenders).
+    /// Element that can contain "appender-ref" children (e.g. loggers and async appenders).
     /// </summary>
     public interface IAcceptAppenderRef
     {
         /// <summary>
-        /// Node for the appender-ref location.
+        /// Node accepting the appender-ref.
+        /// This is not the appender-ref itself.
         /// </summary>
         XmlNode Node { get; }
 

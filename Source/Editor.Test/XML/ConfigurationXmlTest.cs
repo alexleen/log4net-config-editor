@@ -48,9 +48,6 @@ namespace Editor.Test.XML
         /// Retrieves a path to the test-config.xml file.
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// This is a hack. Is there a better way to do this?
-        /// </remarks>
         private static string GetTestConfigXml()
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"XML\test-config.xml");
@@ -113,6 +110,12 @@ namespace Editor.Test.XML
         }
 
         [Test]
+        public void Reload_ShouldThrow_WhenNotLoadedFirst()
+        {
+            Assert.Throws<InvalidOperationException>(() => mSut.Reload());
+        }
+
+        [Test]
         public void Reload_ShouldShowError_WhenNoLog4NetElements()
         {
             mXmlDoc.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><root></root>");
@@ -120,7 +123,6 @@ namespace Editor.Test.XML
             mSut.Load();
             mMessageBoxService.ClearReceivedCalls();
 
-            //TODO throw IOE if not loaded when Reload() is called?
             mSut.Reload();
 
             mMessageBoxService.Received(1).ShowError("Could not find log4net configuration.");
@@ -134,7 +136,6 @@ namespace Editor.Test.XML
             mSut.Load();
             mMessageBoxService.ClearReceivedCalls();
 
-            //TODO throw IOE if not loaded when Reload() is called?
             mSut.Reload();
 
             mMessageBoxService.Received(1).ShowWarning("More than one 'log4net' element was found in the specified file. Using the first occurrence.");
@@ -148,7 +149,6 @@ namespace Editor.Test.XML
             mSut.Load();
             mMessageBoxService.ClearReceivedCalls();
 
-            //TODO throw IOE if not loaded when Reload() is called?
             mSut.Reload();
 
             Assert.AreSame(mXmlDoc.DocumentElement.FirstChild, mSut.Log4NetNode);
@@ -230,7 +230,7 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
-            //Load will set these all to non-defaults
+            //Load will set these all to non-defaults (they're all non-default in test-config.xml)
             //Let's set them back to default to make sure the attributes are removed
             mSut.Debug = false;
             mSut.Update = Update.Merge;
@@ -304,8 +304,8 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
-            //Only appenders can have incoming refs that need to be removed.
-            //If, somehow, we try to remove refs to something that is not an appender, it will throw
+            //RemoveChild also removes refs to the specified child, if it's an appender.
+            //If it's not an appender, it should return silently.
             Assert.DoesNotThrow(() => mSut.Children.OfType<LoggerModel>().First());
         }
 

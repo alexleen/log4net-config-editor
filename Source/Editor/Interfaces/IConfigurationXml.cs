@@ -1,13 +1,19 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using Editor.Enums;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using log4net.Core;
+using System.Collections.ObjectModel;
 
 namespace Editor.Interfaces
 {
+    /// <summary>
+    /// Encapsulation of a log4net XML configuration file.
+    /// log4net configuration files are loaded from disk into an <see cref="XmlDocument"/> in RAM.
+    /// Runtime changes to the configuration are saved to the <see cref="XmlDocument"/> and reloaded (via <see cref="Reload"/>) into view.
+    /// When changes are complete, <see cref="XmlDocument"/> is saved (via <see cref="Save"/>) to disk as XML.
+    /// </summary>
     public interface IConfigurationXml : IConfiguration
     {
         /// <summary>
@@ -16,11 +22,9 @@ namespace Editor.Interfaces
         void Load();
 
         /// <summary>
-        /// Loads current state of <see cref="mConfigXml"/> into view.
-        /// Overwrites any existing values in the view not saved to <see cref="mConfigXml"/>.
-        /// Does NOT reload from disk.
+        /// Loads current state of the <see cref="XmlDocument"/> into view.
         /// </summary>
-        /// <returns>true if an unrecognized/unsupported appender was found. null if configuration can not be loaded.</returns>
+        /// <returns>true if an unrecognized/unsupported appender was found. null if no log4net element can be found.</returns>
         bool? Reload();
 
         /// <summary>
