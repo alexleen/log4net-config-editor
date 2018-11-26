@@ -156,6 +156,7 @@
     <Compile Include="Models\ConfigChildren\AppenderModelTest.cs" />
     <Compile Include="Models\ConfigChildren\RendererModelTest.cs" />
     <Compile Include="Models\ConfigChildren\RootLoggerModelTest.cs" />
+    <Compile Include="Models\FilterModelTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
     <Compile Include="Models\ParamModelTest.cs" />
