@@ -26,8 +26,9 @@ namespace Editor.Windows
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : IMessageBoxService
+    public partial class MainWindow
     {
+        private readonly IMessageBoxService mMessageBoxService;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
         private IConfigurationXml mConfigurationXml;
@@ -37,8 +38,9 @@ namespace Editor.Windows
         {
             InitializeComponent();
 
+            mMessageBoxService = new MessageBoxService(this);
             mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
-            mConfigurationFactory = new ConfigurationFactory(this);
+            mConfigurationFactory = new ConfigurationFactory(mMessageBoxService);
 
             xAddAppenderButton.ItemsSource = new[]
             {
@@ -106,7 +108,7 @@ namespace Editor.Windows
                 }
                 else
                 {
-                    ShowWarning("File has not been saved yet and therefore cannot be opened.");
+                    mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
                 }
             }
         }
@@ -296,46 +298,5 @@ namespace Editor.Windows
             elementWindow.ShowDialog();
             LoadFromRam();
         }
-
-        #region IMessageBoxService
-
-        public void ShowError(string message)
-        {
-            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        public void ShowWarning(string message)
-        {
-            MessageBox.Show(this, message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
-
-        public void ShowInformation(string message)
-        {
-            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        public void ShowWindow(Window window)
-        {
-            window.Owner = this;
-            window.ShowDialog();
-        }
-
-        public bool? ShowOpenFileDialog(out string fileName)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            bool? showDialog = ofd.ShowDialog();
-
-            if (showDialog.IsTrue())
-            {
-                fileName = ofd.FileName;
-                return true;
-            }
-
-            fileName = null;
-            return showDialog;
-        }
-
-        #endregion
     }
 }

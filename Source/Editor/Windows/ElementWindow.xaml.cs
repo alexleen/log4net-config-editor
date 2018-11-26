@@ -1,22 +1,22 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Interfaces;
+using Editor.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Editor.Interfaces;
-using Editor.Utilities;
-using Microsoft.Win32;
 
 namespace Editor.Windows
 {
     /// <summary>
     /// Interaction logic for ElementWindow.xaml
     /// </summary>
-    internal partial class ElementWindow : IMessageBoxService
+    internal partial class ElementWindow
     {
+        private readonly IMessageBoxService mMessageBoxService;
         private readonly IElementConfiguration mConfiguration;
         private readonly ISaveStrategy mSaveStrategy;
 
@@ -32,13 +32,14 @@ namespace Editor.Windows
         {
             InitializeComponent();
             DataContext = this;
+            mMessageBoxService = new MessageBoxService(this);
 
             mConfiguration = appenderConfiguration;
             WindowSizeLocation = windowSizeLocation;
             mSaveStrategy = saveStrategy;
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
-            PropertyDefinition.MessageBoxService = this;
+            PropertyDefinition.MessageBoxService = mMessageBoxService;
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
             ((INotifyCollectionChanged)PropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
@@ -96,7 +97,7 @@ namespace Editor.Windows
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (Properties.Any(prop => !prop.TryValidate(this)))
+            if (Properties.Any(prop => !prop.TryValidate(mMessageBoxService)))
             {
                 return;
             }
@@ -120,41 +121,5 @@ namespace Editor.Windows
         {
             throw new NotImplementedException();
         }
-
-        #region IMessageBoxService
-
-        public void ShowError(string message)
-        {
-            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        public void ShowInformation(string message)
-        {
-            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        public void ShowWindow(Window window)
-        {
-            window.Owner = this;
-            window.ShowDialog();
-        }
-
-        public bool? ShowOpenFileDialog(out string fileName)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            bool? showDialog = ofd.ShowDialog();
-
-            if (showDialog.IsTrue())
-            {
-                fileName = ofd.FileName;
-                return true;
-            }
-
-            fileName = null;
-            return showDialog;
-        }
-
-        #endregion
     }
 }
