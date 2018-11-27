@@ -4,14 +4,24 @@ using Editor.Properties;
 
 namespace Editor.HistoryManager
 {
-    internal class SettingManager<TSettinType> : ISettingManager<TSettinType>
+    internal class SettingManager<TSettingType> : ISettingManager<TSettingType>
     {
-        public TSettinType Get(string settingName)
+        public SettingManager()
         {
-            return (TSettinType)Settings.Default[settingName];
+            if (Settings.Default.UpgradeRequired)
+            {
+                Settings.Default.Upgrade();
+                Settings.Default.UpgradeRequired = false;
+                Settings.Default.Save();
+            }
         }
 
-        public void Set(string settingName, TSettinType value)
+        public TSettingType Get(string settingName)
+        {
+            return (TSettingType)Settings.Default[settingName];
+        }
+
+        public void Set(string settingName, TSettingType value)
         {
             Settings.Default[settingName] = value;
         }
