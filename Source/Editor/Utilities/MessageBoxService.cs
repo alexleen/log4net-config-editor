@@ -1,7 +1,9 @@
-﻿using Editor.Interfaces;
-using Microsoft.Win32;
+﻿// Copyright © 2018 Alex Leendertsen
+
 using System;
 using System.Windows;
+using Editor.Interfaces;
+using Microsoft.Win32;
 
 namespace Editor.Utilities
 {

@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using Editor.Models;
 using Editor.Test.TestUtilities;
 using log4net.Core;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Editor.Test.Models
 {

@@ -1,15 +1,15 @@
 // Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
-using Editor.Utilities;
-using Editor.XML;
-using NSubstitute;
-using NUnit.Framework;
 using System.IO;
 using System.Reflection;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
+using Editor.Interfaces;
+using Editor.Utilities;
+using Editor.XML;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace Editor.Test.XML
 {

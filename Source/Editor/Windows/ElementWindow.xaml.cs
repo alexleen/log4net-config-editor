@@ -1,13 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
-using Editor.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.Windows
 {

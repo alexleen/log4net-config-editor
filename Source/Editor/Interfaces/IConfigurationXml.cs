@@ -1,10 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.ObjectModel;
 using Editor.Enums;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using log4net.Core;
-using System.Collections.ObjectModel;
 
 namespace Editor.Interfaces
 {
