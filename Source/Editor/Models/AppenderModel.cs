@@ -5,7 +5,7 @@ using Editor.Descriptors;
 
 namespace Editor.Models
 {
-    internal class AppenderModel : ChildModel
+    public class AppenderModel : ChildModel
     {
         public AppenderModel(AppenderDescriptor descriptor, XmlNode appender, string name, int incomingReferences)
             : base(descriptor.ElementName, appender)

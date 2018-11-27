@@ -1,8 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Xml;
+using Editor.Descriptors;
 using Editor.Models.Base;
 using Editor.Utilities;
 using log4net.Core;
@@ -19,7 +21,9 @@ namespace Editor.Models
         private readonly Action<MappingModel> mShowMappingWindow;
 
         public MappingModel(Action<MappingModel> remove,
-                            Action<MappingModel> showMappingWindow)
+                            Action<MappingModel> showMappingWindow,
+                            XmlNode node)
+            : base(node, MappingDescriptor.Mapping)
         {
             mRemove = remove ?? throw new ArgumentNullException(nameof(remove));
             mShowMappingWindow = showMappingWindow ?? throw new ArgumentNullException(nameof(showMappingWindow));
@@ -28,11 +32,9 @@ namespace Editor.Models
         }
 
         public MappingModel(Action<MappingModel> remove,
-                            Action<MappingModel> showMappingWindow,
-                            XmlNode node)
-            : this(remove, showMappingWindow)
+                            Action<MappingModel> showMappingWindow)
+            : this(remove, showMappingWindow, null)
         {
-            Node = node ?? throw new ArgumentNullException(nameof(node));
         }
 
         public Level Level { get; private set; }
@@ -44,18 +46,6 @@ namespace Editor.Models
         public ICommand Edit { get; }
 
         public ICommand Remove { get; }
-
-        private XmlNode mNode;
-
-        public override XmlNode Node
-        {
-            get => mNode;
-            set
-            {
-                mNode = value;
-                ParseNode();
-            }
-        }
 
         private void ParseNode()
         {
@@ -92,6 +82,16 @@ namespace Editor.Models
         private void RemoveFilterOnClick()
         {
             mRemove(this);
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (propertyName == nameof(Node))
+            {
+                ParseNode();
+            }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         public override string ToString()

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
-using Editor.Models;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -19,8 +18,11 @@ namespace Editor.ConfigProperties
         {
             mNameProperty = nameProperty;
             mAppenderConfiguration = appenderConfiguration;
+            RefsCollection = new ObservableCollection<IAcceptAppenderRef>();
             LoadAvailableLocations();
         }
+
+        public ObservableCollection<IAcceptAppenderRef> RefsCollection { get; set; }
 
         /// <summary>
         /// Finds all available locations for appender-refs.
@@ -28,7 +30,7 @@ namespace Editor.ConfigProperties
         /// </summary>
         private void LoadAvailableLocations()
         {
-            foreach (LoggerModel logger in XmlUtilities.FindAvailableAppenderRefLocations(mAppenderConfiguration.Log4NetNode))
+            foreach (IAcceptAppenderRef logger in XmlUtilities.FindAvailableAppenderRefLocations(mAppenderConfiguration.Log4NetNode))
             {
                 if (Equals(logger.Node, mAppenderConfiguration.OriginalNode))
                 {
@@ -41,7 +43,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            foreach (LoggerModel loggerModel in RefsCollection)
+            foreach (IAcceptAppenderRef loggerModel in RefsCollection)
             {
                 loggerModel.IsEnabled = loggerModel.Node.SelectSingleNode($"appender-ref[@ref='{mNameProperty.Value}']") != null;
             }
@@ -49,11 +51,11 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            foreach (LoggerModel loggerModel in RefsCollection)
+            foreach (IAcceptAppenderRef loggerModel in RefsCollection)
             {
                 if (loggerModel.IsEnabled)
                 {
-                    if (mNameProperty.Changed.HasValue && mNameProperty.Changed.Value)
+                    if (mNameProperty.Changed.IsTrue())
                     {
                         RemoveOldRefsFrom(loggerModel, mNameProperty.OriginalName);
                     }
@@ -62,12 +64,12 @@ namespace Editor.ConfigProperties
                 }
                 else
                 {
-                    RemoveOldRefsFrom(loggerModel, mNameProperty.Changed.HasValue && mNameProperty.Changed.Value ? mNameProperty.OriginalName : mNameProperty.Value);
+                    RemoveOldRefsFrom(loggerModel, mNameProperty.Changed.IsTrue() ? mNameProperty.OriginalName : mNameProperty.Value);
                 }
             }
         }
 
-        private static void RemoveOldRefsFrom(LoggerModel loggerModel, string name)
+        private static void RemoveOldRefsFrom(IAcceptAppenderRef loggerModel, string name)
         {
             XmlNodeList oldRefs = loggerModel.Node.SelectNodes($"appender-ref[@ref='{name}']");
 

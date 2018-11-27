@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 using Editor.Converters;
 using Editor.Descriptors;
-using Editor.Models;
+using Editor.Models.ConfigChildren;
 using NUnit.Framework;
 
 namespace Editor.Test.Converters
@@ -29,7 +29,7 @@ namespace Editor.Test.Converters
         [Test]
         public void Convert_ShouldReturnVisible_WhenAppenderModel()
         {
-            Assert.AreEqual(Visibility.Visible, mSut.Convert(new AppenderModel(AppenderDescriptor.Async, null, "root", 0), null, null, null));
+            Assert.AreEqual(Visibility.Visible, mSut.Convert(new AppenderModel(AppenderDescriptor.Async, null, 0), null, null, null));
         }
 
         [Test]

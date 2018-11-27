@@ -1,0 +1,25 @@
+﻿<Window x:Class="Editor.Windows.ErrorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Editor.Windows"
+        mc:Ignorable="d"
+        Title="log4net Configuration Editor - Unhandled Exception" 
+        ResizeMode="NoResize"
+        MinWidth="360"
+        SizeToContent="WidthAndHeight"
+        Icon="../document_edit.ico"
+        WindowStartupLocation="CenterOwner">
+    <StackPanel HorizontalAlignment="Center">
+        <Label FontSize="48" HorizontalAlignment="Center">🤦‍♂️</Label>
+        <Label>Aww snap! An unexpected error occurred. You can:</Label>
+        <Label HorizontalAlignment="Center">
+            <Hyperlink x:Name="xGitHubHyperLink" RequestNavigate="GitHubHyperLinkOnRequestNavigate">Create a GitHub issue</Hyperlink>
+        </Label>
+        <Label HorizontalAlignment="Center">
+            <Hyperlink Click="CopyOnClick">Copy exception text to the Windows clipboard</Hyperlink>
+        </Label>
+        <Button Width="50" Height="21" Margin="5, 5, 5, 10" Click="CloseOnClick">Close</Button>
+    </StackPanel>
+</Window>

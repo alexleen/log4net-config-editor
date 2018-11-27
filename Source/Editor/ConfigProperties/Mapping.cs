@@ -13,6 +13,7 @@ using Editor.SaveStrategies;
 using Editor.Utilities;
 using Editor.Windows;
 using Editor.Windows.SizeLocation;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -43,7 +44,7 @@ namespace Editor.ConfigProperties
 
         private void ShowMappingWindow(MappingModel mappingModel)
         {
-            XmlElement newMapping = mConfiguration.ConfigXml.CreateElement("mapping");
+            XmlElement newMapping = mConfiguration.ConfigXml.CreateElement(MappingName);
 
             IElementConfiguration elementConfiguration = new ElementConfiguration(mConfiguration, mappingModel.Node, newMapping);
 
@@ -62,7 +63,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            XmlNodeList mappings = originalNode.SelectNodes("mapping");
+            XmlNodeList mappings = originalNode.SelectNodes(MappingName);
 
             foreach (XmlNode mappingNode in mappings)
             {

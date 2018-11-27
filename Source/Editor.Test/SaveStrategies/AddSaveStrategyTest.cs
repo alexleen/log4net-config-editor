@@ -4,6 +4,7 @@ using System;
 using System.Xml;
 using Editor.Interfaces;
 using Editor.Models.Base;
+using Editor.Models.ConfigChildren;
 using Editor.SaveStrategies;
 using NUnit.Framework;
 
@@ -21,19 +22,19 @@ namespace Editor.Test.SaveStrategies
         [Test]
         public void Ctor_ShouldThrow_WhenAddCallbackIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new AddSaveStrategy<ModelBase>(new ModelBase(), null, new XmlDocument().CreateElement("element")));
+            Assert.Throws<ArgumentNullException>(() => new AddSaveStrategy<ModelBase>(new RendererModel(null), null, new XmlDocument().CreateElement("element")));
         }
 
         [Test]
         public void Ctor_ShouldThrow_WhenNewElementIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new AddSaveStrategy<ModelBase>(new ModelBase(), model => { }, null));
+            Assert.Throws<ArgumentNullException>(() => new AddSaveStrategy<ModelBase>(new RendererModel(null), model => { }, null));
         }
 
         [Test]
         public void Execute_ShouldAddModel_AndShouldAssignNode_WhenModelNodeIsNull()
         {
-            ModelBase model = new ModelBase();
+            ModelBase model = new RendererModel(null);
             XmlElement newElement = new XmlDocument().CreateElement("element");
             bool addCalled = false;
 
@@ -47,7 +48,7 @@ namespace Editor.Test.SaveStrategies
         [Test]
         public void Execute_ShouldNotAddModel_AndShouldAssignNode_WhenModelNodeIsNotNull()
         {
-            ModelBase model = new ModelBase();
+            ModelBase model = new RendererModel(null);
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement newElement = xmlDoc.CreateElement("element");
             model.Node = xmlDoc.CreateElement("oldElement");

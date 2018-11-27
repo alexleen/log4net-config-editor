@@ -7,15 +7,16 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Editor.Interfaces;
-using Microsoft.Win32;
+using Editor.Utilities;
 
 namespace Editor.Windows
 {
     /// <summary>
     /// Interaction logic for ElementWindow.xaml
     /// </summary>
-    internal partial class ElementWindow : IMessageBoxService
+    internal partial class ElementWindow
     {
+        private readonly IMessageBoxService mMessageBoxService;
         private readonly IElementConfiguration mConfiguration;
         private readonly ISaveStrategy mSaveStrategy;
 
@@ -31,13 +32,14 @@ namespace Editor.Windows
         {
             InitializeComponent();
             DataContext = this;
+            mMessageBoxService = new MessageBoxService(this);
 
             mConfiguration = appenderConfiguration;
             WindowSizeLocation = windowSizeLocation;
             mSaveStrategy = saveStrategy;
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
-            PropertyDefinition.MessageBoxService = this;
+            PropertyDefinition.MessageBoxService = mMessageBoxService;
             Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
             ((INotifyCollectionChanged)PropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
@@ -95,7 +97,7 @@ namespace Editor.Windows
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (Properties.Any(prop => !prop.TryValidate(this)))
+            if (Properties.Any(prop => !prop.TryValidate(mMessageBoxService)))
             {
                 return;
             }
@@ -115,40 +117,9 @@ namespace Editor.Windows
             Close();
         }
 
-        #region IMessageBoxService
-
-        public void ShowError(string message)
+        public void ShowWarning(string message)
         {
-            MessageBox.Show(this, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            throw new NotImplementedException();
         }
-
-        public void ShowInformation(string message)
-        {
-            MessageBox.Show(this, message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        public void ShowWindow(Window window)
-        {
-            window.Owner = this;
-            window.ShowDialog();
-        }
-
-        public bool? ShowOpenFileDialog(out string fileName)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            bool? showDialog = ofd.ShowDialog();
-
-            if (showDialog.HasValue && showDialog.Value)
-            {
-                fileName = ofd.FileName;
-                return true;
-            }
-
-            fileName = null;
-            return showDialog;
-        }
-
-        #endregion
     }
 }

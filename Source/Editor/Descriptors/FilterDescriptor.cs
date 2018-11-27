@@ -32,10 +32,9 @@ namespace Editor.Descriptors
         }
 
         private FilterDescriptor(string name, FilterType type, string typeNamespace)
-            : base(name, "filter")
+            : base(name, "filter", typeNamespace)
         {
             Type = type;
-            TypeNamespace = typeNamespace;
         }
 
         public static bool TryFindByTypeNamespace(string typeNamespace, out FilterDescriptor filter)
@@ -50,7 +49,5 @@ namespace Editor.Descriptors
         }
 
         public FilterType Type { get; }
-
-        public string TypeNamespace { get; }
     }
 }

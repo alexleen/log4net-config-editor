@@ -5,8 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Models;
+using Editor.Models.ConfigChildren;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -23,18 +24,18 @@ namespace Editor.Test.ConfigProperties
         {
             mXmlDoc = new XmlDocument();
             mXmlDoc.LoadXml("<log4net>\n" +
-                            "  <appender name=\"appender0\">\n" +
+                            $"  <appender name=\"appender0\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "    <appender-ref ref=\"appender1\" />\n" +
                             "    <appender-ref ref=\"appender2\" />\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"appender1\">\n" +
+                            $"  <appender name=\"appender1\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "    <appender-ref ref=\"appender2\" />\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"appender2\">\n" +
+                            $"  <appender name=\"appender2\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"appender3\">\n" +
+                            $"  <appender name=\"appender3\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "  </appender>\n" +
-                            "  <appender name=\"asyncAppender\" type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
+                            $"  <appender name=\"asyncAppender\" type=\"{AppenderDescriptor.Async.TypeNamespace}\">\n" +
                             "  </appender>\n" +
                             "  <root>\n" +
                             "  </root>\n" +
@@ -83,11 +84,11 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.RefsCollection = new ObservableCollection<LoggerModel>
+            mSut.RefsCollection = new ObservableCollection<AppenderModel>
             {
-                new LoggerModel("element0", "name0", appender, true),
-                new LoggerModel("element1", "name1", appender, true),
-                new LoggerModel("element2", "name2", appender, false)
+                new AppenderModel(AppenderDescriptor.Console, appender, 0) { IsEnabled = true },
+                new AppenderModel(AppenderDescriptor.Console, appender, 0) { IsEnabled = true },
+                new AppenderModel(AppenderDescriptor.Console, appender, 0)
             };
 
             mSut.Save(xmlDoc, appender);

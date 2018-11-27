@@ -4,10 +4,11 @@ namespace Editor.Descriptors.Base
 {
     public abstract class DescriptorBase
     {
-        protected DescriptorBase(string name, string elementName)
+        protected DescriptorBase(string name, string elementName, string typeNamespace)
         {
             Name = name;
             ElementName = elementName;
+            TypeNamespace = typeNamespace;
         }
 
         /// <summary>
@@ -18,6 +19,11 @@ namespace Editor.Descriptors.Base
         /// <summary>
         /// Name of the element in the configuration XML.
         /// </summary>
-        public string ElementName { get; protected set; }
+        public string ElementName { get; }
+
+        /// <summary>
+        /// log4net type namespace.
+        /// </summary>
+        public string TypeNamespace { get; }
     }
 }

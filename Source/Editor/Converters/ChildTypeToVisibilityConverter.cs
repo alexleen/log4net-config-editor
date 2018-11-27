@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Editor.Models;
+using Editor.Models.ConfigChildren;
 
 namespace Editor.Converters
 {

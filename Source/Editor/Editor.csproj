@@ -50,6 +50,12 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="SystemInterface, Version=0.25.0.186, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\packages\SystemWrapper.Interfaces.0.25.0.186\lib\net45\SystemInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="SystemWrapper, Version=0.25.0.186, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\packages\SystemWrapper.Wrappers.0.25.0.186\lib\net45\SystemWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -75,6 +81,8 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
+    <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
+    <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LocalIdentity.cs" />
@@ -160,11 +168,23 @@
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="Enums\LoggerType.cs" />
+    <Compile Include="Enums\Update.cs" />
     <Compile Include="HistoryManager\ISettingManager.cs" />
     <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Interfaces\IElementConfiguration.cs" />
+    <Compile Include="Models\Base\NamedModel.cs" />
+    <Compile Include="Models\ConfigChildren\AsyncAppenderModel.cs" />
+    <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
-    <Compile Include="Models\RendererModel.cs" />
+    <Compile Include="Utilities\ExtensionsMethods.cs" />
+    <Compile Include="Utilities\MessageBoxService.cs" />
+    <Compile Include="Windows\ErrorWindow.xaml.cs">
+      <DependentUpon>ErrorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXml.cs" />
+    <Compile Include="XML\ConfigurationFactory.cs" />
+    <Compile Include="XML\ElementConfiguration.cs" />
+    <Compile Include="Models\ConfigChildren\RendererModel.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategy.cs" />
     <Compile Include="SaveStrategies\AppendReplaceSaveStrategy.cs" />
     <Compile Include="Windows\SizeLocation\AppenderWindowSizeLocation.cs" />
@@ -184,15 +204,14 @@
     <Compile Include="Windows\SizeLocation\StringMatchFilterWindowSizeLocation.cs" />
     <Compile Include="Windows\SizeLocation\Size.cs" />
     <Compile Include="Windows\SizeLocation\WindowSizeLocationFactory.cs" />
-    <Compile Include="Models\AppenderModel.cs" />
+    <Compile Include="Models\ConfigChildren\AppenderModel.cs" />
     <Compile Include="Enums\AppenderType.cs" />
     <Compile Include="Descriptors\FilterDescriptor.cs" />
     <Compile Include="Descriptors\LayoutDescriptor.cs" />
     <Compile Include="Enums\LayoutType.cs" />
-    <Compile Include="Models\ChildModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\FixModel.cs" />
-    <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\ConfigChildren\LoggerModel.cs" />
     <Compile Include="Models\MappingModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -217,11 +236,18 @@
     <Compile Include="HistoryManager\HistoricalValue.cs" />
     <Compile Include="Utilities\GridHelper.cs" />
     <Compile Include="Windows\SizeRetentionWindow.cs" />
+    <Compile Include="XML\ConfigurationXml.cs" />
+    <Compile Include="Interfaces\IConfigurationFactory.cs" />
+    <Compile Include="Interfaces\IConfigurationXml.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DropDownButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

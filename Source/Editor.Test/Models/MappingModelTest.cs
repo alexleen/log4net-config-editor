@@ -26,6 +26,17 @@ namespace Editor.Test.Models
         }
 
         [Test]
+        public void Edit_ShouldShowMappingWindow()
+        {
+            MappingModel param = null;
+            MappingModel sut = new MappingModel(Dummy, model => param = model);
+
+            sut.Edit.Execute(null);
+
+            Assert.AreSame(sut, param);
+        }
+
+        [Test]
         public void ToString_ShouldReturnCorrectString()
         {
             Assert.AreEqual($"{sLevel} | {ForeColor} | {BackColor}", Sut.ToString());

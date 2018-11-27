@@ -62,6 +62,12 @@
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="SystemInterface, Version=0.25.0.186, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\packages\SystemWrapper.Interfaces.0.25.0.186\lib\net45\SystemInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="SystemWrapper, Version=0.25.0.186, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\packages\SystemWrapper.Wrappers.0.25.0.186\lib\net45\SystemWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -147,10 +153,13 @@
     <Compile Include="Descriptors\LoggerDescriptorTest.cs" />
     <Compile Include="Descriptors\RendererDescriptorTest.cs" />
     <Compile Include="HistoryManager\HistoricalValueTest.cs" />
+    <Compile Include="Models\ConfigChildren\AppenderModelTest.cs" />
+    <Compile Include="Models\ConfigChildren\RendererModelTest.cs" />
+    <Compile Include="Models\ConfigChildren\RootLoggerModelTest.cs" />
+    <Compile Include="Models\FilterModelTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
     <Compile Include="Models\ParamModelTest.cs" />
-    <Compile Include="Models\RendererModelTest.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategyTest.cs" />
     <Compile Include="SaveStrategies\AppendReplaceSaveStrategyTest.cs" />
     <Compile Include="TestUtilities\EqualityTests.cs" />
@@ -160,17 +169,24 @@
     <Compile Include="Windows\SizeLocation\SizeTest.cs" />
     <Compile Include="Windows\SizeLocation\SizeTest_Default.cs" />
     <Compile Include="Windows\SizeLocation\WindowSizeLocationFactoryTest.cs" />
+    <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXmlTest.cs" />
+    <Compile Include="XML\ConfigurationFactoryTest.cs" />
+    <Compile Include="XML\ConfigurationXmlTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Editor\Editor.csproj">
-      <Project>{3E28933A-1CDD-45BE-9586-A00CB6C11D14}</Project>
+      <Project>{3e28933a-1cdd-45be-9586-a00cb6c11d14}</Project>
       <Name>Editor</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="XML\test-config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

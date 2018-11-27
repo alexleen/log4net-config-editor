@@ -2,13 +2,14 @@
 
 using System.Xml;
 using Editor.Descriptors;
+using Editor.Models.Base;
 
-namespace Editor.Models
+namespace Editor.Models.ConfigChildren
 {
-    internal class RendererModel : ChildModel
+    internal class RendererModel : ModelBase
     {
         public RendererModel(XmlNode node)
-            : base(RendererDescriptor.Renderer.ElementName, node)
+            : base(node, RendererDescriptor.Renderer)
         {
         }
     }

@@ -3,7 +3,6 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Editor.Interfaces;
-using Editor.Models;
 
 namespace Editor.ConfigProperties.Base
 {
@@ -14,13 +13,10 @@ namespace Editor.ConfigProperties.Base
         {
             Name = name;
             Description = description;
-            RefsCollection = new ObservableCollection<LoggerModel>();
         }
 
         public string Name { get; }
 
         public string Description { get; }
-
-        public ObservableCollection<LoggerModel> RefsCollection { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Xml;
 namespace Editor.Interfaces
 {
     /// <summary>
-    /// Encapsulates two nodes to faciliate the loading and saving of new elements.
+    /// Encapsulates two nodes to facilitate the loading and saving of new elements.
     /// Typically, the UI is loaded with the <see cref="OriginalNode"/> and values
     /// are saved to the <see cref="NewNode"/>.
     /// </summary>

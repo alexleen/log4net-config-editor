@@ -24,8 +24,8 @@ namespace Editor.Test.Models
         {
             yield return new FixModel(FixFlags.Partial, PerformanceImpact, Description);
             yield return new FixModel(Flag, true, Description);
-            yield return new FixModel(Flag, PerformanceImpact, "other discription");
-            yield return new FixModel(FixFlags.Partial, true, "other discription");
+            yield return new FixModel(Flag, PerformanceImpact, "other description");
+            yield return new FixModel(FixFlags.Partial, true, "other description");
         }
 
         protected override FixModel GetSut()
@@ -42,6 +42,25 @@ namespace Editor.Test.Models
                 hashCode = (hashCode * 397) ^ Description.GetHashCode();
                 return hashCode;
             }
+        }
+
+        [Test]
+        public void Enabled_ShouldFireOnPropertyChanged()
+        {
+            bool fired = false;
+            Sut.PropertyChanged += (sender, args) => { fired = true; };
+
+            Sut.Enabled = true;
+
+            Assert.IsTrue(fired);
+        }
+
+        [Test]
+        public void Enabled_ShouldSet_WhenNoPropertyChangedSubscription()
+        {
+            Sut.Enabled = true;
+
+            Assert.IsTrue(Sut.Enabled);
         }
     }
 }

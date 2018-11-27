@@ -13,8 +13,8 @@ namespace Editor.Descriptors
             Mapping = new MappingDescriptor("Mapping");
         }
 
-        public MappingDescriptor(string name)
-            : base(name, "mapping")
+        private MappingDescriptor(string name)
+            : base(name, "mapping", null)
         {
         }
     }

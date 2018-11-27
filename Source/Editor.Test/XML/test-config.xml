@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<log4net debug="true" update="Overwrite" threshold="ERROR">
+  <appender type="log4net.Appender.ConsoleAppender" name="consoleAppender">
+  </appender>
+  <appender type="Log4Net.Async.AsyncForwardingAppender,Log4Net.Async" name="asyncForwarder">
+  </appender>
+  <root>
+    <level value="ALL" />
+    <appender-ref ref="asyncForwarder" />
+  </root>
+  <renderer renderingClass="renderingClass" renderedClass="renderedClass" />
+  <param name="nameVal" value="valueVal" type="typeVal" />
+</log4net>

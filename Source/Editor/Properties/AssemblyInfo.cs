@@ -54,3 +54,4 @@ using System.Windows;
 [assembly: AssemblyFileVersion("0.4.0.0")]
 
 [assembly: InternalsVisibleTo("Editor.Test")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
