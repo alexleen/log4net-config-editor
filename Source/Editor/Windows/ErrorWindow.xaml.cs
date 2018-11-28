@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -22,7 +23,9 @@ namespace Editor.Windows
 
             Owner = Application.Current.MainWindow;
 
-            string githubLink = $"https://github.com/alexleen/log4net-config-editor/issues/new?title={source}: Unhandled Exception&body={ex}&labels=bug,high priority";
+            string version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+
+            string githubLink = $"https://github.com/alexleen/log4net-config-editor/issues/new?title={source} Unhandled Exception: {ex.Message}&body=Version: {version}{Environment.NewLine}{ex}&labels=bug,high priority";
 
             xGitHubHyperLink.NavigateUri = new Uri(githubLink);
         }
