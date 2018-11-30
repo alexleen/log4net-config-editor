@@ -43,6 +43,10 @@ namespace Editor.Test.XML
 
             mXmlWriterFactory = Substitute.For<IXmlWriterFactory>();
             SetSutField("mXmlWriterFactory", mXmlWriterFactory);
+
+            //Substitute fileStreamFactory to avoid disk access attempts
+            IFileStreamFactory fileStreamFactory = Substitute.For<IFileStreamFactory>();
+            SetSutField("mFileStreamFactory", fileStreamFactory);
         }
 
         private void SetSutField(string fieldName, object value)
