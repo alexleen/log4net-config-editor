@@ -3,6 +3,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Xml;
+using System.Xml.Linq;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
 using Editor.Descriptors;
@@ -13,6 +14,9 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Editor.XML
 {
@@ -76,6 +80,8 @@ namespace Editor.XML
             }
 
             LoadRootAttributes();
+
+            ReevaluateSaveState();
 
             return unrecognized;
         }
@@ -152,10 +158,26 @@ namespace Editor.XML
             }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
             SaveRootAttributes();
-            mLoadAndSave.Save();
+            SaveState = SaveState.Saving;
+            await mLoadAndSave.SaveAsync();
+            ReevaluateSaveState();
+        }
+
+        private void ReevaluateSaveState()
+        {
+            IXmlDocument disk = mLoadAndSave.Load();
+
+            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(mConfigXml.OuterXml)))
+            {
+                SaveState = SaveState.Saved;
+            }
+            else
+            {
+                SaveState = SaveState.Changed;
+            }
         }
 
         private void SaveRootAttributes()
@@ -227,5 +249,29 @@ namespace Editor.XML
         public Level Threshold { get; set; } = Level.All;
 
         public ReadOnlyObservableCollection<ModelBase> Children { get; private set; }
+
+        private SaveState mSaveState;
+
+        public SaveState SaveState
+        {
+            get => mSaveState;
+            private set
+            {
+                if (value == mSaveState)
+                {
+                    return;
+                }
+
+                mSaveState = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

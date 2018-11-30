@@ -91,7 +91,7 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
-            mSut.Save();
+            mSut.SaveAsync();
 
             mXmlDoc.Received(1).Save(Arg.Any<XmlWriter>());
         }
@@ -101,7 +101,7 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
-            mSut.Save();
+            mSut.SaveAsync();
 
             mXmlWriterFactory.Received(1).Create(Arg.Any<FileStream>(), Arg.Is<XmlWriterSettings>(settings => settings.Indent));
         }

@@ -236,7 +236,7 @@ namespace Editor.Test.XML
             mSut.Update = Update.Merge;
             mSut.Threshold = Level.All;
 
-            mSut.Save();
+            mSut.SaveAsync();
 
             XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
 
@@ -250,9 +250,9 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
-            mSut.Save();
+            mSut.SaveAsync();
 
-            mLoadAndSave.Received(1).Save();
+            mLoadAndSave.Received(1).SaveAsync();
         }
 
         [Test]

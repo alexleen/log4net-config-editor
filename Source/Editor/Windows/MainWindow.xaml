@@ -27,15 +27,25 @@
 
         <Separator DockPanel.Dock="Top" Margin="5,0,5,5"/>
 
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Width" Value="85" />
-                </Style>
-            </StackPanel.Resources>
-            <Button x:Name="xSaveButton" IsEnabled="False" Margin="5,5,0,5" Click="SaveOnClick">Save</Button>
-            <Button x:Name="xSaveAndCloseButton" IsEnabled="False" Margin="5,5,0,5" Click="SandAndCloseOnClick">Save &amp; Close</Button>
-            <Button x:Name="xCloseButton" Margin="5,5,0,5" Click="CloseOnClick">Close</Button>
+        <StackPanel DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Converters:SaveStateToImageConverter x:Key="StateToImageConv"/>
+                </StackPanel.Resources>
+                <Image Width="16" Source="{Binding ConfigurationXml.SaveState, Converter={StaticResource StateToImageConv}}"/>
+                <Label>All Changes Saved</Label>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="85" />
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="xSaveButton" IsEnabled="False" Margin="5,5,0,5" Click="SaveOnClick">Save</Button>
+                <Button x:Name="xSaveAndCloseButton" IsEnabled="False" Margin="5,5,0,5" Click="SandAndCloseOnClick">Save &amp; Close</Button>
+                <Button x:Name="xCloseButton" Margin="5,5,0,5" Click="CloseOnClick">Close</Button>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel x:Name="xRightSp" DockPanel.Dock="Right" IsEnabled="False">

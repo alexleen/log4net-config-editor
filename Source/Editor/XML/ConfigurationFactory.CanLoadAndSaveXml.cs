@@ -1,12 +1,13 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using Editor.Interfaces;
+using Editor.Utilities;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
-using Editor.Interfaces;
-using Editor.Utilities;
 
 namespace Editor.XML
 {
@@ -46,17 +47,20 @@ namespace Editor.XML
                 return mConfigXml;
             }
 
-            public void Save()
+            public Task SaveAsync()
             {
-                using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
+                return Task.Run(() =>
                 {
-                    XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
-
-                    using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                    using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
                     {
-                        mConfigXml.Save(xtw.Writer);
+                        XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+
+                        using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                        {
+                            mConfigXml.Save(xtw.Writer);
+                        }
                     }
-                }
+                });
             }
         }
     }
