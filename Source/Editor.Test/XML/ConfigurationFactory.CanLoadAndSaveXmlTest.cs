@@ -102,11 +102,11 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void Save_ShouldSaveXml_WithCorrectSettings()
+        public async Task Save_ShouldSaveXml_WithCorrectSettings()
         {
             mSut.Load();
 
-            mSut.SaveAsync(null);
+            await mSut.SaveAsync(mXmlDoc);
 
             mXmlWriterFactory.Received(1).Create(Arg.Any<FileStream>(), Arg.Is<XmlWriterSettings>(settings => settings.Indent));
         }

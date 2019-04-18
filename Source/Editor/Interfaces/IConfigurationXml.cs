@@ -18,6 +18,9 @@ namespace Editor.Interfaces
     /// </summary>
     public interface IConfigurationXml : IConfiguration, INotifyPropertyChanged
     {
+        /// <summary>
+        /// The current state of the XML compared to disk.
+        /// </summary>
         SaveState SaveState { get; }
 
         /// <summary>

@@ -227,7 +227,7 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void Save_ShouldSaveAttributes()
+        public async Task Save_ShouldSaveAttributes()
         {
             mSut.Load();
 
@@ -237,7 +237,7 @@ namespace Editor.Test.XML
             mSut.Update = Update.Merge;
             mSut.Threshold = Level.All;
 
-            mSut.SaveAsync();
+            await mSut.SaveAsync();
 
             XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
 
