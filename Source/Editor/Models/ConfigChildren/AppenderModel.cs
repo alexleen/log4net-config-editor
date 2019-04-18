@@ -16,6 +16,8 @@ namespace Editor.Models.ConfigChildren
 
         public int IncomingReferences { get; }
 
+        public bool HasReferences { get => IncomingReferences > 0; }
+
         public bool IsEnabled { get; set; }
 
         public static bool TryCreate(XmlNode appender, XmlNode log4NetNode, out AppenderModel appenderModel)

@@ -143,7 +143,6 @@
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\PresetToBoolConverter.cs" />
-    <Compile Include="Converters\ReferencesToImageConverter.cs" />
     <Compile Include="Definitions\Appenders\FileAppender.cs" />
     <Compile Include="Definitions\Appenders\ForwardingAppender.cs" />
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppender.cs" />

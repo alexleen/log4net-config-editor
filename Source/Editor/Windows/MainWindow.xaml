@@ -137,7 +137,6 @@
 
         <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">
             <DataGrid.Resources>
-                <Converters:ReferencesToImageConverter x:Key="RefToImageConv"/>
                 <Converters:ChildTypeToVisibilityConverter x:Key="ChildTypeVisConv"/>
 
                 <Style TargetType="DataGridRow">
@@ -152,7 +151,20 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource ChildTypeVisConv}}">
-                                <Image Margin="5,0" Height="16" Width="16" Source="{Binding IncomingReferences, Converter={StaticResource RefToImageConv}}"/>
+                                <Image Margin="5,0" Height="16" Width="16">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasReferences}" Value="False">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-warning.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding HasReferences}" Value="True">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-ok-apply.png"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                                 <Label Content="{Binding IncomingReferences}" VerticalAlignment="Center"/>                                
                             </StackPanel>
                         </DataTemplate>
