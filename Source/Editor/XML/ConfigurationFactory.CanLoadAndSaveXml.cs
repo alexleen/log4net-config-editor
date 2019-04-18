@@ -36,15 +36,7 @@ namespace Editor.XML
 
                 if (mFile.Exists(mFilename))
                 {
-                    try
-                    {
-                        configXml.Load(mFilename);
-                    }
-                    catch (XmlException)
-                    {
-                        //TODO handle no root element - this or notify user?
-                        configXml.AppendChild(configXml.CreateElement(Log4NetXmlConstants.Log4Net));
-                    }
+                    configXml.Load(mFilename);
                 }
                 else
                 {
