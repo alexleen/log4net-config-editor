@@ -2,10 +2,11 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -14,9 +15,8 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
@@ -162,7 +162,7 @@ namespace Editor.XML
         {
             SaveRootAttributes();
             SaveState = SaveState.Saving;
-            await mLoadAndSave.SaveAsync();
+            await mLoadAndSave.SaveAsync(mConfigXml);
             ReevaluateSaveState();
         }
 

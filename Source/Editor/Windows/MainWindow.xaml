@@ -31,9 +31,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel.Resources>
                     <Converters:SaveStateToImageConverter x:Key="StateToImageConv"/>
+                    <Converters:SaveStateToTextConverter x:Key="StateToTextConv"/>
                 </StackPanel.Resources>
                 <Image Width="16" Source="{Binding ConfigurationXml.SaveState, Converter={StaticResource StateToImageConv}}"/>
-                <Label>All Changes Saved</Label>
+                <Label Content="{Binding ConfigurationXml.SaveState, Converter={StaticResource StateToTextConv}}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

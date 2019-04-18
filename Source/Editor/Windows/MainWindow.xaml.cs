@@ -1,10 +1,12 @@
 // Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using Editor.Definitions.Factory;
@@ -24,20 +26,31 @@ using Microsoft.Win32;
 namespace Editor.Windows
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : INotifyPropertyChanged
     {
         private readonly IMessageBoxService mMessageBoxService;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
 
-        public IConfigurationXml ConfigurationXml { get; private set; }
+        private IConfigurationXml mConfig;
+        public IConfigurationXml ConfigurationXml
+        {
+            get => mConfig;
+            private set
+            {
+                mConfig = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainWindow()
             : base("MainWindowPlacement")
         {
             InitializeComponent();
+
+            DataContext = this;
 
             mMessageBoxService = new MessageBoxService(this);
             mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
@@ -295,9 +308,16 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.Interfaces;
-using Editor.Utilities;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
+using Editor.Interfaces;
+using Editor.Utilities;
 using SystemInterface.IO;
 using SystemInterface.Xml;
 
@@ -20,7 +20,6 @@ namespace Editor.XML
             private readonly IFileStreamFactory mFileStreamFactory;
             private readonly IXmlWriterFactory mXmlWriterFactory;
             private readonly IFile mFile;
-            private IXmlDocument mConfigXml;
 
             public CanLoadAndSaveXml(string filename, IXmlDocumentFactory xmlDocFactory, IFileStreamFactory fileStreamFactory, IXmlWriterFactory xmlWriterFactory, IFile fileWrap)
             {
@@ -33,21 +32,29 @@ namespace Editor.XML
 
             public IXmlDocument Load()
             {
-                mConfigXml = mXmlDocFactory.Create();
+                IXmlDocument configXml = mXmlDocFactory.Create();
 
                 if (mFile.Exists(mFilename))
                 {
-                    mConfigXml.Load(mFilename);
+                    try
+                    {
+                        configXml.Load(mFilename);
+                    }
+                    catch (XmlException)
+                    {
+                        //TODO handle no root element - this or notify user?
+                        configXml.AppendChild(configXml.CreateElement(Log4NetXmlConstants.Log4Net));
+                    }
                 }
                 else
                 {
-                    mConfigXml.AppendChild(mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net));
+                    configXml.AppendChild(configXml.CreateElement(Log4NetXmlConstants.Log4Net));
                 }
 
-                return mConfigXml;
+                return configXml;
             }
 
-            public Task SaveAsync()
+            public Task SaveAsync(IXmlDocument configXml)
             {
                 return Task.Run(() =>
                 {
@@ -57,7 +64,7 @@ namespace Editor.XML
 
                         using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
                         {
-                            mConfigXml.Save(xtw.Writer);
+                            configXml.Save(xtw.Writer);
                         }
                     }
                 });

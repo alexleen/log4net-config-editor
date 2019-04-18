@@ -252,7 +252,7 @@ namespace Editor.Test.XML
 
             mSut.SaveAsync();
 
-            mLoadAndSave.Received(1).SaveAsync();
+            mLoadAndSave.Received(1).SaveAsync(null);
         }
 
         [Test]

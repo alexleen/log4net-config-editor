@@ -19,6 +19,6 @@ namespace Editor.Interfaces
         /// <summary>
         /// Saves the XML to disk.
         /// </summary>
-        Task SaveAsync();
+        Task SaveAsync(IXmlDocument configXml);
     }
 }

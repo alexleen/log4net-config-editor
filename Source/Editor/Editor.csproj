@@ -83,6 +83,7 @@
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Converters\SaveStateToImageConverter.cs" />
+    <Compile Include="Converters\SaveStateToTextConverter.cs" />
     <Compile Include="Enums\SaveState.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
