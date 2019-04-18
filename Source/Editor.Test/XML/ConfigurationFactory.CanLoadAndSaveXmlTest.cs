@@ -2,14 +2,15 @@
 
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml;
-using SystemInterface.IO;
-using SystemInterface.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
 using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
+using SystemInterface.IO;
+using SystemInterface.Xml;
 
 namespace Editor.Test.XML
 {
@@ -87,11 +88,11 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void Save_ShouldSaveXml()
+        public async Task Save_ShouldSaveXml()
         {
             mSut.Load();
 
-            mSut.SaveAsync(null);
+            await mSut.SaveAsync(mXmlDoc);
 
             mXmlDoc.Received(1).Save(Arg.Any<XmlWriter>());
         }

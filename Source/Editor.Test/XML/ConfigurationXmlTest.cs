@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -18,6 +17,8 @@ using Editor.XML;
 using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.Test.XML
 {
@@ -246,13 +247,13 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void Save_ShouldSave()
+        public async Task Save_ShouldSave()
         {
             mSut.Load();
 
-            mSut.SaveAsync();
+            await mSut.SaveAsync();
 
-            mLoadAndSave.Received(1).SaveAsync(null);
+            mLoadAndSave.Received(1).SaveAsync(mXmlDoc);
         }
 
         [Test]
