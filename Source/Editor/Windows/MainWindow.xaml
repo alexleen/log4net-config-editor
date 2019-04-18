@@ -29,12 +29,40 @@
 
         <StackPanel DockPanel.Dock="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel.Resources>
-                    <Converters:SaveStateToImageConverter x:Key="StateToImageConv"/>
-                    <Converters:SaveStateToTextConverter x:Key="StateToTextConv"/>
-                </StackPanel.Resources>
-                <Image Width="16" Source="{Binding ConfigurationXml.SaveState, Converter={StaticResource StateToImageConv}}"/>
-                <Label Content="{Binding ConfigurationXml.SaveState, Converter={StaticResource StateToTextConv}}"/>
+                <Image Width="16">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Changed">
+                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-warning.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saving">
+                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/view-refresh.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saved">
+                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-ok-apply.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Label>
+                    <Label.Style>
+                        <Style TargetType="Label">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Changed">
+                                    <Setter Property="Content" Value="Unsaved Changes"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saving">
+                                    <Setter Property="Content" Value="Saving..."/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saved">
+                                    <Setter Property="Content" Value="All Changes Saved"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
