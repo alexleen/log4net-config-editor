@@ -94,6 +94,10 @@
                       Width="100" 
                       VerticalAlignment="Center"
                       ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to." />
+
+            <Separator Margin="5"/>
+
+            <Button Click="SettingsClick">Settings</Button>
         </StackPanel>
 
         <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">

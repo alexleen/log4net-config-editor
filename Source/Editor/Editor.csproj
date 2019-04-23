@@ -181,6 +181,9 @@
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXml.cs" />
     <Compile Include="XML\ConfigurationFactory.cs" />
     <Compile Include="XML\ElementConfiguration.cs" />
@@ -264,6 +267,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ElementWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

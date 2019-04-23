@@ -298,5 +298,11 @@ namespace Editor.Windows
             elementWindow.ShowDialog();
             LoadFromRam();
         }
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow w = new SettingsWindow { Owner = this };
+            w.ShowDialog();
+        }
     }
 }
