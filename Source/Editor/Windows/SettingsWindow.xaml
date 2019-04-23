@@ -21,7 +21,7 @@
 
     <DockPanel Margin="5">
         <StackPanel HorizontalAlignment="Center" DockPanel.Dock="Bottom" Orientation="Horizontal">
-            <Button Click="Button_Click" Margin="0,5,2.5,0">Save</Button>
+            <Button Click="SaveClick" Margin="0,5,2.5,0">Save</Button>
             <Button Click="CloseClick" Margin="2.5,5,0,0">Close</Button>
         </StackPanel>
 
@@ -35,23 +35,23 @@
 
                 <StackPanel Grid.Column="0">
                     <TextBlock>Custom Appender:</TextBlock>
-                    <TextBox Margin="0,2,2,2" Height="22">asdf</TextBox>
+                    <TextBox x:Name="xCustom"  Margin="0,2,2,2" Height="22"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBlock>Mapped Appender:</TextBlock>
-                    <ComboBox Margin="0,2,2,2" HorizontalAlignment="Stretch"></ComboBox>
+                    <ComboBox x:Name="xMapped" Margin="0,2,2,2" HorizontalAlignment="Stretch" SelectedIndex="0"/>
                 </StackPanel>
-                <Button Grid.Column="2" VerticalAlignment="Bottom" Margin="0, 2">Add</Button>
+                <Button Grid.Column="2" VerticalAlignment="Bottom" Margin="0, 2" Click="AddClick">Add</Button>
             </Grid>
-            <TextBlock DockPanel.Dock="Bottom" Foreground="Gray" FontStyle="Italic" TextWrapping="Wrap">When an appender of type "Custom Appender" is found in a configuration file, an appender of type "Mapped Appender" will be used. Properties of the custom appender unknown to the mapped appender will be ignored.</TextBlock>
-            <DataGrid>
+            <TextBlock DockPanel.Dock="Bottom" Foreground="Gray" FontStyle="Italic" TextWrapping="Wrap">When an appender of type "Custom Appender" is found in a configuration file, an appender of type "Mapped Appender" will be used. Properties of the custom appender unknown to the mapped appender will be ignored but not overwritten. OH RLY???</TextBlock>
+            <DataGrid x:Name="xMappings" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Custom Appender" />
-                    <DataGridTextColumn Header="Mapped Appender" />
+                    <DataGridTextColumn Header="Custom Appender" Binding="{Binding Item1}"/>
+                    <DataGridTextColumn Header="Mapped Appender" Binding="{Binding Item2}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button>Delete</Button>
+                                <Button Click="RemoveClick" Tag="{Binding}">Remove</Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

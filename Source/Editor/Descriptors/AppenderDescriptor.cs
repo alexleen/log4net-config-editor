@@ -9,7 +9,7 @@ namespace Editor.Descriptors
     public class AppenderDescriptor : DescriptorBase
     {
         public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp, LocalSyslog, RemoteSyslog;
-        private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
+        public static readonly IReadOnlyDictionary<string, AppenderDescriptor> DescriptorsByTypeNamespace;
 
         static AppenderDescriptor()
         {
@@ -24,7 +24,7 @@ namespace Editor.Descriptors
             LocalSyslog = new AppenderDescriptor("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender");
             RemoteSyslog = new AppenderDescriptor("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender");
 
-            sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
+            DescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
             {
                 { Console.TypeNamespace, Console },
                 { File.TypeNamespace, File },
@@ -53,7 +53,7 @@ namespace Editor.Descriptors
                 return false;
             }
 
-            return sDescriptorsByTypeNamespace.TryGetValue(typeNamespace, out appender);
+            return DescriptorsByTypeNamespace.TryGetValue(typeNamespace, out appender);
         }
 
         public AppenderType Type { get; }
