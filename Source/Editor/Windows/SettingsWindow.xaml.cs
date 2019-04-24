@@ -1,9 +1,11 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
-using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Serialization;
 using Editor.Descriptors;
 
 namespace Editor.Windows
@@ -13,7 +15,7 @@ namespace Editor.Windows
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private ObservableCollection<Tuple<string, string>> mMappings = new ObservableCollection<Tuple<string, string>>();
+        private ObservableCollection<Mapping> mMappings = new ObservableCollection<Mapping>();
 
         public SettingsWindow()
         {
@@ -25,7 +27,7 @@ namespace Editor.Windows
 
         private void AddClick(object sender, RoutedEventArgs e)
         {
-            mMappings.Add(Tuple.Create(xCustom.Text, (string)xMapped.SelectedItem));
+            mMappings.Add(new Mapping { Custom = xCustom.Text, Mapped = (string)xMapped.SelectedItem });
 
             xCustom.Text = string.Empty;
             xMapped.SelectedIndex = 0;
@@ -33,11 +35,18 @@ namespace Editor.Windows
 
         private void RemoveClick(object sender, RoutedEventArgs e)
         {
-            mMappings.Remove((Tuple<string, string>)((Button)sender).Tag);
+            mMappings.Remove((Mapping)((Button)sender).Tag);
         }
 
         private void SaveClick(object sender, RoutedEventArgs e)
         {
+            XmlSerializer serializer = new XmlSerializer(typeof(Mapping[]));
+            using (StringWriter textWriter = new StringWriter())
+            {
+                serializer.Serialize(textWriter, mMappings.ToArray());
+                string xml = textWriter.ToString();
+            }
+
             Close();
         }
 
@@ -45,5 +54,12 @@ namespace Editor.Windows
         {
             Close();
         }
+    }
+
+    public class Mapping
+    {
+        public string Custom { get; set; }
+
+        public string Mapped { get; set; }
     }
 }

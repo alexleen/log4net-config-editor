@@ -46,8 +46,8 @@
             <TextBlock DockPanel.Dock="Bottom" Foreground="Gray" FontStyle="Italic" TextWrapping="Wrap">When an appender of type "Custom Appender" is found in a configuration file, an appender of type "Mapped Appender" will be used. Properties of the custom appender unknown to the mapped appender will be ignored but not overwritten. OH RLY???</TextBlock>
             <DataGrid x:Name="xMappings" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Custom Appender" Binding="{Binding Item1}"/>
-                    <DataGridTextColumn Header="Mapped Appender" Binding="{Binding Item2}"/>
+                    <DataGridTextColumn Header="Custom Appender" Binding="{Binding Custom}"/>
+                    <DataGridTextColumn Header="Mapped Appender" Binding="{Binding Mapped}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
