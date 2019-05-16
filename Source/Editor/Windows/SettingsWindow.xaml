@@ -11,7 +11,8 @@
     MinHeight="400"
     mc:Ignorable="d"
     Title="Settings"
-    WindowStartupLocation="CenterOwner">
+    WindowStartupLocation="CenterOwner"
+    Loaded="WindowLoaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Width" Value="50"/>
@@ -43,8 +44,10 @@
                 </StackPanel>
                 <Button Grid.Column="2" VerticalAlignment="Bottom" Margin="0, 2" Click="AddClick">Add</Button>
             </Grid>
+            
             <TextBlock DockPanel.Dock="Bottom" Foreground="Gray" FontStyle="Italic" TextWrapping="Wrap">When an appender of type "Custom Appender" is found in a configuration file, an appender of type "Mapped Appender" will be used. Properties of the custom appender unknown to the mapped appender will be ignored but not overwritten. OH RLY???</TextBlock>
-            <DataGrid x:Name="xMappings" AutoGenerateColumns="False">
+            
+            <DataGrid x:Name="xMappings" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Custom Appender" Binding="{Binding Custom}"/>
                     <DataGridTextColumn Header="Mapped Appender" Binding="{Binding Mapped}"/>

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
 using Editor.Descriptors;
+using Editor.Properties;
 
 namespace Editor.Windows
 {
@@ -15,7 +16,7 @@ namespace Editor.Windows
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private ObservableCollection<Mapping> mMappings = new ObservableCollection<Mapping>();
+        private readonly ObservableCollection<AppenderMapping> mMappings = new ObservableCollection<AppenderMapping>();
 
         public SettingsWindow()
         {
@@ -25,9 +26,29 @@ namespace Editor.Windows
             xMappings.ItemsSource = mMappings;
         }
 
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Settings.Default.AppenderMappings))
+            {
+                return;
+            }
+
+            AppenderMapping[] mappings;
+            using (StringReader strReader = new StringReader(Settings.Default.AppenderMappings))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(AppenderMapping[]));
+                mappings = (AppenderMapping[])serializer.Deserialize(strReader);
+            }
+
+            foreach (AppenderMapping m in mappings)
+            {
+                mMappings.Add(m);
+            }
+        }
+
         private void AddClick(object sender, RoutedEventArgs e)
         {
-            mMappings.Add(new Mapping { Custom = xCustom.Text, Mapped = (string)xMapped.SelectedItem });
+            mMappings.Add(new AppenderMapping { Custom = xCustom.Text, Mapped = (string)xMapped.SelectedItem });
 
             xCustom.Text = string.Empty;
             xMapped.SelectedIndex = 0;
@@ -35,17 +56,22 @@ namespace Editor.Windows
 
         private void RemoveClick(object sender, RoutedEventArgs e)
         {
-            mMappings.Remove((Mapping)((Button)sender).Tag);
+            mMappings.Remove((AppenderMapping)((Button)sender).Tag);
         }
 
         private void SaveClick(object sender, RoutedEventArgs e)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Mapping[]));
+            string xml;
             using (StringWriter textWriter = new StringWriter())
             {
+                XmlSerializer serializer = new XmlSerializer(typeof(AppenderMapping[]));
                 serializer.Serialize(textWriter, mMappings.ToArray());
-                string xml = textWriter.ToString();
+
+                xml = textWriter.ToString();
             }
+
+            Settings.Default.AppenderMappings = xml;
+            Settings.Default.Save();
 
             Close();
         }
@@ -56,7 +82,7 @@ namespace Editor.Windows
         }
     }
 
-    public class Mapping
+    public class AppenderMapping
     {
         public string Custom { get; set; }
 
