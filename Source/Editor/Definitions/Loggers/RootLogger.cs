@@ -3,6 +3,7 @@
 using Editor.ConfigProperties;
 using Editor.Definitions.Base;
 using Editor.Interfaces;
+using Editor.Models.ConfigChildren;
 
 namespace Editor.Definitions.Loggers
 {
@@ -22,7 +23,7 @@ namespace Editor.Definitions.Loggers
         public override void Initialize()
         {
             AddProperty(new LevelProperty(Properties, true));
-            AddProperty(new OutgoingRefs(Properties, mAppenderConfiguration));
+            AddProperty(new OutgoingRefs(Properties, mAppenderConfiguration, new AppenderFactory()));
         }
     }
 }

@@ -41,7 +41,8 @@ namespace Editor.Test.XML
             mLoadAndSave.Load().Returns(mXmlDoc);
 
             mSut = new ConfigurationXml(mMessageBoxService,
-                                        mLoadAndSave);
+                                        mLoadAndSave, 
+                                        Substitute.For<IAppenderFactory>());
         }
 
         /// <summary>
@@ -56,13 +57,13 @@ namespace Editor.Test.XML
         [Test]
         public void Ctor_ShouldThrow_WhenMessageBoxServiceIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(null, Substitute.For<ICanLoadAndSaveXml>()));
+            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(null, Substitute.For<ICanLoadAndSaveXml>(), Substitute.For<IAppenderFactory>()));
         }
 
         [Test]
         public void Ctor_ShouldThrow_WhenLoadSaveIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(mMessageBoxService, null));
+            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(mMessageBoxService, null, Substitute.For<IAppenderFactory>()));
         }
 
         [Test]

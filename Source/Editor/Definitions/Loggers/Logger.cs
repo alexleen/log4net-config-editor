@@ -3,6 +3,7 @@
 using Editor.ConfigProperties;
 using Editor.Definitions.Base;
 using Editor.Interfaces;
+using Editor.Models.ConfigChildren;
 
 namespace Editor.Definitions.Loggers
 {
@@ -24,7 +25,7 @@ namespace Editor.Definitions.Loggers
             AddProperty(new Name(Properties, mConfiguration));
             AddProperty(new Aditivity(Properties));
             AddProperty(new LevelProperty(Properties, true));
-            AddProperty(new OutgoingRefs(Properties, mConfiguration));
+            AddProperty(new OutgoingRefs(Properties, mConfiguration, new AppenderFactory()));
         }
     }
 }

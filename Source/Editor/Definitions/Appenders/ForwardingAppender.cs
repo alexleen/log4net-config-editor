@@ -3,6 +3,7 @@
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.Models.ConfigChildren;
 
 namespace Editor.Definitions.Appenders
 {
@@ -19,7 +20,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new OutgoingRefs(Properties, Configuration));
+            AddProperty(new OutgoingRefs(Properties, Configuration, new AppenderFactory()));
         }
     }
 }

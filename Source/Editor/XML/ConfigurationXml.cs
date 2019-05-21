@@ -20,13 +20,16 @@ namespace Editor.XML
     {
         private readonly IMessageBoxService mMessageBoxService;
         private readonly ICanLoadAndSaveXml mLoadAndSave;
+        private readonly IAppenderFactory mAppenderFactory;
+
         private readonly ObservableCollection<ModelBase> mMutableChildren;
         private IXmlDocument mConfigXml;
 
-        public ConfigurationXml(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave)
+        public ConfigurationXml(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave, IAppenderFactory appenderFactory)
         {
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
             mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
+            mAppenderFactory = appenderFactory;
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
@@ -89,7 +92,7 @@ namespace Editor.XML
 
             foreach (XmlNode node in appenderList)
             {
-                if (AppenderModel.TryCreate(node, Log4NetNode, out AppenderModel model))
+                if (mAppenderFactory.TryCreate(node, Log4NetNode, out AppenderModel model))
                 {
                     mMutableChildren.Add(model);
                 }

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
 using Editor.Descriptors;
+using Editor.Models;
 using Editor.Properties;
 
 namespace Editor.Windows
@@ -61,6 +62,7 @@ namespace Editor.Windows
 
         private void SaveClick(object sender, RoutedEventArgs e)
         {
+            //TODO unique mappings
             string xml;
             using (StringWriter textWriter = new StringWriter())
             {
@@ -80,12 +82,5 @@ namespace Editor.Windows
         {
             Close();
         }
-    }
-
-    public class AppenderMapping
-    {
-        public string Custom { get; set; }
-
-        public string Mapped { get; set; }
     }
 }

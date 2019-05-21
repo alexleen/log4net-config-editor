@@ -13,11 +13,13 @@ namespace Editor.ConfigProperties
     public class OutgoingRefs : RefsBase
     {
         private readonly IElementConfiguration mConfiguration;
+        readonly IAppenderFactory mAppenderFactory;
 
-        public OutgoingRefs(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration)
+        public OutgoingRefs(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration, IAppenderFactory appenderFactory)
             : base(container, "↑ Refs:", "This element can reference the following appenders:")
         {
             mConfiguration = appenderConfiguration;
+            mAppenderFactory = appenderFactory;
             RefsCollection = new ObservableCollection<AppenderModel>();
             LoadPossibleReferences();
         }
@@ -37,7 +39,7 @@ namespace Editor.ConfigProperties
                     continue;
                 }
 
-                if (AppenderModel.TryCreate(appender, mConfiguration.Log4NetNode, out AppenderModel appenderModel))
+                if (mAppenderFactory.TryCreate(appender, mConfiguration.Log4NetNode, out AppenderModel appenderModel))
                 {
                     RefsCollection.Add(appenderModel);
                 }

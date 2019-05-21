@@ -46,7 +46,7 @@ namespace Editor.Test.ConfigProperties
             appenderConfiguration.Log4NetNode.Returns(mXmlDoc.FirstChild);
             appenderConfiguration.OriginalNode.Returns(mXmlDoc.FirstChild["appender"]);
 
-            mSut = new OutgoingRefs(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
+            mSut = new OutgoingRefs(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration, Substitute.For<IAppenderFactory>());
         }
 
         [Test]

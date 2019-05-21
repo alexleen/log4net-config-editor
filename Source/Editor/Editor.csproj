@@ -173,11 +173,13 @@
     <Compile Include="HistoryManager\SettingManager.cs" />
     <Compile Include="Interfaces\IElementConfiguration.cs" />
     <Compile Include="Models\Base\NamedModel.cs" />
+    <Compile Include="Models\ConfigChildren\AppenderFactory.cs" />
     <Compile Include="Models\ConfigChildren\AsyncAppenderModel.cs" />
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="Utilities\MessageBoxService.cs" />
+    <Compile Include="Models\AppenderMapping.cs" />
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
