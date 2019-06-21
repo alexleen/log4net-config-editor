@@ -15,19 +15,21 @@
                 <Style TargetType="Button">
                     <Setter Property="Width" Value="65" />
                     <Setter Property="Height" Value="25" />
+                    <Setter Property="Margin" Value="2.5,5" />
                 </Style>
             </DockPanel.Resources>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                <Button Margin="5" Click="NewClick" ToolTip="Creates a new log4net configuration file">New</Button>
-                <Button Margin="0,5,5,5" Click="OpenHereOnClick" ToolTip="Opens a log4net configuration in this editor">Open ↓</Button>
-                <Button Margin="0,5,5,5" Click="OpenThereOnClick" ToolTip="Opens this log4net configuration in another editor">Open ↑</Button>
-                <Button Margin="0,5,5,5" Click="OpenInExplorer" ToolTip="Opens this log4net configuration in Windows explorer">
+                <Button Click="NewClick" ToolTip="Creates a new log4net configuration file">New</Button>
+                <Button Click="OpenHereOnClick" ToolTip="Opens a log4net configuration in this editor">Open ↓</Button>
+                <Button Click="OpenThereOnClick" ToolTip="Opens this log4net configuration in another editor">Open ↑</Button>
+                <Button Click="OpenInExplorer" ToolTip="Opens this log4net configuration in Windows explorer">
                     <StackPanel Orientation="Horizontal">
                         <Label Padding="0">Open</Label>
                         <Image Height="12" Width="12" Margin="4,0,0,0" Source="..\Images\folder-grey.png"></Image>
                     </StackPanel>
                 </Button>
-                <Button Margin="0,5,5,5" Click="ReloadOnClick" ToolTip="Reloads this configuration">Reload</Button>
+                <Button Click="SaveCopyClick" ToolTip="Save a copy of this configuration">Save Copy</Button>
+                <Button Click="ReloadOnClick" ToolTip="Reloads this configuration">Reload</Button>
             </StackPanel>
             <ComboBox x:Name="xConfigComboBox" Margin="5,5,5,0" SelectionChanged="ConfigComboBoxOnSelectionChanged" />
         </DockPanel>

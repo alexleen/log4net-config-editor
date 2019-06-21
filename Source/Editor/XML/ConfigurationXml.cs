@@ -166,6 +166,15 @@ namespace Editor.XML
             ReevaluateSaveState();
         }
 
+        public async Task SaveAsync(string path)
+        {
+            SaveRootAttributes();
+            
+            await mLoadAndSave.SaveAsync(mConfigXml, path);
+
+            ReevaluateSaveState();
+        }
+
         private void ReevaluateSaveState()
         {
             IXmlDocument disk = mLoadAndSave.Load();

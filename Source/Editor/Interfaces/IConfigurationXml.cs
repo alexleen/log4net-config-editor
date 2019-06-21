@@ -39,6 +39,8 @@ namespace Editor.Interfaces
         /// </summary>
         Task SaveAsync();
 
+        Task SaveAsync(string path);
+
         /// <summary>
         /// Removes all refs (appender-ref) to the specified appender.
         /// </summary>
