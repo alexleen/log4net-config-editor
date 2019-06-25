@@ -383,7 +383,7 @@ namespace Editor.Windows
 
             elementDefinition.Initialize();
 
-            foreach (IProperty prop in elementDefinition.Properties)
+            foreach (IProperty prop in elementDefinition.Properties.ToList())
             {
                 prop.Load(appender.Node);
             }

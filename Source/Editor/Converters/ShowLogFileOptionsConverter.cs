@@ -11,9 +11,15 @@ namespace Editor.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is AppenderModel appender && appender.Descriptor == AppenderDescriptor.File)
+            if (value is AppenderModel appender && parameter is string param)
             {
-                return Visibility.Visible;
+                if (param == "file" && appender.Descriptor == AppenderDescriptor.File ||
+                    param == "dir" && (appender.Descriptor == AppenderDescriptor.File ||
+                                       appender.Descriptor == AppenderDescriptor.RollingFile))
+                {
+                    return Visibility.Visible;
+                }
+
             }
 
             return Visibility.Hidden;
