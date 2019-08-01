@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
 using System.Xml;
 using Editor.Descriptors;
@@ -16,7 +16,7 @@ namespace Editor.Models.ConfigChildren
 
         public int IncomingReferences { get; }
 
-        public bool HasReferences { get => IncomingReferences > 0; }
+        public bool HasReferences => IncomingReferences > 0;
 
         public bool IsEnabled { get; set; }
 

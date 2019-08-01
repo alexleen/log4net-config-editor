@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,7 @@ namespace Editor.Windows
         private readonly IConfigurationFactory mConfigurationFactory;
 
         private IConfigurationXml mConfig;
+
         public IConfigurationXml ConfigurationXml
         {
             get => mConfig;
@@ -73,7 +74,7 @@ namespace Editor.Windows
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 
-            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
+            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Values;
 
             Title = $"log4net Configuration Editor - v{Assembly.GetEntryAssembly().GetName().Version.ToString(3)}";
         }
@@ -206,9 +207,9 @@ namespace Editor.Windows
         /// </summary>
         private void SaveToFile()
         {
-            ConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
-            ConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
-            ConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
+            //ConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
+            //ConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
+            //ConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
             ConfigurationXml.SaveAsync();
         }
 
@@ -246,9 +247,9 @@ namespace Editor.Windows
                 return;
             }
 
-            xDebugCheckBox.IsChecked = ConfigurationXml.Debug;
-            xUpdateComboBox.SelectedItem = ConfigurationXml.Update;
-            xThresholdComboBox.SelectedItem = ConfigurationXml.Threshold.Name;
+            //xDebugCheckBox.IsChecked = ConfigurationXml.Debug;
+            //xUpdateComboBox.SelectedItem = ConfigurationXml.Update;
+            //xThresholdComboBox.SelectedItem = ConfigurationXml.Threshold.Name;
             xChildren.ItemsSource = ConfigurationXml.Children;
             xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
@@ -343,7 +344,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }

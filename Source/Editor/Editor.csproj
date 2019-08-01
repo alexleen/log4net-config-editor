@@ -241,6 +241,7 @@
     <Compile Include="XML\ConfigurationXml.cs" />
     <Compile Include="Interfaces\IConfigurationFactory.cs" />
     <Compile Include="Interfaces\IConfigurationXml.cs" />
+    <Compile Include="XML\SaveIndication.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

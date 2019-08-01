@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -17,8 +19,6 @@ using Editor.XML;
 using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 
 namespace Editor.Test.XML
 {
@@ -318,31 +318,31 @@ namespace Editor.Test.XML
             Assert.AreSame(((XmlDocumentWrap)mXmlDoc).XmlDocumentInstance, mSut.ConfigXml);
         }
 
-        [Test]
-        public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties_WhenModelIsNull()
-        {
-            mSut.Load();
+        //[Test]
+        //public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties_WhenModelIsNull()
+        //{
+        //    mSut.Load();
 
-            IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(null, AppenderDescriptor.Async.ElementName);
+        //    IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(null, AppenderDescriptor.Async.ElementName);
 
-            Assert.IsNull(elementConfiguration.OriginalNode);
-            Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
-            Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
-            Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
-        }
+        //    Assert.IsNull(elementConfiguration.OriginalNode);
+        //    Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
+        //    Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
+        //    Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
+        //}
 
-        [Test]
-        public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties()
-        {
-            mSut.Load();
+        //[Test]
+        //public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties()
+        //{
+        //    mSut.Load();
 
-            AsyncAppenderModel originalModel = mSut.Children.OfType<AsyncAppenderModel>().First();
-            IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(originalModel, AppenderDescriptor.Async.ElementName);
+        //    AsyncAppenderModel originalModel = mSut.Children.OfType<AsyncAppenderModel>().First();
+        //    IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(originalModel, AppenderDescriptor.Async.ElementName);
 
-            Assert.AreSame(originalModel.Node, elementConfiguration.OriginalNode);
-            Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
-            Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
-            Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
-        }
+        //    Assert.AreSame(originalModel.Node, elementConfiguration.OriginalNode);
+        //    Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
+        //    Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
+        //    Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
+        //}
     }
 }
