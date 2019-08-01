@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using SystemInterface.Xml;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models.Base;
+using log4net.Core;
+using SystemInterface.Xml;
 
 namespace Editor.XML
 {
@@ -41,6 +42,13 @@ namespace Editor.XML
             ReevaluateSaveState();
         }
 
+        public override void RemoveChild(ModelBase child)
+        {
+            base.RemoveChild(child);
+
+            ReevaluateSaveState();
+        }
+
         private void ReevaluateSaveState()
         {
             IXmlDocument disk = mLoadAndSave.Load();
@@ -69,6 +77,35 @@ namespace Editor.XML
 
                 mSaveState = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public override bool Debug
+        {
+            get => base.Debug;
+            set
+            {
+                base.Debug = value;
+                ReevaluateSaveState();
+            }
+        }
+        public override Update Update
+        {
+            get => base.Update;
+            set
+            {
+                base.Update = value;
+                ReevaluateSaveState();
+            }
+        }
+
+        public override Level Threshold
+        {
+            get => base.Threshold;
+            set
+            {
+                base.Threshold = value;
+                ReevaluateSaveState();
             }
         }
 

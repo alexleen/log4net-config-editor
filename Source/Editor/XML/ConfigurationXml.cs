@@ -4,8 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Xml;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -14,6 +12,8 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
@@ -155,41 +155,7 @@ namespace Editor.XML
 
         public virtual Task SaveAsync()
         {
-            SaveRootAttributes();
-
             return mLoadAndSave.SaveAsync(mConfigXml);
-        }
-
-        private void SaveRootAttributes()
-        {
-            if (Debug)
-            {
-                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
-            }
-            else
-            {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
-            }
-
-            if (Update == Update.Overwrite)
-            {
-                //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, Update.ToString());
-            }
-            else
-            {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
-            }
-
-            if (!Equals(Threshold, Level.All))
-            {
-                //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, Threshold.Name);
-            }
-            else
-            {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
-            }
         }
 
         public void RemoveRefsTo(AppenderModel appenderModel)
@@ -201,7 +167,7 @@ namespace Editor.XML
             }
         }
 
-        public void RemoveChild(ModelBase child)
+        public virtual void RemoveChild(ModelBase child)
         {
             Log4NetNode.RemoveChild(child.Node);
 
@@ -217,11 +183,82 @@ namespace Editor.XML
 
         public XmlNode Log4NetNode { get; private set; }
 
-        public bool Debug { get; set; }
+        private bool mDebug;
 
-        public Update Update { get; set; }
+        public virtual bool Debug
+        {
+            get => mDebug;
+            set
+            {
+                if (value == mDebug)
+                {
+                    return;
+                }
 
-        public Level Threshold { get; set; } = Level.All;
+                if (value)
+                {
+                    Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
+                }
+                else
+                {
+                    Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
+                }
+
+                mDebug = value;
+            }
+        }
+
+        private Update mUpdate;
+
+        public virtual Update Update
+        {
+            get => mUpdate;
+            set
+            {
+                if (value == mUpdate)
+                {
+                    return;
+                }
+
+                if (value == Update.Overwrite)
+                {
+                    //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
+                    Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, value.ToString());
+                }
+                else
+                {
+                    Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
+                }
+
+                mUpdate = value;
+            }
+        }
+
+        private Level mThreshold = Level.All;
+
+        public virtual Level Threshold
+        {
+            get => mThreshold;
+            set
+            {
+                if (value == mThreshold)
+                {
+                    return;
+                }
+
+                if (!Equals(value, Level.All))
+                {
+                    //"All" is default, so we only need to add an attribute when something other than "All" is selected
+                    Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, value.Name);
+                }
+                else
+                {
+                    Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
+                }
+
+                mThreshold = value;
+            }
+        }
 
         public ReadOnlyObservableCollection<ModelBase> Children { get; }
     }
