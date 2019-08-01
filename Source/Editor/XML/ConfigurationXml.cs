@@ -2,11 +2,8 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
 using Editor.Descriptors;
@@ -20,12 +17,12 @@ using log4net.Core;
 
 namespace Editor.XML
 {
-    internal class ConfigurationXml : IConfigurationXml
+    internal class ConfigurationXml
     {
         private readonly IMessageBoxService mMessageBoxService;
-        private readonly ICanLoadAndSaveXml mLoadAndSave;
+        protected readonly ICanLoadAndSaveXml mLoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
-        private IXmlDocument mConfigXml;
+        protected IXmlDocument mConfigXml;
 
         public ConfigurationXml(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave)
         {
@@ -47,7 +44,7 @@ namespace Editor.XML
             }
         }
 
-        public bool? Reload()
+        public virtual bool? Reload()
         {
             if (mConfigXml == null)
             {
@@ -80,8 +77,6 @@ namespace Editor.XML
             }
 
             LoadRootAttributes();
-
-            ReevaluateSaveState();
 
             return unrecognized;
         }
@@ -158,26 +153,11 @@ namespace Editor.XML
             }
         }
 
-        public async Task SaveAsync()
+        public virtual Task SaveAsync()
         {
             SaveRootAttributes();
-            SaveState = SaveState.Saving;
-            await mLoadAndSave.SaveAsync(mConfigXml);
-            ReevaluateSaveState();
-        }
 
-        private void ReevaluateSaveState()
-        {
-            IXmlDocument disk = mLoadAndSave.Load();
-
-            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(mConfigXml.OuterXml)))
-            {
-                SaveState = SaveState.Saved;
-            }
-            else
-            {
-                SaveState = SaveState.Changed;
-            }
+            return mLoadAndSave.SaveAsync(mConfigXml);
         }
 
         private void SaveRootAttributes()
@@ -233,11 +213,6 @@ namespace Editor.XML
             }
         }
 
-        public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
-        {
-            return new ElementConfiguration(this, originalModel?.Node, mConfigXml.CreateElement(newElementName));
-        }
-
         public XmlDocument ConfigXml => ((XmlDocumentWrap)mConfigXml).XmlDocumentInstance;
 
         public XmlNode Log4NetNode { get; private set; }
@@ -249,29 +224,5 @@ namespace Editor.XML
         public Level Threshold { get; set; } = Level.All;
 
         public ReadOnlyObservableCollection<ModelBase> Children { get; }
-
-        private SaveState mSaveState;
-
-        public SaveState SaveState
-        {
-            get => mSaveState;
-            private set
-            {
-                if (value == mSaveState)
-                {
-                    return;
-                }
-
-                mSaveState = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
