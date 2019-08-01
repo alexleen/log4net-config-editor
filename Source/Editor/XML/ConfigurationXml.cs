@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.ObjectModel;
@@ -7,6 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -15,8 +17,6 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
@@ -248,7 +248,7 @@ namespace Editor.XML
 
         public Level Threshold { get; set; } = Level.All;
 
-        public ReadOnlyObservableCollection<ModelBase> Children { get; private set; }
+        public ReadOnlyObservableCollection<ModelBase> Children { get; }
 
         private SaveState mSaveState;
 

@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,7 @@ namespace Editor.Windows
         private readonly IConfigurationFactory mConfigurationFactory;
 
         private IConfigurationXml mConfig;
+
         public IConfigurationXml ConfigurationXml
         {
             get => mConfig;
@@ -318,7 +319,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }

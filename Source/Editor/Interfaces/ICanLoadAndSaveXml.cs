@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Threading.Tasks;
 using SystemInterface.Xml;

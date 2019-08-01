@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -17,8 +19,6 @@ using Editor.XML;
 using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 
 namespace Editor.Test.XML
 {

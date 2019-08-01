@@ -1,16 +1,16 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
+using SystemInterface.IO;
+using SystemInterface.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
 using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
-using SystemInterface.IO;
-using SystemInterface.Xml;
 
 namespace Editor.Test.XML
 {
