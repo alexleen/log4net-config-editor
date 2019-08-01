@@ -14,8 +14,8 @@ namespace Editor.XML
 {
     internal class SaveIndication : ConfigurationXml, IConfigurationXml
     {
-        public SaveIndication(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave)
-            : base(messageBoxService, loadAndSave)
+        public SaveIndication(IToastService toastService, ICanLoadAndSaveXml loadAndSave)
+            : base(toastService, loadAndSave)
         {
         }
 

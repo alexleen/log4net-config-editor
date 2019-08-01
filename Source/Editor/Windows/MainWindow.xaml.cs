@@ -32,6 +32,7 @@ namespace Editor.Windows
     public partial class MainWindow : INotifyPropertyChanged
     {
         private readonly IMessageBoxService mMessageBoxService;
+        private readonly IToastService mToastService;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
 
@@ -55,8 +56,9 @@ namespace Editor.Windows
             DataContext = this;
 
             mMessageBoxService = new MessageBoxService(this);
+            mToastService = new ToastService();
             mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
-            mConfigurationFactory = new ConfigurationFactory(mMessageBoxService);
+            mConfigurationFactory = new ConfigurationFactory(mToastService);
 
             xAddAppenderButton.ItemsSource = new[]
             {
@@ -357,6 +359,10 @@ namespace Editor.Windows
             {
                 Process.Start(filePath);
             }
+            else
+            {
+                mToastService.ShowInformation("Log file does not exist.");
+            }
         }
 
         private void OpenLogFolderClick(object sender, RoutedEventArgs e)
@@ -371,6 +377,10 @@ namespace Editor.Windows
             else if (Directory.Exists(dirPath))
             {
                 Process.Start(dirPath);
+            }
+            else
+            {
+                mToastService.ShowInformation("Log file and directory do not exist.");
             }
         }
 
