@@ -1,7 +1,8 @@
-﻿using Editor.Interfaces;
-using System;
+﻿using System;
 using System.Windows;
+using Editor.Interfaces;
 using ToastNotifications;
+using ToastNotifications.Core;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
@@ -11,6 +12,7 @@ namespace Editor.Utilities
     internal class ToastService : IToastService
     {
         private readonly Notifier mNotifier;
+        private readonly MessageOptions mMessageOptions;
 
         public ToastService()
         {
@@ -27,27 +29,32 @@ namespace Editor.Utilities
                     maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
                 cfg.Dispatcher = Application.Current.Dispatcher;
+
+                cfg.DisplayOptions.TopMost = false;
+                cfg.DisplayOptions.Width = 300;
             });
+
+            mMessageOptions = new MessageOptions { UnfreezeOnMouseLeave = true };
         }
 
         public void ShowSuccess(string message)
         {
-            mNotifier.ShowSuccess(message);
+            mNotifier.ShowSuccess(message, mMessageOptions);
         }
 
         public void ShowInformation(string message)
         {
-            mNotifier.ShowInformation(message);
+            mNotifier.ShowInformation(message, mMessageOptions);
         }
 
         public void ShowWarning(string message)
         {
-            mNotifier.ShowWarning(message);
+            mNotifier.ShowWarning(message, mMessageOptions);
         }
 
         public void ShowError(string message)
         {
-            mNotifier.ShowError(message);
+            mNotifier.ShowError(message, mMessageOptions);
         }
     }
 }

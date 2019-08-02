@@ -245,7 +245,7 @@ namespace Editor.Windows
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, $"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                mToastService.ShowError($"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}");
                 return;
             }
 
