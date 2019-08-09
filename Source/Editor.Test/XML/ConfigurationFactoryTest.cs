@@ -15,7 +15,7 @@ namespace Editor.Test.XML
         [SetUp]
         public void SetUp()
         {
-            mSut = new ConfigurationFactory(Substitute.For<IMessageBoxService>());
+            mSut = new ConfigurationFactory(Substitute.For<IToastService>());
         }
 
         [Test]
