@@ -22,7 +22,7 @@ test_script:
 
     nuget install Codecov -Version 1.7.1
 
-    OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"NUnit.ConsoleRunner.3.10.0\tools\nunit3-console.exe" -targetargs:"Source\Editor.Test\bin\Release\Editor.Test.dll" -filter:"+[*]* -[nunit*]* -[*]Editor.Properties.* -[Editor.Test]*" -output:".\MyProject_coverage.xml" -returntargetcode
+    OpenCover.4.7.922\tools\OpenCover.Console.exe -register:administrator -target:"NUnit.ConsoleRunner.3.10.0\tools\nunit3-console.exe" -targetargs:"Source\Editor.Test\bin\Release\Editor.Test.dll" -filter:"+[*]* -[nunit*]* -[*]Editor.Properties.* -[Editor.Test]*" -output:".\MyProject_coverage.xml" -returntargetcode
 
     Codecov.1.7.1\tools\codecov.exe -f ".\MyProject_coverage.xml"
 artifacts:
