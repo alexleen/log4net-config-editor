@@ -4,6 +4,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Xml;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -12,29 +14,27 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
     internal class ConfigurationXml
     {
         private readonly IToastService mToastService;
-        protected readonly ICanLoadAndSaveXml mLoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
-        protected IXmlDocument mConfigXml;
+        protected readonly ICanLoadAndSaveXml LoadAndSave;
+        private IXmlDocument mConfigXml;
 
         public ConfigurationXml(IToastService toastService, ICanLoadAndSaveXml loadAndSave)
         {
             mToastService = toastService ?? throw new ArgumentNullException(nameof(toastService));
-            mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
+            LoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
         public void Load()
         {
-            mConfigXml = mLoadAndSave.Load();
+            mConfigXml = LoadAndSave.Load();
 
             bool? unrecognizedAppender = Reload();
 
@@ -155,12 +155,12 @@ namespace Editor.XML
 
         public virtual Task SaveAsync()
         {
-            return mLoadAndSave.SaveAsync(mConfigXml);
+            return LoadAndSave.SaveAsync(mConfigXml);
         }
 
         public Task SaveAsync(string path)
         {
-            return mLoadAndSave.SaveAsync(mConfigXml, path);
+            return LoadAndSave.SaveAsync(mConfigXml, path);
         }
 
         public void RemoveRefsTo(AppenderModel appenderModel)
