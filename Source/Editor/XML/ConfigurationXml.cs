@@ -20,21 +20,21 @@ namespace Editor.XML
     internal class ConfigurationXml
     {
         private readonly IToastService mToastService;
-        protected readonly ICanLoadAndSaveXml mLoadAndSave;
+        protected readonly ICanLoadAndSaveXml LoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
         protected IXmlDocument mConfigXml;
 
         public ConfigurationXml(IToastService toastService, ICanLoadAndSaveXml loadAndSave)
         {
             mToastService = toastService ?? throw new ArgumentNullException(nameof(toastService));
-            mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
+            LoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
         public void Load()
         {
-            mConfigXml = mLoadAndSave.Load();
+            mConfigXml = LoadAndSave.Load();
 
             bool? unrecognizedAppender = Reload();
 
@@ -155,12 +155,12 @@ namespace Editor.XML
 
         public virtual Task SaveAsync()
         {
-            return mLoadAndSave.SaveAsync(mConfigXml);
+            return LoadAndSave.SaveAsync(mConfigXml);
         }
 
         public Task SaveAsync(string path)
         {
-            return mLoadAndSave.SaveAsync(mConfigXml, path);
+            return LoadAndSave.SaveAsync(mConfigXml, path);
         }
 
         public void RemoveRefsTo(AppenderModel appenderModel)

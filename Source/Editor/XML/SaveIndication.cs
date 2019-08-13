@@ -51,7 +51,7 @@ namespace Editor.XML
 
         private void ReevaluateSaveState()
         {
-            IXmlDocument disk = mLoadAndSave.Load();
+            IXmlDocument disk = LoadAndSave.Load();
 
             if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(mConfigXml.OuterXml)))
             {
