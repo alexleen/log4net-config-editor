@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using System;
 using System.Windows;
 using Editor.Interfaces;
 using ToastNotifications;

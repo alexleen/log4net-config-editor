@@ -129,6 +129,10 @@ namespace Editor.Windows
                     mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
                 }
             }
+            else
+            {
+                mToastService.ShowInformation("No configuration file selected");
+            }
         }
 
         private void OpenHereOnClick(object sender, RoutedEventArgs e)
@@ -157,15 +161,26 @@ namespace Editor.Windows
                     mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
                 }
             }
+            else
+            {
+                mToastService.ShowInformation("No configuration file selected");
+            }
         }
 
         private void SaveCopyClick(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog sfw = new SaveFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
-
-            if (sfw.ShowDialog(this).IsTrue())
+            if (mConfig != null)
             {
-                mConfig.SaveAsync(sfw.FileName);
+                SaveFileDialog sfw = new SaveFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
+
+                if (sfw.ShowDialog(this).IsTrue())
+                {
+                    mConfig.SaveAsync(sfw.FileName);
+                }
+            }
+            else
+            {
+                mToastService.ShowInformation("No configuration file selected");
             }
         }
 
@@ -205,13 +220,10 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Saves root attributes to <see cref="ConfigurationXml"/> then writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
+        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
         private void SaveToFile()
         {
-            //ConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
-            //ConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
-            //ConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
             ConfigurationXml.SaveAsync();
         }
 
@@ -220,6 +232,7 @@ namespace Editor.Windows
             if (xConfigComboBox.SelectedItem == null)
             {
                 //Reload was pressed without ever opening a config file
+                mToastService.ShowInformation("No configuration file selected");
                 return;
             }
 
@@ -346,7 +359,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -370,7 +383,7 @@ namespace Editor.Windows
             }
             else
             {
-                mToastService.ShowInformation("Log file does not exist.");
+                mToastService.ShowInformation("Log file does not exist");
             }
         }
 
@@ -389,7 +402,7 @@ namespace Editor.Windows
             }
             else
             {
-                mToastService.ShowInformation("Log file and directory do not exist.");
+                mToastService.ShowInformation("Log file and directory do not exist");
             }
         }
 

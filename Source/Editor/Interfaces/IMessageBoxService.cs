@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Windows;
+using Microsoft.Win32;
 
 namespace Editor.Interfaces
 {

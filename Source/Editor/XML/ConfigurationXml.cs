@@ -4,8 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Xml;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
@@ -14,14 +12,16 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using log4net.Core;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
     internal class ConfigurationXml
     {
         private readonly IToastService mToastService;
-        private readonly ObservableCollection<ModelBase> mMutableChildren;
         protected readonly ICanLoadAndSaveXml LoadAndSave;
+        private readonly ObservableCollection<ModelBase> mMutableChildren;
         private IXmlDocument mConfigXml;
 
         public ConfigurationXml(IToastService toastService, ICanLoadAndSaveXml loadAndSave)
