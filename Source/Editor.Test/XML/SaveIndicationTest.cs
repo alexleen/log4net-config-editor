@@ -96,6 +96,16 @@ namespace Editor.Test.XML
         }
 
         [Test]
+        public void RemoveChild_ShouldUpdateSaveState()
+        {
+            mSut.Load();
+
+            mSut.RemoveChild(mSut.Children.First());
+
+            Assert.AreEqual(SaveState.Changed, mSut.SaveState);
+        }
+
+        [Test]
         public void ChangingDebug_ShouldChangeSaveState()
         {
             mSut.Load();
