@@ -19,22 +19,22 @@ namespace Editor.Utilities
         public ToastService()
         {
             mNotifier = new Notifier(cfg =>
-            {
-                cfg.PositionProvider = new WindowPositionProvider(
-                    parentWindow: Application.Current.MainWindow,
-                    corner: Corner.BottomCenter,
-                    offsetX: 0,
-                    offsetY: 60);
+                {
+                    cfg.PositionProvider = new WindowPositionProvider(
+                        parentWindow: Application.Current.MainWindow,
+                        corner: Corner.BottomCenter,
+                        offsetX: 0,
+                        offsetY: 60);
 
-                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    notificationLifetime: TimeSpan.FromSeconds(5),
-                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+                    cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                        notificationLifetime: TimeSpan.FromSeconds(5),
+                        maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
-                cfg.Dispatcher = Application.Current.Dispatcher;
+                    cfg.Dispatcher = Application.Current.Dispatcher;
 
-                cfg.DisplayOptions.TopMost = false;
-                cfg.DisplayOptions.Width = 300;
-            });
+                    cfg.DisplayOptions.TopMost = false;
+                    cfg.DisplayOptions.Width = 300;
+                });
 
             mMessageOptions = new MessageOptions { UnfreezeOnMouseLeave = true };
         }

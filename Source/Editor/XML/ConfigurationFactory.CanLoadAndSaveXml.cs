@@ -4,10 +4,10 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
-using Editor.Interfaces;
-using Editor.Utilities;
 using SystemInterface.IO;
 using SystemInterface.Xml;
+using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.XML
 {
@@ -54,17 +54,17 @@ namespace Editor.XML
             public Task SaveAsync(IXmlDocument configXml, string path)
             {
                 return Task.Run(() =>
-                {
-                    using (IFileStream fileStream = mFileStreamFactory.Create(path, FileMode.Create))
                     {
-                        XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
-
-                        using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                        using (IFileStream fileStream = mFileStreamFactory.Create(path, FileMode.Create))
                         {
-                            configXml.Save(xtw.Writer);
+                            XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+
+                            using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                            {
+                                configXml.Save(xtw.Writer);
+                            }
                         }
-                    }
-                });
+                    });
             }
         }
     }
