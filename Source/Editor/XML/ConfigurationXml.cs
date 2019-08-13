@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.ObjectModel;
@@ -20,24 +20,24 @@ using SystemWrapper.Xml;
 
 namespace Editor.XML
 {
-    internal class ConfigurationXml : IConfigurationXml
+    internal class ConfigurationXml
     {
         private readonly IMessageBoxService mMessageBoxService;
-        private readonly ICanLoadAndSaveXml mLoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
+        protected readonly ICanLoadAndSaveXml LoadAndSave;
         private IXmlDocument mConfigXml;
 
         public ConfigurationXml(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave)
         {
             mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
-            mLoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
+            LoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
         }
 
         public void Load()
         {
-            mConfigXml = mLoadAndSave.Load();
+            mConfigXml = LoadAndSave.Load();
 
             bool? unrecognizedAppender = Reload();
 
@@ -47,7 +47,7 @@ namespace Editor.XML
             }
         }
 
-        public bool? Reload()
+        public virtual bool? Reload()
         {
             if (mConfigXml == null)
             {
@@ -80,8 +80,6 @@ namespace Editor.XML
             }
 
             LoadRootAttributes();
-
-            ReevaluateSaveState();
 
             return unrecognized;
         }
@@ -158,58 +156,9 @@ namespace Editor.XML
             }
         }
 
-        public async Task SaveAsync()
+        public virtual Task SaveAsync()
         {
-            SaveRootAttributes();
-            SaveState = SaveState.Saving;
-            await mLoadAndSave.SaveAsync(mConfigXml);
-            ReevaluateSaveState();
-        }
-
-        private void ReevaluateSaveState()
-        {
-            IXmlDocument disk = mLoadAndSave.Load();
-
-            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(mConfigXml.OuterXml)))
-            {
-                SaveState = SaveState.Saved;
-            }
-            else
-            {
-                SaveState = SaveState.Changed;
-            }
-        }
-
-        private void SaveRootAttributes()
-        {
-            if (Debug)
-            {
-                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
-            }
-            else
-            {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
-            }
-
-            if (Update == Update.Overwrite)
-            {
-                //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
-                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, Update.ToString());
-            }
-            else
-            {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
-            }
-
-            if (!Equals(Threshold, Level.All))
-            {
-                //"All" is default, so we only need to add an attribute when something other than "All" is selected
-                Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, Threshold.Name);
-            }
-            else
-            {
-                Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
-            }
+            return LoadAndSave.SaveAsync(mConfigXml);
         }
 
         public void RemoveRefsTo(AppenderModel appenderModel)
@@ -221,7 +170,7 @@ namespace Editor.XML
             }
         }
 
-        public void RemoveChild(ModelBase child)
+        public virtual void RemoveChild(ModelBase child)
         {
             Log4NetNode.RemoveChild(child.Node);
 
@@ -233,45 +182,87 @@ namespace Editor.XML
             }
         }
 
-        public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
-        {
-            return new ElementConfiguration(this, originalModel?.Node, mConfigXml.CreateElement(newElementName));
-        }
-
         public XmlDocument ConfigXml => ((XmlDocumentWrap)mConfigXml).XmlDocumentInstance;
 
         public XmlNode Log4NetNode { get; private set; }
 
-        public bool Debug { get; set; }
+        private bool mDebug;
 
-        public Update Update { get; set; }
-
-        public Level Threshold { get; set; } = Level.All;
-
-        public ReadOnlyObservableCollection<ModelBase> Children { get; private set; }
-
-        private SaveState mSaveState;
-
-        public SaveState SaveState
+        public virtual bool Debug
         {
-            get => mSaveState;
-            private set
+            get => mDebug;
+            set
             {
-                if (value == mSaveState)
+                if (value == mDebug)
                 {
                     return;
                 }
 
-                mSaveState = value;
-                OnPropertyChanged();
+                if (value)
+                {
+                    Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Debug, "true");
+                }
+                else
+                {
+                    Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Debug);
+                }
+
+                mDebug = value;
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private Update mUpdate;
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual Update Update
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => mUpdate;
+            set
+            {
+                if (value == mUpdate)
+                {
+                    return;
+                }
+
+                if (value == Update.Overwrite)
+                {
+                    //"Merge" is default, so we only need to add an attribute when "Overwrite" is selected
+                    Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Update, value.ToString());
+                }
+                else
+                {
+                    Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Update);
+                }
+
+                mUpdate = value;
+            }
         }
+
+        private Level mThreshold = Level.All;
+
+        public virtual Level Threshold
+        {
+            get => mThreshold;
+            set
+            {
+                if (value == mThreshold)
+                {
+                    return;
+                }
+
+                if (!Equals(value, Level.All))
+                {
+                    //"All" is default, so we only need to add an attribute when something other than "All" is selected
+                    Log4NetNode.AppendAttribute(mConfigXml, Log4NetXmlConstants.Threshold, value.Name);
+                }
+                else
+                {
+                    Log4NetNode.Attributes.RemoveNamedItem(Log4NetXmlConstants.Threshold);
+                }
+
+                mThreshold = value;
+            }
+        }
+
+        public ReadOnlyObservableCollection<ModelBase> Children { get; }
     }
 }

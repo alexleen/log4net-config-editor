@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,7 @@ namespace Editor.Windows
         private readonly IConfigurationFactory mConfigurationFactory;
 
         private IConfigurationXml mConfig;
+
         public IConfigurationXml ConfigurationXml
         {
             get => mConfig;
@@ -73,7 +74,7 @@ namespace Editor.Windows
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 
-            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
+            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Values;
 
             Title = $"log4net Configuration Editor - v{Assembly.GetEntryAssembly().GetName().Version.ToString(3)}";
         }
@@ -194,7 +195,7 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Saves root attributes to <see cref="ConfigurationXml"/> then writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
+        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
         private void SaveToFile()
         {
@@ -345,6 +346,6 @@ namespace Editor.Windows
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }        
+        }
     }
 }
