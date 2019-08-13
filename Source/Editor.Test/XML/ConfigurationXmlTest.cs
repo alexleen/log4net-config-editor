@@ -231,12 +231,8 @@ namespace Editor.Test.XML
             mSut.Load();
 
             mSut.Debug = false;
-            mSut.Update = Update.Merge;
-            mSut.Threshold = Level.All;
 
-            await mSut.SaveAsync();
-
-            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Debug]);
         }
@@ -248,9 +244,7 @@ namespace Editor.Test.XML
 
             mSut.Update = Update.Merge;
 
-            await mSut.SaveAsync();
-
-            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Update]);
         }
@@ -260,10 +254,9 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
+            mSut.Threshold = Level.All;
 
-            await mSut.SaveAsync();
-
-            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Threshold]);
         }
