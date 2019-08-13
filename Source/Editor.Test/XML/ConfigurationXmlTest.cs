@@ -226,12 +226,10 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public async Task Save_ShouldSaveAttributes()
+        public async Task ChangingDebug_ShouldSave()
         {
             mSut.Load();
 
-            //Load will set these all to non-defaults (they're all non-default in test-config.xml)
-            //Let's set them back to default to make sure the attributes are removed
             mSut.Debug = false;
             mSut.Update = Update.Merge;
             mSut.Threshold = Level.All;
@@ -241,7 +239,32 @@ namespace Editor.Test.XML
             XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Debug]);
+        }
+
+        [Test]
+        public async Task ChangingUpdate_ShouldSave()
+        {
+            mSut.Load();
+
+            mSut.Update = Update.Merge;
+
+            await mSut.SaveAsync();
+
+            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Update]);
+        }
+
+        [Test]
+        public async Task ChangingThreshold_ShouldSave()
+        {
+            mSut.Load();
+
+
+            await mSut.SaveAsync();
+
+            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Threshold]);
         }
 
@@ -253,6 +276,18 @@ namespace Editor.Test.XML
             await mSut.SaveAsync();
 
             mLoadAndSave.Received(1).SaveAsync(mXmlDoc);
+        }
+
+        [Test]
+        public async Task Save_ShouldSave_ToFile()
+        {
+            mSut.Load();
+
+            string path = "path";
+
+            await mSut.SaveAsync(path);
+
+            mLoadAndSave.Received(1).SaveAsync(mXmlDoc, path);
         }
 
         [Test]
@@ -316,32 +351,5 @@ namespace Editor.Test.XML
 
             Assert.AreSame(((XmlDocumentWrap)mXmlDoc).XmlDocumentInstance, mSut.ConfigXml);
         }
-
-        //[Test]
-        //public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties_WhenModelIsNull()
-        //{
-        //    mSut.Load();
-
-        //    IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(null, AppenderDescriptor.Async.ElementName);
-
-        //    Assert.IsNull(elementConfiguration.OriginalNode);
-        //    Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
-        //    Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
-        //    Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
-        //}
-
-        //[Test]
-        //public void CreateElementConfigurationFor_ShouldCreateElementConfigWithCorrectProperties()
-        //{
-        //    mSut.Load();
-
-        //    AsyncAppenderModel originalModel = mSut.Children.OfType<AsyncAppenderModel>().First();
-        //    IElementConfiguration elementConfiguration = mSut.CreateElementConfigurationFor(originalModel, AppenderDescriptor.Async.ElementName);
-
-        //    Assert.AreSame(originalModel.Node, elementConfiguration.OriginalNode);
-        //    Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
-        //    Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
-        //    Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
-        //}
     }
 }

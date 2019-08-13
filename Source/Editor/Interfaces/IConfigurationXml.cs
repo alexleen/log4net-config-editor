@@ -3,6 +3,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Xml;
 using Editor.Enums;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
@@ -39,6 +40,11 @@ namespace Editor.Interfaces
         /// </summary>
         Task SaveAsync();
 
+        /// <summary>
+        /// Saves the current log4net configuration to disk at the specified location.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         Task SaveAsync(string path);
 
         /// <summary>

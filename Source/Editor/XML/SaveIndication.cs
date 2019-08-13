@@ -89,6 +89,7 @@ namespace Editor.XML
                 ReevaluateSaveState();
             }
         }
+
         public override Update Update
         {
             get => base.Update;
