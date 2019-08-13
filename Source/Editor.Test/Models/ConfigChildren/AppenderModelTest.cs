@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -25,6 +25,22 @@ namespace Editor.Test.Models.ConfigChildren
             AppenderModel sut = new AppenderModel(AppenderDescriptor.Async, xmlDoc.FirstChild.FirstChild, 1);
 
             Assert.AreEqual(1, sut.IncomingReferences);
+        }
+
+        [TestCase(-1, false)]
+        [TestCase(0, false)]
+        [TestCase(1, true)]
+        public void HasReferences_ShouldReturnCorrectValue(int incomingRefs, bool expectedValue)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<log4net>" +
+                           "<appender>" +
+                           "</appender>" +
+                           "</log4net>");
+
+            AppenderModel sut = new AppenderModel(AppenderDescriptor.Async, xmlDoc.FirstChild.FirstChild, incomingRefs);
+
+            Assert.AreEqual(expectedValue, sut.HasReferences);
         }
 
         [Test]

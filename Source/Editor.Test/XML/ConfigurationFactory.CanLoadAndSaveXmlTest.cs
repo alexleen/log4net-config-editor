@@ -1,7 +1,8 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
@@ -27,7 +28,14 @@ namespace Editor.Test.XML
         {
             IConfigurationXml configFactory = new ConfigurationFactory(Substitute.For<IMessageBoxService>()).Create(Filename);
 
-            mSut = (ICanLoadAndSaveXml)configFactory.GetType().GetField("mLoadAndSave", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(configFactory);
+            const string sutFieldName = "LoadAndSave";
+
+            mSut = (ICanLoadAndSaveXml)configFactory.GetType().GetField(sutFieldName, BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(configFactory);
+
+            if (mSut == null)
+            {
+                Assert.Fail($"Unable to find private instance field '{sutFieldName}'");
+            }
 
             mXmlDoc = Substitute.For<IXmlDocument>();
 
@@ -91,21 +99,21 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public void Save_ShouldSaveXml()
+        public async Task Save_ShouldSaveXml()
         {
             mSut.Load();
 
-            mSut.Save();
+            await mSut.SaveAsync(mXmlDoc);
 
             mXmlDoc.Received(1).Save(Arg.Any<XmlWriter>());
         }
 
         [Test]
-        public void Save_ShouldSaveXml_WithCorrectSettings()
+        public async Task Save_ShouldSaveXml_WithCorrectSettings()
         {
             mSut.Load();
 
-            mSut.Save();
+            await mSut.SaveAsync(mXmlDoc);
 
             mXmlWriterFactory.Received(1).Create(Arg.Any<FileStream>(), Arg.Is<XmlWriterSettings>(settings => settings.Indent));
         }

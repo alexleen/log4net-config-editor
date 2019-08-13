@@ -50,6 +50,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="SystemInterface, Version=0.25.0.186, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
       <HintPath>..\packages\SystemWrapper.Interfaces.0.25.0.186\lib\net45\SystemInterface.dll</HintPath>
     </Reference>
@@ -81,6 +82,7 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
+    <Compile Include="Enums\SaveState.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Converters\FilterTypeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutToEnabledConverter.cs" />
     <Compile Include="Converters\PresetToBoolConverter.cs" />
-    <Compile Include="Converters\ReferencesToImageConverter.cs" />
     <Compile Include="Definitions\Appenders\FileAppender.cs" />
     <Compile Include="Definitions\Appenders\ForwardingAppender.cs" />
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppender.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="XML\ConfigurationXml.cs" />
     <Compile Include="Interfaces\IConfigurationFactory.cs" />
     <Compile Include="Interfaces\IConfigurationXml.cs" />
+    <Compile Include="XML\SaveIndication.cs" />
     <Page Include="ConfigProperties\PropertyDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -321,6 +323,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\run-build-configure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\view-refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

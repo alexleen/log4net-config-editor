@@ -1,6 +1,9 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Xml;
 using Editor.Enums;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
@@ -12,10 +15,15 @@ namespace Editor.Interfaces
     /// Encapsulation of a log4net XML configuration file.
     /// log4net configuration files are loaded from disk into an <see cref="XmlDocument"/> in RAM.
     /// Runtime changes to the configuration are saved to the <see cref="XmlDocument"/> and reloaded (via <see cref="Reload"/>) into view.
-    /// When changes are complete, <see cref="XmlDocument"/> is saved (via <see cref="Save"/>) to disk as XML.
+    /// When changes are complete, <see cref="XmlDocument"/> is saved (via <see cref="SaveAsync"/>) to disk as XML.
     /// </summary>
-    public interface IConfigurationXml : IConfiguration
+    public interface IConfigurationXml : IConfiguration, INotifyPropertyChanged
     {
+        /// <summary>
+        /// The current state of the XML compared to disk.
+        /// </summary>
+        SaveState SaveState { get; }
+
         /// <summary>
         /// Loads the log4net configuration from disk.
         /// </summary>
@@ -30,7 +38,7 @@ namespace Editor.Interfaces
         /// <summary>
         /// Saves the current log4net configuration to disk.
         /// </summary>
-        void Save();
+        Task SaveAsync();
 
         /// <summary>
         /// Removes all refs (appender-ref) to the specified appender.

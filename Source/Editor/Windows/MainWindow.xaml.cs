@@ -1,10 +1,13 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2019 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using Editor.Definitions.Factory;
@@ -24,19 +27,32 @@ using Microsoft.Win32;
 namespace Editor.Windows
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : INotifyPropertyChanged
     {
         private readonly IMessageBoxService mMessageBoxService;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
-        private IConfigurationXml mConfigurationXml;
+
+        private IConfigurationXml mConfig;
+
+        public IConfigurationXml ConfigurationXml
+        {
+            get => mConfig;
+            private set
+            {
+                mConfig = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainWindow()
             : base("MainWindowPlacement")
         {
             InitializeComponent();
+
+            DataContext = this;
 
             mMessageBoxService = new MessageBoxService(this);
             mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
@@ -58,7 +74,7 @@ namespace Editor.Windows
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 
-            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Keys;
+            xThresholdComboBox.ItemsSource = Log4NetUtilities.LevelsByName.Values;
 
             Title = $"log4net Configuration Editor - v{Assembly.GetEntryAssembly().GetName().Version.ToString(3)}";
         }
@@ -91,8 +107,8 @@ namespace Editor.Windows
             if (result.IsTrue())
             {
                 RefreshConfigComboBox(sfd.FileName);
-                mConfigurationXml = mConfigurationFactory.Create(sfd.FileName);
-                mConfigurationXml.Load();
+                ConfigurationXml = mConfigurationFactory.Create(sfd.FileName);
+                ConfigurationXml.Load();
             }
         }
 
@@ -162,14 +178,11 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Saves root attributes to <see cref="mConfigurationXml"/> then writes <see cref="mConfigurationXml"/> to disk at currently selected config location.
+        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
         private void SaveToFile()
         {
-            mConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
-            mConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
-            mConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
-            mConfigurationXml.Save();
+            ConfigurationXml.SaveAsync();
         }
 
         private void ReloadFromFile()
@@ -185,23 +198,29 @@ namespace Editor.Windows
 
         private void LoadFromRam()
         {
-            mConfigurationXml.Reload();
+            ConfigurationXml.Reload();
         }
 
         /// <summary>
-        /// Replaces <see cref="mConfigurationXml"/> with a new instance for the specified file.
+        /// Replaces <see cref="ConfigurationXml"/> with a new instance for the specified file.
         /// </summary>
         /// <param name="filename"></param>
         private void LoadFromFile(string filename)
         {
-            mConfigurationXml = mConfigurationFactory.Create(filename);
-            mConfigurationXml.Load();
+            ConfigurationXml = mConfigurationFactory.Create(filename);
 
-            xDebugCheckBox.IsChecked = mConfigurationXml.Debug;
-            xUpdateComboBox.SelectedItem = mConfigurationXml.Update;
-            xThresholdComboBox.SelectedItem = mConfigurationXml.Threshold.Name;
-            xChildren.ItemsSource = mConfigurationXml.Children;
-            xAddRefsButton.ItemsSource = mConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            try
+            {
+                ConfigurationXml.Load();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            xChildren.ItemsSource = ConfigurationXml.Children;
+            xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
@@ -242,7 +261,7 @@ namespace Editor.Windows
         {
             foreach (ModelBase modelBase in xChildren.SelectedItems.OfType<ModelBase>().ToList())
             {
-                mConfigurationXml.RemoveChild(modelBase);
+                ConfigurationXml.RemoveChild(modelBase);
             }
         }
 
@@ -252,7 +271,7 @@ namespace Editor.Windows
             {
                 if (modelBase is AppenderModel appenderModel)
                 {
-                    mConfigurationXml.RemoveRefsTo(appenderModel);
+                    ConfigurationXml.RemoveRefsTo(appenderModel);
                 }
             }
 
@@ -265,7 +284,7 @@ namespace Editor.Windows
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
-                XmlUtilities.AddAppenderRefToNode(mConfigurationXml.ConfigXml, destination.Node, appenderModel.Name);
+                XmlUtilities.AddAppenderRefToNode(ConfigurationXml.ConfigXml, destination.Node, appenderModel.Name);
             }
 
             LoadFromRam();
@@ -288,7 +307,7 @@ namespace Editor.Windows
 
         private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor)
         {
-            IElementConfiguration configuration = mConfigurationXml.CreateElementConfigurationFor(model, elementName);
+            IElementConfiguration configuration = ConfigurationXml.CreateElementConfigurationFor(model, elementName);
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
@@ -297,6 +316,13 @@ namespace Editor.Windows
                 { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

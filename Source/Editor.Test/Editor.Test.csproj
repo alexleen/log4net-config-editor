@@ -124,7 +124,6 @@
     <Compile Include="Converters\LayoutToEnabledConverterTest.cs" />
     <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
     <Compile Include="Converters\PresetToBoolConverterTest.cs" />
-    <Compile Include="Converters\ReferencesToImageConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
     <Compile Include="Definitions\Appenders\AsyncAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppenderTest.cs" />
@@ -172,6 +171,7 @@
     <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXmlTest.cs" />
     <Compile Include="XML\ConfigurationFactoryTest.cs" />
     <Compile Include="XML\ConfigurationXmlTest.cs" />
+    <Compile Include="XML\SaveIndicationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

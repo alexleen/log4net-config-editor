@@ -1,7 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using SystemInterface.IO;
 using SystemInterface.Xml;
@@ -19,7 +20,6 @@ namespace Editor.XML
             private readonly IFileStreamFactory mFileStreamFactory;
             private readonly IXmlWriterFactory mXmlWriterFactory;
             private readonly IFile mFile;
-            private IXmlDocument mConfigXml;
 
             public CanLoadAndSaveXml(string filename, IXmlDocumentFactory xmlDocFactory, IFileStreamFactory fileStreamFactory, IXmlWriterFactory xmlWriterFactory, IFile fileWrap)
             {
@@ -32,31 +32,34 @@ namespace Editor.XML
 
             public IXmlDocument Load()
             {
-                mConfigXml = mXmlDocFactory.Create();
+                IXmlDocument configXml = mXmlDocFactory.Create();
 
                 if (mFile.Exists(mFilename))
                 {
-                    mConfigXml.Load(mFilename);
+                    configXml.Load(mFilename);
                 }
                 else
                 {
-                    mConfigXml.AppendChild(mConfigXml.CreateElement(Log4NetXmlConstants.Log4Net));
+                    configXml.AppendChild(configXml.CreateElement(Log4NetXmlConstants.Log4Net));
                 }
 
-                return mConfigXml;
+                return configXml;
             }
 
-            public void Save()
+            public Task SaveAsync(IXmlDocument configXml)
             {
-                using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
-                {
-                    XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
-
-                    using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                return Task.Run(() =>
                     {
-                        mConfigXml.Save(xtw.Writer);
-                    }
-                }
+                        using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
+                        {
+                            XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+
+                            using (IXmlWriter xtw = mXmlWriterFactory.Create(fileStream.FileStreamInstance, settings))
+                            {
+                                configXml.Save(xtw.Writer);
+                            }
+                        }
+                    });
             }
         }
     }

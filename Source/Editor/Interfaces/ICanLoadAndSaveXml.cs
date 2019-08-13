@@ -1,5 +1,6 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
+using System.Threading.Tasks;
 using SystemInterface.Xml;
 
 namespace Editor.Interfaces
@@ -18,6 +19,6 @@ namespace Editor.Interfaces
         /// <summary>
         /// Saves the XML to disk.
         /// </summary>
-        void Save();
+        Task SaveAsync(IXmlDocument configXml);
     }
 }

@@ -27,15 +27,54 @@
 
         <Separator DockPanel.Dock="Top" Margin="5,0,5,5"/>
 
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Width" Value="85" />
-                </Style>
-            </StackPanel.Resources>
-            <Button x:Name="xSaveButton" IsEnabled="False" Margin="5,5,0,5" Click="SaveOnClick">Save</Button>
-            <Button x:Name="xSaveAndCloseButton" IsEnabled="False" Margin="5,5,0,5" Click="SandAndCloseOnClick">Save &amp; Close</Button>
-            <Button x:Name="xCloseButton" Margin="5,5,0,5" Click="CloseOnClick">Close</Button>
+        <StackPanel DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Width="16">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Changed">
+                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-warning.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saving">
+                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/view-refresh.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saved">
+                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-ok-apply.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Label>
+                    <Label.Style>
+                        <Style TargetType="Label">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Changed">
+                                    <Setter Property="Content" Value="Unsaved Changes"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saving">
+                                    <Setter Property="Content" Value="Saving..."/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigurationXml.SaveState}" Value="Saved">
+                                    <Setter Property="Content" Value="All Changes Saved"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="85" />
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="xSaveButton" IsEnabled="False" Margin="5,5,0,5" Click="SaveOnClick">Save</Button>
+                <Button x:Name="xSaveAndCloseButton" IsEnabled="False" Margin="5,5,0,5" Click="SandAndCloseOnClick">Save &amp; Close</Button>
+                <Button x:Name="xCloseButton" Margin="5,5,0,5" Click="CloseOnClick">Close</Button>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel x:Name="xRightSp" DockPanel.Dock="Right" IsEnabled="False">
@@ -79,18 +118,19 @@
             <CheckBox x:Name="xDebugCheckBox"
                       Margin="5,0,0,0" 
                       VerticalAlignment="Center" 
-                      ToolTip="Enables internal log4net debugging for this configuration.">Debug</CheckBox>
+                      ToolTip="Enables internal log4net debugging for this configuration."
+                      IsChecked="{Binding ConfigurationXml.Debug}">Debug</CheckBox>
 
             <Label ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration.">Update:</Label>
             <ComboBox x:Name="xUpdateComboBox"
-                      SelectedIndex="0" 
+                      SelectedValue="{Binding ConfigurationXml.Update}"
                       VerticalAlignment="Center" 
                       Width="100"
                       ToolTip="Set this to Overwrite to reset the configuration of the repository being configured before applying this configuration." />
 
             <Label ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to.">Threshold:</Label>
             <ComboBox x:Name="xThresholdComboBox" 
-                      SelectedIndex="0"
+                      SelectedValue="{Binding ConfigurationXml.Threshold}"
                       Width="100" 
                       VerticalAlignment="Center"
                       ToolTip="Set this value to limit the messages that are logged across the whole repository, regardless of the logger that the message is logged to." />
@@ -98,7 +138,6 @@
 
         <DataGrid x:Name="xChildren" AutoGenerateColumns="False" IsReadOnly="True" Margin="5,0,0,0">
             <DataGrid.Resources>
-                <Converters:ReferencesToImageConverter x:Key="RefToImageConv"/>
                 <Converters:ChildTypeToVisibilityConverter x:Key="ChildTypeVisConv"/>
 
                 <Style TargetType="DataGridRow">
@@ -113,7 +152,20 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource ChildTypeVisConv}}">
-                                <Image Margin="5,0" Height="16" Width="16" Source="{Binding IncomingReferences, Converter={StaticResource RefToImageConv}}"/>
+                                <Image Margin="5,0" Height="16" Width="16">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasReferences}" Value="False">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-warning.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding HasReferences}" Value="True">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Editor;component/Images/dialog-ok-apply.png"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                                 <Label Content="{Binding IncomingReferences}" VerticalAlignment="Center"/>                                
                             </StackPanel>
                         </DataTemplate>
