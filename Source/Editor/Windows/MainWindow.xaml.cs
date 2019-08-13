@@ -203,13 +203,10 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Saves root attributes to <see cref="ConfigurationXml"/> then writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
+        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
         private void SaveToFile()
         {
-            //ConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
-            //ConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
-            //ConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
             ConfigurationXml.SaveAsync();
         }
 
@@ -247,9 +244,6 @@ namespace Editor.Windows
                 return;
             }
 
-            //xDebugCheckBox.IsChecked = ConfigurationXml.Debug;
-            //xUpdateComboBox.SelectedItem = ConfigurationXml.Update;
-            //xThresholdComboBox.SelectedItem = ConfigurationXml.Threshold.Name;
             xChildren.ItemsSource = ConfigurationXml.Children;
             xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
@@ -344,7 +338,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }

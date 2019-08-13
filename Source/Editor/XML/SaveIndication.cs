@@ -21,7 +21,7 @@ namespace Editor.XML
 
         public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
         {
-            return new ElementConfiguration(this, originalModel?.Node, mConfigXml.CreateElement(newElementName));
+            return new ElementConfiguration(this, originalModel?.Node, ConfigXml.CreateElement(newElementName));
         }
 
         public override bool? Reload()
@@ -51,9 +51,9 @@ namespace Editor.XML
 
         private void ReevaluateSaveState()
         {
-            IXmlDocument disk = mLoadAndSave.Load();
+            IXmlDocument disk = LoadAndSave.Load();
 
-            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(mConfigXml.OuterXml)))
+            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(ConfigXml.OuterXml)))
             {
                 SaveState = SaveState.Saved;
             }
@@ -89,6 +89,7 @@ namespace Editor.XML
                 ReevaluateSaveState();
             }
         }
+
         public override Update Update
         {
             get => base.Update;

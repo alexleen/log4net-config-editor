@@ -4,13 +4,13 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
-using SystemInterface.IO;
-using SystemInterface.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
 using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
+using SystemInterface.IO;
+using SystemInterface.Xml;
 
 namespace Editor.Test.XML
 {
@@ -28,7 +28,14 @@ namespace Editor.Test.XML
         {
             IConfigurationXml configFactory = new ConfigurationFactory(Substitute.For<IMessageBoxService>()).Create(Filename);
 
-            mSut = (ICanLoadAndSaveXml)configFactory.GetType().GetField("mLoadAndSave", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(configFactory);
+            const string sutFieldName = "LoadAndSave";
+
+            mSut = (ICanLoadAndSaveXml)configFactory.GetType().GetField(sutFieldName, BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(configFactory);
+
+            if (mSut == null)
+            {
+                Assert.Fail($"Unable to find private instance field '{sutFieldName}'");
+            }
 
             mXmlDoc = Substitute.For<IXmlDocument>();
 
