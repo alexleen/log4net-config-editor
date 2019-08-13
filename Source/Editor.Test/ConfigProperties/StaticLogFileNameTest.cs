@@ -27,9 +27,9 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Value_ShouldBeFalseByDefault()
+        public void Value_ShouldBeTrueByDefault()
         {
-            Assert.IsFalse(mSut.Value);
+            Assert.IsTrue(mSut.Value);
         }
 
         [TestCase("<staticLogFileName value=\"true\" />", true)]
@@ -38,8 +38,8 @@ namespace Editor.Test.ConfigProperties
         [TestCase("<staticLogFileName value=\"false\" />", false)]
         [TestCase("<staticLogFileName value=\"False\" />", false)]
         [TestCase("<staticLogFileName value=\"FALSE\" />", false)]
-        [TestCase("<staticLogFileName />", false)]
-        [TestCase("<staticLogFileName value=\"\" />", false)]
+        [TestCase("<staticLogFileName />", true)]
+        [TestCase("<staticLogFileName value=\"\" />", true)]
         public void Load_ShouldLoadValue(string xml, bool expected)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -69,13 +69,13 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.Value = true;
+            mSut.Value = false;
             mSut.Save(xmlDoc, appender);
 
             XmlNode staticNode = appender.SelectSingleNode("staticLogFileName");
 
             Assert.IsNotNull(staticNode);
-            Assert.AreEqual("True", staticNode.Attributes?["value"].Value);
+            Assert.AreEqual("False", staticNode.Attributes?["value"].Value);
         }
     }
 }

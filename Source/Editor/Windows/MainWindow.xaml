@@ -25,7 +25,7 @@
                 <Button Click="OpenInExplorer" ToolTip="Opens this log4net configuration in Windows explorer">
                     <StackPanel Orientation="Horizontal">
                         <Label Padding="0">Open</Label>
-                        <Image Height="12" Width="12" Margin="4,0,0,0" Source="..\Images\folder-grey.png"></Image>
+                        <Image Height="12" Width="12" Margin="4,0,0,0" Source="..\Images\folder-grey.png" />
                     </StackPanel>
                 </Button>
                 <Button Click="SaveCopyClick" ToolTip="Save a copy of this configuration">Save Copy</Button>

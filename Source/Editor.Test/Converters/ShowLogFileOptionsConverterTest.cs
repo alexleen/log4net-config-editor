@@ -21,7 +21,7 @@ namespace Editor.Test.Converters
             mSut = new ShowLogFileOptionsConverter();
         }
 
-        private static readonly IEnumerable<TestCaseData> sVisibleOptions = new TestCaseData[]
+        private static readonly IEnumerable<TestCaseData> sVisibleOptions = new[]
         {
             new TestCaseData(new AppenderModel(AppenderDescriptor.File, null, 0), "file"),
             new TestCaseData(new AppenderModel(AppenderDescriptor.File, null, 0), "dir"),
@@ -34,7 +34,7 @@ namespace Editor.Test.Converters
             Assert.AreEqual(Visibility.Visible, mSut.Convert(model, null, param, null));
         }
 
-        private static readonly IEnumerable<TestCaseData> sInvalidOptions = new TestCaseData[]
+        private static readonly IEnumerable<TestCaseData> sInvalidOptions = new[]
         {
             new TestCaseData(null, null),
             new TestCaseData(null, "file"),

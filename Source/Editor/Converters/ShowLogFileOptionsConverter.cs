@@ -21,7 +21,6 @@ namespace Editor.Converters
                 {
                     return Visibility.Visible;
                 }
-
             }
 
             return Visibility.Hidden;

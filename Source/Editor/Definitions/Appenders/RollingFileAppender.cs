@@ -1,5 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
@@ -12,14 +13,22 @@ namespace Editor.Definitions.Appenders
     {
         private readonly DatePattern mDatePattern;
         private int mDatePatternIndex;
-        private readonly StaticLogFileName mStaticLogFileName;
-        private int mStaticLogFileNameIndex;
+        private readonly ISet<RollingMode> mDatePatternModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Date };
+
+        private readonly MaximumFileSize mMaximumFileSize;
+        private int mMaximumFileSizeIndex;
+        private readonly ISet<RollingMode> mMaximumFileSizeModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Size };
+
+        private readonly CountDirection mCountDirection;
+        private int mCountDirectionIndex;
+        private readonly ISet<RollingMode> mCountDirectionModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Once, RollingMode.Size };
 
         internal RollingFileAppender(IElementConfiguration configuration)
             : base(configuration)
         {
             mDatePattern = new DatePattern(Properties);
-            mStaticLogFileName = new StaticLogFileName(Properties);
+            mMaximumFileSize = new MaximumFileSize(Properties);
+            mCountDirection = new CountDirection(Properties);
         }
 
         public override string Name => "Rolling File Appender";
@@ -34,16 +43,20 @@ namespace Editor.Definitions.Appenders
 
             AddProperty(rollingStyle);
 
-            mStaticLogFileNameIndex = Properties.Count;
-            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mStaticLogFileNameIndex, mStaticLogFileName);
-
-            mDatePatternIndex = Properties.Count;
-            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternIndex, mDatePattern);
+            AddProperty(new StaticLogFileName(Properties));
 
             AddProperty(new PreserveExtension(Properties));
-            AddProperty(new MaximumFileSize(Properties));
+
+            mDatePatternIndex = Properties.Count;
+            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternModes, mDatePatternIndex, mDatePattern);
+
+            mMaximumFileSizeIndex = Properties.Count;
+            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mMaximumFileSizeModes, mMaximumFileSizeIndex, mMaximumFileSize);
+
             AddProperty(new MaxSizeRollBackups(Properties));
-            AddProperty(new CountDirection(Properties));
+
+            mCountDirectionIndex = Properties.Count;
+            AddRemoveBasedOnMode(rollingStyle.SelectedMode, mCountDirectionModes, mCountDirectionIndex, mCountDirection);
         }
 
         private void RollingStyleOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -51,15 +64,15 @@ namespace Editor.Definitions.Appenders
             if (e.PropertyName == nameof(RollingStyle.SelectedMode))
             {
                 RollingMode selectedMode = ((RollingStyle)sender).SelectedMode;
-                AddRemoveBasedOnMode(selectedMode, mStaticLogFileNameIndex, mStaticLogFileName);
-                AddRemoveBasedOnMode(selectedMode, mDatePatternIndex, mDatePattern);
+                AddRemoveBasedOnMode(selectedMode, mDatePatternModes, mDatePatternIndex, mDatePattern);
+                AddRemoveBasedOnMode(selectedMode, mMaximumFileSizeModes, mMaximumFileSizeIndex, mMaximumFileSize);
+                AddRemoveBasedOnMode(selectedMode, mCountDirectionModes, mCountDirectionIndex, mCountDirection);
             }
         }
 
-        private void AddRemoveBasedOnMode(RollingMode selectedMode, int index, IProperty appenderProperty)
+        private void AddRemoveBasedOnMode(RollingMode selectedMode, ISet<RollingMode> acceptableModes, int index, IProperty appenderProperty)
         {
-            if (selectedMode == RollingMode.Composite ||
-                selectedMode == RollingMode.Date)
+            if (acceptableModes.Contains(selectedMode))
             {
                 if (!Properties.Contains(appenderProperty))
                 {
