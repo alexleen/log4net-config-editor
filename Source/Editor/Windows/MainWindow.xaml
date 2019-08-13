@@ -22,7 +22,7 @@
                 <Button Click="NewClick" ToolTip="Creates a new log4net configuration file">New</Button>
                 <Button Click="OpenHereOnClick" ToolTip="Opens a log4net configuration in this editor">Open ↓</Button>
                 <Button Click="OpenThereOnClick" ToolTip="Opens this log4net configuration in another editor">Open ↑</Button>
-                <Button Margin="0,5,5,5" Click="OpenInExplorer" ToolTip="Opens this log4net configuration in Windows explorer">
+                <Button Click="OpenInExplorer" ToolTip="Opens this log4net configuration in Windows explorer">
                     <StackPanel Orientation="Horizontal">
                         <Label Padding="0">Open</Label>
                         <Image Height="12" Width="12" Margin="4,0,0,0" Source="..\Images\folder-grey.png"></Image>
