@@ -40,6 +40,11 @@ namespace Editor.Interfaces
         /// </summary>
         Task SaveAsync();
 
+        /// <summary>
+        /// Saves the current log4net configuration to disk at the specified location.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         Task SaveAsync(string path);
 
         /// <summary>

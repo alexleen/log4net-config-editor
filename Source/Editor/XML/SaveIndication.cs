@@ -42,11 +42,6 @@ namespace Editor.XML
             ReevaluateSaveState();
         }
 
-        public override async Task SaveAsync(string path)
-        {
-            await base.SaveAsync(path);
-        }
-
         public override void RemoveChild(ModelBase child)
         {
             base.RemoveChild(child);

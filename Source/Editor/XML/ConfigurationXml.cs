@@ -158,7 +158,7 @@ namespace Editor.XML
             return LoadAndSave.SaveAsync(mConfigXml);
         }
 
-        public virtual Task SaveAsync(string path)
+        public Task SaveAsync(string path)
         {
             return LoadAndSave.SaveAsync(mConfigXml, path);
         }
