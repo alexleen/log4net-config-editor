@@ -92,7 +92,7 @@ namespace Editor.Test.Definitions.Appenders
         [TestCase(RollingMode.Size, false)]
         [TestCase(RollingMode.Date, true)]
         [TestCase(RollingMode.Composite, true)]
-        public void Properties_ShouldBeAddedRemoved_BasedOnRollingMode(RollingMode mode, bool present)
+        public void DatePattern_ShouldBeAddedRemoved_BasedOnRollingMode(RollingMode mode, bool present)
         {
             mSut.Initialize();
 
@@ -100,7 +100,34 @@ namespace Editor.Test.Definitions.Appenders
             rollingStyle.SelectedMode = mode;
 
             Assert.AreEqual(present, mSut.Properties.FirstOrDefault(p => p.GetType() == typeof(DatePattern)) != null);
-            Assert.AreEqual(present, mSut.Properties.FirstOrDefault(p => p.GetType() == typeof(StaticLogFileName)) != null);
+        }
+
+        [TestCase(RollingMode.Once, false)]
+        [TestCase(RollingMode.Size, true)]
+        [TestCase(RollingMode.Date, false)]
+        [TestCase(RollingMode.Composite, true)]
+        public void MaximumFileSize_ShouldBeAddedRemoved_BasedOnRollingMode(RollingMode mode, bool present)
+        {
+            mSut.Initialize();
+
+            RollingStyle rollingStyle = (RollingStyle)mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
+            rollingStyle.SelectedMode = mode;
+
+            Assert.AreEqual(present, mSut.Properties.FirstOrDefault(p => p.GetType() == typeof(MaximumFileSize)) != null);
+        }
+
+        [TestCase(RollingMode.Once, true)]
+        [TestCase(RollingMode.Size, true)]
+        [TestCase(RollingMode.Date, false)]
+        [TestCase(RollingMode.Composite, true)]
+        public void CountDirection_ShouldBeAddedRemoved_BasedOnRollingMode(RollingMode mode, bool present)
+        {
+            mSut.Initialize();
+
+            RollingStyle rollingStyle = (RollingStyle)mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
+            rollingStyle.SelectedMode = mode;
+
+            Assert.AreEqual(present, mSut.Properties.FirstOrDefault(p => p.GetType() == typeof(CountDirection)) != null);
         }
 
         [Test]
@@ -123,17 +150,19 @@ namespace Editor.Test.Definitions.Appenders
             Assert.AreEqual(staticIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p.GetType() == typeof(StaticLogFileName))));
         }
 
-        [Test]
-        public void Properties_ShouldNotBeDuplicated_WhenTheyAlreadyExist()
+        [TestCase(RollingMode.Once, 14)]
+        [TestCase(RollingMode.Size, 15)]
+        [TestCase(RollingMode.Date, 14)]
+        [TestCase(RollingMode.Composite, 16)]
+        public void Properties_ShouldNotBeDuplicated_WhenTheyAlreadyExist(RollingMode mode, int expectedCount)
         {
             mSut.Initialize();
 
             RollingStyle rollingStyle = (RollingStyle)mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
 
-            //Composite is the default, and Date also specifies these two properties.
-            rollingStyle.SelectedMode = RollingMode.Date;
+            rollingStyle.SelectedMode = mode;
 
-            Assert.AreEqual(16, mSut.Properties.Count);
+            Assert.AreEqual(expectedCount, mSut.Properties.Count);
         }
     }
 }
