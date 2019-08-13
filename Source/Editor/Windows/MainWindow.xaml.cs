@@ -178,7 +178,7 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Saves root attributes to <see cref="ConfigurationXml"/> then writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
+        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
         private void SaveToFile()
         {
