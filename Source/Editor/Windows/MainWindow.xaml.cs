@@ -142,6 +142,23 @@ namespace Editor.Windows
             }
         }
 
+        private void OpenInExplorer(object sender, RoutedEventArgs e)
+        {
+            string selectedConfig = (string)xConfigComboBox.SelectedItem;
+
+            if (!string.IsNullOrEmpty(selectedConfig))
+            {
+                if (File.Exists(selectedConfig))
+                {
+                    Process.Start("explorer.exe", $"/select, \"{selectedConfig}\"");
+                }
+                else
+                {
+                    mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
+                }
+            }
+        }
+
         /// <summary>
         /// Performs the following actions:<para/>
         /// 1. Save the specified file name to the set of historical configs.<para/>
@@ -313,7 +330,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
