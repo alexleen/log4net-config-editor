@@ -158,6 +158,11 @@ namespace Editor.XML
             return LoadAndSave.SaveAsync(mConfigXml);
         }
 
+        public Task SaveAsync(string path)
+        {
+            return LoadAndSave.SaveAsync(mConfigXml, path);
+        }
+
         public void RemoveRefsTo(AppenderModel appenderModel)
         {
             //Remove all appender refs

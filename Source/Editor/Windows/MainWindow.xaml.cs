@@ -133,9 +133,7 @@ namespace Editor.Windows
         {
             OpenFileDialog ofd = new OpenFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
 
-            bool? showDialog = ofd.ShowDialog(this);
-
-            if (showDialog.Value)
+            if (ofd.ShowDialog(this).IsTrue())
             {
                 RefreshConfigComboBox(ofd.FileName);
                 LoadFromFile(ofd.FileName);
@@ -156,6 +154,16 @@ namespace Editor.Windows
                 {
                     mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
                 }
+            }
+        }
+
+        private void SaveCopyClick(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfw = new SaveFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
+
+            if (sfw.ShowDialog(this).IsTrue())
+            {
+                mConfig.SaveAsync(sfw.FileName);
             }
         }
 

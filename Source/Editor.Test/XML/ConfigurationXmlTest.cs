@@ -7,8 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
-using SystemInterface.Xml;
-using SystemWrapper.Xml;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
@@ -18,6 +16,8 @@ using Editor.XML;
 using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
+using SystemInterface.Xml;
+using SystemWrapper.Xml;
 
 namespace Editor.Test.XML
 {
@@ -275,6 +275,18 @@ namespace Editor.Test.XML
             await mSut.SaveAsync();
 
             mLoadAndSave.Received(1).SaveAsync(mXmlDoc);
+        }
+
+        [Test]
+        public async Task Save_ShouldSave_ToFile()
+        {
+            mSut.Load();
+
+            string path = "path";
+
+            await mSut.SaveAsync(path);
+
+            mLoadAndSave.Received(1).SaveAsync(mXmlDoc, path);
         }
 
         [Test]

@@ -48,9 +48,14 @@ namespace Editor.XML
 
             public Task SaveAsync(IXmlDocument configXml)
             {
+                return SaveAsync(configXml, mFilename);
+            }
+
+            public Task SaveAsync(IXmlDocument configXml, string path)
+            {
                 return Task.Run(() =>
                 {
-                    using (IFileStream fileStream = mFileStreamFactory.Create(mFilename, FileMode.Create))
+                    using (IFileStream fileStream = mFileStreamFactory.Create(path, FileMode.Create))
                     {
                         XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
 
