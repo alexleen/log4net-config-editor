@@ -21,7 +21,7 @@ namespace Editor.XML
 
         public IElementConfiguration CreateElementConfigurationFor(ModelBase originalModel, string newElementName)
         {
-            return new ElementConfiguration(this, originalModel?.Node, mConfigXml.CreateElement(newElementName));
+            return new ElementConfiguration(this, originalModel?.Node, ConfigXml.CreateElement(newElementName));
         }
 
         public override bool? Reload()
@@ -53,7 +53,7 @@ namespace Editor.XML
         {
             IXmlDocument disk = LoadAndSave.Load();
 
-            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(mConfigXml.OuterXml)))
+            if (XNode.DeepEquals(XDocument.Parse(disk.OuterXml), XDocument.Parse(ConfigXml.OuterXml)))
             {
                 SaveState = SaveState.Saved;
             }

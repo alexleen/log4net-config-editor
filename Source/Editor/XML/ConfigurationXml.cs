@@ -22,7 +22,7 @@ namespace Editor.XML
         private readonly IToastService mToastService;
         protected readonly ICanLoadAndSaveXml LoadAndSave;
         private readonly ObservableCollection<ModelBase> mMutableChildren;
-        protected IXmlDocument mConfigXml;
+        private IXmlDocument mConfigXml;
 
         public ConfigurationXml(IToastService toastService, ICanLoadAndSaveXml loadAndSave)
         {
