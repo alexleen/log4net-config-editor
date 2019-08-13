@@ -27,7 +27,7 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Value_ShouldBeFalseByDefault()
+        public void Value_ShouldBeTrueByDefault()
         {
             Assert.IsTrue(mSut.Value);
         }
