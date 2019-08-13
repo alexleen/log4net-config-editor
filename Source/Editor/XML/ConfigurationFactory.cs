@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using SystemInterface.IO;
 using SystemInterface.Xml;
@@ -28,7 +28,7 @@ namespace Editor.XML
 
         public IConfigurationXml Create(string filename)
         {
-            return new ConfigurationXml(mMessageBoxService, new CanLoadAndSaveXml(filename, mXmlDocFactory, mFileStreamFactory, mXmlWriterFactory, mFile));
+            return new SaveIndication(mMessageBoxService, new CanLoadAndSaveXml(filename, mXmlDocFactory, mFileStreamFactory, mXmlWriterFactory, mFile));
         }
     }
 }

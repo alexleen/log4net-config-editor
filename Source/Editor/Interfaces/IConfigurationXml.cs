@@ -1,8 +1,9 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Xml;
 using Editor.Enums;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
