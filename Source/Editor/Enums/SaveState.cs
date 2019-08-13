@@ -1,4 +1,6 @@
-﻿namespace Editor.Enums
+﻿// Copyright © 2019 Alex Leendertsen
+
+namespace Editor.Enums
 {
     public enum SaveState
     {

@@ -182,9 +182,6 @@ namespace Editor.Windows
         /// </summary>
         private void SaveToFile()
         {
-            //ConfigurationXml.Debug = xDebugCheckBox.IsChecked.IsTrue();
-            //ConfigurationXml.Update = (Update)xUpdateComboBox.SelectedItem;
-            //ConfigurationXml.Threshold = Log4NetUtilities.LevelsByName[(string)xThresholdComboBox.SelectedItem];
             ConfigurationXml.SaveAsync();
         }
 
@@ -222,9 +219,6 @@ namespace Editor.Windows
                 return;
             }
 
-            //xDebugCheckBox.IsChecked = ConfigurationXml.Debug;
-            //xUpdateComboBox.SelectedItem = ConfigurationXml.Update;
-            //xThresholdComboBox.SelectedItem = ConfigurationXml.Threshold.Name;
             xChildren.ItemsSource = ConfigurationXml.Children;
             xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;

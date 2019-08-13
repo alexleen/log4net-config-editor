@@ -6,9 +6,11 @@ using System.Linq;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
 using Editor.Descriptors;
+using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models.ConfigChildren;
 using Editor.XML;
+using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -17,18 +19,19 @@ namespace Editor.Test.XML
     [TestFixture]
     public class SaveIndicationTest
     {
-        private IXmlDocument mXmlDoc;
         private ICanLoadAndSaveXml mLoadAndSave;
         private SaveIndication mSut;
 
         [SetUp]
         public void SetUp()
         {
-            mXmlDoc = new XmlDocumentWrap();
-            mXmlDoc.Load(GetTestConfigXml());
-
             mLoadAndSave = Substitute.For<ICanLoadAndSaveXml>();
-            mLoadAndSave.Load().Returns(mXmlDoc);
+            mLoadAndSave.Load().Returns(ci =>
+                {
+                    IXmlDocument xmlDoc = new XmlDocumentWrap();
+                    xmlDoc.Load(GetTestConfigXml());
+                    return xmlDoc;
+                });
 
             mSut = new SaveIndication(Substitute.For<IMessageBoxService>(), mLoadAndSave);
         }
@@ -67,6 +70,71 @@ namespace Editor.Test.XML
             Assert.AreEqual(AppenderDescriptor.Async.ElementName, elementConfiguration.NewNode.Name);
             Assert.AreSame(mSut.ConfigXml, elementConfiguration.ConfigXml);
             Assert.AreSame(mSut.Log4NetNode, elementConfiguration.Log4NetNode);
+        }
+
+        [Test]
+        public void SaveAsync_ShouldUpdateSaveState_ToSaving_WhileSaving()
+        {
+            mSut.Load();
+
+            bool changedToSaving = false;
+
+            mSut.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName == nameof(SaveIndication.SaveState) && mSut.SaveState == SaveState.Saving)
+                    {
+                        changedToSaving = true;
+                    }
+                };
+
+            mSut.SaveAsync();
+
+            Assert.IsTrue(changedToSaving);
+
+            //Should go back to 'Saved' (because it finished the save)
+            Assert.AreEqual(SaveState.Saved, mSut.SaveState);
+        }
+
+        [Test]
+        public void ChangingDebug_ShouldChangeSaveState()
+        {
+            mSut.Load();
+
+            const bool debug = false;
+
+            mSut.Debug = debug;
+
+            Assert.AreEqual(SaveState.Changed, mSut.SaveState);
+
+            Assert.AreEqual(debug, mSut.Debug);
+        }
+
+        [Test]
+        public void ChangingUpdate_ShouldChangeSaveState()
+        {
+            mSut.Load();
+
+            const Update update = Update.Merge;
+
+            mSut.Update = update;
+
+            Assert.AreEqual(SaveState.Changed, mSut.SaveState);
+
+            Assert.AreEqual(update, mSut.Update);
+        }
+
+        [Test]
+        public void ChangingThreshold_ShouldChangeSaveState()
+        {
+            mSut.Load();
+
+            Level threshold = Level.Off;
+
+            mSut.Threshold = threshold;
+
+            Assert.AreEqual(SaveState.Changed, mSut.SaveState);
+
+            Assert.AreEqual(threshold, mSut.Threshold);
         }
     }
 }
