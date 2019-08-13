@@ -125,6 +125,7 @@
     <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
     <Compile Include="Converters\PresetToBoolConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
+    <Compile Include="Converters\ShowLogFileOptionsConverterTest.cs" />
     <Compile Include="Definitions\Appenders\AsyncAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\EventLogAppenderTest.cs" />

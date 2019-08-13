@@ -82,6 +82,7 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
+    <Compile Include="Converters\ShowLogFileOptionsConverter.cs" />
     <Compile Include="Enums\SaveState.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
@@ -329,6 +330,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\folder-grey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\file-zoom-out.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

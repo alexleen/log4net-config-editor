@@ -343,6 +343,49 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
+        private void OpenLogFileClick(object sender, RoutedEventArgs e)
+        {
+            string filePath = GetFilePath(sender);
+
+            if (File.Exists(filePath))
+            {
+                Process.Start(filePath);
+            }
+        }
+
+        private void OpenLogFolderClick(object sender, RoutedEventArgs e)
+        {
+            string filePath = GetFilePath(sender);
+            string dirPath = Path.GetDirectoryName(filePath);
+
+            if (File.Exists(filePath))
+            {
+                Process.Start("explorer.exe", $"/select, \"{filePath}\"");
+            }
+            else if (Directory.Exists(dirPath))
+            {
+                Process.Start(dirPath);
+            }
+        }
+
+        private string GetFilePath(object sender)
+        {
+            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+
+            IElementConfiguration configuration = mConfig.CreateElementConfigurationFor(appender, appender.Node.Name);
+
+            IElementDefinition elementDefinition = DefinitionFactory.Create(appender.Descriptor, configuration);
+
+            elementDefinition.Initialize();
+
+            foreach (IProperty prop in elementDefinition.Properties.ToList())
+            {
+                prop.Load(appender.Node);
+            }
+
+            return elementDefinition.Properties.OfType<ConfigProperties.File>().Single().FilePath;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
