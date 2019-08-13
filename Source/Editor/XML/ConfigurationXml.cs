@@ -2,11 +2,8 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
