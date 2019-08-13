@@ -25,14 +25,14 @@ namespace Editor.Test.XML
     public class ConfigurationXmlTest
     {
         private IXmlDocument mXmlDoc;
-        private IMessageBoxService mMessageBoxService;
+        private IToastService mToastService;
         private ICanLoadAndSaveXml mLoadAndSave;
         private ConfigurationXml mSut;
 
         [SetUp]
         public void SetUp()
         {
-            mMessageBoxService = Substitute.For<IMessageBoxService>();
+            mToastService = Substitute.For<IToastService>();
 
             mXmlDoc = new XmlDocumentWrap();
             mXmlDoc.Load(GetTestConfigXml());
@@ -40,7 +40,7 @@ namespace Editor.Test.XML
             mLoadAndSave = Substitute.For<ICanLoadAndSaveXml>();
             mLoadAndSave.Load().Returns(mXmlDoc);
 
-            mSut = new ConfigurationXml(mMessageBoxService,
+            mSut = new ConfigurationXml(mToastService,
                                         mLoadAndSave);
         }
 
@@ -62,7 +62,7 @@ namespace Editor.Test.XML
         [Test]
         public void Ctor_ShouldThrow_WhenLoadSaveIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(mMessageBoxService, null));
+            Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(mToastService, null));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Editor.Test.XML
 
             mSut.Load();
 
-            mMessageBoxService.Received(1).ShowWarning("At least one unrecognized appender was found in this configuration.");
+            mToastService.Received(1).ShowWarning("At least one unrecognized appender was found in this configuration.");
         }
 
         [Test]
@@ -121,11 +121,11 @@ namespace Editor.Test.XML
             mXmlDoc.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><root></root>");
 
             mSut.Load();
-            mMessageBoxService.ClearReceivedCalls();
+            mToastService.ClearReceivedCalls();
 
             mSut.Reload();
 
-            mMessageBoxService.Received(1).ShowError("Could not find log4net configuration.");
+            mToastService.Received(1).ShowError("Could not find log4net configuration.");
         }
 
         [Test]
@@ -134,11 +134,11 @@ namespace Editor.Test.XML
             mXmlDoc.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><root><log4net></log4net><log4net></log4net></root>");
 
             mSut.Load();
-            mMessageBoxService.ClearReceivedCalls();
+            mToastService.ClearReceivedCalls();
 
             mSut.Reload();
 
-            mMessageBoxService.Received(1).ShowWarning("More than one 'log4net' element was found in the specified file. Using the first occurrence.");
+            mToastService.Received(1).ShowWarning("More than one 'log4net' element was found in the specified file. Using the first occurrence.");
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace Editor.Test.XML
             mXmlDoc.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><root><log4net></log4net><log4net></log4net></root>");
 
             mSut.Load();
-            mMessageBoxService.ClearReceivedCalls();
+            mToastService.ClearReceivedCalls();
 
             mSut.Reload();
 
@@ -232,9 +232,7 @@ namespace Editor.Test.XML
 
             mSut.Debug = false;
 
-            await mSut.SaveAsync();
-
-            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Debug]);
         }
@@ -246,9 +244,7 @@ namespace Editor.Test.XML
 
             mSut.Update = Update.Merge;
 
-            await mSut.SaveAsync();
-
-            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Update]);
         }
@@ -260,9 +256,7 @@ namespace Editor.Test.XML
 
             mSut.Threshold = Level.All;
 
-            await mSut.SaveAsync();
-
-            XmlNode log4NetNode = mXmlDoc.DocumentElement.FirstChild;
+            XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
             Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Threshold]);
         }

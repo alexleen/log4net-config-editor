@@ -10,15 +10,15 @@ namespace Editor.XML
 {
     internal partial class ConfigurationFactory : IConfigurationFactory
     {
-        private readonly IMessageBoxService mMessageBoxService;
+        private readonly IToastService mToastService;
         private readonly IXmlDocumentFactory mXmlDocFactory;
         private readonly IFileStreamFactory mFileStreamFactory;
         private readonly IXmlWriterFactory mXmlWriterFactory;
         private readonly IFile mFile;
 
-        public ConfigurationFactory(IMessageBoxService messageBoxService)
+        public ConfigurationFactory(IToastService toastService)
         {
-            mMessageBoxService = messageBoxService;
+            mToastService = toastService;
 
             mXmlDocFactory = new XmlDocumentFactory();
             mFileStreamFactory = new FileStreamWrapFactory();
@@ -28,7 +28,7 @@ namespace Editor.XML
 
         public IConfigurationXml Create(string filename)
         {
-            return new SaveIndication(mMessageBoxService, new CanLoadAndSaveXml(filename, mXmlDocFactory, mFileStreamFactory, mXmlWriterFactory, mFile));
+            return new SaveIndication(mToastService, new CanLoadAndSaveXml(filename, mXmlDocFactory, mFileStreamFactory, mXmlWriterFactory, mFile));
         }
     }
 }

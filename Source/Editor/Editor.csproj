@@ -57,6 +57,12 @@
     <Reference Include="SystemWrapper, Version=0.25.0.186, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
       <HintPath>..\packages\SystemWrapper.Wrappers.0.25.0.186\lib\net45\SystemWrapper.dll</HintPath>
     </Reference>
+    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.2.5.1\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.Messages.2.5.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -179,7 +185,9 @@
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Utilities\ExtensionsMethods.cs" />
+    <Compile Include="Interfaces\IToastService.cs" />
     <Compile Include="Utilities\MessageBoxService.cs" />
+    <Compile Include="Utilities\ToastService.cs" />
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
@@ -333,6 +341,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\file-zoom-out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit-copy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

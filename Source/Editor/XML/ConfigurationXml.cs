@@ -19,14 +19,14 @@ namespace Editor.XML
 {
     internal class ConfigurationXml
     {
-        private readonly IMessageBoxService mMessageBoxService;
-        private readonly ObservableCollection<ModelBase> mMutableChildren;
+        private readonly IToastService mToastService;
         protected readonly ICanLoadAndSaveXml LoadAndSave;
+        private readonly ObservableCollection<ModelBase> mMutableChildren;
         private IXmlDocument mConfigXml;
 
-        public ConfigurationXml(IMessageBoxService messageBoxService, ICanLoadAndSaveXml loadAndSave)
+        public ConfigurationXml(IToastService toastService, ICanLoadAndSaveXml loadAndSave)
         {
-            mMessageBoxService = messageBoxService ?? throw new ArgumentNullException(nameof(messageBoxService));
+            mToastService = toastService ?? throw new ArgumentNullException(nameof(toastService));
             LoadAndSave = loadAndSave ?? throw new ArgumentNullException(nameof(loadAndSave));
             mMutableChildren = new ObservableCollection<ModelBase>();
             Children = new ReadOnlyObservableCollection<ModelBase>(mMutableChildren);
@@ -40,7 +40,7 @@ namespace Editor.XML
 
             if (unrecognizedAppender.IsTrue())
             {
-                mMessageBoxService.ShowWarning("At least one unrecognized appender was found in this configuration.");
+                mToastService.ShowWarning("At least one unrecognized appender was found in this configuration.");
             }
         }
 
@@ -55,13 +55,13 @@ namespace Editor.XML
 
             if (log4NetNodes == null || log4NetNodes.Count == 0)
             {
-                mMessageBoxService.ShowError("Could not find log4net configuration.");
+                mToastService.ShowError("Could not find log4net configuration.");
                 return null;
             }
 
             if (log4NetNodes.Count > 1)
             {
-                mMessageBoxService.ShowWarning("More than one 'log4net' element was found in the specified file. Using the first occurrence.");
+                mToastService.ShowWarning("More than one 'log4net' element was found in the specified file. Using the first occurrence.");
             }
 
             Log4NetNode = log4NetNodes[0];

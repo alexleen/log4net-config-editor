@@ -26,7 +26,7 @@ namespace Editor.Test.XML
         [SetUp]
         public void SetUp()
         {
-            IConfigurationXml configFactory = new ConfigurationFactory(Substitute.For<IMessageBoxService>()).Create(Filename);
+            IConfigurationXml configFactory = new ConfigurationFactory(Substitute.For<IToastService>()).Create(Filename);
 
             const string sutFieldName = "LoadAndSave";
 

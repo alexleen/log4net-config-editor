@@ -32,6 +32,7 @@ namespace Editor.Windows
     public partial class MainWindow : INotifyPropertyChanged
     {
         private readonly IMessageBoxService mMessageBoxService;
+        private readonly IToastService mToastService;
         private readonly HistoryManager.HistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
 
@@ -55,8 +56,9 @@ namespace Editor.Windows
             DataContext = this;
 
             mMessageBoxService = new MessageBoxService(this);
+            mToastService = new ToastService();
             mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
-            mConfigurationFactory = new ConfigurationFactory(mMessageBoxService);
+            mConfigurationFactory = new ConfigurationFactory(mToastService);
 
             xAddAppenderButton.ItemsSource = new[]
             {
@@ -127,6 +129,10 @@ namespace Editor.Windows
                     mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
                 }
             }
+            else
+            {
+                mToastService.ShowInformation("No configuration file selected");
+            }
         }
 
         private void OpenHereOnClick(object sender, RoutedEventArgs e)
@@ -155,15 +161,26 @@ namespace Editor.Windows
                     mMessageBoxService.ShowWarning("File has not been saved yet and therefore cannot be opened.");
                 }
             }
+            else
+            {
+                mToastService.ShowInformation("No configuration file selected");
+            }
         }
 
         private void SaveCopyClick(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog sfw = new SaveFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
-
-            if (sfw.ShowDialog(this).IsTrue())
+            if (mConfig != null)
             {
-                mConfig.SaveAsync(sfw.FileName);
+                SaveFileDialog sfw = new SaveFileDialog { Filter = "Config Files (*.xml, *.config) | *.xml; *.config" };
+
+                if (sfw.ShowDialog(this).IsTrue())
+                {
+                    mConfig.SaveAsync(sfw.FileName);
+                }
+            }
+            else
+            {
+                mToastService.ShowInformation("No configuration file selected");
             }
         }
 
@@ -215,6 +232,7 @@ namespace Editor.Windows
             if (xConfigComboBox.SelectedItem == null)
             {
                 //Reload was pressed without ever opening a config file
+                mToastService.ShowInformation("No configuration file selected");
                 return;
             }
 
@@ -240,7 +258,7 @@ namespace Editor.Windows
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, $"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                mToastService.ShowError($"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}");
                 return;
             }
 
@@ -343,6 +361,15 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
+        private void CopyAppenderToClipboard(object sender, RoutedEventArgs e)
+        {
+            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+
+            Clipboard.SetText(appender.Node.OuterXml);
+
+            mToastService.ShowSuccess("Appender XML copied to clipboard");
+        }
+
         private void OpenLogFileClick(object sender, RoutedEventArgs e)
         {
             string filePath = GetFilePath(sender);
@@ -350,6 +377,10 @@ namespace Editor.Windows
             if (File.Exists(filePath))
             {
                 Process.Start(filePath);
+            }
+            else
+            {
+                mToastService.ShowInformation("Log file does not exist");
             }
         }
 
@@ -365,6 +396,10 @@ namespace Editor.Windows
             else if (Directory.Exists(dirPath))
             {
                 Process.Start(dirPath);
+            }
+            else
+            {
+                mToastService.ShowInformation("Log file and directory do not exist");
             }
         }
 
