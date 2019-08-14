@@ -70,6 +70,27 @@
         </Grid>
     </DataTemplate>
 
+    <!-- TypeAttribute -->
+    <DataTemplate DataType="{x:Type ConfigProperties:TypeAttribute}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedValue="{Binding SelectedValue}" 
+                      DisplayMemberPath="TypeNamespace"
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="{Binding Width}"
+                      Margin="0,0,5,0"
+                      ToolTip="{Binding ToolTip}" />
+        </Grid>
+    </DataTemplate>
+
     <!-- LocalSyslogFacility -->
     <DataTemplate DataType="{x:Type ConfigProperties:LocalSyslogFacility}">
         <Grid>

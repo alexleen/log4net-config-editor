@@ -5,7 +5,8 @@ using System.Collections.ObjectModel;
 namespace Editor.Interfaces
 {
     /// <summary>
-    /// Defines a log4net element.
+    /// Defines a log4net element at any level.
+    /// Could be an appender, appender property (filter, name, threshold, etc.), param, etc.
     /// </summary>
     public interface IElementDefinition
     {

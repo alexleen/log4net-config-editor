@@ -154,7 +154,7 @@
     <Compile Include="Definitions\Appenders\ForwardingAppender.cs" />
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppender.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppender.cs" />
-    <Compile Include="Definitions\Base\PropertyDefinition.cs" />
+    <Compile Include="Definitions\Base\ElementDefinition.cs" />
     <Compile Include="Definitions\Filters\FilterSkeleton.cs" />
     <Compile Include="Definitions\Filters\LevelMatchFilter.cs" />
     <Compile Include="Definitions\Filters\LevelRangeFilter.cs" />
@@ -204,7 +204,7 @@
     <Compile Include="Interfaces\IFilterDefinition.cs" />
     <Compile Include="Interfaces\IMessageBoxService.cs" />
     <Compile Include="Interfaces\IProperty.cs" />
-    <Compile Include="Interfaces\IPropertyDefinition.cs" />
+    <Compile Include="Interfaces\IElementDefinition.cs" />
     <Compile Include="Interfaces\ISaveStrategy.cs" />
     <Compile Include="Interfaces\IWindowSizeLocation.cs" />
     <Compile Include="Windows\SizeLocation\LoggerMatchFilterWindowSizeLocation.cs" />
