@@ -205,12 +205,12 @@ namespace Editor.Windows
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            SaveToFile();
+            SaveToFileAsync();
         }
 
         private void SandAndCloseOnClick(object sender, RoutedEventArgs e)
         {
-            SaveToFile();
+            SaveToFileAsync();
             Close();
         }
 
@@ -222,9 +222,16 @@ namespace Editor.Windows
         /// <summary>
         /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
         /// </summary>
-        private void SaveToFile()
+        private async void SaveToFileAsync()
         {
-            ConfigurationXml.SaveAsync();
+            try
+            {
+                await ConfigurationXml.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"An unexpected error occurred while saving:{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ReloadFromFile()
@@ -258,7 +265,7 @@ namespace Editor.Windows
             }
             catch (Exception ex)
             {
-                mToastService.ShowError($"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}");
+                MessageBox.Show(this, $"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -361,13 +368,13 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void CopyAppenderToClipboard(object sender, RoutedEventArgs e)
+        private void CopyElementToClipboard(object sender, RoutedEventArgs e)
         {
-            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+            ModelBase model = (ModelBase)((Button)sender).DataContext;
 
-            Clipboard.SetText(appender.Node.OuterXml);
+            Clipboard.SetText(model.Node.OuterXml);
 
-            mToastService.ShowSuccess("Appender XML copied to clipboard");
+            mToastService.ShowSuccess("XML copied to clipboard");
         }
 
         private void OpenLogFileClick(object sender, RoutedEventArgs e)

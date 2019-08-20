@@ -4,7 +4,7 @@
                              xmlns:Windows="clr-namespace:Editor.Windows"
                              xmlns:Converters="clr-namespace:Editor.Converters"
                              xmlns:Controls="clr-namespace:Editor.Controls"
-                             MinHeight="430"
+                             MinHeight="490"
                              MinWidth="640"
                              Loaded="MainWindowOnLoaded"
                              Icon="../document_edit.ico"
@@ -192,8 +192,8 @@
                                         <Setter Property="Margin" Value="2,0"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Button ToolTip="Copies the XML for this appender to the Windows clipboard"
-                                        Click="CopyAppenderToClipboard">
+                                <Button ToolTip="Copies the XML for this element to the Windows clipboard"
+                                        Click="CopyElementToClipboard">
                                     <Image Width="12" Height="12" Source="../Images/edit-copy.png"/>
                                 </Button>
                                 <Button ToolTip="Opens the log file associated with this appender"
