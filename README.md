@@ -2,6 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/boirqfr14whjdmlr/branch/master?svg=true)](https://ci.appveyor.com/project/alexleen/log4net-config-editor/branch/master)
 [![codecov](https://codecov.io/gh/alexleen/log4net-config-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/alexleen/log4net-config-editor)
 [![BCH compliance](https://bettercodehub.com/edge/badge/alexleen/log4net-config-editor?branch=master)](https://bettercodehub.com/)
+![Gitter](https://img.shields.io/gitter/room/alexleen/log4net-config-editor)
 
 A WPF GUI for editing log4net configuration files. This tool can edit log4net configurations saved as XML (\*.xml) or saved inside other appication configuration files (\*.config). Features include:
 
