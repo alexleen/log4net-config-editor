@@ -1,7 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
@@ -80,28 +81,28 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void SelectedLayout_ShouldSetSimplePattern_WhenSetToSimple()
+        public void SelectedLayout_ShouldBeSimplePattern_WhenSetToSimple()
         {
             //SelectedLayout is set to Simple in ctor
             Assert.AreEqual(SimplePattern, mSut.Pattern);
         }
 
         [Test]
-        public void SelectedLayout_ShouldSetSimplePattern_WhenNoOriginalPatternIsPresent()
+        public void SelectedLayout_ShouldSBeSimplePattern_WhenNoOriginalPatternIsPresent()
         {
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
             Assert.AreEqual(SimplePattern, mSut.Pattern);
         }
 
         [Test]
-        public void SelectedLayout_ShouldSetEmptyPattern_WhenSetToNone()
+        public void SelectedLayout_ShouldBeEmptyPattern_WhenSetToNone()
         {
             mSut.SelectedLayout = LayoutDescriptor.None;
             Assert.AreEqual(string.Empty, mSut.Pattern);
         }
 
         [Test]
-        public void SelectedLayout_ShouldSetOriginalPattern_WhenNotSimpleAndOriginalExists()
+        public void SelectedLayout_ShouldBeOriginalPattern_WhenNotSimpleAndOriginalExists()
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender>\r\n" +
@@ -120,6 +121,34 @@ namespace Editor.Test.ConfigProperties
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
 
             Assert.AreEqual("%date{HH:mm:ss:fff} %message%newline", mSut.Pattern);
+        }
+
+        [Test]
+        public void SelectedLayout_ShouldBeLatestHistoricalPattern_WhenPatternAndNoOriginalExists()
+        {
+            IEnumerable<string> historicalLayouts = new[] { "layout1", "layout2" };
+
+            mHistoryManager.Get().Returns(historicalLayouts);
+
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
+
+            mSut.SelectedLayout = LayoutDescriptor.Pattern;
+
+            Assert.AreEqual(historicalLayouts.First(), mSut.Pattern);
+        }
+
+        [Test]
+        public void SelectedLayout_ShouldBeSimple_WhenPatternAndNoOriginalExistsAndNoHistorical()
+        {
+            IEnumerable<string> historicalLayouts = Enumerable.Empty<string>();
+
+            mHistoryManager.Get().Returns(historicalLayouts);
+
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
+
+            mSut.SelectedLayout = LayoutDescriptor.Pattern;
+
+            Assert.AreEqual(SimplePattern, mSut.Pattern);
         }
 
         [Test]

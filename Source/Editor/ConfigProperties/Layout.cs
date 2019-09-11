@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
@@ -70,13 +71,17 @@ namespace Editor.ConfigProperties
                 {
                     Pattern = string.Empty;
                 }
-                else if (value == LayoutDescriptor.Simple || string.IsNullOrEmpty(mOriginalPattern))
+                else if (!string.IsNullOrEmpty(mOriginalPattern))
                 {
-                    Pattern = SimplePattern;
+                    Pattern = mOriginalPattern;
+                }
+                else if (value == LayoutDescriptor.Pattern && HistoricalLayouts.Any())
+                {
+                    Pattern = HistoricalLayouts.First();
                 }
                 else
                 {
-                    Pattern = mOriginalPattern;
+                    Pattern = SimplePattern;
                 }
 
                 mSelectedLayout = value;
