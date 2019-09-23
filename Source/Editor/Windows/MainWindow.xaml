@@ -9,6 +9,9 @@
                              Loaded="MainWindowOnLoaded"
                              Icon="../document_edit.ico"
                              UseLayoutRounding="True">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="PasteExecuted" />
+    </Window.CommandBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >
             <DockPanel.Resources>
@@ -152,6 +155,18 @@
 
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="EditAppenderOnClick"/>
+                </Style>
+
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>

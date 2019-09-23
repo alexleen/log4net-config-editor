@@ -76,3 +76,4 @@ Currently under construction. log4net configuration files can be quite large and
 [AppVeyor](https://ci.appveyor.com/)  
 [Codecov](https://codecov.io/)  
 [Better Code](https://bettercodehub.com/)
+[ToastNotifications](https://github.com/rafallopatka/ToastNotifications)

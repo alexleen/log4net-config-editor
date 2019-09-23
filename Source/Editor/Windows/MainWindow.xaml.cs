@@ -10,12 +10,15 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Models;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.SaveStrategies;
@@ -91,6 +94,26 @@ namespace Editor.Windows
                 RefreshConfigComboBox(config);
                 LoadFromFile(config);
             }
+        }
+
+        private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            string text = Clipboard.GetText();
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(text);
+
+                if (ModelFactory.TryCreate(doc.FirstChild, mConfig.Log4NetNode, out ModelBase model))
+                {
+                    OpenElementWindow(model);
+                    return;
+                }
+            }
+            catch { }
+
+            mToastService.ShowError("Unrecognized log4net element");
         }
 
         private void ConfigComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -363,7 +386,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
