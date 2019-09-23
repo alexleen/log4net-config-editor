@@ -98,6 +98,11 @@ namespace Editor.Windows
 
         private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            Paste();
+        }
+
+        private void Paste()
+        {
             string text = Clipboard.GetText();
 
             try
@@ -206,6 +211,11 @@ namespace Editor.Windows
             {
                 mToastService.ShowInformation("No configuration file selected");
             }
+        }
+
+        private void PasteClick(object sender, RoutedEventArgs e)
+        {
+            Paste();
         }
 
         /// <summary>
