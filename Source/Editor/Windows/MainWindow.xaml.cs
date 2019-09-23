@@ -104,10 +104,11 @@ namespace Editor.Windows
             {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(text);
+                XmlNode imported = mConfig.ConfigXml.ImportNode(doc.FirstChild, true);
 
-                if (ModelFactory.TryCreate(doc.FirstChild, mConfig.Log4NetNode, out ModelBase model))
+                if (ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model))
                 {
-                    OpenElementWindow(model);
+                    OpenElementWindow(model, true);
                     return;
                 }
             }
@@ -373,19 +374,29 @@ namespace Editor.Windows
             OpenElementWindow(null, descriptor.ElementName, descriptor);
         }
 
-        private void OpenElementWindow(ModelBase model)
+        private void OpenElementWindow(ModelBase model, bool import = false)
         {
-            OpenElementWindow(model, model.Node.Name, model.Descriptor);
+            OpenElementWindow(model, model.Node.Name, model.Descriptor, import);
         }
 
-        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor)
+        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor, bool import = false)
         {
             IElementConfiguration configuration = ConfigurationXml.CreateElementConfigurationFor(model, elementName);
+
+            ISaveStrategy saveStrategy;
+            if (import)
+            {
+                saveStrategy = new ImportSaveStrategy(configuration);
+            }
+            else
+            {
+                saveStrategy = new AppendReplaceSaveStrategy(configuration);
+            }
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppendReplaceSaveStrategy(configuration))
+                                                            saveStrategy)
             { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();

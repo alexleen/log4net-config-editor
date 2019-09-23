@@ -185,6 +185,7 @@
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\ParamModel.cs" />
+    <Compile Include="SaveStrategies\ImportSaveStrategy.cs" />
     <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="Interfaces\IToastService.cs" />
     <Compile Include="Utilities\MessageBoxService.cs" />
