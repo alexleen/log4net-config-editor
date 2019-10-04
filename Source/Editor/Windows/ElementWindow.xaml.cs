@@ -23,6 +23,7 @@ namespace Editor.Windows
         public IWindowSizeLocation WindowSizeLocation { get; }
         public IElementDefinition PropertyDefinition { get; }
         public ObservableCollection<IProperty> Properties { get; }
+        bool ShowOptional { get; } = true;
 
         public ElementWindow(IElementConfiguration appenderConfiguration,
                              IElementDefinition propertyDefinition,

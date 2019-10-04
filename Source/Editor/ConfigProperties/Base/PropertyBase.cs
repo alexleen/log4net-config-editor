@@ -28,6 +28,8 @@ namespace Editor.ConfigProperties.Base
 
         public GridLength RowHeight { get; }
 
+        public bool Optional { get; } = false;
+
         public ICommand Navigate { get; }
 
         public string ToolTip { get; set; }

@@ -20,6 +20,8 @@ namespace Editor.Interfaces
         /// </summary>
         GridLength RowHeight { get; }
 
+        bool Optional { get; }
+
         /// <summary>
         /// Loads existing data into property from specified appender node.
         /// </summary>
