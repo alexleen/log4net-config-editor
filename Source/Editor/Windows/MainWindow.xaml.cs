@@ -117,7 +117,9 @@ namespace Editor.Windows
                     return;
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             mToastService.ShowError("Unrecognized log4net element");
         }
@@ -407,7 +409,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             saveStrategy)
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }

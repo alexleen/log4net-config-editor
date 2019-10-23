@@ -10,7 +10,7 @@ namespace Editor.Models
 {
     internal static class ModelFactory
     {
-        internal static bool TryCreate(XmlNode node, XmlNode log4netNode, out ModelBase model)
+        internal static bool TryCreate(XmlNode node, XmlNode log4NetNode, out ModelBase model)
         {
             switch (node.Name)
             {
@@ -21,11 +21,12 @@ namespace Editor.Models
                     model = new LoggerModel(node, false, LoggerDescriptor.Logger);
                     return true;
                 case Log4NetXmlConstants.Appender:
-                    if (AppenderModel.TryCreate(node, log4netNode, out AppenderModel appenderModel))
+                    if (AppenderModel.TryCreate(node, log4NetNode, out AppenderModel appenderModel))
                     {
                         model = appenderModel;
                         return true;
                     }
+
                     break;
                 case Log4NetXmlConstants.Renderer:
                     model = new RendererModel(node);
