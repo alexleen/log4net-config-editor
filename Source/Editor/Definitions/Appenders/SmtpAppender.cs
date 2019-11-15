@@ -1,11 +1,13 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 
 namespace Editor.Definitions.Appenders
 {
-    class SmtpAppender : BufferingAppenderSkeleton
+    internal class SmtpAppender : BufferingAppenderSkeleton
     {
         public SmtpAppender(IElementConfiguration configuration)
             : base(configuration, true)

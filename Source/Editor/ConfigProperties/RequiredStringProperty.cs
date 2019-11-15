@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 

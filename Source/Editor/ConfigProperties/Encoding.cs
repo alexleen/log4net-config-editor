@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
@@ -9,7 +11,7 @@ namespace Editor.ConfigProperties
 {
     internal class Encoding : MultiValuePropertyBase<System.Text.Encoding>
     {
-        private static readonly System.Text.Encoding[] mValues = new System.Text.Encoding[]
+        private static readonly System.Text.Encoding[] sValues =
         {
             null,
             System.Text.Encoding.ASCII,
@@ -21,9 +23,9 @@ namespace Editor.ConfigProperties
         };
 
         public Encoding(ReadOnlyCollection<IProperty> container, string name)
-                : base(container, GridLength.Auto, name, mValues, 100)
+            : base(container, GridLength.Auto, name, sValues, 100)
         {
-            SelectedValue = mValues[0];
+            SelectedValue = sValues[0];
         }
 
         public override void Load(XmlNode originalNode)

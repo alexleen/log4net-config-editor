@@ -1,4 +1,6 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.Interfaces;
 
 namespace Editor.Definitions.Appenders

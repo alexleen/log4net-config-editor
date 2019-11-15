@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using System.Collections.ObjectModel;
 using System.Net.Mail;
 using System.Windows;
 using Editor.ConfigProperties.Base;
