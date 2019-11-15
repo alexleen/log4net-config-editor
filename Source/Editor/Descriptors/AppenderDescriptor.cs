@@ -8,7 +8,7 @@ namespace Editor.Descriptors
 {
     public class AppenderDescriptor : DescriptorBase
     {
-        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp, LocalSyslog, RemoteSyslog;
+        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp, LocalSyslog, RemoteSyslog, Smtp;
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
 
         static AppenderDescriptor()
@@ -23,6 +23,7 @@ namespace Editor.Descriptors
             Udp = new AppenderDescriptor("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender");
             LocalSyslog = new AppenderDescriptor("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender");
             RemoteSyslog = new AppenderDescriptor("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender");
+            Smtp = new AppenderDescriptor("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender");
 
             sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
             {
@@ -35,7 +36,8 @@ namespace Editor.Descriptors
                 { ManagedColor.TypeNamespace, ManagedColor },
                 { Udp.TypeNamespace, Udp },
                 { LocalSyslog.TypeNamespace, LocalSyslog },
-                { RemoteSyslog.TypeNamespace, RemoteSyslog }
+                { RemoteSyslog.TypeNamespace, RemoteSyslog },
+                { Smtp.TypeNamespace, Smtp }
             };
         }
 

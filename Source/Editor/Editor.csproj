@@ -87,8 +87,12 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="ConfigProperties\Encoding.cs" />
+    <Compile Include="ConfigProperties\Lossy.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Converters\ShowLogFileOptionsConverter.cs" />
+    <Compile Include="Definitions\Appenders\BufferingAppenderSkeleton.cs" />
+    <Compile Include="Definitions\Appenders\SmtpAppender.cs" />
     <Compile Include="Enums\SaveState.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
