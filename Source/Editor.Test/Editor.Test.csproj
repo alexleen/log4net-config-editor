@@ -89,7 +89,6 @@
     <Compile Include="ConfigProperties\LayoutTest.cs" />
     <Compile Include="ConfigProperties\LevelPropertyTest.cs" />
     <Compile Include="ConfigProperties\LevelToMatchTest.cs" />
-    <Compile Include="ConfigProperties\LocalPortTest.cs" />
     <Compile Include="ConfigProperties\LocalSyslogFacilityTest.cs" />
     <Compile Include="ConfigProperties\LockingModelTest.cs" />
     <Compile Include="ConfigProperties\LoggerToMatchTest.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="ConfigProperties\PreserveExtensionTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
     <Compile Include="ConfigProperties\RemoteAddressTest.cs" />
-    <Compile Include="ConfigProperties\RemotePortTest.cs" />
     <Compile Include="ConfigProperties\RemoteSyslogFacilityTest.cs" />
     <Compile Include="ConfigProperties\RenderedClassTest.cs" />
     <Compile Include="ConfigProperties\RenderingClassTest.cs" />

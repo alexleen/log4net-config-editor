@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using Editor.ConfigProperties;
 using Editor.Descriptors;
@@ -20,8 +20,8 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             AddProperty(new RemoteAddress(Properties));
-            AddProperty(new RemotePort(Properties));
-            AddProperty(new LocalPort(Properties));
+            AddProperty(new Port(Properties, "Remote Port:", "remotePort"));
+            AddProperty(new Port(Properties, "Local Port:", "localPort"));
         }
     }
 }

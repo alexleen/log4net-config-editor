@@ -23,7 +23,7 @@ namespace Editor.Definitions.Appenders
             base.AddAppenderSpecificProperties();
 
             AddProperty(new RequiredStringProperty(Properties, "Host:", "smtpHost"));
-            //AddProperty(new Port(Properties, "Port:"));
+            AddProperty(new Port(Properties, "Port:", "port"));
             AddProperty(new SmtpAuthentication(Properties));
             AddProperty(new BooleanPropertyBase(Properties, "Enable SSL:", "enableSsl", false, false));
             AddProperty(new RequiredStringProperty(Properties, "Username:", "username"));

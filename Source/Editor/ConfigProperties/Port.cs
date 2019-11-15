@@ -7,9 +7,9 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
-    internal abstract class Port : StringValueProperty
+    internal class Port : StringValueProperty
     {
-        protected Port(ReadOnlyCollection<IProperty> container, string name, string elementName)
+        internal Port(ReadOnlyCollection<IProperty> container, string name, string elementName)
             : base(container, name, elementName)
         {
         }
