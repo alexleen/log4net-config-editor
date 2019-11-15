@@ -10,12 +10,15 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Models;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.SaveStrategies;
@@ -91,6 +94,35 @@ namespace Editor.Windows
                 RefreshConfigComboBox(config);
                 LoadFromFile(config);
             }
+        }
+
+        private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            Paste();
+        }
+
+        private void Paste()
+        {
+            string text = Clipboard.GetText();
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(text);
+                XmlNode imported = mConfig.ConfigXml.ImportNode(doc.FirstChild, true);
+
+                if (ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model))
+                {
+                    OpenElementWindow(model, true);
+                    return;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            mToastService.ShowError("Unrecognized log4net element");
         }
 
         private void ConfigComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -182,6 +214,11 @@ namespace Editor.Windows
             {
                 mToastService.ShowInformation("No configuration file selected");
             }
+        }
+
+        private void PasteClick(object sender, RoutedEventArgs e)
+        {
+            Paste();
         }
 
         /// <summary>
@@ -350,19 +387,19 @@ namespace Editor.Windows
             OpenElementWindow(null, descriptor.ElementName, descriptor);
         }
 
-        private void OpenElementWindow(ModelBase model)
+        private void OpenElementWindow(ModelBase model, bool forceAppend = false)
         {
-            OpenElementWindow(model, model.Node.Name, model.Descriptor);
+            OpenElementWindow(model, model.Node.Name, model.Descriptor, forceAppend);
         }
 
-        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor)
+        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor, bool forceAppend = false)
         {
             IElementConfiguration configuration = ConfigurationXml.CreateElementConfigurationFor(model, elementName);
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppendReplaceSaveStrategy(configuration))
+                                                            new AppendReplaceSaveStrategy(configuration, forceAppend))
                 { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();

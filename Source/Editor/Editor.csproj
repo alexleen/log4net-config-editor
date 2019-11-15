@@ -183,6 +183,7 @@
     <Compile Include="Models\Base\NamedModel.cs" />
     <Compile Include="Models\ConfigChildren\AsyncAppenderModel.cs" />
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
+    <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="Interfaces\IToastService.cs" />
@@ -344,6 +345,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\edit-copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit-paste.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

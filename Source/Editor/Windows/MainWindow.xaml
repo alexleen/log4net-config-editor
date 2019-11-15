@@ -9,6 +9,9 @@
                              Loaded="MainWindowOnLoaded"
                              Icon="../document_edit.ico"
                              UseLayoutRounding="True">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="PasteExecuted" />
+    </Window.CommandBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >
             <DockPanel.Resources>
@@ -29,6 +32,12 @@
                     </StackPanel>
                 </Button>
                 <Button Click="SaveCopyClick" ToolTip="Save a copy of this configuration">Save Copy</Button>
+                <Button Click="PasteClick" ToolTip="Pastes log4net elements copied to the clipboard (Ctrl + V)">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Padding="0">Paste</Label>
+                        <Image Height="12" Width="12" Margin="4,0,0,0" Source="..\Images\edit-paste.png" />
+                    </StackPanel>
+                </Button>
                 <Button Click="ReloadOnClick" ToolTip="Reloads this configuration">Reload</Button>
             </StackPanel>
             <ComboBox x:Name="xConfigComboBox" Margin="5,5,5,0" SelectionChanged="ConfigComboBoxOnSelectionChanged" />
@@ -152,6 +161,18 @@
 
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="EditAppenderOnClick"/>
+                </Style>
+
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
