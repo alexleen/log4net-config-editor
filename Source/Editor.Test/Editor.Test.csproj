@@ -159,6 +159,7 @@
     <Compile Include="Models\FilterModelTest.cs" />
     <Compile Include="Models\FixModelTest.cs" />
     <Compile Include="Models\MappingModelTest.cs" />
+    <Compile Include="Models\ModelFactoryTest.cs" />
     <Compile Include="Models\ParamModelTest.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategyTest.cs" />
     <Compile Include="SaveStrategies\AppendReplaceSaveStrategyTest.cs" />

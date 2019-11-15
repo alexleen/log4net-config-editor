@@ -1,5 +1,6 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
+using System;
 using System.Xml;
 using Editor.Descriptors;
 using Editor.Models.Base;
@@ -34,6 +35,8 @@ namespace Editor.Models
                 case Log4NetXmlConstants.Param:
                     model = new ParamModel(node);
                     return true;
+                default:
+                    throw new ArgumentException($"Unrecognized node name: '{node.Name}'. Unable to create model.");
             }
 
             model = null;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using System;
 using Editor.Interfaces;
 
 namespace Editor.SaveStrategies
