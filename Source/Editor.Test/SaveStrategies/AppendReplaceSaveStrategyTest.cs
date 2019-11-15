@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System;
 using System.Xml;
@@ -16,7 +16,7 @@ namespace Editor.Test.SaveStrategies
         [Test]
         public void Ctor_ShouldThrow_WhenConfigurationIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new AppendReplaceSaveStrategy(null));
+            Assert.Throws<ArgumentNullException>(() => new AppendReplaceSaveStrategy(null, false));
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace Editor.Test.SaveStrategies
             config.Log4NetNode.Returns(log4NetElement);
             config.NewNode.Returns(newElement);
 
-            ISaveStrategy strategy = new AppendReplaceSaveStrategy(config);
+            ISaveStrategy strategy = new AppendReplaceSaveStrategy(config, false);
             strategy.Execute();
 
             Assert.AreEqual(newElement, log4NetElement.FirstChild);
@@ -50,7 +50,30 @@ namespace Editor.Test.SaveStrategies
             config.OriginalNode.Returns(origElement);
             config.NewNode.Returns(newElement);
 
-            ISaveStrategy strategy = new AppendReplaceSaveStrategy(config);
+            ISaveStrategy strategy = new AppendReplaceSaveStrategy(config, false);
+            strategy.Execute();
+
+            Assert.AreEqual(1, log4NetElement.ChildNodes.Count);
+            Assert.AreEqual(newElement, log4NetElement.FirstChild);
+        }
+
+        [Test]
+        public void Execute_ShouldAppend_WhenOriginalNodeIsNotNull_AndForceAppendIsTrue()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement log4NetElement = xmlDoc.CreateElement(Log4NetXmlConstants.Log4Net);
+            XmlElement origElement = xmlDoc.CreateElement("origAppender");
+            XmlElement newElement = xmlDoc.CreateElement("newAppender");
+
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Log4NetNode.Returns(log4NetElement);
+            config.OriginalNode.Returns(origElement);
+            config.NewNode.Returns(newElement);
+
+            //Sanity check
+            Assert.AreEqual(0, log4NetElement.ChildNodes.Count);
+
+            ISaveStrategy strategy = new AppendReplaceSaveStrategy(config, true);
             strategy.Execute();
 
             Assert.AreEqual(1, log4NetElement.ChildNodes.Count);

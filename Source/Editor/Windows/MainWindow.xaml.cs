@@ -120,6 +120,7 @@ namespace Editor.Windows
             }
             catch
             {
+                // ignored
             }
 
             mToastService.ShowError("Unrecognized log4net element");
@@ -387,29 +388,19 @@ namespace Editor.Windows
             OpenElementWindow(null, descriptor.ElementName, descriptor);
         }
 
-        private void OpenElementWindow(ModelBase model, bool import = false)
+        private void OpenElementWindow(ModelBase model, bool forceAppend = false)
         {
-            OpenElementWindow(model, model.Node.Name, model.Descriptor, import);
+            OpenElementWindow(model, model.Node.Name, model.Descriptor, forceAppend);
         }
 
-        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor, bool import = false)
+        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor, bool forceAppend = false)
         {
             IElementConfiguration configuration = ConfigurationXml.CreateElementConfigurationFor(model, elementName);
-
-            ISaveStrategy saveStrategy;
-            if (import)
-            {
-                saveStrategy = new ImportSaveStrategy(configuration);
-            }
-            else
-            {
-                saveStrategy = new AppendReplaceSaveStrategy(configuration);
-            }
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            saveStrategy)
+                                                            new AppendReplaceSaveStrategy(configuration, forceAppend))
                 { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();

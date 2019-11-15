@@ -10,6 +10,8 @@ A WPF GUI for editing log4net configuration files. This tool can edit log4net co
 - Data validation
 - Contextual help
 - Links to log4net documentation
+- Open log files directly from the UI
+- Copy/Paste log4net elements
 
 ![](https://github.com/atown-24/log4net-config-editor/blob/master/gifs/demo.gif?raw=true)
 ## Status
