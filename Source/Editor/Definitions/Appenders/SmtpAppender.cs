@@ -1,4 +1,5 @@
 ﻿using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 
@@ -19,21 +20,21 @@ namespace Editor.Definitions.Appenders
         {
             base.AddAppenderSpecificProperties();
 
-            //SmtpHost
+            AddProperty(new RequiredStringProperty(Properties, "Host:", "smtpHost"));
             //AddProperty(new Port(Properties, "Port:"));
-            //Authentication (enum)
-            //EnableSsl
-            //Username
-            //Password
-            //To
-            //From
-            //ReplyTo
-            //Cc
-            //Bcc
-            //Subject
+            AddProperty(new SmtpAuthentication(Properties));
+            AddProperty(new BooleanPropertyBase(Properties, "Enable SSL:", "enableSsl", false, false));
+            AddProperty(new RequiredStringProperty(Properties, "Username:", "username"));
+            AddProperty(new RequiredStringProperty(Properties, "Password:", "password")); //TODO obfuscate?
+            AddProperty(new RequiredStringProperty(Properties, "To:", "to"));
+            AddProperty(new RequiredStringProperty(Properties, "From:", "from"));
+            AddProperty(new RequiredStringProperty(Properties, "Reply To:", "replyTo")); //TODO some of these are optional
+            AddProperty(new RequiredStringProperty(Properties, "Cc:", "cc"));
+            AddProperty(new RequiredStringProperty(Properties, "Bcc:", "bcc"));
+            AddProperty(new RequiredStringProperty(Properties, "Subject:", "subject"));
             AddProperty(new Encoding(Properties, "Subject Encoding:"));
             AddProperty(new Encoding(Properties, "Body Encoding:"));
-            //Priority
+            AddProperty(new SmtpPriority(Properties));
         }
     }
 }

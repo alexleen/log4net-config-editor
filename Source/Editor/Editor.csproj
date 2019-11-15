@@ -90,6 +90,9 @@
     <Compile Include="ConfigProperties\Encoding.cs" />
     <Compile Include="ConfigProperties\Lossy.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
+    <Compile Include="ConfigProperties\RequiredStringProperty.cs" />
+    <Compile Include="ConfigProperties\SmtpAuthentication.cs" />
+    <Compile Include="ConfigProperties\SmtpPriority.cs" />
     <Compile Include="Converters\ShowLogFileOptionsConverter.cs" />
     <Compile Include="Definitions\Appenders\BufferingAppenderSkeleton.cs" />
     <Compile Include="Definitions\Appenders\SmtpAppender.cs" />

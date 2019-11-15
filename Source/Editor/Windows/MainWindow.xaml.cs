@@ -74,7 +74,8 @@ namespace Editor.Windows
                 AppenderDescriptor.ManagedColor,
                 AppenderDescriptor.Udp,
                 AppenderDescriptor.LocalSyslog,
-                AppenderDescriptor.RemoteSyslog
+                AppenderDescriptor.RemoteSyslog,
+                AppenderDescriptor.Smtp
             };
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };

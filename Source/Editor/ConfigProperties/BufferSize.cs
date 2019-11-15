@@ -10,7 +10,7 @@ namespace Editor.ConfigProperties
 {
     public class BufferSize : StringValueProperty
     {
-        private const string DefaultBufferSize = "1000";
+        private const string DefaultBufferSize = "1000"; //TODO configurable
         private const string BufferSizeName = "bufferSize";
 
         public BufferSize(ReadOnlyCollection<IProperty> container)

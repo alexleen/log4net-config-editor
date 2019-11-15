@@ -62,6 +62,8 @@ namespace Editor.Definitions.Factory
                     return new LocalSyslogAppender(appenderConfiguration);
                 case AppenderType.RemoteSyslog:
                     return new RemoteSyslogAppender(appenderConfiguration);
+                case AppenderType.Smtp:
+                    return new SmtpAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }
