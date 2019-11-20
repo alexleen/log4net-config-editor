@@ -50,8 +50,7 @@
         </Grid>
     </DataTemplate>
 
-    <!-- LevelPropertyBase -->
-    <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
+    <DataTemplate x:Key="MultiValueTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -69,9 +68,29 @@
                       ToolTip="{Binding ToolTip}" />
         </Grid>
     </DataTemplate>
+    
+    <!-- LevelPropertyBase -->
+    <!--<DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}" />
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Values}" 
+                      SelectedItem="{Binding SelectedValue}" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Left" 
+                      Width="{Binding Width}"
+                      Margin="0,0,5,0"
+                      ToolTip="{Binding ToolTip}" />
+        </Grid>
+    </DataTemplate>-->
 
     <!-- LocalSyslogFacility -->
-    <DataTemplate DataType="{x:Type ConfigProperties:LocalSyslogFacility}">
+    <!--<DataTemplate DataType="{x:Type ConfigProperties:LocalSyslogFacility}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -88,10 +107,10 @@
                       Margin="0,0,5,0"
                       ToolTip="{Binding ToolTip}" />
         </Grid>
-    </DataTemplate>
+    </DataTemplate>-->
 
     <!-- RemoteSyslogFacility -->
-    <DataTemplate DataType="{x:Type ConfigProperties:RemoteSyslogFacility}">
+    <!--<DataTemplate DataType="{x:Type ConfigProperties:RemoteSyslogFacility}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -108,7 +127,7 @@
                       Margin="0,0,5,0"
                       ToolTip="{Binding ToolTip}" />
         </Grid>
-    </DataTemplate>
+    </DataTemplate>-->
 
     <!-- ColorPropertyBase -->
     <DataTemplate DataType="{x:Type Base:ColorPropertyBase}">

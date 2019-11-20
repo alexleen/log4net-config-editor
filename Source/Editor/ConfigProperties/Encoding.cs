@@ -9,21 +9,21 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
-    internal class Encoding : MultiValuePropertyBase<System.Text.Encoding>
+    internal class Encoding : MultiValuePropertyBase<string>
     {
-        private static readonly System.Text.Encoding[] sValues =
+        private static readonly string[] sValues =
         {
-            null,
-            System.Text.Encoding.ASCII,
-            System.Text.Encoding.Unicode,
-            System.Text.Encoding.BigEndianUnicode,
-            System.Text.Encoding.UTF7,
-            System.Text.Encoding.UTF8,
-            System.Text.Encoding.UTF32
+            string.Empty,
+            System.Text.Encoding.ASCII.EncodingName,
+            System.Text.Encoding.Unicode.EncodingName,
+            System.Text.Encoding.BigEndianUnicode.EncodingName,
+            System.Text.Encoding.UTF7.EncodingName,
+            System.Text.Encoding.UTF8.EncodingName,
+            System.Text.Encoding.UTF32.EncodingName
         };
 
         public Encoding(ReadOnlyCollection<IProperty> container, string name)
-            : base(container, GridLength.Auto, name, sValues, 100)
+            : base(container, GridLength.Auto, name, sValues, 140)
         {
             SelectedValue = sValues[0];
         }

@@ -11,7 +11,7 @@ namespace Editor.ConfigProperties
     internal class SmtpPriority : EnumPropertyBase<MailPriority>
     {
         public SmtpPriority(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Priority:", 100, "priority")
+            : base(container, GridLength.Auto, "Priority:", 75, "priority")
         {
         }
     }

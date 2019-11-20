@@ -197,6 +197,7 @@
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Selector.cs" />
     <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXml.cs" />
     <Compile Include="XML\ConfigurationFactory.cs" />
     <Compile Include="XML\ElementConfiguration.cs" />
