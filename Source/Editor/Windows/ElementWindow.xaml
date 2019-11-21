@@ -12,7 +12,7 @@
         d:DataContext="{d:ElementWindow }">
     <DockPanel>
         <DockPanel.Resources>
-            <Windows:Selector x:Key="selector"/>
+            <Windows:Selector x:Key="Selector"/>
         </DockPanel.Resources>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel.Resources>
@@ -25,7 +25,7 @@
             <Button Click="CloseOnClick">Close</Button>
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding Properties}" ItemTemplateSelector="{StaticResource selector}" Grid.IsSharedSizeScope="True">
+        <ItemsControl ItemsSource="{Binding Properties}" ItemTemplateSelector="{StaticResource Selector}" Grid.IsSharedSizeScope="True">
             <ItemsControl.Resources>
                 <ResourceDictionary Source="../ConfigProperties/PropertyDictionary.xaml" />
             </ItemsControl.Resources>

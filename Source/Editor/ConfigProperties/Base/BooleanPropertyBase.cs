@@ -9,6 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
+    //TODO use this inplace of others that do the same thing
     internal class BooleanPropertyBase : PropertyBase
     {
         private readonly string mElementName;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright © 2019 Alex Leendertsen
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using Editor.ConfigProperties.Base;
@@ -9,7 +11,7 @@ namespace Editor.Windows
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (IsMultiValueType(item.GetType()))
+            if (IsMultiValueType(item?.GetType()))
             {
                 return ((FrameworkElement)container).FindResource("MultiValueTemplate") as DataTemplate;
             }
@@ -17,7 +19,7 @@ namespace Editor.Windows
             return base.SelectTemplate(item, container);
         }
 
-        private bool IsMultiValueType(Type t)
+        private static bool IsMultiValueType(Type t)
         {
             if (t is null)
             {
