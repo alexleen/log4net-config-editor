@@ -30,12 +30,12 @@ namespace Editor.Definitions.Appenders
             AddProperty(new RequiredStringProperty(Properties, "Password:", "password")); //TODO obfuscate?
             AddProperty(new RequiredStringProperty(Properties, "To:", "to"));
             AddProperty(new RequiredStringProperty(Properties, "From:", "from"));
-            AddProperty(new RequiredStringProperty(Properties, "Reply To:", "replyTo")); //TODO some of these are optional
-            AddProperty(new RequiredStringProperty(Properties, "Cc:", "cc"));
-            AddProperty(new RequiredStringProperty(Properties, "Bcc:", "bcc"));
-            AddProperty(new RequiredStringProperty(Properties, "Subject:", "subject"));
-            AddProperty(new Encoding(Properties, "Subject Encoding:"));
-            AddProperty(new Encoding(Properties, "Body Encoding:"));
+            AddProperty(new StringValueProperty(Properties, "Reply To:", "replyTo"));
+            AddProperty(new StringValueProperty(Properties, "Cc:", "cc"));
+            AddProperty(new StringValueProperty(Properties, "Bcc:", "bcc"));
+            AddProperty(new StringValueProperty(Properties, "Subject:", "subject"));
+            AddProperty(new Encoding(Properties, "Subject Encoding:", "subjectEncoding"));
+            AddProperty(new Encoding(Properties, "Body Encoding:", "bodyEncoding"));
             AddProperty(new SmtpPriority(Properties));
         }
     }

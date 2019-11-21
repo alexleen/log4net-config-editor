@@ -1,11 +1,12 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
-using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
@@ -14,28 +15,39 @@ namespace Editor.ConfigProperties
         private static readonly string[] sValues =
         {
             string.Empty,
-            System.Text.Encoding.ASCII.EncodingName,
-            System.Text.Encoding.Unicode.EncodingName,
-            System.Text.Encoding.BigEndianUnicode.EncodingName,
-            System.Text.Encoding.UTF7.EncodingName,
-            System.Text.Encoding.UTF8.EncodingName,
-            System.Text.Encoding.UTF32.EncodingName
+            System.Text.Encoding.ASCII.WebName,
+            System.Text.Encoding.Unicode.WebName,
+            System.Text.Encoding.BigEndianUnicode.WebName,
+            System.Text.Encoding.UTF7.WebName,
+            System.Text.Encoding.UTF8.WebName,
+            System.Text.Encoding.UTF32.WebName
         };
 
-        public Encoding(ReadOnlyCollection<IProperty> container, string name)
-            : base(container, GridLength.Auto, name, sValues, 140)
+        private readonly string mElementName;
+
+        public Encoding(ReadOnlyCollection<IProperty> container, string name, string elementName)
+            : base(container, GridLength.Auto, name, sValues, 75)
         {
             SelectedValue = sValues[0];
+            mElementName = elementName;
         }
 
         public override void Load(XmlNode originalNode)
         {
-            throw new NotImplementedException();
+            string valueStr = originalNode.GetValueAttributeValueFromChildElement(mElementName);
+            if (sValues.Contains(valueStr))
+            {
+                SelectedValue = valueStr;
+            }
+            //TODO there's a (good) chance that we encounter an encoding value that's not in our values list. Should we just add it? Will the UI update?
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrEmpty(SelectedValue))
+            {
+                xmlDoc.CreateElementWithValueAttribute(mElementName, SelectedValue).AppendTo(newNode);
+            }
         }
     }
 }

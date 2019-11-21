@@ -8,11 +8,11 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
-    public abstract class StringValueProperty : PropertyBase
+    public class StringValueProperty : PropertyBase
     {
         private readonly string mElementName;
 
-        protected StringValueProperty(ReadOnlyCollection<IProperty> container, string name, string elementName)
+        internal StringValueProperty(ReadOnlyCollection<IProperty> container, string name, string elementName)
             : base(container, GridLength.Auto)
         {
             mElementName = elementName;

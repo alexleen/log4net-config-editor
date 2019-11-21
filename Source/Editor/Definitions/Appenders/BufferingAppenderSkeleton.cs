@@ -1,6 +1,7 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
 namespace Editor.Definitions.Appenders
@@ -17,7 +18,8 @@ namespace Editor.Definitions.Appenders
             AddProperty(new BufferSize(Properties));
             AddProperty(new Fix(Properties));
             AddProperty(new Lossy(Properties));
-            //Evaluator (& LossyEvaluator?)
+            AddProperty(new StringValueProperty(Properties, "Evaluator:", "evaluator"));
+            AddProperty(new StringValueProperty(Properties, "Lossy Evaluator:", "lossyEvaluator"));
         }
     }
 }

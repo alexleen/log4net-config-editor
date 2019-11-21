@@ -1,6 +1,7 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Mail;
 using System.Windows;
 using Editor.ConfigProperties.Base;
@@ -13,6 +14,7 @@ namespace Editor.ConfigProperties
         public SmtpPriority(ReadOnlyCollection<IProperty> container)
             : base(container, GridLength.Auto, "Priority:", 75, "priority")
         {
+            SelectedValue = Values.First();
         }
     }
 }
