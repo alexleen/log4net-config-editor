@@ -20,7 +20,7 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             AddProperty(new Fix(Properties) { SelectedPreset = Fix.PartialPreset });
-            AddProperty(new BufferSize(Properties));
+            AddProperty(new BufferSize(Properties, 1000));
             base.AddAppenderSpecificProperties();
         }
     }

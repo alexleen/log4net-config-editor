@@ -10,13 +10,14 @@ namespace Editor.ConfigProperties
 {
     public class BufferSize : StringValueProperty
     {
-        private const string DefaultBufferSize = "1000"; //TODO configurable
+        private readonly string mDefaultBufferSize;
         private const string BufferSizeName = "bufferSize";
 
-        public BufferSize(ReadOnlyCollection<IProperty> container)
+        public BufferSize(ReadOnlyCollection<IProperty> container, int defaultSize)
             : base(container, "Buffer Size:", null)
         {
-            Value = DefaultBufferSize;
+            mDefaultBufferSize = defaultSize.ToString();
+            Value = mDefaultBufferSize;
         }
 
         public override void Load(XmlNode originalNode)
@@ -42,7 +43,7 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (Value != DefaultBufferSize)
+            if (Value != mDefaultBufferSize)
             {
                 xmlDoc.CreateElementWithValueAttribute(BufferSizeName, Value).AppendTo(newNode);
             }

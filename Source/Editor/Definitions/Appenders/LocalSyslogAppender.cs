@@ -1,8 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.Definitions.Appenders
 {
@@ -22,7 +24,7 @@ namespace Editor.Definitions.Appenders
             base.AddAppenderSpecificProperties();
 
             AddProperty(new LocalSyslogFacility(Properties));
-            AddProperty(new LocalIdentity(Properties));
+            AddProperty(new StringValueProperty(Properties, "Identity:", Log4NetXmlConstants.Identity));
         }
     }
 }

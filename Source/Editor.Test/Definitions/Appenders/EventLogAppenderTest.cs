@@ -61,8 +61,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(LogName));
-            mSut.Properties.Single(p => p.GetType() == typeof(ApplicationName));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(RequiredStringProperty)));
         }
 
         [Test]

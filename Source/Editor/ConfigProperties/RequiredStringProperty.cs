@@ -6,7 +6,6 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
-    //TODO use this inplace of others that do the same thing
     internal class RequiredStringProperty : StringValueProperty
     {
         public RequiredStringProperty(ReadOnlyCollection<IProperty> container, string name, string elementName)

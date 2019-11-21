@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -61,7 +62,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(LocalSyslogFacility));
-            mSut.Properties.Single(p => p.GetType() == typeof(LocalIdentity));
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty));
         }
 
         [Test]

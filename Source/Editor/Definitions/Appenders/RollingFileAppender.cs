@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using static log4net.Appender.RollingFileAppender;
@@ -43,9 +44,9 @@ namespace Editor.Definitions.Appenders
 
             AddProperty(rollingStyle);
 
-            AddProperty(new StaticLogFileName(Properties));
+            AddProperty(new BooleanPropertyBase(Properties, "Static Log File Name:", "staticLogFileName", true, true));
 
-            AddProperty(new PreserveExtension(Properties));
+            AddProperty(new BooleanPropertyBase(Properties, "Preserve Extension:", "preserveLogFileNameExtension", false, false));
 
             mDatePatternIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternModes, mDatePatternIndex, mDatePattern);

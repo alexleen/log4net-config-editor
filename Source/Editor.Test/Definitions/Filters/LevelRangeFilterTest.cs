@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Filters;
 using Editor.Descriptors;
 using NUnit.Framework;
@@ -50,7 +51,7 @@ namespace Editor.Test.Definitions.Filters
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(AcceptOnMatch));
+            mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase));
             mSut.Properties.Single(p => p.GetType() == typeof(MinLevel));
             mSut.Properties.Single(p => p.GetType() == typeof(MaxLevel));
         }

@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Filters;
 using Editor.Descriptors;
 using NUnit.Framework;
@@ -50,7 +51,7 @@ namespace Editor.Test.Definitions.Filters
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(AcceptOnMatch));
+            mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase));
             mSut.Properties.Single(p => p.GetType() == typeof(StringMatch));
             mSut.Properties.Single(p => p.GetType() == typeof(RegexMatch));
         }
@@ -60,7 +61,7 @@ namespace Editor.Test.Definitions.Filters
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(Key));
+            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty));
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace Editor.Test.Definitions.Filters
         {
             mSut.Initialize();
 
-            Key key = (Key)mSut.Properties.Single(p => p.GetType() == typeof(Key));
+            RequiredStringProperty key = (RequiredStringProperty)mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty));
 
             Assert.IsTrue(key.IsFocused);
         }

@@ -19,7 +19,7 @@ namespace Editor.Test.ConfigProperties
         [SetUp]
         public void SetUp()
         {
-            mSut = new BufferSize(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new BufferSize(new ReadOnlyCollection<IProperty>(new List<IProperty>()), 1000);
         }
 
         [Test]
