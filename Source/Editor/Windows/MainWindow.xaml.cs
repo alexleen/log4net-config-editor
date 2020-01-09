@@ -400,7 +400,7 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration, forceAppend))
-                { Owner = this };
+            { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
@@ -486,6 +486,20 @@ namespace Editor.Windows
             //Get the underlying item, that you cast to your object that is bound
             //to the DataGrid (and has subject and state as property)
             return (ModelBase)item.SelectedCells[0].Item;
+        }
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            ContextMenu contextMenu = (ContextMenu)sender;
+
+            DataGrid item = (DataGrid)contextMenu.PlacementTarget;
+
+            //Get the underlying item, that you cast to your object that is bound
+            //to the DataGrid (and has subject and state as property)
+            ModelBase model = (ModelBase)item.SelectedCells[0].Item;
+
+            xOpenLogFileMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File;
+            xOpenLogFolderMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File || model.Descriptor == AppenderDescriptor.RollingFile;
         }
     }
 }
