@@ -349,5 +349,11 @@
   <ItemGroup>
     <Resource Include="Images\edit-paste.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\text-xml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit-delete.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

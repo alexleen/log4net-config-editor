@@ -113,7 +113,7 @@
             
             <Button Click="AddParamClick">Add Param</Button>
 
-            <Separator Margin="5,0,5,5"/>
+            <!--<Separator Margin="5,0,5,5"/>
 
             <Button ToolTip="Removes selected elements" Click="RemoveAppenderOnClick">Remove</Button>
 
@@ -129,7 +129,7 @@
                         <Label Content="{Binding Name}" />
                     </DataTemplate>
                 </Controls:DropDownButton.ItemTemplate>
-            </Controls:DropDownButton>
+            </Controls:DropDownButton>-->
 
             <Separator Margin="5,0,5,5"/>
 
@@ -175,6 +175,42 @@
                     </Setter>
                 </Style>
             </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Remove" Click="RemoveAppenderOnClick">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/edit-delete.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Remove Refs" Click="RemoveRefsOnClick">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/edit-delete.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Add Refs To">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/list-add.png"/>
+                        </MenuItem.Icon>
+                        <MenuItem Header="test"/>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Copy XML" Click="CopyElementToClipboard">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/text-xml.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open Log File" Click="OpenLogFileClick">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/text-x-log.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open Log Folder" Click="OpenLogFolderClick">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/folder-grey.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Element" Binding="{Binding Node.Name}" />
                 <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}" />
@@ -202,7 +238,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Options">
+                <!--<DataGridTemplateColumn Header="Options">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -230,7 +266,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

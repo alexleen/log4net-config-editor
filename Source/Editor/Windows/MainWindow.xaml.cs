@@ -307,7 +307,7 @@ namespace Editor.Windows
             }
 
             xChildren.ItemsSource = ConfigurationXml.Children;
-            xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            //xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
@@ -407,7 +407,7 @@ namespace Editor.Windows
 
         private void CopyElementToClipboard(object sender, RoutedEventArgs e)
         {
-            ModelBase model = (ModelBase)((Button)sender).DataContext;
+            ModelBase model = GetModelFromMenuClick(sender);
 
             Clipboard.SetText(model.Node.OuterXml);
 
@@ -449,7 +449,7 @@ namespace Editor.Windows
 
         private string GetFilePath(object sender)
         {
-            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+            AppenderModel appender = (AppenderModel)GetModelFromMenuClick(sender);
 
             IElementConfiguration configuration = mConfig.CreateElementConfigurationFor(appender, appender.Node.Name);
 
@@ -470,6 +470,22 @@ namespace Editor.Windows
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private ModelBase GetModelFromMenuClick(object sender)
+        {
+            //Get the clicked MenuItem
+            MenuItem menuItem = (MenuItem)sender;
+
+            //Get the ContextMenu to which the menuItem belongs
+            ContextMenu contextMenu = (ContextMenu)menuItem.Parent;
+
+            //Find the placementTarget
+            DataGrid item = (DataGrid)contextMenu.PlacementTarget;
+
+            //Get the underlying item, that you cast to your object that is bound
+            //to the DataGrid (and has subject and state as property)
+            return (ModelBase)item.SelectedCells[0].Item;
         }
     }
 }
