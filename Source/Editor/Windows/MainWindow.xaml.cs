@@ -307,7 +307,7 @@ namespace Editor.Windows
             }
 
             xChildren.ItemsSource = ConfigurationXml.Children;
-            //xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            xAddRefsToMenuItem.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
@@ -365,9 +365,9 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void AddRefsButtonOnItemClick(object obj)
+        private void AddRefsButtonOnItemClick(object sender, RoutedEventArgs e)
         {
-            ModelBase destination = (ModelBase)obj;
+            ModelBase destination = (ModelBase)((FrameworkElement)sender).DataContext;
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {

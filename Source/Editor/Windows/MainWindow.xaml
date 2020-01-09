@@ -110,26 +110,8 @@
             <Button Click="AddLoggerClick">Add Logger</Button>
 
             <Button Click="AddRendererClick">Add Renderer</Button>
-            
+
             <Button Click="AddParamClick">Add Param</Button>
-
-            <!--<Separator Margin="5,0,5,5"/>
-
-            <Button ToolTip="Removes selected elements" Click="RemoveAppenderOnClick">Remove</Button>
-
-            <Button ToolTip="Removes selected elements' refs" Click="RemoveRefsOnClick">Remove Refs</Button>
-
-            <Controls:DropDownButton x:Name="xAddRefsButton" 
-                                   ItemClick="AddRefsButtonOnItemClick" 
-                                   OverrideContextMenuWidth="True"
-                                   ButtonName="Add Refs To" 
-                                   ToolTip="Adds a ref for each of the selected elements in the table to the desired element">
-                <Controls:DropDownButton.ItemTemplate>
-                    <DataTemplate>
-                        <Label Content="{Binding Name}" />
-                    </DataTemplate>
-                </Controls:DropDownButton.ItemTemplate>
-            </Controls:DropDownButton>-->
 
             <Separator Margin="5,0,5,5"/>
 
@@ -186,11 +168,16 @@
                             <Image Source="../Images/edit-delete.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Add Refs To">
+                    <MenuItem x:Name="xAddRefsToMenuItem" Header="Add Refs To">
                         <MenuItem.Icon>
                             <Image Source="../Images/list-add.png"/>
                         </MenuItem.Icon>
-                        <MenuItem Header="test"/>
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Name}"/>
+                                <EventSetter Event="Click" Handler="AddRefsButtonOnItemClick"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="Copy XML" Click="CopyElementToClipboard">
