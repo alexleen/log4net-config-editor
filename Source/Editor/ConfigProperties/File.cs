@@ -21,13 +21,13 @@ namespace Editor.ConfigProperties
         private readonly IMessageBoxService mMessageBoxService;
         private readonly IHistoryManager mHistoryManager;
 
-        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService, IHistoryManager historyManager)
+        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService, IHistoryManagerFactory historyManagerFactory)
             : base(container, GridLength.Auto)
         {
             Open = new Command(OpenFile);
             mMessageBoxService = messageBoxService;
-            mHistoryManager = historyManager;
-            HistoricalFiles = historyManager.Get();
+            mHistoryManager = historyManagerFactory.CreateFilePathHistoryManager();
+            HistoricalFiles = mHistoryManager.Get();
         }
 
         public ICommand Open { get; }

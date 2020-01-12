@@ -21,7 +21,7 @@ namespace Editor.Test.ConfigProperties
         public void SetUp()
         {
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService, Substitute.For<IHistoryManager>());
+            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService, Substitute.For<IHistoryManagerFactory>());
         }
 
         [Test]

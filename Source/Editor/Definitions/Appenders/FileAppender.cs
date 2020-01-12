@@ -20,7 +20,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new File(Properties, MessageBoxService, new HistoryManager.HistoryManager("HistoricalFiles", new SettingManager<string>())));
+            AddProperty(new File(Properties, MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
             AddProperty(new LockingModel(Properties));
         }
     }

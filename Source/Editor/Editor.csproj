@@ -89,6 +89,8 @@
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Enums\SaveState.cs" />
+    <Compile Include="HistoryManager\HistoryManagerFactory.cs" />
+    <Compile Include="HistoryManager\IHistoryManagerFactory.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
@@ -184,7 +186,6 @@
     <Compile Include="Models\ConfigChildren\RootLoggerModel.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\ParamModel.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="Interfaces\IToastService.cs" />
     <Compile Include="Utilities\MessageBoxService.cs" />
