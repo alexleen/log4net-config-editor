@@ -157,7 +157,7 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
-                <ContextMenu Opened="ContextMenu_Opened">
+                <ContextMenu Opened="ContextMenuOpened">
                     <MenuItem Header="Remove" Click="RemoveAppenderOnClick">
                         <MenuItem.Icon>
                             <Image Source="../Images/edit-delete.png"/>

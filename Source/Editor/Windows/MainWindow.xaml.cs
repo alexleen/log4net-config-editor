@@ -1,4 +1,4 @@
-// Copyright © 2019 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -400,14 +400,14 @@ namespace Editor.Windows
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
                                                             new AppendReplaceSaveStrategy(configuration, forceAppend))
-            { Owner = this };
+                { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
 
         private void CopyElementToClipboard(object sender, RoutedEventArgs e)
         {
-            ModelBase model = GetModelFromMenuClick(sender);
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
 
             Clipboard.SetText(model.Node.OuterXml);
 
@@ -449,7 +449,7 @@ namespace Editor.Windows
 
         private string GetFilePath(object sender)
         {
-            AppenderModel appender = (AppenderModel)GetModelFromMenuClick(sender);
+            AppenderModel appender = (AppenderModel)xChildren.SelectedItem;
 
             IElementConfiguration configuration = mConfig.CreateElementConfigurationFor(appender, appender.Node.Name);
 
@@ -472,32 +472,9 @@ namespace Editor.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private ModelBase GetModelFromMenuClick(object sender)
+        private void ContextMenuOpened(object sender, RoutedEventArgs e)
         {
-            //Get the clicked MenuItem
-            MenuItem menuItem = (MenuItem)sender;
-
-            //Get the ContextMenu to which the menuItem belongs
-            ContextMenu contextMenu = (ContextMenu)menuItem.Parent;
-
-            //Find the placementTarget
-            DataGrid item = (DataGrid)contextMenu.PlacementTarget;
-
-            //Get the underlying item, that you cast to your object that is bound
-            //to the DataGrid (and has subject and state as property)
-            return (ModelBase)item.SelectedCells[0].Item;
-        }
-
-        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
-        {
-            ContextMenu contextMenu = (ContextMenu)sender;
-
-            DataGrid item = (DataGrid)contextMenu.PlacementTarget;
-
-            //Get the underlying item, that you cast to your object that is bound
-            //to the DataGrid (and has subject and state as property)
-            ModelBase model = (ModelBase)item.SelectedCells[0].Item;
-
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
             xOpenLogFileMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File;
             xOpenLogFolderMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File || model.Descriptor == AppenderDescriptor.RollingFile;
         }
