@@ -1,9 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.HistoryManager;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
@@ -20,7 +21,7 @@ namespace Editor.Test.ConfigProperties
         public void SetUp()
         {
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService);
+            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService, Substitute.For<IHistoryManager>());
         }
 
         [Test]

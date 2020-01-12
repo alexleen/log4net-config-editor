@@ -179,7 +179,12 @@
             <StackPanel Grid.Column="1">
                 <DockPanel>
                     <Button DockPanel.Dock="Right" Width="50" Height="21" Margin="0,5,5,5" Command="{Binding Open}">Open</Button>
-                    <TextBox Text="{Binding FilePath}" />
+                    <ComboBox IsEditable="True" 
+                              Height="21"
+                              ItemsSource="{Binding HistoricalFiles}"
+                              Text="{Binding FilePath}"
+                              Margin="0,0,5,0"
+                              ToolTip="Enter file path here" />
                 </DockPanel>
                 <CheckBox IsChecked="{Binding PatternString}" Margin="0,0,0,5" ToolTip="Should be checked if filename contains a log4net pattern">Pattern String</CheckBox>
                 <StackPanel Orientation="Horizontal">
