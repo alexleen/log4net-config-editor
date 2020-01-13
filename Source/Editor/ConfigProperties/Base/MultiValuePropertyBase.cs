@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +21,22 @@ namespace Editor.ConfigProperties.Base
 
         public IEnumerable<TValueType> Values { get; }
 
-        public TValueType SelectedValue { get; set; }
+        private TValueType mSelectedValue;
+
+        public TValueType SelectedValue
+        {
+            get => mSelectedValue;
+            set
+            {
+                if (Equals(value, mSelectedValue))
+                {
+                    return;
+                }
+
+                mSelectedValue = value;
+                OnPropertyChanged();
+            }
+        }
 
         public double Width { get; }
     }

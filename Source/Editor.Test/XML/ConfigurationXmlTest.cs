@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -226,7 +226,7 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public async Task ChangingDebug_ShouldSave()
+        public void ChangingDebug_ShouldSave()
         {
             mSut.Load();
 
@@ -238,7 +238,7 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public async Task ChangingUpdate_ShouldSave()
+        public void ChangingUpdate_ShouldSave()
         {
             mSut.Load();
 
@@ -250,7 +250,7 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public async Task ChangingThreshold_ShouldSave()
+        public void ChangingThreshold_ShouldSave()
         {
             mSut.Load();
 
