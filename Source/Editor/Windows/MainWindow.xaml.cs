@@ -1,4 +1,4 @@
-// Copyright © 2019 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -307,7 +307,7 @@ namespace Editor.Windows
             }
 
             xChildren.ItemsSource = ConfigurationXml.Children;
-            xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            xAddRefsToMenuItem.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
@@ -365,9 +365,9 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void AddRefsButtonOnItemClick(object obj)
+        private void AddRefsButtonOnItemClick(object sender, RoutedEventArgs e)
         {
-            ModelBase destination = (ModelBase)obj;
+            ModelBase destination = (ModelBase)((FrameworkElement)sender).DataContext;
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
@@ -407,7 +407,7 @@ namespace Editor.Windows
 
         private void CopyElementToClipboard(object sender, RoutedEventArgs e)
         {
-            ModelBase model = (ModelBase)((Button)sender).DataContext;
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
 
             Clipboard.SetText(model.Node.OuterXml);
 
@@ -449,7 +449,7 @@ namespace Editor.Windows
 
         private string GetFilePath(object sender)
         {
-            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+            AppenderModel appender = (AppenderModel)xChildren.SelectedItem;
 
             IElementConfiguration configuration = mConfig.CreateElementConfigurationFor(appender, appender.Node.Name);
 
@@ -470,6 +470,13 @@ namespace Editor.Windows
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ContextMenuOpened(object sender, RoutedEventArgs e)
+        {
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
+            xOpenLogFileMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File;
+            xOpenLogFolderMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File || model.Descriptor == AppenderDescriptor.RollingFile;
         }
     }
 }
