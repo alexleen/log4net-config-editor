@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.Descriptors;
 using Editor.Models;
@@ -24,7 +24,7 @@ namespace Editor.Test.Models
             mMoveUpCalled = false;
             mMoveDownCalled = false;
 
-            mSut = new FilterModel(FilterDescriptor.DenyAll, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
+            mSut = new FilterModel(FilterDescriptor.DenyAll, true, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
         }
 
         private void ShowFilterWindow(FilterModel filterModel)

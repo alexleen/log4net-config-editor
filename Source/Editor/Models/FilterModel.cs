@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Windows.Input;
@@ -17,6 +17,7 @@ namespace Editor.Models
         private readonly Action<FilterModel> mMoveDown;
 
         public FilterModel(FilterDescriptor descriptor,
+                           bool acceptOnMatch,
                            XmlNode node,
                            Action<FilterModel> showFilterWindow,
                            Action<FilterModel> remove,
@@ -24,6 +25,8 @@ namespace Editor.Models
                            Action<FilterModel> moveDown)
             : base(node, descriptor)
         {
+            AcceptOnMatch = acceptOnMatch;
+
             mShowFilterWindow = showFilterWindow;
             mRemove = remove;
             mMoveUp = moveUp;
@@ -34,6 +37,8 @@ namespace Editor.Models
             MoveUp = new Command(MoveFilterUpOnClick);
             MoveDown = new Command(MoveFilterDownOnClick);
         }
+
+        public bool AcceptOnMatch { get; }
 
         public ICommand Edit { get; }
 
