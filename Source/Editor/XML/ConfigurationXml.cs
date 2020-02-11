@@ -70,11 +70,13 @@ namespace Editor.XML
             bool unrecognized = false;
             foreach (XmlNode node in Log4NetNode.ChildNodes)
             {
-                if (ModelFactory.TryCreate(node, Log4NetNode, out ModelBase model))
+                ModelCreateResult result = ModelFactory.TryCreate(node, Log4NetNode, out ModelBase model);
+
+                if (result == ModelCreateResult.Success)
                 {
                     mMutableChildren.Add(model);
                 }
-                else
+                else if (result == ModelCreateResult.UnknownAppender)
                 {
                     unrecognized = true;
                 }
