@@ -60,7 +60,7 @@ namespace Editor.Test.Models
         }
 
         [Test]
-        public void TryCreate_ShouldReturnFalse_WhenUnknownAppender()
+        public void TryCreate_ShouldReturnUnknownAppender_WhenUnknownAppender()
         {
             Assert.AreEqual(ModelCreateResult.UnknownAppender, ModelFactory.TryCreate(mXmlDoc.FirstChild.ChildNodes[6], mXmlDoc.FirstChild, out ModelBase model));
             Assert.IsNull(model);
