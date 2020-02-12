@@ -121,7 +121,8 @@ namespace Editor.Windows
                     OpenElementWindow(model, true);
                     return;
                 }
-                else if (result == ModelCreateResult.UnknownAppender)
+
+                if (result == ModelCreateResult.UnknownAppender)
                 {
                     mToastService.ShowError("Unrecognized appender.");
                     return;

@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.Descriptors;

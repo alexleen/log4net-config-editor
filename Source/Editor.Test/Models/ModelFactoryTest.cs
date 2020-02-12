@@ -1,4 +1,4 @@
-// Copyright © 2019 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.Enums;
@@ -17,22 +17,22 @@ namespace Editor.Test.Models
         [SetUp]
         public void SetUp()
         {
-            string xml = "<log4net>" +
-                         "    <root>" +
-                         "    </root>" +
-                         "    <logger>" +
-                         "    </logger>" +
-                         "    <appender type=\"log4net.Appender.ConsoleAppender\">" +
-                         "    </appender>" +
-                         "    <renderer>" +
-                         "    </renderer>" +
-                         "    <param>" +
-                         "    </param>" +
-                         "    <whatev>" +
-                         "    </whatev>" +
-                         "    <appender type=\"whatev\">" +
-                         "    </appender>" +
-                         "</log4net>";
+            const string xml = "<log4net>" +
+                               "    <root>" +
+                               "    </root>" +
+                               "    <logger>" +
+                               "    </logger>" +
+                               "    <appender type=\"log4net.Appender.ConsoleAppender\">" +
+                               "    </appender>" +
+                               "    <renderer>" +
+                               "    </renderer>" +
+                               "    <param>" +
+                               "    </param>" +
+                               "    <whatev>" +
+                               "    </whatev>" +
+                               "    <appender type=\"whatev\">" +
+                               "    </appender>" +
+                               "</log4net>";
 
             mXmlDoc = new XmlDocument();
             mXmlDoc.LoadXml(xml);
