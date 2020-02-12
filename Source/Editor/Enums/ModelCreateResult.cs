@@ -10,7 +10,7 @@ namespace Editor.Enums
         Success,
 
         /// <summary>
-        /// Element was and unknown or unsupported appender.
+        /// Element was an unknown or unsupported appender.
         /// </summary>
         UnknownAppender,
 
