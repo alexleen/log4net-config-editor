@@ -88,6 +88,7 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
+    <Compile Include="Enums\ModelCreateResult.cs" />
     <Compile Include="Enums\SaveState.cs" />
     <Compile Include="HistoryManager\HistoryManagerFactory.cs" />
     <Compile Include="HistoryManager\IHistoryManagerFactory.cs" />
