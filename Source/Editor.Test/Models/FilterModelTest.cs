@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.Descriptors;
 using Editor.Models;
@@ -9,7 +9,7 @@ namespace Editor.Test.Models
     [TestFixture]
     public class FilterModelTest
     {
-        private bool mFiterWindowShown;
+        private bool mFilterWindowShown;
         private bool mRemoveCalled;
         private bool mMoveUpCalled;
         private bool mMoveDownCalled;
@@ -19,7 +19,7 @@ namespace Editor.Test.Models
         [SetUp]
         public void SetUp()
         {
-            mFiterWindowShown = false;
+            mFilterWindowShown = false;
             mRemoveCalled = false;
             mMoveUpCalled = false;
             mMoveDownCalled = false;
@@ -29,7 +29,7 @@ namespace Editor.Test.Models
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            mFiterWindowShown = true;
+            mFilterWindowShown = true;
         }
 
         private void Remove(FilterModel filterModel)
@@ -81,7 +81,7 @@ namespace Editor.Test.Models
 
         private void AssertCalls(bool showFilterWindow, bool remove, bool moveUp, bool moveDown)
         {
-            Assert.AreEqual(showFilterWindow, mFiterWindowShown);
+            Assert.AreEqual(showFilterWindow, mFilterWindowShown);
             Assert.AreEqual(remove, mRemoveCalled);
             Assert.AreEqual(moveUp, mMoveUpCalled);
             Assert.AreEqual(moveDown, mMoveDownCalled);
