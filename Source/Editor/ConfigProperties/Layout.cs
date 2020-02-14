@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,10 +21,10 @@ namespace Editor.ConfigProperties
         private const string ConversionPatternName = "conversionPattern";
         private string mOriginalPattern;
 
-        public Layout(ReadOnlyCollection<IProperty> container, IHistoryManager historyManager, bool required = true)
+        public Layout(ReadOnlyCollection<IProperty> container, IHistoryManagerFactory historyManagerFactory, bool required = true)
             : base(container, GridLength.Auto)
         {
-            mHistoryManager = historyManager;
+            mHistoryManager = historyManagerFactory.CreatePatternsHistoryManager();
 
             if (required)
             {

@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.Properties;
 
@@ -7,22 +7,22 @@ namespace Editor.HistoryManager
     /// <summary>
     /// Provides access to <see cref="Settings.Default"/>.
     /// </summary>
-    /// <typeparam name="TSettinType">Type of setting</typeparam>
-    public interface ISettingManager<TSettinType>
+    /// <typeparam name="TSettingType">Type of setting</typeparam>
+    public interface ISettingManager<TSettingType>
     {
         /// <summary>
         /// Retrieves the value of the specified setting.
         /// </summary>
         /// <param name="settingName"></param>
         /// <returns></returns>
-        TSettinType Get(string settingName);
+        TSettingType Get(string settingName);
 
         /// <summary>
         /// Sets the specified setting to the specified value.
         /// </summary>
         /// <param name="settingName"></param>
         /// <param name="value"></param>
-        void Set(string settingName, TSettinType value);
+        void Set(string settingName, TSettingType value);
 
         /// <summary>
         /// Saves all settings.

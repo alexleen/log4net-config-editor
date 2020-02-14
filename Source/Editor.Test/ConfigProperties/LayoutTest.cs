@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,12 +22,15 @@ namespace Editor.Test.ConfigProperties
         private const string ConversionPatternName = "conversionPattern";
         private Layout mSut;
         private IHistoryManager mHistoryManager;
+        private IHistoryManagerFactory mHistoryManagerFactory;
 
         [SetUp]
         public void SetUp()
         {
             mHistoryManager = Substitute.For<IHistoryManager>();
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
+            mHistoryManagerFactory = Substitute.For<IHistoryManagerFactory>();
+            mHistoryManagerFactory.CreatePatternsHistoryManager().Returns(mHistoryManager);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory);
         }
 
         [Test]
@@ -39,7 +42,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Ctor_ShouldInitLayoutsCorrectly_WhenNotRequired()
         {
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, false);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory, false);
 
             CollectionAssert.AreEquivalent(new[] { LayoutDescriptor.None, LayoutDescriptor.Simple, LayoutDescriptor.Pattern }, mSut.Layouts);
         }
@@ -51,7 +54,7 @@ namespace Editor.Test.ConfigProperties
 
             mHistoryManager.Get().Returns(historicalLayouts);
 
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory);
 
             CollectionAssert.AreEquivalent(historicalLayouts, mSut.HistoricalLayouts);
         }
@@ -65,7 +68,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Ctor_ShouldInitSelectedLayoutCorrectly_WhenNotRequired()
         {
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, false);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory, false);
 
             Assert.AreEqual(LayoutDescriptor.None, mSut.SelectedLayout);
         }
@@ -130,7 +133,7 @@ namespace Editor.Test.ConfigProperties
 
             mHistoryManager.Get().Returns(historicalLayouts);
 
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory);
 
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
 
@@ -144,7 +147,7 @@ namespace Editor.Test.ConfigProperties
 
             mHistoryManager.Get().Returns(historicalLayouts);
 
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory);
 
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
 
@@ -184,32 +187,40 @@ namespace Editor.Test.ConfigProperties
         //Required = false
         [TestCase(null, false, LayoutType.None, "")]
         [TestCase("", false, LayoutType.None, "")]
-        [TestCase("<lay>\r\n" +
-                  "</lay>\r\n", false, LayoutType.None, "")]
-        [TestCase("<layout>\r\n" +
-                  "</layout>\r\n", false, LayoutType.None, "")]
+        [TestCase("<lay>\r\n</lay>\r\n", false, LayoutType.None, "")]
+        [TestCase("<layout>\r\n</layout>\r\n", false, LayoutType.None, "")]
         [TestCase("<layout>\r\n" +
                   "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                  "</layout>\r\n", false, LayoutType.None, "")]
+                  "</layout>\r\n",
+                  false,
+                  LayoutType.None,
+                  "")]
         [TestCase("<layout type=\"log4net.Layout.PatternLayout\">\r\n" +
                   "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                  "</layout>\r\n", false, LayoutType.Pattern, "%date{HH:mm:ss:fff} %message%newline")]
+                  "</layout>\r\n",
+                  false,
+                  LayoutType.Pattern,
+                  "%date{HH:mm:ss:fff} %message%newline")]
         //Required = true
         [TestCase(null, true, LayoutType.Simple, SimplePattern)]
         [TestCase("", true, LayoutType.Simple, SimplePattern)]
-        [TestCase("<lay>\r\n" +
-                  "</lay>\r\n", true, LayoutType.Simple, SimplePattern)]
-        [TestCase("<layout>\r\n" +
-                  "</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<lay>\r\n</lay>\r\n", true, LayoutType.Simple, SimplePattern)]
+        [TestCase("<layout>\r\n</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
         [TestCase("<layout>\r\n" +
                   "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                  "</layout>\r\n", true, LayoutType.Simple, SimplePattern)]
+                  "</layout>\r\n",
+                  true,
+                  LayoutType.Simple,
+                  SimplePattern)]
         [TestCase("<layout type=\"log4net.Layout.PatternLayout\">\r\n" +
                   "    <conversionPattern value=\"%date{HH:mm:ss:fff} %message%newline\" />\r\n" +
-                  "</layout>\r\n", true, LayoutType.Pattern, "%date{HH:mm:ss:fff} %message%newline")]
+                  "</layout>\r\n",
+                  true,
+                  LayoutType.Pattern,
+                  "%date{HH:mm:ss:fff} %message%newline")]
         public void Load_ShouldLoadCorrectTypeAndPattern(string layoutXml, bool required, LayoutType expectedLayout, string expectedPattern)
         {
-            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManager, required);
+            mSut = new Layout(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mHistoryManagerFactory, required);
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender>\r\n" +

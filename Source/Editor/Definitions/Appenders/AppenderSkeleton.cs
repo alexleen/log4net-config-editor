@@ -32,7 +32,7 @@ namespace Editor.Definitions.Appenders
 
             AddAppenderSpecificProperties();
 
-            AddProperty(new Layout(Properties, new HistoryManager.HistoryManager("HistoricalPatterns", new SettingManager<string>()), mRequiresLayout));
+            AddProperty(new Layout(Properties, new HistoryManagerFactory(new SettingManager<string>())));
             AddProperty(new ConfigProperties.Filters(Properties, Configuration, MessageBoxService));
             AddProperty(new IncomingRefs(Properties, nameProperty, Configuration));
             AddProperty(new Params(Properties, Configuration, MessageBoxService));

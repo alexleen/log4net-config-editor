@@ -36,7 +36,7 @@ namespace Editor.Windows
     {
         private readonly IMessageBoxService mMessageBoxService;
         private readonly IToastService mToastService;
-        private readonly HistoryManager.HistoryManager mConfigHistoryManager;
+        private readonly IHistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
 
         private IConfigurationXml mConfig;
@@ -60,7 +60,7 @@ namespace Editor.Windows
 
             mMessageBoxService = new MessageBoxService(this);
             mToastService = new ToastService();
-            mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
+            mConfigHistoryManager = new HistoryManagerFactory(new SettingManager<string>()).CreateConfigHistoryManager();
             mConfigurationFactory = new ConfigurationFactory(mToastService);
 
             xAddAppenderButton.ItemsSource = new[]

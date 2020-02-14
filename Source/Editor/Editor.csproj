@@ -90,6 +90,8 @@
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Enums\ModelCreateResult.cs" />
     <Compile Include="Enums\SaveState.cs" />
+    <Compile Include="HistoryManager\HistoryManagerFactory.cs" />
+    <Compile Include="HistoryManager\IHistoryManagerFactory.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
