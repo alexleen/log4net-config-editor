@@ -15,7 +15,8 @@ namespace Editor.HistoryManager
 
         /// <summary>
         /// Saves the specified value.
-        /// Will not save duplicate values.
+        /// If value is already saved, usage date is updated.
+        /// Value is not duplicated.
         /// </summary>
         /// <param name="value"></param>
         void Save(string value);
