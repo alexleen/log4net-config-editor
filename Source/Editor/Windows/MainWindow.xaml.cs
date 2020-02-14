@@ -94,6 +94,9 @@ namespace Editor.Windows
                 RefreshConfigComboBox(config);
                 LoadFromFile(config);
             }
+
+            //Subscribe after RefreshConfigComboBox above is called to avoid an additional load
+            xConfigComboBox.SelectionChanged += ConfigComboBoxOnSelectionChanged;
         }
 
         private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -111,9 +114,17 @@ namespace Editor.Windows
                 doc.LoadXml(text);
                 XmlNode imported = mConfig.ConfigXml.ImportNode(doc.FirstChild, true);
 
-                if (ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model))
+                ModelCreateResult result = ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model);
+
+                if (result == ModelCreateResult.Success)
                 {
                     OpenElementWindow(model, true);
+                    return;
+                }
+
+                if (result == ModelCreateResult.UnknownAppender)
+                {
+                    mToastService.ShowError("Unrecognized appender.");
                     return;
                 }
             }

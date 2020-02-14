@@ -40,7 +40,7 @@
                 </Button>
                 <Button Click="ReloadOnClick" ToolTip="Reloads this configuration">Reload</Button>
             </StackPanel>
-            <ComboBox x:Name="xConfigComboBox" Margin="5,5,5,0" SelectionChanged="ConfigComboBoxOnSelectionChanged" />
+            <ComboBox x:Name="xConfigComboBox" Margin="5,5,5,0" />
         </DockPanel>
 
         <Separator DockPanel.Dock="Top" Margin="5,0,5,5"/>
