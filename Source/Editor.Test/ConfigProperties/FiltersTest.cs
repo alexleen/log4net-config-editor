@@ -1,6 +1,5 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -103,17 +102,17 @@ namespace Editor.Test.ConfigProperties
             mSut.AddFilter.Execute(FilterDescriptor.DenyAll);
             mSut.AddFilter.Execute(FilterDescriptor.DenyAll);
 
-            Tuple<FilterModel, int> first = Tuple.Create(mSut.ExistingFilters.First(), 0);
-            Tuple<FilterModel, int> second = Tuple.Create(mSut.ExistingFilters.Skip(1).First(), 1);
+            (FilterModel firstFilter, int firstFilterIndex) = (mSut.ExistingFilters.First(), 0);
+            (FilterModel secondFilter, int secondFilterIndex) = (mSut.ExistingFilters.Skip(1).First(), 1);
 
             //Test sanity check
-            Assert.AreEqual(0, mSut.ExistingFilters.IndexOf(first.Item1));
-            Assert.AreEqual(1, mSut.ExistingFilters.IndexOf(second.Item1));
+            Assert.AreEqual(firstFilterIndex, mSut.ExistingFilters.IndexOf(firstFilter));
+            Assert.AreEqual(secondFilterIndex, mSut.ExistingFilters.IndexOf(secondFilter));
 
-            second.Item1.MoveUp.Execute(null);
+            secondFilter.MoveUp.Execute(null);
 
-            Assert.AreEqual(1, mSut.ExistingFilters.IndexOf(first.Item1));
-            Assert.AreEqual(0, mSut.ExistingFilters.IndexOf(second.Item1));
+            Assert.AreEqual(secondFilterIndex, mSut.ExistingFilters.IndexOf(firstFilter));
+            Assert.AreEqual(firstFilterIndex, mSut.ExistingFilters.IndexOf(secondFilter));
         }
 
         [Test]
@@ -122,17 +121,17 @@ namespace Editor.Test.ConfigProperties
             mSut.AddFilter.Execute(FilterDescriptor.DenyAll);
             mSut.AddFilter.Execute(FilterDescriptor.DenyAll);
 
-            Tuple<FilterModel, int> first = Tuple.Create(mSut.ExistingFilters.First(), 0);
-            Tuple<FilterModel, int> second = Tuple.Create(mSut.ExistingFilters.Skip(1).First(), 1);
+            (FilterModel firstFilter, int firstFilterIndex) = (mSut.ExistingFilters.First(), 0);
+            (FilterModel secondFilter, int secondFilterIndex) = (mSut.ExistingFilters.Skip(1).First(), 1);
 
             //Test sanity check
-            Assert.AreEqual(0, mSut.ExistingFilters.IndexOf(first.Item1));
-            Assert.AreEqual(1, mSut.ExistingFilters.IndexOf(second.Item1));
+            Assert.AreEqual(firstFilterIndex, mSut.ExistingFilters.IndexOf(firstFilter));
+            Assert.AreEqual(secondFilterIndex, mSut.ExistingFilters.IndexOf(secondFilter));
 
-            first.Item1.MoveDown.Execute(null);
+            firstFilter.MoveDown.Execute(null);
 
-            Assert.AreEqual(1, mSut.ExistingFilters.IndexOf(first.Item1));
-            Assert.AreEqual(0, mSut.ExistingFilters.IndexOf(second.Item1));
+            Assert.AreEqual(secondFilterIndex, mSut.ExistingFilters.IndexOf(firstFilter));
+            Assert.AreEqual(firstFilterIndex, mSut.ExistingFilters.IndexOf(secondFilter));
         }
 
         [Test]

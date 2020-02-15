@@ -469,6 +469,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}"/>
+                        <DataGridTextColumn Header="Accept" Binding="{Binding AcceptOnMatch}"/>
                         <DataGridTemplateColumn Header="Options">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type Models:FilterModel}">

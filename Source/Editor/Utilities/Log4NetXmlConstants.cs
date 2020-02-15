@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 namespace Editor.Utilities
 {
@@ -18,5 +18,6 @@ namespace Editor.Utilities
         public const string Facility = "facility";
         public const string Appender = "appender";
         public const string Renderer = "renderer";
+        public const string Filter = "filter";
     }
 }
