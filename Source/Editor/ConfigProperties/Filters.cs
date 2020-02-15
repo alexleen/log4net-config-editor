@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,7 +63,7 @@ namespace Editor.ConfigProperties
             }
             else
             {
-                XmlElement filterElement = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
+                XmlElement filterElement = mConfiguration.ConfigXml.CreateElementWithAttribute(Log4NetXmlConstants.Filter, Log4NetXmlConstants.Type, FilterDescriptor.DenyAll.TypeNamespace);
                 Add(new FilterModel(FilterDescriptor.DenyAll, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
         }
@@ -75,7 +75,7 @@ namespace Editor.ConfigProperties
 
         private void ShowFilterWindow(FilterModel filterModel)
         {
-            XmlElement newFilter = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", filterModel.Descriptor.TypeNamespace);
+            XmlElement newFilter = mConfiguration.ConfigXml.CreateElementWithAttribute(Log4NetXmlConstants.Filter, Log4NetXmlConstants.Type, filterModel.Descriptor.TypeNamespace);
 
             IElementConfiguration configuration = new ElementConfiguration(mConfiguration, filterModel.Node, newFilter);
 
@@ -115,7 +115,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            XmlNodeList filterNodes = originalNode.SelectNodes("filter");
+            XmlNodeList filterNodes = originalNode.SelectNodes(Log4NetXmlConstants.Filter);
 
             if (filterNodes == null)
             {
@@ -124,7 +124,7 @@ namespace Editor.ConfigProperties
 
             foreach (XmlNode filterNode in filterNodes)
             {
-                if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?["type"]?.Value, out FilterDescriptor filterDescriptor))
+                if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?[Log4NetXmlConstants.Type]?.Value, out FilterDescriptor filterDescriptor))
                 {
                     Add(new FilterModel(filterDescriptor, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
                 }

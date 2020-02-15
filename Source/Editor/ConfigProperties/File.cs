@@ -1,10 +1,12 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Utilities;
 
@@ -17,15 +19,20 @@ namespace Editor.ConfigProperties
         private const string TypeName = "type";
         private const string PatternStringTypeName = "log4net.Util.PatternString";
         private readonly IMessageBoxService mMessageBoxService;
+        private readonly IHistoryManager mHistoryManager;
 
-        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService)
+        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService, IHistoryManagerFactory historyManagerFactory)
             : base(container, GridLength.Auto)
         {
             Open = new Command(OpenFile);
             mMessageBoxService = messageBoxService;
+            mHistoryManager = historyManagerFactory.CreateFilePathHistoryManager();
+            HistoricalFiles = mHistoryManager.Get();
         }
 
         public ICommand Open { get; }
+
+        public IEnumerable<string> HistoricalFiles { get; }
 
         private string mFilePath;
 
@@ -132,6 +139,8 @@ namespace Editor.ConfigProperties
             {
                 xmlDoc.CreateElementWithValueAttribute(AppendToFileName, "false").AppendTo(newNode);
             }
+
+            mHistoryManager.Save(FilePath);
         }
     }
 }

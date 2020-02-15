@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
   <PropertyGroup>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Editor.Test</RootNamespace>
     <AssemblyName>Editor.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -80,7 +80,6 @@
     <Compile Include="ConfigProperties\FiltersTest.cs" />
     <Compile Include="ConfigProperties\FixTest.cs" />
     <Compile Include="ConfigProperties\ForeColorTest.cs" />
-    <Compile Include="ConfigProperties\LevelToMatchTest.cs" />
     <Compile Include="ConfigProperties\RemoteIdentityTest.cs" />
     <Compile Include="ConfigProperties\IncomingRefsTest.cs" />
     <Compile Include="ConfigProperties\LayoutTest.cs" />
@@ -115,7 +114,6 @@
     <Compile Include="Converters\FilterTypeToBoolConverterTest.cs" />
     <Compile Include="Converters\PresetToBoolConverterTest.cs" />
     <Compile Include="Converters\ChildTypeToVisibilityConverterTest.cs" />
-    <Compile Include="Converters\ShowLogFileOptionsConverterTest.cs" />
     <Compile Include="Definitions\Appenders\AsyncAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\ConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\EventLogAppenderTest.cs" />

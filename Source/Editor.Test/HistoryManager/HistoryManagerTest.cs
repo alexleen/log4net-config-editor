@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +20,8 @@ namespace Editor.Test.HistoryManager
         public void SetUp()
         {
             mSettingManager = Substitute.For<ISettingManager<string>>();
-            mSettingName = "whatev";
-            mSut = new Editor.HistoryManager.HistoryManager(mSettingName, mSettingManager);
+            mSettingName = "HistoricalPatterns";
+            mSut = new HistoryManagerFactory(mSettingManager).CreatePatternsHistoryManager();
         }
 
         [Test]

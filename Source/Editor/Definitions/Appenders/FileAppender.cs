@@ -1,7 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Interfaces;
 
 namespace Editor.Definitions.Appenders
@@ -19,7 +20,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new File(Properties, MessageBoxService));
+            AddProperty(new File(Properties, MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
             AddProperty(new LockingModel(Properties));
         }
     }

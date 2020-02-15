@@ -94,5 +94,17 @@ namespace Editor.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HistoricalFiles {
+            get {
+                return ((string)(this["HistoricalFiles"]));
+            }
+            set {
+                this["HistoricalFiles"] = value;
+            }
+        }
     }
 }

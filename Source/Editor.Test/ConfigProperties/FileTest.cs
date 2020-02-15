@@ -1,9 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.HistoryManager;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
@@ -14,13 +15,23 @@ namespace Editor.Test.ConfigProperties
     public class FileTest
     {
         private IMessageBoxService mMessageBoxService;
+        private IEnumerable<string> mHistoricalFiles;
+        private IHistoryManager mHistoryManager;
         private File mSut;
 
         [SetUp]
         public void SetUp()
         {
             mMessageBoxService = Substitute.For<IMessageBoxService>();
-            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService);
+
+            mHistoryManager = Substitute.For<IHistoryManager>();
+            mHistoricalFiles = new[] { "file1", "file2" };
+            mHistoryManager.Get().Returns(mHistoricalFiles);
+
+            IHistoryManagerFactory historyManagerFactory = Substitute.For<IHistoryManagerFactory>();
+            historyManagerFactory.CreateFilePathHistoryManager().Returns(mHistoryManager);
+
+            mSut = new File(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mMessageBoxService, historyManagerFactory);
         }
 
         [Test]
@@ -34,7 +45,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Open_ShouldSetFilePath()
         {
-            mMessageBoxService.ShowOpenFileDialog(out string fileName).Returns(a =>
+            mMessageBoxService.ShowOpenFileDialog(out string _).Returns(a =>
                 {
                     a[0] = "filePath";
                     return true;
@@ -48,7 +59,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Open_ShouldNotSetFilePath_WhenFileNotChosen()
         {
-            mMessageBoxService.ShowOpenFileDialog(out string fileName).Returns(a =>
+            mMessageBoxService.ShowOpenFileDialog(out string _).Returns(a =>
                 {
                     a[0] = null;
                     return false;
@@ -62,6 +73,7 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Properties_ShouldBeInitializedCorrectly()
         {
+            Assert.AreSame(mHistoricalFiles, mSut.HistoricalFiles);
             Assert.IsNull(mSut.FilePath);
             Assert.IsFalse(mSut.PatternString);
             Assert.IsFalse(mSut.Overwrite);
@@ -256,7 +268,7 @@ namespace Editor.Test.ConfigProperties
             XmlNode fileNode = appender.SelectSingleNode("file");
 
             Assert.IsNotNull(fileNode);
-            Assert.AreEqual("filepath", fileNode.Attributes["value"].Value);
+            Assert.AreEqual("filepath", fileNode.Attributes?["value"].Value);
         }
 
         [Test]
@@ -270,7 +282,7 @@ namespace Editor.Test.ConfigProperties
 
             XmlNode fileNode = appender.SelectSingleNode("file");
 
-            Assert.AreEqual("log4net.Util.PatternString", fileNode.Attributes["type"].Value);
+            Assert.AreEqual("log4net.Util.PatternString", fileNode?.Attributes?["type"].Value);
         }
 
         [Test]
@@ -284,7 +296,7 @@ namespace Editor.Test.ConfigProperties
 
             XmlNode fileNode = appender.SelectSingleNode("file");
 
-            Assert.IsNull(fileNode.Attributes["type"]);
+            Assert.IsNull(fileNode?.Attributes?["type"]);
         }
 
         [Test]
@@ -311,7 +323,20 @@ namespace Editor.Test.ConfigProperties
             XmlNode appendToNode = appender.SelectSingleNode("appendToFile");
 
             Assert.IsNotNull(appendToNode);
-            Assert.AreEqual("false", appendToNode.Attributes["value"].Value);
+            Assert.AreEqual("false", appendToNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldSaveToHistoricalFilePaths()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.FilePath = "file3";
+
+            mSut.Save(xmlDoc, appender);
+
+            mHistoryManager.Received(1).Save(mSut.FilePath);
         }
     }
 }

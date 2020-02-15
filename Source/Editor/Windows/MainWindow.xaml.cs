@@ -1,4 +1,4 @@
-// Copyright © 2019 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace Editor.Windows
     {
         private readonly IMessageBoxService mMessageBoxService;
         private readonly IToastService mToastService;
-        private readonly HistoryManager.HistoryManager mConfigHistoryManager;
+        private readonly IHistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
 
         private IConfigurationXml mConfig;
@@ -60,7 +60,7 @@ namespace Editor.Windows
 
             mMessageBoxService = new MessageBoxService(this);
             mToastService = new ToastService();
-            mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
+            mConfigHistoryManager = new HistoryManagerFactory(new SettingManager<string>()).CreateConfigHistoryManager();
             mConfigurationFactory = new ConfigurationFactory(mToastService);
 
             xAddAppenderButton.ItemsSource = new[]
@@ -95,6 +95,9 @@ namespace Editor.Windows
                 RefreshConfigComboBox(config);
                 LoadFromFile(config);
             }
+
+            //Subscribe after RefreshConfigComboBox above is called to avoid an additional load
+            xConfigComboBox.SelectionChanged += ConfigComboBoxOnSelectionChanged;
         }
 
         private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -112,9 +115,17 @@ namespace Editor.Windows
                 doc.LoadXml(text);
                 XmlNode imported = mConfig.ConfigXml.ImportNode(doc.FirstChild, true);
 
-                if (ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model))
+                ModelCreateResult result = ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model);
+
+                if (result == ModelCreateResult.Success)
                 {
                     OpenElementWindow(model, true);
+                    return;
+                }
+
+                if (result == ModelCreateResult.UnknownAppender)
+                {
+                    mToastService.ShowError("Unrecognized appender.");
                     return;
                 }
             }
@@ -308,7 +319,7 @@ namespace Editor.Windows
             }
 
             xChildren.ItemsSource = ConfigurationXml.Children;
-            xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            xAddRefsToMenuItem.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
@@ -366,9 +377,9 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void AddRefsButtonOnItemClick(object obj)
+        private void AddRefsButtonOnItemClick(object sender, RoutedEventArgs e)
         {
-            ModelBase destination = (ModelBase)obj;
+            ModelBase destination = (ModelBase)((FrameworkElement)sender).DataContext;
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
@@ -408,7 +419,7 @@ namespace Editor.Windows
 
         private void CopyElementToClipboard(object sender, RoutedEventArgs e)
         {
-            ModelBase model = (ModelBase)((Button)sender).DataContext;
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
 
             Clipboard.SetText(model.Node.OuterXml);
 
@@ -450,7 +461,7 @@ namespace Editor.Windows
 
         private string GetFilePath(object sender)
         {
-            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+            AppenderModel appender = (AppenderModel)xChildren.SelectedItem;
 
             IElementConfiguration configuration = mConfig.CreateElementConfigurationFor(appender, appender.Node.Name);
 
@@ -471,6 +482,13 @@ namespace Editor.Windows
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ContextMenuOpened(object sender, RoutedEventArgs e)
+        {
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
+            xOpenLogFileMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File;
+            xOpenLogFolderMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File || model.Descriptor == AppenderDescriptor.RollingFile;
         }
     }
 }
