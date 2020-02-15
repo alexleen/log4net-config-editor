@@ -17,7 +17,6 @@ namespace Editor.Models
         private readonly Action<FilterModel> mMoveDown;
 
         public FilterModel(FilterDescriptor descriptor,
-                           bool acceptOnMatch,
                            XmlNode node,
                            Action<FilterModel> showFilterWindow,
                            Action<FilterModel> remove,
@@ -25,8 +24,6 @@ namespace Editor.Models
                            Action<FilterModel> moveDown)
             : base(node, descriptor)
         {
-            AcceptOnMatch = acceptOnMatch;
-
             mShowFilterWindow = showFilterWindow;
             mRemove = remove;
             mMoveUp = moveUp;
@@ -38,7 +35,19 @@ namespace Editor.Models
             MoveDown = new Command(MoveFilterDownOnClick);
         }
 
-        public bool AcceptOnMatch { get; }
+        public bool AcceptOnMatch
+        {
+            get
+            {
+                if (Node != null && bool.TryParse(Node.GetValueAttributeValueFromChildElement("acceptOnMatch"), out bool acceptOnMatch))
+                {
+                    return acceptOnMatch;
+                }
+
+                //If there's no node, it means we're creating a new filter. Accept On Match is true by default.
+                return true;
+            }
+        }
 
         public ICommand Edit { get; }
 

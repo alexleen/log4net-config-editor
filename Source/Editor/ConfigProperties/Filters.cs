@@ -60,12 +60,12 @@ namespace Editor.ConfigProperties
 
             if (descriptor != FilterDescriptor.DenyAll)
             {
-                ShowFilterWindow(new FilterModel(descriptor, true, null, ShowFilterWindow, Remove, MoveUp, MoveDown));
+                ShowFilterWindow(new FilterModel(descriptor, null, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
             else
             {
                 XmlElement filterElement = mConfiguration.ConfigXml.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
-                Add(new FilterModel(FilterDescriptor.DenyAll, false, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown));
+                Add(new FilterModel(FilterDescriptor.DenyAll, filterElement, ShowFilterWindow, Remove, MoveUp, MoveDown));
             }
         }
 
@@ -137,7 +137,7 @@ namespace Editor.ConfigProperties
                         acceptOnMatch = Convert.ToBoolean(filterNode.GetValueAttributeValueFromChildElement("acceptOnMatch") ?? "true");
                     }
 
-                    Add(new FilterModel(filterDescriptor, acceptOnMatch, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
+                    Add(new FilterModel(filterDescriptor, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
                 }
             }
         }
