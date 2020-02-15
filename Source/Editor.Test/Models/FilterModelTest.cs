@@ -25,7 +25,7 @@ namespace Editor.Test.Models
             mMoveUpCalled = false;
             mMoveDownCalled = false;
 
-            mSut = new FilterModel(FilterDescriptor.DenyAll, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
+            mSut = new FilterModel(FilterDescriptor.LoggerMatch, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
         }
 
         private void ShowFilterWindow(FilterModel filterModel)
@@ -46,6 +46,14 @@ namespace Editor.Test.Models
         private void MoveDown(FilterModel filterModel)
         {
             mMoveDownCalled = true;
+        }
+
+        [Test]
+        public void AcceptOnMatch_ShouldReturnNull_WhenDenyAll()
+        {
+            mSut = new FilterModel(FilterDescriptor.DenyAll, null, ShowFilterWindow, Remove, MoveUp, MoveDown);
+            
+            Assert.IsNull(mSut.AcceptOnMatch);
         }
 
         [Test]

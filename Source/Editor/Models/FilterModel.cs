@@ -35,10 +35,20 @@ namespace Editor.Models
             MoveDown = new Command(MoveFilterDownOnClick);
         }
 
-        public bool AcceptOnMatch
+        /// <summary>
+        /// The value of the Accept On Match property of a filter.
+        /// Null for the Deny All filter.
+        /// </summary>
+        public bool? AcceptOnMatch
         {
             get
             {
+                if (Descriptor == FilterDescriptor.DenyAll)
+                {
+                    //AcceptOnMatch doesn't apply to the Deny All filter
+                    return null;
+                }
+
                 if (Node != null && bool.TryParse(Node.GetValueAttributeValueFromChildElement("acceptOnMatch"), out bool acceptOnMatch))
                 {
                     return acceptOnMatch;
