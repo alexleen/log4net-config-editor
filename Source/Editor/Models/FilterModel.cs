@@ -44,7 +44,9 @@ namespace Editor.Models
                     return acceptOnMatch;
                 }
 
-                //If there's no node, it means we're creating a new filter. Accept On Match is true by default.
+                //1) If there's no node, it means we're creating a new filter. Accept On Match is true by default.
+                //2) AcceptOnMatch cannot be found. Accept On Match is true by default.
+                //3) AcceptOnMatch cannot be parsed. True seems appropriate (?)
                 return true;
             }
         }
