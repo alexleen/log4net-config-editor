@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -56,12 +56,14 @@ namespace Editor.Test.XML
         [Test]
         public void Ctor_ShouldThrow_WhenMessageBoxServiceIsNull()
         {
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(null, Substitute.For<ICanLoadAndSaveXml>()));
         }
 
         [Test]
         public void Ctor_ShouldThrow_WhenLoadSaveIsNull()
         {
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<ArgumentNullException>(() => new ConfigurationXml(mToastService, null));
         }
 
@@ -226,7 +228,7 @@ namespace Editor.Test.XML
         }
 
         [Test]
-        public async Task ChangingDebug_ShouldSave()
+        public void ChangingDebug_ShouldSave()
         {
             mSut.Load();
 
@@ -234,11 +236,11 @@ namespace Editor.Test.XML
 
             XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
-            Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Debug]);
+            Assert.IsNull(log4NetNode.Attributes?[Log4NetXmlConstants.Debug]);
         }
 
         [Test]
-        public async Task ChangingUpdate_ShouldSave()
+        public void ChangingUpdate_ShouldSave()
         {
             mSut.Load();
 
@@ -246,11 +248,11 @@ namespace Editor.Test.XML
 
             XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
-            Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Update]);
+            Assert.IsNull(log4NetNode.Attributes?[Log4NetXmlConstants.Update]);
         }
 
         [Test]
-        public async Task ChangingThreshold_ShouldSave()
+        public void ChangingThreshold_ShouldSave()
         {
             mSut.Load();
 
@@ -258,7 +260,7 @@ namespace Editor.Test.XML
 
             XmlNode log4NetNode = mXmlDoc.DocumentElement;
 
-            Assert.IsNull(log4NetNode.Attributes[Log4NetXmlConstants.Threshold]);
+            Assert.IsNull(log4NetNode.Attributes?[Log4NetXmlConstants.Threshold]);
         }
 
         [Test]
@@ -268,7 +270,9 @@ namespace Editor.Test.XML
 
             await mSut.SaveAsync();
 
+#pragma warning disable 4014
             mLoadAndSave.Received(1).SaveAsync(mXmlDoc);
+#pragma warning restore 4014
         }
 
         [Test]
@@ -276,11 +280,13 @@ namespace Editor.Test.XML
         {
             mSut.Load();
 
-            string path = "path";
+            const string path = "path";
 
             await mSut.SaveAsync(path);
 
+#pragma warning disable 4014
             mLoadAndSave.Received(1).SaveAsync(mXmlDoc, path);
+#pragma warning restore 4014
         }
 
         [Test]
@@ -334,7 +340,7 @@ namespace Editor.Test.XML
 
             //RemoveChild also removes refs to the specified child, if it's an appender.
             //If it's not an appender, it should return silently.
-            Assert.DoesNotThrow(() => mSut.Children.OfType<LoggerModel>().First());
+            Assert.DoesNotThrow(() => mSut.RemoveChild(mSut.Children.OfType<LoggerModel>().First()));
         }
 
         [Test]
