@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.ObjectModel;
@@ -9,11 +9,10 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
-    //TODO use this inplace of others that do the same thing
     internal class BooleanPropertyBase : PropertyBase
     {
         private readonly string mElementName;
-        private readonly bool mIgnoreValue;
+        private readonly bool mDefaultValue;
 
         /// <summary>
         /// ctor for <see cref="BooleanPropertyBase"/>
@@ -21,14 +20,13 @@ namespace Editor.ConfigProperties.Base
         /// <param name="container">Collection of properties in which this property exists</param>
         /// <param name="name">Display name shown in the UI</param>
         /// <param name="elementName">Name of the element this property is read from and saved as</param>
-        /// <param name="defaultValue">Default value for the <see cref="Value"/> property</param>
-        /// <param name="ignoreValue">Property will not be saved if <see cref="Value"/> equals this value</param>
-        public BooleanPropertyBase(ReadOnlyCollection<IProperty> container, string name, string elementName, bool defaultValue, bool ignoreValue)
+        /// <param name="defaultValue">Default value for the <see cref="Value"/> property. This value is not saved.</param>
+        public BooleanPropertyBase(ReadOnlyCollection<IProperty> container, string name, string elementName, bool defaultValue)
             : base(container, GridLength.Auto)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            mElementName = elementName;
-            mIgnoreValue = ignoreValue;
+            mElementName = elementName ?? throw new ArgumentNullException(nameof(elementName));
+            mDefaultValue = defaultValue;
             Value = defaultValue;
         }
 
@@ -47,7 +45,7 @@ namespace Editor.ConfigProperties.Base
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (Value != mIgnoreValue)
+            if (Value != mDefaultValue)
             {
                 xmlDoc.CreateElementWithValueAttribute(mElementName, Value.ToString()).AppendTo(newNode);
             }

@@ -44,9 +44,9 @@ namespace Editor.Definitions.Appenders
 
             AddProperty(rollingStyle);
 
-            AddProperty(new BooleanPropertyBase(Properties, "Static Log File Name:", "staticLogFileName", true, true));
+            AddProperty(new BooleanPropertyBase(Properties, "Static Log File Name:", "staticLogFileName", true));
 
-            AddProperty(new BooleanPropertyBase(Properties, "Preserve Extension:", "preserveLogFileNameExtension", false, false));
+            AddProperty(new BooleanPropertyBase(Properties, "Preserve Extension:", "preserveLogFileNameExtension", false));
 
             mDatePatternIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternModes, mDatePatternIndex, mDatePattern);

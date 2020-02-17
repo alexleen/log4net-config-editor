@@ -17,7 +17,7 @@ namespace Editor.Definitions.Appenders
         {
             AddProperty(new BufferSize(Properties, 512));
             AddProperty(new Fix(Properties));
-            AddProperty(new BooleanPropertyBase(Properties, "Lossy:", "lossy", false, false));
+            AddProperty(new BooleanPropertyBase(Properties, "Lossy:", "lossy", false));
             AddProperty(new StringValueProperty(Properties, "Evaluator:", "evaluator"));
             AddProperty(new StringValueProperty(Properties, "Lossy Evaluator:", "lossyEvaluator"));
         }

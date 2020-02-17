@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ConfigProperties\AditivityTest.cs" />
     <Compile Include="ConfigProperties\BackColorTest.cs" />
+    <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />

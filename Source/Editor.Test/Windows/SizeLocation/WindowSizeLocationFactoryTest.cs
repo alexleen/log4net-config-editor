@@ -31,7 +31,7 @@ namespace Editor.Test.Windows.SizeLocation
             //Loggers
             new TestCaseData(LoggerDescriptor.Root, null, ResizeMode.CanResize, SizeToContent.Manual, new Size(360, min: 360), new Size(350, min: 350)),
 
-            //Maping
+            //Mapping
             new TestCaseData(MappingDescriptor.Mapping, null, ResizeMode.NoResize, SizeToContent.WidthAndHeight, new Size(), new Size()),
 
             //Renderer

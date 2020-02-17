@@ -37,7 +37,7 @@ namespace Editor.Definitions.Appenders
             AddProperty(new RequiredStringProperty(Properties, "Host:", "smtpHost"));
             AddProperty(new Port(Properties, "Port:", "port"));
             AddProperty(auth);
-            AddProperty(new BooleanPropertyBase(Properties, "Enable SSL:", "enableSsl", false, false));
+            AddProperty(new BooleanPropertyBase(Properties, "Enable SSL:", "enableSsl", false));
 
             mUsernameIndex = Properties.Count;
             AddRemoveBasedOnMode(auth.SelectedValue, mUsernameIndex, mUsername);

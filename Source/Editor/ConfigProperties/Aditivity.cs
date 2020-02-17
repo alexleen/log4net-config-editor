@@ -13,7 +13,7 @@ namespace Editor.ConfigProperties
         private const string ElementName = "aditivity";
 
         public Aditivity(ReadOnlyCollection<IProperty> container)
-            : base(container, "Aditivity:", ElementName, true, true)
+            : base(container, "Aditivity:", ElementName, true)
         {
         }
 
