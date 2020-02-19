@@ -69,7 +69,7 @@ namespace Editor.Definitions.Appenders
 
         private void AddRemoveBasedOnMode(string selectedMode, int index, IProperty appenderProperty)
         {
-            if (selectedMode == log4net.Appender.SmtpAppender.SmtpAuthentication.Basic.ToString())
+            if (selectedMode == SmtpAuthentication.Basic.ToString())
             {
                 if (!Properties.Contains(appenderProperty))
                 {

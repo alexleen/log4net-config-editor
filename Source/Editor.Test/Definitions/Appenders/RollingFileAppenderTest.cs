@@ -55,7 +55,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+            TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
         }
 
         [Test]

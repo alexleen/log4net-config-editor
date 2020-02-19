@@ -124,6 +124,7 @@
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RemoteSyslogAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\SmtpAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
     <Compile Include="Definitions\Appenders\UdpAppenderTest.cs" />
     <Compile Include="Definitions\Factory\DefinitionFactoryTest.cs" />

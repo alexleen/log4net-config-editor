@@ -53,5 +53,10 @@ namespace Editor.ConfigProperties.Base
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name} @ {RowIndex}";
+        }
     }
 }
