@@ -101,6 +101,7 @@
     <Compile Include="ConfigProperties\RemoteAddressTest.cs" />
     <Compile Include="ConfigProperties\RenderedClassTest.cs" />
     <Compile Include="ConfigProperties\RenderingClassTest.cs" />
+    <Compile Include="ConfigProperties\RequiredStringPropertyTest.cs" />
     <Compile Include="ConfigProperties\RollingStyleTest.cs" />
     <Compile Include="ConfigProperties\StringMatchTest.cs" />
     <Compile Include="ConfigProperties\TargetTest.cs" />

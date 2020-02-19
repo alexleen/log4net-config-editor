@@ -1,0 +1,44 @@
+﻿using System.Collections.ObjectModel;
+using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NSubstitute;
+using NUnit.Framework;
+
+namespace Editor.Test.ConfigProperties
+{
+	[TestFixture]
+	public class RequiredStringPropertyTest
+	{
+		private RequiredStringProperty mSut;
+
+		[SetUp]
+		public void SetUp()
+		{
+			mSut = new RequiredStringProperty(new ReadOnlyCollection<IProperty>(new IProperty[] { }), "name", "elementName");
+		}
+
+		[Test]
+		public void TryValidate_ShouldReturnTrue_WhenValueSpecified()
+		{
+			mSut.Value = "whatev";
+
+			Assert.IsTrue(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
+		}
+
+		[Test]
+		public void TryValidate_ShouldReturnFalse_WhenValueNotSpecified()
+		{
+			Assert.IsFalse(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
+		}
+
+		[Test]
+		public void TryValidate_ShouldShowError_WhenValueNotSpecified()
+		{
+			IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+			mSut.TryValidate(messageBoxService);
+
+			messageBoxService.Received(1).ShowError(Arg.Is<string>(arg => arg == "'name' must be specified."));
+		}
+	}
+}
