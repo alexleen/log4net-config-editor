@@ -74,6 +74,7 @@
     <Compile Include="ConfigProperties\AditivityTest.cs" />
     <Compile Include="ConfigProperties\BackColorTest.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
+    <Compile Include="ConfigProperties\Base\EnumPropertyTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="ConfigProperties\IncomingRefsTest.cs" />
     <Compile Include="ConfigProperties\LayoutTest.cs" />
     <Compile Include="ConfigProperties\LevelPropertyTest.cs" />
-    <Compile Include="ConfigProperties\LocalSyslogFacilityTest.cs" />
     <Compile Include="ConfigProperties\LockingModelTest.cs" />
     <Compile Include="ConfigProperties\MappingTest.cs" />
     <Compile Include="ConfigProperties\MaximumFileSizeTest.cs" />
@@ -99,7 +99,6 @@
     <Compile Include="ConfigProperties\ParamsTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
     <Compile Include="ConfigProperties\RemoteAddressTest.cs" />
-    <Compile Include="ConfigProperties\RemoteSyslogFacilityTest.cs" />
     <Compile Include="ConfigProperties\RenderedClassTest.cs" />
     <Compile Include="ConfigProperties\RenderingClassTest.cs" />
     <Compile Include="ConfigProperties\RollingStyleTest.cs" />

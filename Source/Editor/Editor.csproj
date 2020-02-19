@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -76,7 +76,7 @@
     <Compile Include="ConfigProperties\BackColor.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\ColorPropertyBase.cs" />
-    <Compile Include="ConfigProperties\Base\EnumPropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\EnumProperty.cs" />
     <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\MultiValuePropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
@@ -89,8 +89,6 @@
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Enums\ModelCreateResult.cs" />
     <Compile Include="ConfigProperties\RequiredStringProperty.cs" />
-    <Compile Include="ConfigProperties\SmtpAuthentication.cs" />
-    <Compile Include="ConfigProperties\SmtpPriority.cs" />
     <Compile Include="Definitions\Appenders\BufferingAppenderSkeleton.cs" />
     <Compile Include="Definitions\Appenders\SmtpAppender.cs" />
     <Compile Include="Enums\SaveState.cs" />
@@ -101,10 +99,8 @@
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
-    <Compile Include="ConfigProperties\LocalSyslogFacility.cs" />
     <Compile Include="ConfigProperties\Port.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
-    <Compile Include="ConfigProperties\RemoteSyslogFacility.cs" />
     <Compile Include="ConfigProperties\Params.cs" />
     <Compile Include="ConfigProperties\RenderedClass.cs" />
     <Compile Include="ConfigProperties\RenderingClass.cs" />

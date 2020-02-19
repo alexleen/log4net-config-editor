@@ -1,10 +1,12 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System.ComponentModel;
+using System.Net.Mail;
 using Editor.ConfigProperties;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using static log4net.Appender.SmtpAppender;
 
 namespace Editor.Definitions.Appenders
 {
@@ -31,7 +33,7 @@ namespace Editor.Definitions.Appenders
         {
             base.AddAppenderSpecificProperties();
 
-            SmtpAuthentication auth = new SmtpAuthentication(Properties);
+            EnumProperty<SmtpAuthentication> auth = new EnumProperty<SmtpAuthentication>(Properties, "Authentication:", 60, "authentication");
             auth.PropertyChanged += AuthenticationOnPropertyChanged;
 
             AddProperty(new RequiredStringProperty(Properties, "Host:", "smtpHost"));
@@ -53,15 +55,15 @@ namespace Editor.Definitions.Appenders
             AddProperty(new StringValueProperty(Properties, "Subject:", "subject"));
             AddProperty(new Encoding(Properties, "Subject Encoding:", "subjectEncoding"));
             AddProperty(new Encoding(Properties, "Body Encoding:", "bodyEncoding"));
-            AddProperty(new SmtpPriority(Properties));
+            AddProperty(new EnumProperty<MailPriority>(Properties, "Priority:", 75, "priority"));
         }
 
         private void AuthenticationOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SmtpAuthentication.SelectedValue))
+            if (e.PropertyName == nameof(EnumProperty<SmtpAuthentication>.SelectedValue))
             {
-                AddRemoveBasedOnMode(((SmtpAuthentication)sender).SelectedValue, mUsernameIndex, mUsername);
-                AddRemoveBasedOnMode(((SmtpAuthentication)sender).SelectedValue, mPasswordIndex, mPassword);
+                AddRemoveBasedOnMode(((EnumProperty<SmtpAuthentication>)sender).SelectedValue, mUsernameIndex, mUsername);
+                AddRemoveBasedOnMode(((EnumProperty<SmtpAuthentication>)sender).SelectedValue, mPasswordIndex, mPassword);
             }
         }
 
