@@ -39,7 +39,6 @@ namespace Editor.ConfigProperties
             {
                 SelectedValue = valueStr;
             }
-            //TODO there's a (good) chance that we encounter an encoding value that's not in our values list. Should we just add it? Will the UI update?
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)

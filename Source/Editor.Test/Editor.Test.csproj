@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
   <PropertyGroup>
@@ -77,6 +77,7 @@
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
+    <Compile Include="ConfigProperties\EncodingTest.cs" />
     <Compile Include="ConfigProperties\FileTest.cs" />
     <Compile Include="ConfigProperties\FiltersTest.cs" />
     <Compile Include="ConfigProperties\FixTest.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
-    <Compile Include="ConfigProperties\PortTestBase.cs" />
+    <Compile Include="ConfigProperties\PortTest.cs" />
     <Compile Include="ConfigProperties\ParamsTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
     <Compile Include="ConfigProperties\RemoteAddressTest.cs" />
