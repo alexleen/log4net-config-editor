@@ -1,11 +1,8 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
-using Editor.Interfaces;
 using Editor.Utilities;
 using NUnit.Framework;
 
@@ -14,25 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RemoteIdentityTest
     {
-        private RemoteIdentity mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new RemoteIdentity(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new RemoteIdentity();
         }
 
-        [Test]
-        public void Name_ShouldBeCorrect()
-        {
-            Assert.AreEqual("Identity:", mSut.Name);
-        }
-
-        [Test]
-        public void ToolTip_ShouldBeCorrect()
-        {
-            Assert.AreEqual("Enter remote syslog identity pattern here.", mSut.ToolTip);
-        }
+        private RemoteIdentity mSut;
 
         [TestCase(null, null)]
         [TestCase("<identity />", null)]
@@ -64,6 +49,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Name_ShouldBeCorrect()
+        {
+            Assert.AreEqual("Identity:", mSut.Name);
+        }
+
+        [Test]
         public void Save_ShouldSave()
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -77,6 +68,12 @@ namespace Editor.Test.ConfigProperties
             Assert.IsNotNull(identityNode);
             Assert.AreEqual(mSut.Value, identityNode.Attributes[Log4NetXmlConstants.Value].Value);
             Assert.AreEqual(LayoutDescriptor.Pattern.TypeNamespace, identityNode.Attributes[Log4NetXmlConstants.Type].Value);
+        }
+
+        [Test]
+        public void ToolTip_ShouldBeCorrect()
+        {
+            Assert.AreEqual("Enter remote syslog identity pattern here.", mSut.ToolTip);
         }
     }
 }

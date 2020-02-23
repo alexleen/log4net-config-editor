@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,51 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class DatePatternTest
     {
-        private DatePattern mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new DatePattern(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new DatePattern();
         }
 
-        [Test]
-        public void Load_ShouldSetCorrectValue()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <datePattern value=\"yyyyMMdd\" />\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual("yyyyMMdd", mSut.Value);
-        }
-
-        [Test]
-        public void Load_ShouldNotSetValue_WhenElementDoesNotExist()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsNull(mSut.Value);
-        }
-
-        [Test]
-        public void Load_ShouldNotSetValue_WhenAttributeValueDoesNotExist()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <datePattern />\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsNull(mSut.Value);
-        }
+        private DatePattern mSut;
 
         [TestCase(null)]
         [TestCase("")]
@@ -95,6 +55,59 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Load_ShouldNotSetValue_WhenAttributeValueDoesNotExist()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "    <datePattern />\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.IsNull(mSut.Value);
+        }
+
+        [Test]
+        public void Load_ShouldNotSetValue_WhenElementDoesNotExist()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.IsNull(mSut.Value);
+        }
+
+        [Test]
+        public void Load_ShouldSetCorrectValue()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "    <datePattern value=\"yyyyMMdd\" />\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.AreEqual("yyyyMMdd", mSut.Value);
+        }
+
+        [Test]
+        public void Save_ShouldCreateAndAppendCorrectElement()
+        {
+            const string value = "yyyyMMdd";
+            mSut.Value = value;
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.Save(xmlDoc, appender);
+
+            XmlElement datePattern = appender["datePattern"];
+            Assert.IsNotNull(datePattern);
+            Assert.AreEqual(value, datePattern.Attributes["value"].Value);
+        }
+
+        [Test]
         public void TryValidate_ShouldNotShowMessageBox_WhenValueIsNotNullOrEmpty()
         {
             mSut.Value = "yyyyMMdd";
@@ -112,21 +125,6 @@ namespace Editor.Test.ConfigProperties
             mSut.Value = "yyyyMMdd";
 
             Assert.IsTrue(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
-        }
-
-        [Test]
-        public void Save_ShouldCreateAndAppendCorrectElement()
-        {
-            const string value = "yyyyMMdd";
-            mSut.Value = value;
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
-            mSut.Save(xmlDoc, appender);
-
-            XmlElement datePattern = appender["datePattern"];
-            Assert.IsNotNull(datePattern);
-            Assert.AreEqual(value, datePattern.Attributes["value"].Value);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new File(Properties, MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
-            AddProperty(new LockingModel(Properties));
+            AddProperty(new File(MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
+            AddProperty(new LockingModel());
         }
     }
 }

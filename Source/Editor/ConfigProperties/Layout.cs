@@ -1,7 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
@@ -15,14 +14,18 @@ namespace Editor.ConfigProperties
 {
     public class Layout : PropertyBase
     {
-        private readonly IHistoryManager mHistoryManager;
         private const string SimplePattern = "%level - %message%newline";
         private const string LayoutName = "layout";
         private const string ConversionPatternName = "conversionPattern";
+        private readonly IHistoryManager mHistoryManager;
         private string mOriginalPattern;
 
-        public Layout(ReadOnlyCollection<IProperty> container, IHistoryManagerFactory historyManagerFactory, bool required = true)
-            : base(container, GridLength.Auto)
+        private string mPattern;
+
+        private LayoutDescriptor mSelectedLayout;
+
+        public Layout(IHistoryManagerFactory historyManagerFactory, bool required = true)
+            : base(GridLength.Auto)
         {
             mHistoryManager = historyManagerFactory.CreatePatternsHistoryManager();
 
@@ -55,8 +58,6 @@ namespace Editor.ConfigProperties
 
         public IEnumerable<string> HistoricalLayouts { get; }
 
-        private LayoutDescriptor mSelectedLayout;
-
         public LayoutDescriptor SelectedLayout
         {
             get => mSelectedLayout;
@@ -88,8 +89,6 @@ namespace Editor.ConfigProperties
                 OnPropertyChanged();
             }
         }
-
-        private string mPattern;
 
         public string Pattern
         {

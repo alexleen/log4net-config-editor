@@ -13,7 +13,7 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new LevelToMatch(Properties));
+            AddProperty(new LevelToMatch());
             base.Initialize();
         }
     }

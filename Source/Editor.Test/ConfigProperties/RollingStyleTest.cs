@@ -1,12 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using log4net.Appender;
 using NUnit.Framework;
 
@@ -15,48 +12,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RollingStyleTest
     {
-        private RollingStyle mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new RollingStyle(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new RollingStyle();
         }
 
-        [Test]
-        public void Modes_ShouldBeInitializedCorrectly()
-        {
-            CollectionAssert.AreEqual(Enum.GetValues(typeof(RollingFileAppender.RollingMode)).Cast<RollingFileAppender.RollingMode>(), mSut.Modes);
-        }
-
-        [Test]
-        public void SelectedMode_ShouldBeInitializedToComposite()
-        {
-            Assert.AreEqual(RollingFileAppender.RollingMode.Composite, mSut.SelectedMode);
-        }
-
-        [Test]
-        public void SelectedMode_ShouldNotFirePropChange_WhenValueHasNotChanged()
-        {
-            bool fired = false;
-            mSut.PropertyChanged += (sender, args) => { fired = true; };
-
-            mSut.SelectedMode = mSut.SelectedMode;
-
-            Assert.IsFalse(fired);
-        }
-
-        [Test]
-        public void SelectedMode_ShouldFirePropChange_AndChange_WhenValueHasChanged()
-        {
-            bool fired = false;
-            mSut.PropertyChanged += (sender, args) => { fired = true; };
-
-            mSut.SelectedMode = RollingFileAppender.RollingMode.Date;
-
-            Assert.IsTrue(fired);
-            Assert.AreEqual(RollingFileAppender.RollingMode.Date, mSut.SelectedMode);
-        }
+        private RollingStyle mSut;
 
         [TestCase(null)]
         [TestCase("<rollingStyle />")]
@@ -88,6 +50,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Modes_ShouldBeInitializedCorrectly()
+        {
+            CollectionAssert.AreEqual(Enum.GetValues(typeof(RollingFileAppender.RollingMode)).Cast<RollingFileAppender.RollingMode>(), mSut.Modes);
+        }
+
+        [Test]
         public void Save_ShouldNotSave_WhenComposite()
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -111,6 +79,35 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(rollingStyleNode);
             Assert.AreEqual("Date", rollingStyleNode.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void SelectedMode_ShouldBeInitializedToComposite()
+        {
+            Assert.AreEqual(RollingFileAppender.RollingMode.Composite, mSut.SelectedMode);
+        }
+
+        [Test]
+        public void SelectedMode_ShouldFirePropChange_AndChange_WhenValueHasChanged()
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.SelectedMode = RollingFileAppender.RollingMode.Date;
+
+            Assert.IsTrue(fired);
+            Assert.AreEqual(RollingFileAppender.RollingMode.Date, mSut.SelectedMode);
+        }
+
+        [Test]
+        public void SelectedMode_ShouldNotFirePropChange_WhenValueHasNotChanged()
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.SelectedMode = mSut.SelectedMode;
+
+            Assert.IsFalse(fired);
         }
     }
 }

@@ -19,9 +19,9 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new RemoteAddress(Properties));
-            AddProperty(new Port(Properties, "Remote Port:", "remotePort"));
-            AddProperty(new Port(Properties, "Local Port:", "localPort"));
+            AddProperty(new RemoteAddress());
+            AddProperty(new Port("Remote Port:", "remotePort"));
+            AddProperty(new Port("Local Port:", "localPort"));
         }
     }
 }

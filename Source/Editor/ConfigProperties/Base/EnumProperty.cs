@@ -1,11 +1,9 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
@@ -14,8 +12,8 @@ namespace Editor.ConfigProperties.Base
     {
         private readonly string mElementName;
 
-        public EnumProperty(ReadOnlyCollection<IProperty> container, string name, double width, string elementName)
-            : base(container, GridLength.Auto, name, Enum.GetNames(typeof(TEnumType)), width)
+        public EnumProperty(string name, double width, string elementName)
+            : base(GridLength.Auto, name, Enum.GetNames(typeof(TEnumType)), width)
         {
             mElementName = elementName;
             SelectedValue = Values.First();

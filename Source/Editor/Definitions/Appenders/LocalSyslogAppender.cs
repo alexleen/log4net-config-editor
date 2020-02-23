@@ -23,8 +23,8 @@ namespace Editor.Definitions.Appenders
         {
             base.AddAppenderSpecificProperties();
 
-            AddProperty(new EnumProperty<SyslogFacility>(Properties, "Facility:", 110, Log4NetXmlConstants.Facility) { SelectedValue = SyslogFacility.User.ToString() });
-            AddProperty(new StringValueProperty(Properties, "Identity:", Log4NetXmlConstants.Identity));
+            AddProperty(new EnumProperty<SyslogFacility>("Facility:", 110, Log4NetXmlConstants.Facility) { SelectedValue = SyslogFacility.User.ToString() });
+            AddProperty(new StringValueProperty("Identity:", Log4NetXmlConstants.Identity));
         }
     }
 }

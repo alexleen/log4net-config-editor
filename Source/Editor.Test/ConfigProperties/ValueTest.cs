@@ -1,10 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -12,25 +9,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class ValueTest
     {
-        private Value mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new Value(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new Value();
         }
 
-        [Test]
-        public void Name_ShouldBeCorrect_RegularCtor()
-        {
-            Assert.AreEqual("Value:", mSut.Name);
-        }
-
-        [Test]
-        public void Value_ShouldBeCorrect_RegularCtor()
-        {
-            Assert.IsNull(mSut.Value);
-        }
+        private Value mSut;
 
         [TestCase(null)]
         [TestCase("")]
@@ -46,6 +31,33 @@ namespace Editor.Test.ConfigProperties
             Assert.IsNull(mSut.Value);
         }
 
+        [TestCase("value=\"\"")]
+        [TestCase("")]
+        public void Load_ShouldMaintainValue_FromCtor(string value)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {value}>\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.IsNull(mSut.Value);
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void Save_ShouldNotSaveValueToAttribute_WhenValueIsNullOrEmpty(string value)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.Value = value;
+
+            mSut.Save(xmlDoc, appender);
+
+            Assert.IsNull(appender.Attributes["value"]);
+        }
+
         [Test]
         public void Load_ShouldLoadCorrectValue()
         {
@@ -58,17 +70,10 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual("log4net.Appender.ColoredConsoleAppender", mSut.Value);
         }
 
-        [TestCase("value=\"\"")]
-        [TestCase("")]
-        public void Load_ShouldMaintainValue_FromCtor(string value)
+        [Test]
+        public void Name_ShouldBeCorrect_RegularCtor()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {value}>\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsNull(mSut.Value);
+            Assert.AreEqual("Value:", mSut.Name);
         }
 
         [Test]
@@ -85,18 +90,10 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual(value, appender.Attributes["value"].Value);
         }
 
-        [TestCase(null)]
-        [TestCase("")]
-        public void Save_ShouldNotSaveValueToAttribute_WhenValueIsNullOrEmpty(string value)
+        [Test]
+        public void Value_ShouldBeCorrect_RegularCtor()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
-            mSut.Value = value;
-
-            mSut.Save(xmlDoc, appender);
-
-            Assert.IsNull(appender.Attributes["value"]);
+            Assert.IsNull(mSut.Value);
         }
     }
 }

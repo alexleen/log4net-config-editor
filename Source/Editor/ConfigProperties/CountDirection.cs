@@ -1,11 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -16,8 +14,8 @@ namespace Editor.ConfigProperties
         private const string Higher = "Higher";
         private const string CountDirectionName = "countDirection";
 
-        public CountDirection(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto)
+        public CountDirection()
+            : base(GridLength.Auto)
         {
             Directions = new[] { Lower, Higher };
             SelectedDirection = Lower;

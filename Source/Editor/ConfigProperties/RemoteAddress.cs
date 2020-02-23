@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Net;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -9,8 +8,8 @@ namespace Editor.ConfigProperties
 {
     internal class RemoteAddress : StringValueProperty
     {
-        internal RemoteAddress(ReadOnlyCollection<IProperty> container)
-            : base(container, "Remote Address:", "remoteAddress")
+        internal RemoteAddress()
+            : base("Remote Address:", "remoteAddress")
         {
         }
 

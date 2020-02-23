@@ -1,10 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -13,8 +11,8 @@ namespace Editor.ConfigProperties
     {
         private const string LevelMatchName = "levelToMatch";
 
-        public LevelToMatch(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Level to Match:")
+        public LevelToMatch()
+            : base(GridLength.Auto, "Level to Match:")
         {
         }
 

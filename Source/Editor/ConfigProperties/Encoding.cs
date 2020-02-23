@@ -1,11 +1,9 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -25,8 +23,8 @@ namespace Editor.ConfigProperties
 
         private readonly string mElementName;
 
-        public Encoding(ReadOnlyCollection<IProperty> container, string name, string elementName)
-            : base(container, GridLength.Auto, name, sValues, 75)
+        public Encoding(string name, string elementName)
+            : base(GridLength.Auto, name, sValues, 75)
         {
             SelectedValue = sValues[0];
             mElementName = elementName;

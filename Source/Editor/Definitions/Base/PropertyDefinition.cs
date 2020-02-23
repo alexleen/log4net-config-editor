@@ -1,7 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.ObjectModel;
-using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
 namespace Editor.Definitions.Base
@@ -16,35 +15,6 @@ namespace Editor.Definitions.Base
             Properties = new ReadOnlyObservableCollection<IProperty>(mProperties);
         }
 
-        protected void AddProperty(IProperty property)
-        {
-            mProperties.Add(property);
-        }
-
-        protected void AddProperty(int index, IProperty property)
-        {
-            mProperties.Insert(index, property);
-
-            //TODO PropertyBase should monitor for this change and raise prop changes
-            foreach (IProperty prop in Properties)
-            {
-                ((PropertyBase)prop).OnPropertyChanged(nameof(IProperty.RowIndex));
-                ((PropertyBase)prop).OnPropertyChanged(nameof(IProperty.RowHeight));
-            }
-        }
-
-        protected void RemoveProperty(IProperty property)
-        {
-            mProperties.Remove(property);
-
-            //TODO PropertyBase should monitor for this change and raise prop changes
-            foreach (IProperty prop in Properties)
-            {
-                ((PropertyBase)prop).OnPropertyChanged(nameof(IProperty.RowIndex));
-                ((PropertyBase)prop).OnPropertyChanged(nameof(IProperty.RowHeight));
-            }
-        }
-
         public abstract string Name { get; }
 
         public abstract string Icon { get; }
@@ -54,5 +24,31 @@ namespace Editor.Definitions.Base
         public abstract void Initialize();
 
         public IMessageBoxService MessageBoxService { get; set; }
+
+        protected void AddProperty(IProperty property)
+        {
+            mProperties.Add(property);
+            property.RowIndex = mProperties.Count - 1;
+        }
+
+        protected void AddProperty(int index, IProperty property)
+        {
+            mProperties.Insert(index, property);
+            UpdateIndices();
+        }
+
+        protected void RemoveProperty(IProperty property)
+        {
+            mProperties.Remove(property);
+            UpdateIndices();
+        }
+
+        private void UpdateIndices()
+        {
+            for (int i = 0; i < Properties.Count; i++)
+            {
+                Properties[i].RowIndex = i;
+            }
+        }
     }
 }

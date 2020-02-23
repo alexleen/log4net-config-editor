@@ -1,6 +1,5 @@
 ﻿// Copyright © 2019 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
@@ -8,8 +7,8 @@ namespace Editor.ConfigProperties
 {
     internal class RequiredStringProperty : StringValueProperty
     {
-        public RequiredStringProperty(ReadOnlyCollection<IProperty> container, string name, string elementName)
-            : base(container, name, elementName)
+        public RequiredStringProperty(string name, string elementName)
+            : base(name, elementName)
         {
         }
 

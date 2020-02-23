@@ -15,7 +15,7 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new BooleanPropertyBase(Properties, "Accept on Match:", "acceptOnMatch", true));
+            AddProperty(new BooleanPropertyBase("Accept on Match:", "acceptOnMatch", true));
         }
     }
 }

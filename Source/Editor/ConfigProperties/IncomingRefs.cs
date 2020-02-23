@@ -10,11 +10,11 @@ namespace Editor.ConfigProperties
 {
     public class IncomingRefs : RefsBase
     {
-        private readonly Name mNameProperty;
         private readonly IElementConfiguration mAppenderConfiguration;
+        private readonly Name mNameProperty;
 
-        public IncomingRefs(ReadOnlyCollection<IProperty> container, Name nameProperty, IElementConfiguration appenderConfiguration)
-            : base(container, "↓ Refs:", "This appender can be referenced in the following elements:")
+        public IncomingRefs(Name nameProperty, IElementConfiguration appenderConfiguration)
+            : base("↓ Refs:", "This appender can be referenced in the following elements:")
         {
             mNameProperty = nameProperty;
             mAppenderConfiguration = appenderConfiguration;
@@ -25,8 +25,8 @@ namespace Editor.ConfigProperties
         public ObservableCollection<IAcceptAppenderRef> RefsCollection { get; set; }
 
         /// <summary>
-        /// Finds all available locations for appender-refs.
-        /// These locations are enabled (or not) in the <see cref="Load"/> method.
+        ///     Finds all available locations for appender-refs.
+        ///     These locations are enabled (or not) in the <see cref="Load" /> method.
         /// </summary>
         private void LoadAvailableLocations()
         {

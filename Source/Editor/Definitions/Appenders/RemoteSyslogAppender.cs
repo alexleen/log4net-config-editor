@@ -24,8 +24,8 @@ namespace Editor.Definitions.Appenders
         {
             base.AddAppenderSpecificProperties();
 
-            AddProperty(new EnumProperty<SyslogFacility>(Properties, "Facility:", 110, Log4NetXmlConstants.Facility) { SelectedValue = SyslogFacility.User.ToString() });
-            AddProperty(new RemoteIdentity(Properties));
+            AddProperty(new EnumProperty<SyslogFacility>("Facility:", 110, Log4NetXmlConstants.Facility) { SelectedValue = SyslogFacility.User.ToString() });
+            AddProperty(new RemoteIdentity());
         }
     }
 }

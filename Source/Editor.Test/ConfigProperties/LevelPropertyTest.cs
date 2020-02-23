@@ -1,10 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using Editor.Utilities;
 using log4net.Core;
 using NUnit.Framework;
@@ -14,31 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class LevelPropertyTest
     {
-        private LevelProperty mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new LevelProperty(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new LevelProperty();
         }
 
-        [Test]
-        public void Ctor_ShouldInitializeNameCorrectly()
-        {
-            Assert.AreEqual("Level:", mSut.Name);
-        }
-
-        [Test]
-        public void Levels_ShouldBeAllLevels()
-        {
-            CollectionAssert.AreEqual(Log4NetUtilities.LevelsByName.Keys, mSut.Values);
-        }
-
-        [Test]
-        public void SelectedLevel_ShouldBeNone()
-        {
-            Assert.AreEqual(Level.All.Name, mSut.SelectedValue);
-        }
+        private LevelProperty mSut;
 
         [TestCase("<level />", "ALL")]
         [TestCase("<level value=\"\" />", "ALL")]
@@ -55,6 +34,18 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.SelectedValue);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitializeNameCorrectly()
+        {
+            Assert.AreEqual("Level:", mSut.Name);
+        }
+
+        [Test]
+        public void Levels_ShouldBeAllLevels()
+        {
+            CollectionAssert.AreEqual(Log4NetUtilities.LevelsByName.Keys, mSut.Values);
         }
 
         [Test]
@@ -82,6 +73,12 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(thresholdNode);
             Assert.AreEqual(Level.All.Name, thresholdNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void SelectedLevel_ShouldBeNone()
+        {
+            Assert.AreEqual(Level.All.Name, mSut.SelectedValue);
         }
     }
 }

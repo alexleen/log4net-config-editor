@@ -1,10 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using Editor.Utilities;
 using NUnit.Framework;
 
@@ -13,28 +10,16 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class CountDirectionTest
     {
+        [SetUp]
+        public void SetUp()
+        {
+            mSut = new CountDirection();
+        }
+
         private const string Lower = "Lower";
         private const string Higher = "Higher";
         private const string CountDirectionName = "countDirection";
         private CountDirection mSut;
-
-        [SetUp]
-        public void SetUp()
-        {
-            mSut = new CountDirection(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
-        }
-
-        [Test]
-        public void Ctor_ShouldInitDirectionsCorrectly()
-        {
-            CollectionAssert.AreEquivalent(new[] { Lower, Higher }, mSut.Directions);
-        }
-
-        [Test]
-        public void Ctor_ShouldInitDefaultToLower()
-        {
-            Assert.AreEqual(Lower, mSut.SelectedDirection);
-        }
 
         [TestCase(null)]
         [TestCase("")]
@@ -64,6 +49,18 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(directionStr, mSut.SelectedDirection);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitDefaultToLower()
+        {
+            Assert.AreEqual(Lower, mSut.SelectedDirection);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitDirectionsCorrectly()
+        {
+            CollectionAssert.AreEquivalent(new[] { Lower, Higher }, mSut.Directions);
         }
 
         [Test]

@@ -1,10 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -13,8 +11,8 @@ namespace Editor.ConfigProperties
     {
         private const string LevelMaxName = "levelMax";
 
-        public MaxLevel(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Max Level:", true)
+        public MaxLevel()
+            : base(GridLength.Auto, "Max Level:", true)
         {
         }
 

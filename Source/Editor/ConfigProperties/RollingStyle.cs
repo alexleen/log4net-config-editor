@@ -2,12 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 using log4net.Appender;
 
@@ -17,16 +15,16 @@ namespace Editor.ConfigProperties
     {
         private const string RollingStyleName = "rollingStyle";
 
-        public RollingStyle(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto)
+        private RollingFileAppender.RollingMode mSelectedMode;
+
+        public RollingStyle()
+            : base(GridLength.Auto)
         {
             Modes = Enum.GetValues(typeof(RollingFileAppender.RollingMode)).Cast<RollingFileAppender.RollingMode>();
             SelectedMode = RollingFileAppender.RollingMode.Composite;
         }
 
         public IEnumerable<RollingFileAppender.RollingMode> Modes { get; }
-
-        private RollingFileAppender.RollingMode mSelectedMode;
 
         public RollingFileAppender.RollingMode SelectedMode
         {

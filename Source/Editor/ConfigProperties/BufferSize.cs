@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -10,11 +9,11 @@ namespace Editor.ConfigProperties
 {
     public class BufferSize : StringValueProperty
     {
-        private readonly string mDefaultBufferSize;
         private const string BufferSizeName = "bufferSize";
+        private readonly string mDefaultBufferSize;
 
-        public BufferSize(ReadOnlyCollection<IProperty> container, int defaultSize)
-            : base(container, "Buffer Size:", null)
+        public BufferSize(int defaultSize)
+            : base("Buffer Size:", null)
         {
             mDefaultBufferSize = defaultSize.ToString();
             Value = mDefaultBufferSize;

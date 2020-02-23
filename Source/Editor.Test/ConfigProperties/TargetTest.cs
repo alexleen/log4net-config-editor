@@ -1,10 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -12,27 +9,15 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class TargetTest
     {
-        private const string ConsoleOut = "Console.Out";
-        private const string ConsoleError = "Console.Error";
-        private Target mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new Target(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new Target();
         }
 
-        [Test]
-        public void Targets_ShouldBeInitializedCorrectly()
-        {
-            CollectionAssert.AreEqual(new[] { ConsoleOut, ConsoleError }, mSut.Targets);
-        }
-
-        [Test]
-        public void SelectedTarget_ShouldBeInitializedToNone()
-        {
-            Assert.AreEqual(ConsoleOut, mSut.SelectedItem);
-        }
+        private const string ConsoleOut = "Console.Out";
+        private const string ConsoleError = "Console.Error";
+        private Target mSut;
 
         [TestCase(null, ConsoleOut)]
         [TestCase("<target />", ConsoleOut)]
@@ -75,6 +60,18 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(targetNode);
             Assert.AreEqual(ConsoleError, targetNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void SelectedTarget_ShouldBeInitializedToNone()
+        {
+            Assert.AreEqual(ConsoleOut, mSut.SelectedItem);
+        }
+
+        [Test]
+        public void Targets_ShouldBeInitializedCorrectly()
+        {
+            CollectionAssert.AreEqual(new[] { ConsoleOut, ConsoleError }, mSut.Targets);
         }
     }
 }

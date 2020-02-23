@@ -1,9 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
@@ -12,8 +10,8 @@ namespace Editor.ConfigProperties.Base
     {
         private readonly string mElementName;
 
-        internal StringValueProperty(ReadOnlyCollection<IProperty> container, string name, string elementName)
-            : base(container, GridLength.Auto)
+        internal StringValueProperty(string name, string elementName)
+            : base(GridLength.Auto)
         {
             mElementName = elementName;
             Name = name;

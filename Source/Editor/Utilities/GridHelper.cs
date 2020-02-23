@@ -48,9 +48,10 @@ namespace Editor.Utilities
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
+                    int i = e.NewStartingIndex;
                     foreach (IProperty gridRow in e.NewItems)
                     {
-                        mGrid.RowDefinitions.Insert(gridRow.RowIndex, new RowDefinition { Height = gridRow.RowHeight });
+                        mGrid.RowDefinitions.Insert(i++, new RowDefinition { Height = gridRow.RowHeight });
                     }
                 }
                 else if (e.Action == NotifyCollectionChangedAction.Remove)

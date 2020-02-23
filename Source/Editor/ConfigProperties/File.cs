@@ -1,7 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
@@ -18,11 +17,17 @@ namespace Editor.ConfigProperties
         private const string AppendToFileName = "appendToFile";
         private const string TypeName = "type";
         private const string PatternStringTypeName = "log4net.Util.PatternString";
-        private readonly IMessageBoxService mMessageBoxService;
         private readonly IHistoryManager mHistoryManager;
+        private readonly IMessageBoxService mMessageBoxService;
 
-        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService, IHistoryManagerFactory historyManagerFactory)
-            : base(container, GridLength.Auto)
+        private string mFilePath;
+
+        private bool mOverwrite;
+
+        private bool mPatternString;
+
+        public File(IMessageBoxService messageBoxService, IHistoryManagerFactory historyManagerFactory)
+            : base(GridLength.Auto)
         {
             Open = new Command(OpenFile);
             mMessageBoxService = messageBoxService;
@@ -33,8 +38,6 @@ namespace Editor.ConfigProperties
         public ICommand Open { get; }
 
         public IEnumerable<string> HistoricalFiles { get; }
-
-        private string mFilePath;
 
         public string FilePath
         {
@@ -51,8 +54,6 @@ namespace Editor.ConfigProperties
             }
         }
 
-        private bool mPatternString;
-
         public bool PatternString
         {
             get => mPatternString;
@@ -67,8 +68,6 @@ namespace Editor.ConfigProperties
                 OnPropertyChanged();
             }
         }
-
-        private bool mOverwrite;
 
         public bool Overwrite
         {

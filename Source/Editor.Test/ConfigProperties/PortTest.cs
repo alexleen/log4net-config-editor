@@ -1,6 +1,5 @@
 // Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Net;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -13,13 +12,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class PortTest
     {
-        private Port mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new Port(new ReadOnlyCollection<IProperty>(new IProperty[] { }), "Port:", "port");
+            mSut = new Port("Port:", "port");
         }
+
+        private Port mSut;
 
         [TestCase(null, false)]
         [TestCase("", false)]
@@ -49,17 +48,6 @@ namespace Editor.Test.ConfigProperties
             messageBoxService.Received(1).ShowError($"Port must be a valid integer between {IPEndPoint.MinPort} and {IPEndPoint.MaxPort}.");
         }
 
-        [Test]
-        public void TryValidate_ShouldNotCallShowError()
-        {
-            mSut.Value = "1234";
-
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
-            mSut.TryValidate(messageBoxService);
-
-            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
-        }
-
         [TestCase(null)]
         [TestCase("")]
         public void Save_ShouldNotSave_WhenNullOrEmptyValue(string value)
@@ -86,6 +74,17 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(portNode);
             Assert.AreEqual(mSut.Value, portNode.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void TryValidate_ShouldNotCallShowError()
+        {
+            mSut.Value = "1234";
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+            mSut.TryValidate(messageBoxService);
+
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
     }
 }

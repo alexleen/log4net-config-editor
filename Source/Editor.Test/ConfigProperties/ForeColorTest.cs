@@ -1,12 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -14,31 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class ForeColorTest
     {
-        private ForeColor mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new ForeColor(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new ForeColor();
         }
 
-        [Test]
-        public void Name_ShouldBeInitializedCorrectly()
-        {
-            Assert.AreEqual("Foreground:", mSut.Name);
-        }
-
-        [Test]
-        public void Colors_ShouldBeInitializedProperly()
-        {
-            Assert.AreEqual(Enum.GetValues(typeof(ConsoleColor)).Cast<ConsoleColor>(), mSut.Colors);
-        }
-
-        [Test]
-        public void SelectedLevel_ShouldBeNull_ByDefault()
-        {
-            Assert.IsNull(mSut.SelectedColor);
-        }
+        private ForeColor mSut;
 
         [TestCase("<foreColor />", null)]
         [TestCase("<foreColor value=\"\" />", null)]
@@ -55,6 +34,18 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.SelectedColor);
+        }
+
+        [Test]
+        public void Colors_ShouldBeInitializedProperly()
+        {
+            Assert.AreEqual(Enum.GetValues(typeof(ConsoleColor)).Cast<ConsoleColor>(), mSut.Colors);
+        }
+
+        [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Foreground:", mSut.Name);
         }
 
         [Test]
@@ -81,6 +72,12 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(foreColorNode);
             Assert.AreEqual(ConsoleColor.Blue.ToString(), foreColorNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void SelectedLevel_ShouldBeNull_ByDefault()
+        {
+            Assert.IsNull(mSut.SelectedColor);
         }
     }
 }

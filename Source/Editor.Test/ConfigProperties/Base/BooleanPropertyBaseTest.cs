@@ -1,11 +1,8 @@
 // Copyright © 2020 Alex Leendertsen
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties.Base
@@ -13,41 +10,17 @@ namespace Editor.Test.ConfigProperties.Base
     [TestFixture]
     public class BooleanPropertyBaseTest
     {
-        private string mName;
-        private bool mDefaultValue;
-        private BooleanPropertyBase mSut;
-
         [SetUp]
         public void SetUp()
         {
             mDefaultValue = true;
             mName = "name";
-            mSut = new BooleanPropertyBase(new ReadOnlyCollection<IProperty>(new List<IProperty>()), mName, "elementName", mDefaultValue);
+            mSut = new BooleanPropertyBase(mName, "elementName", mDefaultValue);
         }
 
-        [Test]
-        public void Ctor_ShouldThrowIfNameIsNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new BooleanPropertyBase(new ReadOnlyCollection<IProperty>(new List<IProperty>()), null, "elementName", true));
-        }
-
-        [Test]
-        public void Ctor_ShouldThrowIfElementNameIsNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new BooleanPropertyBase(new ReadOnlyCollection<IProperty>(new List<IProperty>()), "name", null, true));
-        }
-
-        [Test]
-        public void Ctor_ShouldAssignName()
-        {
-            Assert.AreEqual(mName, mSut.Name);
-        }
-
-        [Test]
-        public void Ctor_ShouldAssignValueToDefault()
-        {
-            Assert.AreEqual(mDefaultValue, mSut.Value);
-        }
+        private string mName;
+        private bool mDefaultValue;
+        private BooleanPropertyBase mSut;
 
         [TestCase("<boolean />", true)]
         [TestCase("<boolean><elementName/></boolean>", true)]
@@ -63,6 +36,30 @@ namespace Editor.Test.ConfigProperties.Base
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.Value);
+        }
+
+        [Test]
+        public void Ctor_ShouldAssignName()
+        {
+            Assert.AreEqual(mName, mSut.Name);
+        }
+
+        [Test]
+        public void Ctor_ShouldAssignValueToDefault()
+        {
+            Assert.AreEqual(mDefaultValue, mSut.Value);
+        }
+
+        [Test]
+        public void Ctor_ShouldThrowIfElementNameIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new BooleanPropertyBase("name", null, true));
+        }
+
+        [Test]
+        public void Ctor_ShouldThrowIfNameIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new BooleanPropertyBase(null, "elementName", true));
         }
 
         [Test]

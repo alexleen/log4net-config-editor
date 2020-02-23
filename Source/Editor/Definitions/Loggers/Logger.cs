@@ -21,10 +21,10 @@ namespace Editor.Definitions.Loggers
 
         public override void Initialize()
         {
-            AddProperty(new Name(Properties, mConfiguration));
-            AddProperty(new Aditivity(Properties));
-            AddProperty(new LevelProperty(Properties, true));
-            AddProperty(new OutgoingRefs(Properties, mConfiguration));
+            AddProperty(new Name(mConfiguration));
+            AddProperty(new Aditivity());
+            AddProperty(new LevelProperty(true));
+            AddProperty(new OutgoingRefs(mConfiguration));
         }
     }
 }

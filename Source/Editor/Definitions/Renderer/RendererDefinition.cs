@@ -13,8 +13,8 @@ namespace Editor.Definitions.Renderer
 
         public override void Initialize()
         {
-            AddProperty(new RenderingClass(Properties));
-            AddProperty(new RenderedClass(Properties));
+            AddProperty(new RenderingClass());
+            AddProperty(new RenderedClass());
         }
     }
 }

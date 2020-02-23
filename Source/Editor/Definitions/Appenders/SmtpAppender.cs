@@ -12,17 +12,17 @@ namespace Editor.Definitions.Appenders
 {
     internal class SmtpAppender : BufferingAppenderSkeleton
     {
-        private int mUsernameIndex;
+        private readonly RequiredStringProperty mPassword;
         private readonly RequiredStringProperty mUsername;
 
         private int mPasswordIndex;
-        private readonly RequiredStringProperty mPassword;
+        private int mUsernameIndex;
 
         public SmtpAppender(IElementConfiguration configuration)
             : base(configuration, true)
         {
-            mUsername = new RequiredStringProperty(Properties, "Username:", "username");
-            mPassword = new RequiredStringProperty(Properties, "Password:", "password");
+            mUsername = new RequiredStringProperty("Username:", "username");
+            mPassword = new RequiredStringProperty("Password:", "password");
         }
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.Smtp;
@@ -33,13 +33,13 @@ namespace Editor.Definitions.Appenders
         {
             base.AddAppenderSpecificProperties();
 
-            EnumProperty<SmtpAuthentication> auth = new EnumProperty<SmtpAuthentication>(Properties, "Authentication:", 60, "authentication");
+            EnumProperty<SmtpAuthentication> auth = new EnumProperty<SmtpAuthentication>("Authentication:", 60, "authentication");
             auth.PropertyChanged += AuthenticationOnPropertyChanged;
 
-            AddProperty(new RequiredStringProperty(Properties, "Host:", "smtpHost"));
-            AddProperty(new Port(Properties, "Port:", "port"));
+            AddProperty(new RequiredStringProperty("Host:", "smtpHost"));
+            AddProperty(new Port("Port:", "port"));
             AddProperty(auth);
-            AddProperty(new BooleanPropertyBase(Properties, "Enable SSL:", "enableSsl", false));
+            AddProperty(new BooleanPropertyBase("Enable SSL:", "enableSsl", false));
 
             mUsernameIndex = Properties.Count;
             AddRemoveBasedOnMode(auth.SelectedValue, mUsernameIndex, mUsername);
@@ -47,15 +47,15 @@ namespace Editor.Definitions.Appenders
             mPasswordIndex = mUsernameIndex + 1;
             AddRemoveBasedOnMode(auth.SelectedValue, mPasswordIndex, mPassword); //TODO obfuscate?
 
-            AddProperty(new RequiredStringProperty(Properties, "To:", "to"));
-            AddProperty(new RequiredStringProperty(Properties, "From:", "from"));
-            AddProperty(new StringValueProperty(Properties, "Reply To:", "replyTo"));
-            AddProperty(new StringValueProperty(Properties, "Cc:", "cc"));
-            AddProperty(new StringValueProperty(Properties, "Bcc:", "bcc"));
-            AddProperty(new StringValueProperty(Properties, "Subject:", "subject"));
-            AddProperty(new Encoding(Properties, "Subject Encoding:", "subjectEncoding"));
-            AddProperty(new Encoding(Properties, "Body Encoding:", "bodyEncoding"));
-            AddProperty(new EnumProperty<MailPriority>(Properties, "Priority:", 75, "priority"));
+            AddProperty(new RequiredStringProperty("To:", "to"));
+            AddProperty(new RequiredStringProperty("From:", "from"));
+            AddProperty(new StringValueProperty("Reply To:", "replyTo"));
+            AddProperty(new StringValueProperty("Cc:", "cc"));
+            AddProperty(new StringValueProperty("Bcc:", "bcc"));
+            AddProperty(new StringValueProperty("Subject:", "subject"));
+            AddProperty(new Encoding("Subject Encoding:", "subjectEncoding"));
+            AddProperty(new Encoding("Body Encoding:", "bodyEncoding"));
+            AddProperty(new EnumProperty<MailPriority>("Priority:", 75, "priority"));
         }
 
         private void AuthenticationOnPropertyChanged(object sender, PropertyChangedEventArgs e)

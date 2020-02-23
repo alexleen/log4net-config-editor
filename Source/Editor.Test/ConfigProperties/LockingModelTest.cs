@@ -1,11 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
-using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -13,25 +10,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class LockingModelTest
     {
-        private LockingModel mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new LockingModel(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new LockingModel();
         }
 
-        [Test]
-        public void LockingModels_ShouldBeInitializedCorrectly()
-        {
-            CollectionAssert.AreEqual(new[] { LockingModelDescriptor.Exclusive, LockingModelDescriptor.Minimal, LockingModelDescriptor.InterProcess }, mSut.LockingModels);
-        }
-
-        [Test]
-        public void SelectedModel_ShouldBeInitializedToExclusive()
-        {
-            Assert.AreEqual(LockingModelDescriptor.Exclusive, mSut.SelectedModel);
-        }
+        private LockingModel mSut;
 
         [TestCase(null, "Exclusive")]
         [TestCase("<lockingModel />", "Exclusive")]
@@ -48,6 +33,12 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.SelectedModel.Name);
+        }
+
+        [Test]
+        public void LockingModels_ShouldBeInitializedCorrectly()
+        {
+            CollectionAssert.AreEqual(new[] { LockingModelDescriptor.Exclusive, LockingModelDescriptor.Minimal, LockingModelDescriptor.InterProcess }, mSut.LockingModels);
         }
 
         [Test]
@@ -74,6 +65,12 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(modelNode);
             Assert.AreEqual(LockingModelDescriptor.Minimal.TypeNamespace, modelNode.Attributes?["type"].Value);
+        }
+
+        [Test]
+        public void SelectedModel_ShouldBeInitializedToExclusive()
+        {
+            Assert.AreEqual(LockingModelDescriptor.Exclusive, mSut.SelectedModel);
         }
     }
 }

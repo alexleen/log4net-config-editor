@@ -18,7 +18,7 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new RequiredStringProperty(Properties, "Key:", "key") { IsFocused = true });
+            AddProperty(new RequiredStringProperty("Key:", "key") { IsFocused = true });
             base.Initialize();
         }
     }

@@ -1,12 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -15,8 +13,8 @@ namespace Editor.ConfigProperties
     {
         private const string LockingModelName = "lockingModel";
 
-        public LockingModel(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto)
+        public LockingModel()
+            : base(GridLength.Auto)
         {
             LockingModels = new[] { LockingModelDescriptor.Exclusive, LockingModelDescriptor.Minimal, LockingModelDescriptor.InterProcess };
             SelectedModel = LockingModelDescriptor.Exclusive;
