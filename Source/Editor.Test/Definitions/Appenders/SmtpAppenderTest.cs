@@ -95,7 +95,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             //Should NOT include username and password to start (since auth defaults to basic)
             CollectionAssert.IsEmpty(mSut.Properties.Where(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Username:"));
-            CollectionAssert.IsEmpty(mSut.Properties.Where(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Password:"));
+            CollectionAssert.IsEmpty(mSut.Properties.Where(p => p.GetType() == typeof(Password)));
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Editor.Test.Definitions.Appenders
             Initialize_ShouldAddSmtpProperties();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Username:");
-            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Password:");
+            mSut.Properties.Single(p => p.GetType() == typeof(Password));
         }
 
         [Test]
