@@ -1,8 +1,6 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -22,7 +20,6 @@ namespace Editor.Windows
 
         public IWindowSizeLocation WindowSizeLocation { get; }
         public IElementDefinition PropertyDefinition { get; }
-        public ObservableCollection<IProperty> Properties { get; }
 
         public ElementWindow(IElementConfiguration appenderConfiguration,
                              IElementDefinition propertyDefinition,
@@ -40,9 +37,7 @@ namespace Editor.Windows
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
             PropertyDefinition.MessageBoxService = mMessageBoxService;
-            Properties = new ObservableCollection<IProperty>();
             Loaded += WindowOnLoaded;
-            ((INotifyCollectionChanged)PropertyDefinition.Properties).CollectionChanged += PropertiesOnCollectionChanged;
             Icon = new BitmapImage(new Uri(PropertyDefinition.Icon));
         }
 
@@ -58,25 +53,6 @@ namespace Editor.Windows
             MaxHeight = windowSizeLocation.Height.Max;
         }
 
-        private void PropertiesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (IProperty property in e.NewItems)
-                {
-                    Properties.Add(property);
-                }
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach (IProperty property in e.OldItems)
-                {
-                    Properties.Remove(property);
-                }
-            }
-        }
-
         private void WindowOnLoaded(object sender, EventArgs e)
         {
             //This will add all properties to collection via event handler
@@ -89,20 +65,20 @@ namespace Editor.Windows
 
             // Load may add additional properties - hence the for loop and not foreach
             // ReSharper disable once ForCanBeConvertedToForeach
-            for (int index = 0; index < Properties.Count; index++)
+            for (int index = 0; index < PropertyDefinition.Properties.Count; index++)
             {
-                Properties[index].Load(mConfiguration.OriginalNode);
+                PropertyDefinition.Properties[index].Load(mConfiguration.OriginalNode);
             }
         }
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            if (Properties.Any(prop => !prop.TryValidate(mMessageBoxService)))
+            if (PropertyDefinition.Properties.Any(prop => !prop.TryValidate(mMessageBoxService)))
             {
                 return;
             }
 
-            foreach (IProperty appenderProperty in Properties)
+            foreach (IProperty appenderProperty in PropertyDefinition.Properties)
             {
                 appenderProperty.Save(mConfiguration.ConfigXml, mConfiguration.NewNode);
             }
