@@ -1,4 +1,6 @@
-﻿using Editor.ConfigProperties;
+﻿// Copyright © 2020 Alex Leendertsen
+
+using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;

@@ -18,7 +18,6 @@ namespace Editor.Windows
         private readonly IElementConfiguration mConfiguration;
         private readonly ISaveStrategy mSaveStrategy;
 
-        public IWindowSizeLocation WindowSizeLocation { get; }
         public IElementDefinition PropertyDefinition { get; }
 
         public ElementWindow(IElementConfiguration appenderConfiguration,
@@ -32,7 +31,6 @@ namespace Editor.Windows
             mMessageBoxService = new MessageBoxService(this);
 
             mConfiguration = appenderConfiguration;
-            WindowSizeLocation = windowSizeLocation;
             mSaveStrategy = saveStrategy;
             SetWindowSizeLocation(windowSizeLocation);
             PropertyDefinition = propertyDefinition;
@@ -91,11 +89,6 @@ namespace Editor.Windows
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        public void ShowWarning(string message)
-        {
-            throw new NotImplementedException();
         }
     }
 }

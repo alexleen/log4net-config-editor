@@ -86,6 +86,7 @@
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
     <Compile Include="ConfigProperties\Encoding.cs" />
+    <Compile Include="ConfigProperties\Password.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Enums\ModelCreateResult.cs" />
     <Compile Include="ConfigProperties\RequiredStringProperty.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="Interfaces\IToastService.cs" />
     <Compile Include="Utilities\MessageBoxService.cs" />
+    <Compile Include="Utilities\PasswordBoxAssistant.cs" />
     <Compile Include="Utilities\ToastService.cs" />
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>

@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿// Copyright © 2020 Alex Leendertsen
+
+using System.Xml;
 using Editor.ConfigProperties;
 using NUnit.Framework;
 

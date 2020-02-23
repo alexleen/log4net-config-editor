@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright © 2020 Alex Leendertsen
+
+using System;
 using System.Linq;
 using System.Net.Mail;
 using System.Xml;

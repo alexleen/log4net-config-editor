@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿// Copyright © 2020 Alex Leendertsen
+
+using System.Linq;
 using System.Net.Mail;
 using System.Xml;
 using Editor.ConfigProperties;

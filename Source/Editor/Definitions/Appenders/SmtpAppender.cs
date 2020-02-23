@@ -22,7 +22,7 @@ namespace Editor.Definitions.Appenders
             : base(configuration, true)
         {
             mUsername = new RequiredStringProperty("Username:", "username");
-            mPassword = new RequiredStringProperty("Password:", "password");
+            mPassword = new Password("Password:", "password");
         }
 
         public override AppenderDescriptor Descriptor => AppenderDescriptor.Smtp;
@@ -45,7 +45,7 @@ namespace Editor.Definitions.Appenders
             AddRemoveBasedOnMode(auth.SelectedValue, mUsernameIndex, mUsername);
 
             mPasswordIndex = mUsernameIndex + 1;
-            AddRemoveBasedOnMode(auth.SelectedValue, mPasswordIndex, mPassword); //TODO obfuscate?
+            AddRemoveBasedOnMode(auth.SelectedValue, mPasswordIndex, mPassword);
 
             AddProperty(new RequiredStringProperty("To:", "to"));
             AddProperty(new RequiredStringProperty("From:", "from"));
