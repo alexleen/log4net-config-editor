@@ -12,7 +12,7 @@ namespace Editor.Definitions.Appenders
 {
     internal class SmtpAppender : BufferingAppenderSkeleton
     {
-        private readonly RequiredStringProperty mPassword;
+        private readonly Password mPassword;
         private readonly RequiredStringProperty mUsername;
 
         private int mPasswordIndex;

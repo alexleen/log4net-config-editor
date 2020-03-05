@@ -76,7 +76,7 @@ namespace Editor.Windows
                 AppenderDescriptor.LocalSyslog,
                 AppenderDescriptor.RemoteSyslog,
                 AppenderDescriptor.Smtp
-            };
+            }.OrderBy(ad => ad.Name);
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 
