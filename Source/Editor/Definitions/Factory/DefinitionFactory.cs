@@ -82,6 +82,8 @@ namespace Editor.Definitions.Factory
                     return new BufferingForwardingAppender(appenderConfiguration);
                 case AppenderType.AspNetTrace:
                     return new AspNetTraceAppender(appenderConfiguration);
+                case AppenderType.SmtpPickupDir:
+                    return new SmtpPickupDirAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

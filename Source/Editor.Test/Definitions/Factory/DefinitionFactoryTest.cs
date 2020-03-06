@@ -44,6 +44,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.Memory, typeof(MemoryAppender)),
             new TestCaseData(AppenderDescriptor.BufferingForwarding, typeof(BufferingForwardingAppender)),
             new TestCaseData(AppenderDescriptor.AspNetTrace, typeof(AspNetTraceAppender)),
+            new TestCaseData(AppenderDescriptor.SmtpPickupDir, typeof(SmtpPickupDirAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

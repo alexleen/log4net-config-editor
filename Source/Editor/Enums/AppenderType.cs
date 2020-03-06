@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 namespace Editor.Enums
 {
@@ -21,6 +21,7 @@ namespace Editor.Enums
         Remoting,
         RollingFile,
         Smtp,
+        SmtpPickupDir,
         Telnet,
         Trace,
         Udp
