@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,8 @@ namespace Editor.Test.Descriptors
             new TestCaseData("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender", "appender"),
             new TestCaseData("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender", "appender"),
             new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender"),
-            new TestCaseData("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender", "appender")
+            new TestCaseData("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender", "appender"),
+            new TestCaseData("Debug", AppenderType.Debug, "log4net.Appender.DebugAppender", "appender")
         };
 
         [TestCaseSource(nameof(sAppenderData))]

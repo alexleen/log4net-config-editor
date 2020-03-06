@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.LocalSyslog, typeof(LocalSyslogAppender)),
             new TestCaseData(AppenderDescriptor.RemoteSyslog, typeof(RemoteSyslogAppender)),
             new TestCaseData(AppenderDescriptor.Smtp, typeof(SmtpAppender)),
+            new TestCaseData(AppenderDescriptor.Debug, typeof(DebugAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

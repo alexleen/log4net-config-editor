@@ -14,6 +14,7 @@ namespace Editor.Enums
         Udp,
         LocalSyslog,
         RemoteSyslog,
-        Smtp
+        Smtp,
+        Debug
     }
 }
