@@ -72,6 +72,8 @@ namespace Editor.Definitions.Factory
                     return new TelnetAppender(appenderConfiguration);
                 case AppenderType.Remoting:
                     return new RemotingAppender(appenderConfiguration);
+                case AppenderType.OutputDebugString:
+                    return new OutputStringDebugAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

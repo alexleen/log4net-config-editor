@@ -12,6 +12,7 @@ namespace Editor.Enums
         Forwarding,
         LocalSyslog,
         ManagedColor,
+        OutputDebugString,
         RemoteSyslog,
         Remoting,
         RollingFile,
