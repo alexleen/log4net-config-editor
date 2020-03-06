@@ -8,7 +8,7 @@ namespace Editor.ConfigProperties.Base
 {
     public class StringValueProperty : PropertyBase
     {
-        private readonly string mElementName;
+        protected readonly string mElementName;
 
         internal StringValueProperty(string name, string elementName)
             : base(GridLength.Auto)

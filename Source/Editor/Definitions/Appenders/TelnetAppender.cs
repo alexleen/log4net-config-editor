@@ -19,7 +19,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new Port("Port:", "port"));
+            AddProperty(new Port("Port:", "port", 23));
         }
     }
 }

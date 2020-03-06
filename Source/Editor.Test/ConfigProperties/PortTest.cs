@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System.Net;
 using System.Xml;
@@ -15,7 +15,7 @@ namespace Editor.Test.ConfigProperties
         [SetUp]
         public void SetUp()
         {
-            mSut = new Port("Port:", "port");
+            mSut = new Port("Port:", "port", null);
         }
 
         private Port mSut;
@@ -56,6 +56,19 @@ namespace Editor.Test.ConfigProperties
             XmlElement appenderElement = xmlDoc.CreateElement("appender");
 
             mSut.Value = value;
+            mSut.Save(xmlDoc, appenderElement);
+
+            CollectionAssert.IsEmpty(appenderElement.ChildNodes);
+        }
+
+        [Test]
+        public void Save_ShouldNotSave_WhenDefaultValue()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+
+            mSut = new Port("Port:", "port", 123);
+            mSut.Value = "123";
             mSut.Save(xmlDoc, appenderElement);
 
             CollectionAssert.IsEmpty(appenderElement.ChildNodes);
