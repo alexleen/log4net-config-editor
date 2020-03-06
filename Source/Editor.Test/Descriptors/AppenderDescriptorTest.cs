@@ -40,7 +40,8 @@ namespace Editor.Test.Descriptors
             new TestCaseData("Output Debug String", AppenderType.OutputDebugString, "log4net.Appender.OutputDebugStringAppender", "appender"),
             new TestCaseData("Net Send", AppenderType.NetSend, "log4net.Appender.NetSendAppender", "appender"),
             new TestCaseData("Memory", AppenderType.Memory, "log4net.Appender.MemoryAppender", "appender"),
-            new TestCaseData("Buffering Forwarding", AppenderType.BufferingForwarding, "log4net.Appender.BufferingForwardingAppender", "appender")
+            new TestCaseData("Buffering Forwarding", AppenderType.BufferingForwarding, "log4net.Appender.BufferingForwardingAppender", "appender"),
+            new TestCaseData("ASP.NET Trace", AppenderType.AspNetTrace, "log4net.Appender.AspNetTraceAppender", "appender")
         };
 
         [TestCaseSource(nameof(sAppenderData))]

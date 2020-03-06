@@ -4,6 +4,7 @@ namespace Editor.Enums
 {
     public enum AppenderType
     {
+        AspNetTrace,
         Async,
         BufferingForwarding,
         Console,

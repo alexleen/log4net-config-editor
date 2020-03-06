@@ -80,6 +80,8 @@ namespace Editor.Definitions.Factory
                     return new MemoryAppender(appenderConfiguration);
                 case AppenderType.BufferingForwarding:
                     return new BufferingForwardingAppender(appenderConfiguration);
+                case AppenderType.AspNetTrace:
+                    return new AspNetTraceAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

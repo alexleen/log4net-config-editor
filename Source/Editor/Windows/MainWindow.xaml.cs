@@ -83,7 +83,8 @@ namespace Editor.Windows
                 AppenderDescriptor.OutputDebugString,
                 AppenderDescriptor.NetSend,
                 AppenderDescriptor.Memory,
-                AppenderDescriptor.BufferingForwarding
+                AppenderDescriptor.BufferingForwarding,
+                AppenderDescriptor.AspNetTrace
             }.OrderBy(ad => ad.Name);
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };

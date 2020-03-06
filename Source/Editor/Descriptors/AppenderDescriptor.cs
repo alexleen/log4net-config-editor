@@ -26,7 +26,8 @@ namespace Editor.Descriptors
                                                   OutputDebugString,
                                                   NetSend,
                                                   Memory,
-                                                  BufferingForwarding;
+                                                  BufferingForwarding,
+                                                  AspNetTrace;
 
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
 
@@ -51,6 +52,7 @@ namespace Editor.Descriptors
             NetSend = new AppenderDescriptor("Net Send", AppenderType.NetSend, "log4net.Appender.NetSendAppender");
             Memory = new AppenderDescriptor("Memory", AppenderType.Memory, "log4net.Appender.MemoryAppender");
             BufferingForwarding = new AppenderDescriptor("Buffering Forwarding", AppenderType.BufferingForwarding, "log4net.Appender.BufferingForwardingAppender");
+            AspNetTrace = new AppenderDescriptor("ASP.NET Trace", AppenderType.AspNetTrace, "log4net.Appender.AspNetTraceAppender");
 
             sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
             {
@@ -72,7 +74,8 @@ namespace Editor.Descriptors
                 { OutputDebugString.TypeNamespace, OutputDebugString },
                 { NetSend.TypeNamespace, NetSend },
                 { Memory.TypeNamespace, Memory },
-                { BufferingForwarding.TypeNamespace, BufferingForwarding }
+                { BufferingForwarding.TypeNamespace, BufferingForwarding },
+                { AspNetTrace.TypeNamespace, AspNetTrace }
             };
         }
 

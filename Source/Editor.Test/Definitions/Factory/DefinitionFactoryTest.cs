@@ -43,6 +43,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.NetSend, typeof(NetSendAppender)),
             new TestCaseData(AppenderDescriptor.Memory, typeof(MemoryAppender)),
             new TestCaseData(AppenderDescriptor.BufferingForwarding, typeof(BufferingForwardingAppender)),
+            new TestCaseData(AppenderDescriptor.AspNetTrace, typeof(AspNetTraceAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),
