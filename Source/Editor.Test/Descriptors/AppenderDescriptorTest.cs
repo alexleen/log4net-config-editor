@@ -41,6 +41,7 @@ namespace Editor.Test.Descriptors
             new TestCaseData("SMTP Pickup Dir", AppenderType.SmtpPickupDir, "log4net.Appender.SmtpPickupDirAppender", "appender"),
             new TestCaseData("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender", "appender"),
             new TestCaseData("Telnet", AppenderType.Telnet, "log4net.Appender.TelnetAppender", "appender"),
+            new TestCaseData("Text Writer", AppenderType.TextWriter, "log4net.Appender.TextWriterAppender", "appender"),
             new TestCaseData("Trace", AppenderType.Trace, "log4net.Appender.TraceAppender", "appender"),
             new TestCaseData("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender", "appender")
         };

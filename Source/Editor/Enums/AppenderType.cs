@@ -23,6 +23,7 @@ namespace Editor.Enums
         Smtp,
         SmtpPickupDir,
         Telnet,
+        TextWriter,
         Trace,
         Udp
     }

@@ -41,7 +41,7 @@ Currently under construction. log4net configuration files can be quite large and
 | RemotingAppender              | ✓         |
 | RollingFileAppender           | ✓         |
 | SmtpAppender                  | ✓         |
-| SmtpPickupDirAppender         |           |
+| SmtpPickupDirAppender         | ✓         |
 | TelnetAppender                | ✓         |
 | TextWriterAppender            |           |
 | TraceAppender                 | ✓         |

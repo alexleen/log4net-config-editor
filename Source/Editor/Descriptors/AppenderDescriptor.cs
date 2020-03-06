@@ -27,6 +27,7 @@ namespace Editor.Descriptors
                                                   Smtp,
                                                   SmtpPickupDir,
                                                   Telnet,
+                                                  TextWriter,
                                                   Trace,
                                                   Udp;
 
@@ -53,6 +54,7 @@ namespace Editor.Descriptors
             Smtp = new AppenderDescriptor("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender");
             SmtpPickupDir = new AppenderDescriptor("SMTP Pickup Dir", AppenderType.SmtpPickupDir, "log4net.Appender.SmtpPickupDirAppender");
             Telnet = new AppenderDescriptor("Telnet", AppenderType.Telnet, "log4net.Appender.TelnetAppender");
+            TextWriter = new AppenderDescriptor("Text Writer", AppenderType.TextWriter, "log4net.Appender.TextWriterAppender");
             Trace = new AppenderDescriptor("Trace", AppenderType.Trace, "log4net.Appender.TraceAppender");
             Udp = new AppenderDescriptor("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender");
 
@@ -77,6 +79,7 @@ namespace Editor.Descriptors
                 { Smtp.TypeNamespace, Smtp },
                 { SmtpPickupDir.TypeNamespace, SmtpPickupDir },
                 { Telnet.TypeNamespace, Telnet },
+                { TextWriter.TypeNamespace, TextWriter },
                 { Trace.TypeNamespace, Trace },
                 { Udp.TypeNamespace, Udp }
             };
