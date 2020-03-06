@@ -8,7 +8,7 @@ namespace Editor.Descriptors
 {
     public class AppenderDescriptor : DescriptorBase
     {
-        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp, LocalSyslog, RemoteSyslog, Smtp, Debug, Trace, Telnet, Remoting, OutputDebugString;
+        public static readonly AppenderDescriptor Console, File, RollingFile, EventLog, Async, Forwarding, ManagedColor, Udp, LocalSyslog, RemoteSyslog, Smtp, Debug, Trace, Telnet, Remoting, OutputDebugString, NetSend;
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
 
         static AppenderDescriptor()
@@ -29,6 +29,7 @@ namespace Editor.Descriptors
             Telnet = new AppenderDescriptor("Telnet", AppenderType.Telnet, "log4net.Appender.TelnetAppender");
             Remoting = new AppenderDescriptor("Remoting", AppenderType.Remoting, "log4net.Appender.RemotingAppender");
             OutputDebugString = new AppenderDescriptor("Output Debug String", AppenderType.OutputDebugString, "log4net.Appender.OutputDebugStringAppender");
+            NetSend = new AppenderDescriptor("Net Send", AppenderType.NetSend, "log4net.Appender.NetSendAppender");
 
             sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
             {
@@ -47,7 +48,8 @@ namespace Editor.Descriptors
                 { Trace.TypeNamespace, Trace },
                 { Telnet.TypeNamespace, Telnet },
                 { Remoting.TypeNamespace, Remoting },
-                { OutputDebugString.TypeNamespace, OutputDebugString }
+                { OutputDebugString.TypeNamespace, OutputDebugString },
+                { NetSend.TypeNamespace, NetSend }
             };
         }
 
