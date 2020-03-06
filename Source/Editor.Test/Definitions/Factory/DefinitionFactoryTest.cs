@@ -36,6 +36,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.RemoteSyslog, typeof(RemoteSyslogAppender)),
             new TestCaseData(AppenderDescriptor.Smtp, typeof(SmtpAppender)),
             new TestCaseData(AppenderDescriptor.Debug, typeof(DebugAppender)),
+            new TestCaseData(AppenderDescriptor.Trace, typeof(TraceAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

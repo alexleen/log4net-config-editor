@@ -66,6 +66,8 @@ namespace Editor.Definitions.Factory
                     return new SmtpAppender(appenderConfiguration);
                 case AppenderType.Debug:
                     return new DebugAppender(appenderConfiguration);
+                case AppenderType.Trace:
+                    return new TraceAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

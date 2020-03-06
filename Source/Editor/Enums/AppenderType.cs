@@ -15,6 +15,7 @@ namespace Editor.Enums
         LocalSyslog,
         RemoteSyslog,
         Smtp,
-        Debug
+        Debug,
+        Trace
     }
 }

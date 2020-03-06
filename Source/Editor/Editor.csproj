@@ -90,6 +90,7 @@
     <Compile Include="ConfigProperties\Password.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Definitions\Appenders\DebugAppender.cs" />
+    <Compile Include="Definitions\Appenders\TraceAppender.cs" />
     <Compile Include="Enums\ModelCreateResult.cs" />
     <Compile Include="ConfigProperties\RequiredStringProperty.cs" />
     <Compile Include="Definitions\Appenders\BufferingAppenderSkeleton.cs" />
