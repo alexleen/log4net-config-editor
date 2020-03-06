@@ -1,10 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -12,25 +9,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class AditivityTest
     {
-        private Aditivity mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new Aditivity(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new Aditivity();
         }
 
-        [Test]
-        public void Name_ShouldBeInitializedCorrectly()
-        {
-            Assert.AreEqual("Aditivity:", mSut.Name);
-        }
-
-        [Test]
-        public void Value_ShouldDefaultToTrue()
-        {
-            Assert.IsTrue(mSut.Value);
-        }
+        private Aditivity mSut;
 
         [TestCase("<logger />", true)]
         [TestCase("<logger aditivity=\"\" />", true)]
@@ -45,6 +30,12 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.Value);
+        }
+
+        [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Aditivity:", mSut.Name);
         }
 
         [Test]
@@ -68,6 +59,12 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(xmlDoc, logger);
 
             Assert.AreEqual("False", logger.Attributes?["aditivity"].Value);
+        }
+
+        [Test]
+        public void Value_ShouldDefaultToTrue()
+        {
+            Assert.IsTrue(mSut.Value);
         }
     }
 }

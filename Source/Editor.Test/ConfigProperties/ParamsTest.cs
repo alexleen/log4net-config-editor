@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -14,12 +12,10 @@ using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {
-    [TestFixture, Apartment(ApartmentState.STA)]
+    [TestFixture]
+    [Apartment(ApartmentState.STA)]
     public class ParamsTest
     {
-        private IMessageBoxService mMessageBoxService;
-        private Params mSut;
-
         [SetUp]
         public void SetUp()
         {
@@ -27,14 +23,11 @@ namespace Editor.Test.ConfigProperties
             IConfiguration configuration = Substitute.For<IConfiguration>();
             configuration.ConfigXml.Returns(new XmlDocument());
 
-            mSut = new Params(new ReadOnlyCollection<IProperty>(new List<IProperty>()), configuration, mMessageBoxService);
+            mSut = new Params(configuration, mMessageBoxService);
         }
 
-        [Test]
-        public void Ctor_ShouldInitializeExistingParams()
-        {
-            CollectionAssert.IsEmpty(mSut.ExistingParams);
-        }
+        private IMessageBoxService mMessageBoxService;
+        private Params mSut;
 
         [Test]
         public void Add_ShouldShowParamElementWindow()
@@ -45,35 +38,8 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Remove_ShouldRemoveParam()
+        public void Ctor_ShouldInitializeExistingParams()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "  <param name=\"someName\" value=\"someValue\" />\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            //Test sanity check
-            Assert.AreEqual(1, mSut.ExistingParams.Count);
-
-            mSut.ExistingParams[0].Remove.Execute(null);
-
-            CollectionAssert.IsEmpty(mSut.ExistingParams);
-        }
-
-        [Test]
-        public void Load_ShouldNotLoadNonExistentParams()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "  <whatev />" +
-                           "  <para />" +
-                           "  <aram />" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
             CollectionAssert.IsEmpty(mSut.ExistingParams);
         }
 
@@ -96,6 +62,39 @@ namespace Editor.Test.ConfigProperties
 
             Assert.AreEqual("someName", mSut.ExistingParams[1].Name);
             Assert.AreEqual("someType", mSut.ExistingParams[1].Type);
+        }
+
+        [Test]
+        public void Load_ShouldNotLoadNonExistentParams()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "  <whatev />" +
+                           "  <para />" +
+                           "  <aram />" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            CollectionAssert.IsEmpty(mSut.ExistingParams);
+        }
+
+        [Test]
+        public void Remove_ShouldRemoveParam()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           "  <param name=\"someName\" value=\"someValue\" />\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
+            //Test sanity check
+            Assert.AreEqual(1, mSut.ExistingParams.Count);
+
+            mSut.ExistingParams[0].Remove.Execute(null);
+
+            CollectionAssert.IsEmpty(mSut.ExistingParams);
         }
 
         [Test]

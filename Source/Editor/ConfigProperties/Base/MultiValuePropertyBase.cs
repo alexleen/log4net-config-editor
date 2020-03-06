@@ -1,16 +1,16 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using Editor.Interfaces;
 
 namespace Editor.ConfigProperties.Base
 {
     internal abstract class MultiValuePropertyBase<TValueType> : PropertyBase
     {
-        protected MultiValuePropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight, string name, IEnumerable<TValueType> values, double width)
-            : base(container, rowHeight)
+        private TValueType mSelectedValue;
+
+        protected MultiValuePropertyBase(GridLength rowHeight, string name, IEnumerable<TValueType> values, double width)
+            : base(rowHeight)
         {
             Name = name;
             Values = values;
@@ -21,7 +21,20 @@ namespace Editor.ConfigProperties.Base
 
         public IEnumerable<TValueType> Values { get; }
 
-        public TValueType SelectedValue { get; set; }
+        public TValueType SelectedValue
+        {
+            get => mSelectedValue;
+            set
+            {
+                if (Equals(value, mSelectedValue))
+                {
+                    return;
+                }
+
+                mSelectedValue = value;
+                OnPropertyChanged();
+            }
+        }
 
         public double Width { get; }
     }

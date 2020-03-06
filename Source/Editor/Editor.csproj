@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -72,13 +72,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ConfigProperties\AcceptOnMatch.cs" />
     <Compile Include="ConfigProperties\Aditivity.cs" />
-    <Compile Include="ConfigProperties\ApplicationName.cs" />
     <Compile Include="ConfigProperties\BackColor.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\ColorPropertyBase.cs" />
-    <Compile Include="ConfigProperties\Base\EnumPropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\EnumProperty.cs" />
     <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\MultiValuePropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
@@ -87,8 +85,13 @@
     <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
+    <Compile Include="ConfigProperties\Encoding.cs" />
+    <Compile Include="ConfigProperties\Password.cs" />
     <Compile Include="ConfigProperties\RemoteIdentity.cs" />
     <Compile Include="Enums\ModelCreateResult.cs" />
+    <Compile Include="ConfigProperties\RequiredStringProperty.cs" />
+    <Compile Include="Definitions\Appenders\BufferingAppenderSkeleton.cs" />
+    <Compile Include="Definitions\Appenders\SmtpAppender.cs" />
     <Compile Include="Enums\SaveState.cs" />
     <Compile Include="HistoryManager\HistoryManagerFactory.cs" />
     <Compile Include="HistoryManager\IHistoryManagerFactory.cs" />
@@ -96,14 +99,9 @@
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
-    <Compile Include="ConfigProperties\LocalIdentity.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
-    <Compile Include="ConfigProperties\LocalPort.cs" />
-    <Compile Include="ConfigProperties\LocalSyslogFacility.cs" />
     <Compile Include="ConfigProperties\Port.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
-    <Compile Include="ConfigProperties\RemotePort.cs" />
-    <Compile Include="ConfigProperties\RemoteSyslogFacility.cs" />
     <Compile Include="ConfigProperties\Params.cs" />
     <Compile Include="ConfigProperties\RenderedClass.cs" />
     <Compile Include="ConfigProperties\RenderingClass.cs" />
@@ -124,12 +122,9 @@
     <Compile Include="ConfigProperties\Filters.cs" />
     <Compile Include="ConfigProperties\Fix.cs" />
     <Compile Include="ConfigProperties\IncomingRefs.cs" />
-    <Compile Include="ConfigProperties\Key.cs" />
     <Compile Include="ConfigProperties\Layout.cs" />
     <Compile Include="ConfigProperties\LevelToMatch.cs" />
     <Compile Include="ConfigProperties\LockingModel.cs" />
-    <Compile Include="ConfigProperties\LoggerToMatch.cs" />
-    <Compile Include="ConfigProperties\LogName.cs" />
     <Compile Include="ConfigProperties\Mapping.cs" />
     <Compile Include="ConfigProperties\MaximumFileSize.cs" />
     <Compile Include="ConfigProperties\MaxLevel.cs" />
@@ -137,10 +132,8 @@
     <Compile Include="ConfigProperties\MinLevel.cs" />
     <Compile Include="ConfigProperties\Name.cs" />
     <Compile Include="ConfigProperties\OutgoingRefs.cs" />
-    <Compile Include="ConfigProperties\PreserveExtension.cs" />
     <Compile Include="ConfigProperties\RegexMatch.cs" />
     <Compile Include="ConfigProperties\RollingStyle.cs" />
-    <Compile Include="ConfigProperties\StaticLogFileName.cs" />
     <Compile Include="ConfigProperties\StringMatch.cs" />
     <Compile Include="ConfigProperties\Target.cs" />
     <Compile Include="ConfigProperties\Threshold.cs" />
@@ -190,10 +183,12 @@
     <Compile Include="Utilities\ExtensionsMethods.cs" />
     <Compile Include="Interfaces\IToastService.cs" />
     <Compile Include="Utilities\MessageBoxService.cs" />
+    <Compile Include="Utilities\PasswordBoxAssistant.cs" />
     <Compile Include="Utilities\ToastService.cs" />
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Selector.cs" />
     <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXml.cs" />
     <Compile Include="XML\ConfigurationFactory.cs" />
     <Compile Include="XML\ElementConfiguration.cs" />

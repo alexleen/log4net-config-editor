@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,9 +26,9 @@ namespace Editor.Utilities
             obj.SetValue(BindableRowsProperty, value);
         }
 
-        public static void BindableRowsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static void BindableRowsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (obj is Grid grid && e.NewValue is ObservableCollection<IProperty> rows)
+            if (obj is Grid grid && e.NewValue is ReadOnlyObservableCollection<IProperty> rows)
             {
                 new GridRowManager(grid, rows);
             }
@@ -48,9 +48,17 @@ namespace Editor.Utilities
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
+                    int i = e.NewStartingIndex;
                     foreach (IProperty gridRow in e.NewItems)
                     {
-                        mGrid.RowDefinitions.Add(new RowDefinition { Height = gridRow.RowHeight });
+                        mGrid.RowDefinitions.Insert(i++, new RowDefinition { Height = gridRow.RowHeight });
+                    }
+                }
+                else if (e.Action == NotifyCollectionChangedAction.Remove)
+                {
+                    for (int i = e.OldStartingIndex; i < e.OldItems.Count + e.OldStartingIndex; i++)
+                    {
+                        mGrid.RowDefinitions.RemoveAt(i);
                     }
                 }
             }

@@ -25,17 +25,17 @@ namespace Editor.Definitions.Appenders
 
         public override void Initialize()
         {
-            AddProperty(new TypeAttribute(Properties, Descriptor));
-            Name nameProperty = new Name(Properties, Configuration);
+            AddProperty(new TypeAttribute(Descriptor));
+            Name nameProperty = new Name(Configuration);
             AddProperty(nameProperty);
-            AddProperty(new Threshold(Properties));
+            AddProperty(new Threshold());
 
             AddAppenderSpecificProperties();
 
-            AddProperty(new Layout(Properties, new HistoryManagerFactory(new SettingManager<string>())));
-            AddProperty(new ConfigProperties.Filters(Properties, Configuration, MessageBoxService));
-            AddProperty(new IncomingRefs(Properties, nameProperty, Configuration));
-            AddProperty(new Params(Properties, Configuration, MessageBoxService));
+            AddProperty(new Layout(new HistoryManagerFactory(new SettingManager<string>())));
+            AddProperty(new ConfigProperties.Filters(Configuration, MessageBoxService));
+            AddProperty(new IncomingRefs(nameProperty, Configuration));
+            AddProperty(new Params(Configuration, MessageBoxService));
         }
 
         protected virtual void AddAppenderSpecificProperties()

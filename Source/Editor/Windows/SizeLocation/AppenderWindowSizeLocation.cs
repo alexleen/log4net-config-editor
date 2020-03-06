@@ -11,6 +11,6 @@ namespace Editor.Windows.SizeLocation
         public ResizeMode ResizeMode { get; } = ResizeMode.CanResize;
         public SizeToContent SizeToContent { get; } = SizeToContent.Manual;
         public Size Width { get; } = new Size(550, min: 550);
-        public Size Height { get; } = new Size(650, min: 650);
+        public Size Height { get; } = new Size(650, min: 1000);
     }
 }

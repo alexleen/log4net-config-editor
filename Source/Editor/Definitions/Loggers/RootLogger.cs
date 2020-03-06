@@ -21,8 +21,8 @@ namespace Editor.Definitions.Loggers
 
         public override void Initialize()
         {
-            AddProperty(new LevelProperty(Properties, true));
-            AddProperty(new OutgoingRefs(Properties, mAppenderConfiguration));
+            AddProperty(new LevelProperty(true));
+            AddProperty(new OutgoingRefs(mAppenderConfiguration));
         }
     }
 }

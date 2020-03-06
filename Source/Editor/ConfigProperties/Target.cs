@@ -1,12 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -17,8 +15,8 @@ namespace Editor.ConfigProperties
         private const string ConsoleError = "Console.Error";
         private const string TargetName = "target";
 
-        public Target(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto)
+        public Target()
+            : base(GridLength.Auto)
         {
             Targets = new[] { ConsoleOut, ConsoleError };
             SelectedItem = ConsoleOut;

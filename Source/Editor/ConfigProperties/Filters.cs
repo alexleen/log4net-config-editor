@@ -23,8 +23,8 @@ namespace Editor.ConfigProperties
         private readonly IConfiguration mConfiguration;
         private readonly IMessageBoxService mMessageBoxService;
 
-        public Filters(ReadOnlyCollection<IProperty> container, IConfiguration configuration, IMessageBoxService messageBoxService)
-            : base(container, new GridLength(1, GridUnitType.Star))
+        public Filters(IConfiguration configuration, IMessageBoxService messageBoxService)
+            : base(new GridLength(1, GridUnitType.Star))
         {
             mConfiguration = configuration;
             mMessageBoxService = messageBoxService;

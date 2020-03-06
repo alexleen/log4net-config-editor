@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Windows;
 using System.Xml;
@@ -6,36 +6,36 @@ using System.Xml;
 namespace Editor.Interfaces
 {
     /// <summary>
-    /// Represents a log4net grid row used in either a Filter or Appender.
+    ///     Represents a log4net grid row used in either a Filter or Appender.
     /// </summary>
     public interface IProperty
     {
         /// <summary>
-        /// Zero-based row index of this appender property.
+        ///     Zero-based row index of this appender property.
         /// </summary>
-        int RowIndex { get; }
+        int RowIndex { get; set; }
 
         /// <summary>
-        /// Row's height.
+        ///     Row's height.
         /// </summary>
         GridLength RowHeight { get; }
 
         /// <summary>
-        /// Loads existing data into property from specified appender node.
+        ///     Loads existing data into property from specified appender node.
         /// </summary>
         /// <param name="originalNode"></param>
         void Load(XmlNode originalNode);
 
         /// <summary>
-        /// Validates property values. Will display a message box to the user describing any issues.
-        /// Returns true if successfully validated. False otherwise.
+        ///     Validates property values. Will display a message box to the user describing any issues.
+        ///     Returns true if successfully validated. False otherwise.
         /// </summary>
         /// <param name="messageBoxService"></param>
         /// <returns></returns>
         bool TryValidate(IMessageBoxService messageBoxService);
 
         /// <summary>
-        /// Saves this property to the specified appender node.
+        ///     Saves this property to the specified appender node.
         /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="newNode"></param>

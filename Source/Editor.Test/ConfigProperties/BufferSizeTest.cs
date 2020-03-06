@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,19 +11,42 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class BufferSizeTest
     {
-        private const string DefaultBufferSize = "1000";
-        private BufferSize mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new BufferSize(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new BufferSize(1000);
         }
 
-        [Test]
-        public void Value_ShouldBeInitializedToDefault()
+        private const string DefaultBufferSize = "1000";
+        private BufferSize mSut;
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("string")]
+        public void Load_ShouldSetDefaultValue_WhenAttributeValueIsNotAnInt(string value)
         {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<appender>\r\n" +
+                           $"    <bufferSize value=\"{value}\" />\r\n" +
+                           "</appender>");
+
+            mSut.Load(xmlDoc.FirstChild);
+
             Assert.AreEqual(DefaultBufferSize, mSut.Value);
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("string")]
+        public void TryValidate_ShouldShowMessageBoxAndReturnsFalse_WhenValueIsNotAnInt(string value)
+        {
+            mSut.Value = value;
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsFalse(mSut.TryValidate(messageBoxService));
+
+            messageBoxService.Received(1).ShowError("Buffer size must be a valid integer.");
         }
 
         [Test]
@@ -42,18 +63,6 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Load_ShouldSetDefaultValue_WhenElementDoesNotExist()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(DefaultBufferSize, mSut.Value);
-        }
-
-        [Test]
         public void Load_ShouldSetDefaultValue_WhenAttributeValueDoesNotExist()
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -66,14 +75,11 @@ namespace Editor.Test.ConfigProperties
             Assert.AreEqual(DefaultBufferSize, mSut.Value);
         }
 
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase("string")]
-        public void Load_ShouldSetDefaultValue_WhenAttributeValueIsNotAnInt(string value)
+        [Test]
+        public void Load_ShouldSetDefaultValue_WhenElementDoesNotExist()
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<appender>\r\n" +
-                           $"    <bufferSize value=\"{value}\" />\r\n" +
                            "</appender>");
 
             mSut.Load(xmlDoc.FirstChild);
@@ -109,20 +115,6 @@ namespace Editor.Test.ConfigProperties
             Assert.IsNull(bufferSize);
         }
 
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase("string")]
-        public void TryValidate_ShouldShowMessageBoxAndReturnsFalse_WhenValueIsNotAnInt(string value)
-        {
-            mSut.Value = value;
-
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
-
-            Assert.IsFalse(mSut.TryValidate(messageBoxService));
-
-            messageBoxService.Received(1).ShowError("Buffer size must be a valid integer.");
-        }
-
         [Test]
         public void TryValidate_ShouldNotShowMessageBox_WhenValueIsNotNullOrEmpty()
         {
@@ -141,6 +133,12 @@ namespace Editor.Test.ConfigProperties
             mSut.Value = "10000";
 
             Assert.IsTrue(mSut.TryValidate(Substitute.For<IMessageBoxService>()));
+        }
+
+        [Test]
+        public void Value_ShouldBeInitializedToDefault()
+        {
+            Assert.AreEqual(DefaultBufferSize, mSut.Value);
         }
     }
 }

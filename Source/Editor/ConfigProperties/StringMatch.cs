@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System;
-using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
@@ -11,8 +10,8 @@ namespace Editor.ConfigProperties
     {
         private readonly Func<bool> mValidate;
 
-        public StringMatch(ReadOnlyCollection<IProperty> container, Func<bool> validate)
-            : base(container, "String to Match:", "stringToMatch")
+        public StringMatch(Func<bool> validate)
+            : base("String to Match:", "stringToMatch")
         {
             mValidate = validate;
         }

@@ -7,13 +7,13 @@ namespace Editor.Definitions.Filters
 {
     internal class StringMatchFilter : FilterSkeleton
     {
-        private readonly StringMatch mStringMatch;
         private readonly RegexMatch mRegexMatch;
+        private readonly StringMatch mStringMatch;
 
         public StringMatchFilter(bool isFocused = true)
         {
-            mStringMatch = new StringMatch(Properties, Validate) { IsFocused = isFocused };
-            mRegexMatch = new RegexMatch(Properties, Validate);
+            mStringMatch = new StringMatch(Validate) { IsFocused = isFocused };
+            mRegexMatch = new RegexMatch(Validate);
         }
 
         public override string Name => "String Match Filter";

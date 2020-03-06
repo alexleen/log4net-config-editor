@@ -1,15 +1,14 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
-    public class ApplicationName : StringValueProperty
+    internal class RequiredStringProperty : StringValueProperty
     {
-        public ApplicationName(ReadOnlyCollection<IProperty> container)
-            : base(container, "Application Name:", "applicationName")
+        public RequiredStringProperty(string name, string elementName)
+            : base(name, elementName)
         {
         }
 
@@ -17,7 +16,7 @@ namespace Editor.ConfigProperties
         {
             if (string.IsNullOrEmpty(Value))
             {
-                messageBoxService.ShowError("An application name must be assigned to this appender.");
+                messageBoxService.ShowError($"'{Name.TrimEnd(':')}' must be specified.");
                 return false;
             }
 

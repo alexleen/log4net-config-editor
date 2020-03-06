@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,25 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class MaximumFileSizeTest
     {
-        private MaximumFileSize mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new MaximumFileSize(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new MaximumFileSize();
         }
 
-        [Test]
-        public void Value_ShouldBeInitializedToDefault()
-        {
-            Assert.AreEqual("10MB", mSut.Value);
-        }
-
-        [Test]
-        public void ToolTip_ShouldBeInitialized()
-        {
-            Assert.IsNotNull(mSut.ToolTip);
-        }
+        private MaximumFileSize mSut;
 
         [TestCase(null, "10MB")]
         [TestCase("<maximumFileSize />", "10MB")]
@@ -97,6 +83,18 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(maxFileSizeNode);
             Assert.AreEqual(mSut.Value, maxFileSizeNode.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void ToolTip_ShouldBeInitialized()
+        {
+            Assert.IsNotNull(mSut.ToolTip);
+        }
+
+        [Test]
+        public void Value_ShouldBeInitializedToDefault()
+        {
+            Assert.AreEqual("10MB", mSut.Value);
         }
     }
 }

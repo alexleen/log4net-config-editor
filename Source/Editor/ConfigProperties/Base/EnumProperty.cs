@@ -1,22 +1,22 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Xml;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
-    internal abstract class EnumPropertyBase<TEnumType> : MultiValuePropertyBase<string> where TEnumType : struct
+    internal class EnumProperty<TEnumType> : MultiValuePropertyBase<string> where TEnumType : struct
     {
         private readonly string mElementName;
 
-        protected EnumPropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight, string name, double width, string elementName)
-            : base(container, rowHeight, name, Enum.GetNames(typeof(TEnumType)), width)
+        public EnumProperty(string name, double width, string elementName)
+            : base(GridLength.Auto, name, Enum.GetNames(typeof(TEnumType)), width)
         {
             mElementName = elementName;
+            SelectedValue = Values.First();
         }
 
         public override void Load(XmlNode originalNode)

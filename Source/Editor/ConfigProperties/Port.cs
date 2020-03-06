@@ -1,16 +1,15 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Net;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
-    internal abstract class Port : StringValueProperty
+    internal class Port : StringValueProperty
     {
-        protected Port(ReadOnlyCollection<IProperty> container, string name, string elementName)
-            : base(container, name, elementName)
+        internal Port(string name, string elementName)
+            : base(name, elementName)
         {
         }
 

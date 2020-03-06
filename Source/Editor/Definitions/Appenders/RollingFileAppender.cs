@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using static log4net.Appender.RollingFileAppender;
@@ -11,24 +12,23 @@ namespace Editor.Definitions.Appenders
 {
     internal class RollingFileAppender : FileAppender
     {
+        private readonly CountDirection mCountDirection;
+        private readonly ISet<RollingMode> mCountDirectionModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Once, RollingMode.Size };
         private readonly DatePattern mDatePattern;
-        private int mDatePatternIndex;
         private readonly ISet<RollingMode> mDatePatternModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Date };
 
         private readonly MaximumFileSize mMaximumFileSize;
-        private int mMaximumFileSizeIndex;
         private readonly ISet<RollingMode> mMaximumFileSizeModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Size };
-
-        private readonly CountDirection mCountDirection;
         private int mCountDirectionIndex;
-        private readonly ISet<RollingMode> mCountDirectionModes = new HashSet<RollingMode> { RollingMode.Composite, RollingMode.Once, RollingMode.Size };
+        private int mDatePatternIndex;
+        private int mMaximumFileSizeIndex;
 
         internal RollingFileAppender(IElementConfiguration configuration)
             : base(configuration)
         {
-            mDatePattern = new DatePattern(Properties);
-            mMaximumFileSize = new MaximumFileSize(Properties);
-            mCountDirection = new CountDirection(Properties);
+            mDatePattern = new DatePattern();
+            mMaximumFileSize = new MaximumFileSize();
+            mCountDirection = new CountDirection();
         }
 
         public override string Name => "Rolling File Appender";
@@ -38,14 +38,14 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             base.AddAppenderSpecificProperties();
-            RollingStyle rollingStyle = new RollingStyle(Properties);
+            RollingStyle rollingStyle = new RollingStyle();
             rollingStyle.PropertyChanged += RollingStyleOnPropertyChanged;
 
             AddProperty(rollingStyle);
 
-            AddProperty(new StaticLogFileName(Properties));
+            AddProperty(new BooleanPropertyBase("Static Log File Name:", "staticLogFileName", true));
 
-            AddProperty(new PreserveExtension(Properties));
+            AddProperty(new BooleanPropertyBase("Preserve Extension:", "preserveLogFileNameExtension", false));
 
             mDatePatternIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mDatePatternModes, mDatePatternIndex, mDatePattern);
@@ -53,7 +53,7 @@ namespace Editor.Definitions.Appenders
             mMaximumFileSizeIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mMaximumFileSizeModes, mMaximumFileSizeIndex, mMaximumFileSize);
 
-            AddProperty(new MaxSizeRollBackups(Properties));
+            AddProperty(new MaxSizeRollBackups());
 
             mCountDirectionIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mCountDirectionModes, mCountDirectionIndex, mCountDirection);

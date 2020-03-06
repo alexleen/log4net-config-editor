@@ -19,8 +19,8 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new LogName(Properties));
-            AddProperty(new ApplicationName(Properties));
+            AddProperty(new RequiredStringProperty("Log Name:", "logName"));
+            AddProperty(new RequiredStringProperty("Application Name:", "applicationName"));
         }
     }
 }

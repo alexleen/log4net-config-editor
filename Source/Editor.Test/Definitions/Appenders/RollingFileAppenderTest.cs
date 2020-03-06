@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -54,7 +55,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+            TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
         }
 
         [Test]
@@ -73,8 +74,7 @@ namespace Editor.Test.Definitions.Appenders
 
             mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
             mSut.Properties.Single(p => p.GetType() == typeof(DatePattern));
-            mSut.Properties.Single(p => p.GetType() == typeof(StaticLogFileName));
-            mSut.Properties.Single(p => p.GetType() == typeof(PreserveExtension));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(BooleanPropertyBase)));
             mSut.Properties.Single(p => p.GetType() == typeof(MaximumFileSize));
             mSut.Properties.Single(p => p.GetType() == typeof(MaxSizeRollBackups));
             mSut.Properties.Single(p => p.GetType() == typeof(CountDirection));
@@ -136,7 +136,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             int dateIndex = mSut.Properties.IndexOf(mSut.Properties.Single(p => p.GetType() == typeof(DatePattern)));
-            int staticIndex = mSut.Properties.IndexOf(mSut.Properties.Single(p => p.GetType() == typeof(StaticLogFileName)));
+            int staticIndex = mSut.Properties.IndexOf(mSut.Properties.Single(p => p is BooleanPropertyBase bpb && bpb.Name == "Static Log File Name:"));
 
             RollingStyle rollingStyle = (RollingStyle)mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
 
@@ -147,7 +147,7 @@ namespace Editor.Test.Definitions.Appenders
             rollingStyle.SelectedMode = RollingMode.Composite;
 
             Assert.AreEqual(dateIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p.GetType() == typeof(DatePattern))));
-            Assert.AreEqual(staticIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p.GetType() == typeof(StaticLogFileName))));
+            Assert.AreEqual(staticIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p is BooleanPropertyBase bpb && bpb.Name == "Static Log File Name:")));
         }
 
         [TestCase(RollingMode.Once, 14)]

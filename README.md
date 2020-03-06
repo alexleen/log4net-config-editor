@@ -40,7 +40,7 @@ Currently under construction. log4net configuration files can be quite large and
 | RemoteSyslogAppender          | ✓         |
 | RemotingAppender              |           |
 | RollingFileAppender           | ✓         |
-| SmtpAppender                  |           |
+| SmtpAppender                  | ✓         |
 | SmtpPickupDirAppender         |           |
 | TelnetAppender                |           |
 | TextWriterAppender            |           |
@@ -77,5 +77,5 @@ Currently under construction. log4net configuration files can be quite large and
 [Oxygen Icons](https://github.com/pasnox/oxygen-icons-png)  
 [AppVeyor](https://ci.appveyor.com/)  
 [Codecov](https://codecov.io/)  
-[Better Code](https://bettercodehub.com/)
+[Better Code](https://bettercodehub.com/)  
 [ToastNotifications](https://github.com/rafallopatka/ToastNotifications)

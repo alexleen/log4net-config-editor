@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -9,8 +8,8 @@ namespace Editor.ConfigProperties
 {
     public class DatePattern : StringValueProperty
     {
-        public DatePattern(ReadOnlyCollection<IProperty> container)
-            : base(container, "Date Pattern:", "datePattern")
+        public DatePattern()
+            : base("Date Pattern:", "datePattern")
         {
             ToolTip = "This property determines the rollover schedule when rolling over on date.";
         }

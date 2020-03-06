@@ -31,7 +31,8 @@ namespace Editor.Test.Descriptors
             new TestCaseData("Managed Color", AppenderType.ManagedColor, "log4net.Appender.ManagedColoredConsoleAppender", "appender"),
             new TestCaseData("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender", "appender"),
             new TestCaseData("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender", "appender"),
-            new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender")
+            new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender"),
+            new TestCaseData("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender", "appender")
         };
 
         [TestCaseSource(nameof(sAppenderData))]

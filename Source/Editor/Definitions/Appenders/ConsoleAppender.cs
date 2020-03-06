@@ -19,7 +19,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new Target(Properties));
+            AddProperty(new Target());
         }
     }
 }

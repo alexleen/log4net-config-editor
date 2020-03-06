@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,19 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class MaxSizeRollBackupsTest
     {
-        private MaxSizeRollBackups mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new MaxSizeRollBackups(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new MaxSizeRollBackups();
         }
 
-        [Test]
-        public void ToolTip_ShouldBeInitialized()
-        {
-            Assert.IsNotNull(mSut.ToolTip);
-        }
+        private MaxSizeRollBackups mSut;
 
         [TestCase(null, null)]
         [TestCase("<maxSizeRollBackups />", null)]
@@ -45,13 +37,24 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void TryValidate_ShouldSucceed_WhenInt()
+        public void Save_ShouldSaveCorrectly()
         {
-            mSut.Value = "1";
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
 
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
-            Assert.IsTrue(mSut.TryValidate(messageBoxService));
-            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+            mSut.Value = "1";
+            mSut.Save(xmlDoc, appender);
+
+            XmlNode maxSizeNode = appender.SelectSingleNode("maxSizeRollBackups");
+
+            Assert.IsNotNull(maxSizeNode);
+            Assert.AreEqual("1", maxSizeNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void ToolTip_ShouldBeInitialized()
+        {
+            Assert.IsNotNull(mSut.ToolTip);
         }
 
         [Test]
@@ -65,18 +68,13 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Save_ShouldSaveCorrectly()
+        public void TryValidate_ShouldSucceed_WhenInt()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
             mSut.Value = "1";
-            mSut.Save(xmlDoc, appender);
 
-            XmlNode maxSizeNode = appender.SelectSingleNode("maxSizeRollBackups");
-
-            Assert.IsNotNull(maxSizeNode);
-            Assert.AreEqual("1", maxSizeNode.Attributes?["value"].Value);
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+            Assert.IsTrue(mSut.TryValidate(messageBoxService));
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
     }
 }

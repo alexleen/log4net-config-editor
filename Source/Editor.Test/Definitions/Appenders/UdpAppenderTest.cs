@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
@@ -52,7 +52,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+            TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
         }
 
         [Test]
@@ -61,8 +61,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteAddress));
-            mSut.Properties.Single(p => p.GetType() == typeof(RemotePort));
-            mSut.Properties.Single(p => p.GetType() == typeof(LocalPort));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(Port)));
         }
 
         [Test]

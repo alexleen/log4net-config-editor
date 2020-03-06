@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,15 +11,15 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RegexMatchTest
     {
-        private bool mValidateCalled;
-        private RegexMatch mSut;
-
         [SetUp]
         public void SetUp()
         {
             mValidateCalled = false;
-            mSut = new RegexMatch(new ReadOnlyCollection<IProperty>(new List<IProperty>()), Validate);
+            mSut = new RegexMatch(Validate);
         }
+
+        private bool mValidateCalled;
+        private RegexMatch mSut;
 
         private bool Validate()
         {
@@ -43,17 +41,6 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.Value);
-        }
-
-        [Test]
-        public void TryValidate_ShouldCallValidate()
-        {
-            //Test sanity check
-            Assert.IsFalse(mValidateCalled);
-
-            mSut.TryValidate(Substitute.For<IMessageBoxService>());
-
-            Assert.IsTrue(mValidateCalled);
         }
 
         [TestCase(null)]
@@ -82,6 +69,17 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(regexNode);
             Assert.AreEqual(mSut.Value, regexNode.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void TryValidate_ShouldCallValidate()
+        {
+            //Test sanity check
+            Assert.IsFalse(mValidateCalled);
+
+            mSut.TryValidate(Substitute.For<IMessageBoxService>());
+
+            Assert.IsTrue(mValidateCalled);
         }
     }
 }

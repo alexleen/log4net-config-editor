@@ -13,6 +13,7 @@ namespace Editor.Enums
         ManagedColor,
         Udp,
         LocalSyslog,
-        RemoteSyslog
+        RemoteSyslog,
+        Smtp
     }
 }

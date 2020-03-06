@@ -2,11 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
@@ -15,8 +13,8 @@ namespace Editor.ConfigProperties.Base
     {
         private readonly string mElementName;
 
-        protected ColorPropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight, string name, string elementName)
-            : base(container, rowHeight)
+        protected ColorPropertyBase(GridLength rowHeight, string name, string elementName)
+            : base(rowHeight)
         {
             Name = name;
             mElementName = elementName;

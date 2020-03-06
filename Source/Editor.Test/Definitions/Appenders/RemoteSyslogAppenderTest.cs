@@ -1,13 +1,15 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using static log4net.Appender.RemoteSyslogAppender;
 
 namespace Editor.Test.Definitions.Appenders
 {
@@ -52,7 +54,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+            TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
         }
 
         [Test]
@@ -61,8 +63,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteAddress));
-            mSut.Properties.Single(p => p.GetType() == typeof(LocalPort));
-            mSut.Properties.Single(p => p.GetType() == typeof(RemotePort));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(Port)));
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(RemoteSyslogFacility));
+            mSut.Properties.Single(p => p.GetType() == typeof(EnumProperty<SyslogFacility>));
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteIdentity));
         }
 
