@@ -82,7 +82,8 @@ namespace Editor.Windows
                 AppenderDescriptor.Remoting,
                 AppenderDescriptor.OutputDebugString,
                 AppenderDescriptor.NetSend,
-                AppenderDescriptor.Memory
+                AppenderDescriptor.Memory,
+                AppenderDescriptor.BufferingForwarding
             }.OrderBy(ad => ad.Name);
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };

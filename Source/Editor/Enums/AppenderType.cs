@@ -5,6 +5,7 @@ namespace Editor.Enums
     public enum AppenderType
     {
         Async,
+        BufferingForwarding,
         Console,
         Debug,
         EventLog,
