@@ -38,6 +38,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.Debug, typeof(DebugAppender)),
             new TestCaseData(AppenderDescriptor.Trace, typeof(TraceAppender)),
             new TestCaseData(AppenderDescriptor.Telnet, typeof(TelnetAppender)),
+            new TestCaseData(AppenderDescriptor.Remoting, typeof(RemotingAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

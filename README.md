@@ -38,7 +38,7 @@ Currently under construction. log4net configuration files can be quite large and
 | OutputDebugStringAppender     |           |
 | [ParallelForwardingAppender](https://github.com/cjbhaines/Log4Net.Async#parallelforwardingappender) |           |
 | RemoteSyslogAppender          | ✓         |
-| RemotingAppender              |           |
+| RemotingAppender              | ✓         |
 | RollingFileAppender           | ✓         |
 | SmtpAppender                  | ✓         |
 | SmtpPickupDirAppender         |           |

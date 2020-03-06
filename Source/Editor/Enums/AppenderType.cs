@@ -4,19 +4,20 @@ namespace Editor.Enums
 {
     public enum AppenderType
     {
-        Console,
-        File,
-        RollingFile,
-        EventLog,
         Async,
-        Forwarding,
-        ManagedColor,
-        Udp,
-        LocalSyslog,
-        RemoteSyslog,
-        Smtp,
+        Console,
         Debug,
+        EventLog,
+        File,
+        Forwarding,
+        LocalSyslog,
+        ManagedColor,
+        RemoteSyslog,
+        Remoting,
+        RollingFile,
+        Smtp,
+        Telnet,
         Trace,
-        Telnet
+        Udp
     }
 }

@@ -78,7 +78,8 @@ namespace Editor.Windows
                 AppenderDescriptor.Smtp,
                 AppenderDescriptor.Debug,
                 AppenderDescriptor.Trace,
-                AppenderDescriptor.Telnet
+                AppenderDescriptor.Telnet,
+                AppenderDescriptor.Remoting
             }.OrderBy(ad => ad.Name);
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };

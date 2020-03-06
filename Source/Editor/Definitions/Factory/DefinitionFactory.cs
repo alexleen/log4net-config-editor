@@ -70,6 +70,8 @@ namespace Editor.Definitions.Factory
                     return new TraceAppender(appenderConfiguration);
                 case AppenderType.Telnet:
                     return new TelnetAppender(appenderConfiguration);
+                case AppenderType.Remoting:
+                    return new RemotingAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }
