@@ -33,7 +33,7 @@ Currently under construction. log4net configuration files can be quite large and
 | ForwardingAppender            | ✓         |
 | LocalSyslogAppender           | ✓         |
 | ManagedColoredConsoleAppender | ✓         |
-| MemoryAppender                |           |
+| MemoryAppender                | ✓         |
 | NetSendAppender               | ✓         |
 | OutputDebugStringAppender     | ✓         |
 | [ParallelForwardingAppender](https://github.com/cjbhaines/Log4Net.Async#parallelforwardingappender) |           |

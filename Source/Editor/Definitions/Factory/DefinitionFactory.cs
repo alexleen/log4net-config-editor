@@ -76,6 +76,8 @@ namespace Editor.Definitions.Factory
                     return new OutputStringDebugAppender(appenderConfiguration);
                 case AppenderType.NetSend:
                     return new NetSendAppender(appenderConfiguration);
+                case AppenderType.Memory:
+                    return new MemoryAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }
