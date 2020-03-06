@@ -27,7 +27,7 @@ Currently under construction. log4net configuration files can be quite large and
 | BufferingForwardingAppender   |           |
 | ColoredConsoleAppender        |           |
 | ConsoleAppender               | ✓         |
-| DebugAppender                 |           |
+| DebugAppender                 | ✓         |
 | EventLogAppender              | ✓         |
 | FileAppender                  | ✓         |
 | ForwardingAppender            | ✓         |
@@ -42,9 +42,9 @@ Currently under construction. log4net configuration files can be quite large and
 | RollingFileAppender           | ✓         |
 | SmtpAppender                  | ✓         |
 | SmtpPickupDirAppender         |           |
-| TelnetAppender                |           |
+| TelnetAppender                | ✓         |
 | TextWriterAppender            |           |
-| TraceAppender                 |           |
+| TraceAppender                 | ✓         |
 | UdpAppender                   | ✓         |
 #### Filters
 | Filter            | Supported | Notes                                 |

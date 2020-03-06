@@ -34,7 +34,8 @@ namespace Editor.Test.Descriptors
             new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender"),
             new TestCaseData("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender", "appender"),
             new TestCaseData("Debug", AppenderType.Debug, "log4net.Appender.DebugAppender", "appender"),
-            new TestCaseData("Trace", AppenderType.Trace, "log4net.Appender.TraceAppender", "appender")
+            new TestCaseData("Trace", AppenderType.Trace, "log4net.Appender.TraceAppender", "appender"),
+            new TestCaseData("Telnet", AppenderType.Telnet, "log4net.Appender.TelnetAppender", "appender")
         };
 
         [TestCaseSource(nameof(sAppenderData))]
