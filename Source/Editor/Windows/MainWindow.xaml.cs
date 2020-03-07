@@ -65,28 +65,29 @@ namespace Editor.Windows
 
             xAddAppenderButton.ItemsSource = new[]
             {
-                AppenderDescriptor.Console,
-                AppenderDescriptor.File,
-                AppenderDescriptor.RollingFile,
-                AppenderDescriptor.EventLog,
-                AppenderDescriptor.Async,
-                AppenderDescriptor.Forwarding,
-                AppenderDescriptor.ManagedColor,
-                AppenderDescriptor.Udp,
-                AppenderDescriptor.LocalSyslog,
-                AppenderDescriptor.RemoteSyslog,
-                AppenderDescriptor.Smtp,
-                AppenderDescriptor.Debug,
-                AppenderDescriptor.Trace,
-                AppenderDescriptor.Telnet,
-                AppenderDescriptor.Remoting,
-                AppenderDescriptor.OutputDebugString,
-                AppenderDescriptor.NetSend,
-                AppenderDescriptor.Memory,
-                AppenderDescriptor.BufferingForwarding,
                 AppenderDescriptor.AspNetTrace,
-                AppenderDescriptor.SmtpPickupDir
-            }.OrderBy(ad => ad.Name);
+                AppenderDescriptor.Async,
+                AppenderDescriptor.BufferingForwarding,
+                AppenderDescriptor.Console,
+                AppenderDescriptor.Debug,
+                AppenderDescriptor.EventLog,
+                AppenderDescriptor.File,
+                AppenderDescriptor.Forwarding,
+                AppenderDescriptor.LocalSyslog,
+                AppenderDescriptor.ManagedColor,
+                AppenderDescriptor.Memory,
+                AppenderDescriptor.NetSend,
+                AppenderDescriptor.OutputDebugString,
+                AppenderDescriptor.RemoteSyslog,
+                AppenderDescriptor.Remoting,
+                AppenderDescriptor.RollingFile,
+                AppenderDescriptor.Smtp,
+                AppenderDescriptor.SmtpPickupDir,
+                AppenderDescriptor.Telnet,
+                AppenderDescriptor.TextWriter,
+                AppenderDescriptor.Trace,
+                AppenderDescriptor.Udp
+            };
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 

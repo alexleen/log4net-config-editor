@@ -43,7 +43,7 @@ Currently under construction. log4net configuration files can be quite large and
 | SmtpAppender                  | ✓         |
 | SmtpPickupDirAppender         | ✓         |
 | TelnetAppender                | ✓         |
-| TextWriterAppender            |           |
+| TextWriterAppender            | ✓         |
 | TraceAppender                 | ✓         |
 | UdpAppender                   | ✓         |
 #### Filters

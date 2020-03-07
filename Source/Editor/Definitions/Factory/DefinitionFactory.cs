@@ -84,6 +84,8 @@ namespace Editor.Definitions.Factory
                     return new AspNetTraceAppender(appenderConfiguration);
                 case AppenderType.SmtpPickupDir:
                     return new SmtpPickupDirAppender(appenderConfiguration);
+                case AppenderType.TextWriter:
+                    return new TextWriterAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

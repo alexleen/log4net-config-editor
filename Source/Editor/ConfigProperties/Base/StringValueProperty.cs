@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Windows;
 using System.Xml;
@@ -8,12 +8,12 @@ namespace Editor.ConfigProperties.Base
 {
     public class StringValueProperty : PropertyBase
     {
-        protected readonly string mElementName;
+        protected readonly string ElementName;
 
         internal StringValueProperty(string name, string elementName)
             : base(GridLength.Auto)
         {
-            mElementName = elementName;
+            ElementName = elementName;
             Name = name;
         }
 
@@ -35,14 +35,14 @@ namespace Editor.ConfigProperties.Base
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(mElementName));
+            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(ElementName));
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                xmlDoc.CreateElementWithValueAttribute(mElementName, Value).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(ElementName, Value).AppendTo(newNode);
             }
         }
     }

@@ -34,7 +34,7 @@ namespace Editor.ConfigProperties
         {
             if (!string.IsNullOrEmpty(Value) && Value != mDefaultPort)
             {
-                xmlDoc.CreateElementWithValueAttribute(mElementName, Value).AppendTo(newNode);
+                xmlDoc.CreateElementWithValueAttribute(ElementName, Value).AppendTo(newNode);
             }
         }
     }

@@ -98,6 +98,7 @@
     <Compile Include="Definitions\Appenders\RemotingAppender.cs" />
     <Compile Include="Definitions\Appenders\SmtpPickupDirAppender.cs" />
     <Compile Include="Definitions\Appenders\TelnetAppender.cs" />
+    <Compile Include="Definitions\Appenders\TextWriterAppender.cs" />
     <Compile Include="Definitions\Appenders\TraceAppender.cs" />
     <Compile Include="Enums\ModelCreateResult.cs" />
     <Compile Include="ConfigProperties\RequiredStringProperty.cs" />
