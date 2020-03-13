@@ -11,6 +11,7 @@
                              UseLayoutRounding="True">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Paste" Executed="PasteExecuted" />
+        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveExecuted" />
     </Window.CommandBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >

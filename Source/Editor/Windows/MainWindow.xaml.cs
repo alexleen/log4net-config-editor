@@ -116,6 +116,11 @@ namespace Editor.Windows
             Paste();
         }
 
+        private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveToFileAsync();
+        }
+
         private void Paste()
         {
             string text = Clipboard.GetText();
