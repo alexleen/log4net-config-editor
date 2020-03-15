@@ -19,6 +19,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
+            base.AddAppenderSpecificProperties();
             AddProperty(new RequiredStringProperty("Sink:", "sink"));
         }
     }

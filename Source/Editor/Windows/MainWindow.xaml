@@ -104,7 +104,7 @@
                 </Style>
             </StackPanel.Resources>
 
-            <Controls:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick"/>
+            <Controls:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick" ContextMenuWidth="140"/>
 
             <Button Click="AddRootClick" ToolTip="Adds a root logger">Add Root</Button>
             
