@@ -126,6 +126,10 @@
     <Compile Include="Definitions\Appenders\RemoteSyslogAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\SmtpAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\DebugAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\RemotingAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\TraceAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\TelnetAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
     <Compile Include="Definitions\Appenders\UdpAppenderTest.cs" />
     <Compile Include="Definitions\Factory\DefinitionFactoryTest.cs" />
