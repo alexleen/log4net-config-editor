@@ -76,6 +76,7 @@
     <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
     <Compile Include="ConfigProperties\Base\EnumPropertyTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
+    <Compile Include="ConfigProperties\CategoryTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
     <Compile Include="ConfigProperties\EncodingTest.cs" />

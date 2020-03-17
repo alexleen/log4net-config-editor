@@ -18,10 +18,11 @@ namespace Editor.ConfigProperties
     /// </remarks>
     public class Category : StringValueProperty
     {
-        private readonly string mDefaultValue = "%logger";
+        private const string mElementName = "category";
+        private const string mDefaultValue = "%logger";
 
         public Category()
-            : base("Category:", "category")
+            : base("Category:", mElementName)
         {
             Value = mDefaultValue;
             ToolTip = "Formats the category parameter. Defaults to a PatternLayout with %logger as the pattern which will use the logger name of the current LoggingEvent as the category parameter.";
@@ -29,7 +30,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            string pattern = originalNode["category"]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
+            string pattern = originalNode[mElementName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
 
             if (!string.IsNullOrEmpty(pattern))
             {
@@ -41,7 +42,7 @@ namespace Editor.ConfigProperties
         {
             if (!string.IsNullOrWhiteSpace(Value) && Value != mDefaultValue)
             {
-                XmlNode categoryNode = xmlDoc.CreateElementWithAttribute("category", "type", LayoutDescriptor.Pattern.TypeNamespace);
+                XmlNode categoryNode = xmlDoc.CreateElementWithAttribute(mElementName, Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace);
                 xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Value).AppendTo(categoryNode);
                 newNode.AppendChild(categoryNode);
             }
