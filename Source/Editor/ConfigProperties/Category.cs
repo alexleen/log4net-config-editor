@@ -4,6 +4,7 @@ using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Utilities;
+using log4net.Layout;
 
 namespace Editor.ConfigProperties
 {
@@ -18,19 +19,18 @@ namespace Editor.ConfigProperties
     /// </remarks>
     public class Category : StringValueProperty
     {
-        private const string mElementName = "category";
-        private const string mDefaultValue = "%logger";
+        private const string DefaultValue = "%logger";
 
         public Category()
-            : base("Category:", mElementName)
+            : base("Category:", "category")
         {
-            Value = mDefaultValue;
+            Value = DefaultValue;
             ToolTip = "Formats the category parameter. Defaults to a PatternLayout with %logger as the pattern which will use the logger name of the current LoggingEvent as the category parameter.";
         }
 
         public override void Load(XmlNode originalNode)
         {
-            string pattern = originalNode[mElementName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
+            string pattern = originalNode[ElementName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
 
             if (!string.IsNullOrEmpty(pattern))
             {
@@ -40,12 +40,14 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            if (!string.IsNullOrWhiteSpace(Value) && Value != mDefaultValue)
+            if (string.IsNullOrWhiteSpace(Value) || Value == DefaultValue)
             {
-                XmlNode categoryNode = xmlDoc.CreateElementWithAttribute(mElementName, Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace);
-                xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Value).AppendTo(categoryNode);
-                newNode.AppendChild(categoryNode);
+                return;
             }
+
+            XmlNode categoryNode = xmlDoc.CreateElementWithAttribute(ElementName, Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace);
+            xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Value).AppendTo(categoryNode);
+            newNode.AppendChild(categoryNode);
         }
     }
 }
