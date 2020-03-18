@@ -106,5 +106,21 @@ namespace Editor.Test.ConfigProperties
             Assert.IsNotNull(conversionPattern);
             Assert.AreEqual("whatev", conversionPattern.Attributes[Log4NetXmlConstants.Value].Value);
         }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase("%logger")]
+        public void Save_ShouldNotSave(string value)
+        {
+            mSut.Value = value;
+
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            mSut.Save(xmlDoc, appender);
+
+            CollectionAssert.IsEmpty(appender.ChildNodes);
+        }
     }
 }
