@@ -74,6 +74,7 @@ namespace Editor.Test.Definitions.Appenders
 
             mSut.Properties.Single(p => p.GetType() == typeof(File));
             mSut.Properties.Single(p => p.GetType() == typeof(LockingModel));
+            mSut.Properties.Single(p => p.GetType() == typeof(Encoding));
         }
 
         [Test]
@@ -81,7 +82,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(12, mSut.Properties.Count);
+            Assert.AreEqual(13, mSut.Properties.Count);
         }
     }
 }

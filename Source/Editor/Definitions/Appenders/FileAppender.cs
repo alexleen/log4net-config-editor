@@ -23,6 +23,7 @@ namespace Editor.Definitions.Appenders
             base.AddAppenderSpecificProperties();
             AddProperty(new File(MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
             AddProperty(new LockingModel());
+            AddProperty(new Encoding("Encoding:", "encoding"));
         }
     }
 }
