@@ -1,14 +1,15 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
     internal class RequiredStringProperty : StringValueProperty
     {
-        public RequiredStringProperty(string name, string elementName)
-            : base(name, elementName)
+        public RequiredStringProperty(string name, string elementName, string attributeName = Log4NetXmlConstants.Value)
+            : base(name, elementName, attributeName)
         {
         }
 

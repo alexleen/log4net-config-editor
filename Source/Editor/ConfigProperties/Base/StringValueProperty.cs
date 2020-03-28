@@ -9,11 +9,13 @@ namespace Editor.ConfigProperties.Base
     public class StringValueProperty : PropertyBase
     {
         protected readonly string ElementName;
+        private readonly string mAttributeName;
 
-        internal StringValueProperty(string name, string elementName)
+        internal StringValueProperty(string name, string elementName, string attributeName = Log4NetXmlConstants.Value)
             : base(GridLength.Auto)
         {
             ElementName = elementName;
+            mAttributeName = attributeName;
             Name = name;
         }
 
@@ -35,14 +37,14 @@ namespace Editor.ConfigProperties.Base
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(ElementName));
+            SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                xmlDoc.CreateElementWithValueAttribute(ElementName, Value).AppendTo(newNode);
+                xmlDoc.CreateElementWithAttribute(ElementName, mAttributeName, Value).AppendTo(newNode);
             }
         }
     }
