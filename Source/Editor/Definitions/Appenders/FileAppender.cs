@@ -7,7 +7,7 @@ using Editor.Interfaces;
 
 namespace Editor.Definitions.Appenders
 {
-    internal class FileAppender : AppenderSkeleton
+    internal class FileAppender : TextWriterAppender
     {
         internal FileAppender(IElementConfiguration configuration)
             : base(configuration, false)
@@ -20,6 +20,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
+            base.AddAppenderSpecificProperties();
             AddProperty(new File(MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
             AddProperty(new LockingModel());
         }

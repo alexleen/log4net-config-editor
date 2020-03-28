@@ -2,7 +2,6 @@
 
 using System.Linq;
 using System.Xml;
-using Editor.ConfigProperties;
 using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
@@ -57,11 +56,11 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
-        public void Initialize_ShouldAddPortProperty()
+        public void Initialize_ShouldAddProperties()
         {
             mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase) && ((BooleanPropertyBase)p).Name == "Immediate Flush:");
-            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Quiet Writer:");
-            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Writer:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Quiet Writer:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Writer:");
         }
 
         [Test]

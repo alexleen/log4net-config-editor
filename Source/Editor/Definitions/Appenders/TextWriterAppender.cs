@@ -9,8 +9,8 @@ namespace Editor.Definitions.Appenders
 {
     internal class TextWriterAppender : AppenderSkeleton
     {
-        public TextWriterAppender(IElementConfiguration configuration)
-            : base(configuration)
+        public TextWriterAppender(IElementConfiguration configuration, bool requiresLayout = true)
+            : base(configuration, requiresLayout)
         {
         }
 
@@ -21,8 +21,8 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             AddProperty(new BooleanPropertyBase("Immediate Flush:", "immediateFlush", true));
-            AddProperty(new StringValueProperty("Quiet Writer:", "quietWriter", Log4NetXmlConstants.Type));
-            AddProperty(new StringValueProperty("Writer:", "writer", Log4NetXmlConstants.Type));
+            AddProperty(new StringValueProperty("Quiet Writer:", "quietWriter", Log4NetXmlConstants.Type) { ToolTip = "Sets the QuietTextWriter where logging events will be written to. QuietTextWriter does not throw exceptions when things go wrong. Instead, it delegates error handling to its IErrorHandler. (optional)" });
+            AddProperty(new StringValueProperty("Writer:", "writer", Log4NetXmlConstants.Type) { ToolTip = "Sets the TextWriter where the log output will go. (optional)" });
         }
     }
 }
