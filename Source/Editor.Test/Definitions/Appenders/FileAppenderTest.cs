@@ -75,6 +75,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Properties.Single(p => p.GetType() == typeof(File));
             mSut.Properties.Single(p => p.GetType() == typeof(LockingModel));
             mSut.Properties.Single(p => p.GetType() == typeof(Encoding));
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Security Context:");
         }
 
         [Test]
@@ -82,7 +83,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(13, mSut.Properties.Count);
+            Assert.AreEqual(14, mSut.Properties.Count);
         }
     }
 }
