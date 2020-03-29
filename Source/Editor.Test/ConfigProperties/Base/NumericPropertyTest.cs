@@ -1,5 +1,6 @@
 // Copyright © 2020 Alex Leendertsen
 
+using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using NSubstitute;
@@ -103,6 +104,52 @@ namespace Editor.Test.ConfigProperties.Base
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
             Assert.IsFalse(sut.TryValidate(messageBoxService));
             messageBoxService.Received(1).ShowError("'Num Prop' must be a valid Int32.");
+        }
+
+        [Test]
+        public void Save_ShouldCreateAndAppendCorrectElement_WhenNotDefault()
+        {
+            NumericProperty<int> sut = CreateSut<int>();
+
+            const string value = "10000";
+
+            sut.Value = value;
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            sut.Save(xmlDoc, appender);
+
+            XmlElement numProp = appender["numProp"];
+            Assert.IsNotNull(numProp);
+            Assert.AreEqual(value, numProp.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void Save_ShouldNotCreateAndAppendElement_WhenDefault()
+        {
+            NumericProperty<int> sut = CreateSut<int>();
+
+            sut.Value = "10000";
+
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            sut.Save(xmlDoc, appender);
+
+            CollectionAssert.IsEmpty(appender["numProp"]);
+        }
+
+        [Test]
+        public void Save_ShouldNotCreateAndAppendElement_WhenValueIsNull()
+        {
+            NumericProperty<int> sut = CreateSut<int>();
+
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement appender = xmlDoc.CreateElement("appender");
+
+            sut.Save(xmlDoc, appender);
+
+            Assert.IsNull(appender["numProp"]);
         }
     }
 }
