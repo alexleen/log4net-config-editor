@@ -19,5 +19,6 @@ namespace Editor.Utilities
         public const string Appender = "appender";
         public const string Renderer = "renderer";
         public const string Filter = "filter";
+        public const string ConversionPattern = "conversionPattern";
     }
 }

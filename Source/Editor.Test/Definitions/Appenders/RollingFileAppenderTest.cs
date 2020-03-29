@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
@@ -59,12 +59,24 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
+        public void Initialize_ShouldAddTextWriterProperties()
+        {
+            mSut.Initialize();
+
+            mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase) && ((BooleanPropertyBase)p).Name == "Immediate Flush:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Quiet Writer:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Writer:");
+        }
+
+        [Test]
         public void Initialize_ShouldAddFileProperties()
         {
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(File));
             mSut.Properties.Single(p => p.GetType() == typeof(LockingModel));
+            mSut.Properties.Single(p => p.GetType() == typeof(Encoding));
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Security Context:");
         }
 
         [Test]
@@ -74,7 +86,7 @@ namespace Editor.Test.Definitions.Appenders
 
             mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
             mSut.Properties.Single(p => p.GetType() == typeof(DatePattern));
-            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(BooleanPropertyBase)));
+            Assert.AreEqual(3, mSut.Properties.Count(p => p.GetType() == typeof(BooleanPropertyBase)));
             mSut.Properties.Single(p => p.GetType() == typeof(MaximumFileSize));
             mSut.Properties.Single(p => p.GetType() == typeof(MaxSizeRollBackups));
             mSut.Properties.Single(p => p.GetType() == typeof(CountDirection));
@@ -85,7 +97,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(16, mSut.Properties.Count);
+            Assert.AreEqual(21, mSut.Properties.Count);
         }
 
         [TestCase(RollingMode.Once, false)]
@@ -150,10 +162,10 @@ namespace Editor.Test.Definitions.Appenders
             Assert.AreEqual(staticIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p is BooleanPropertyBase bpb && bpb.Name == "Static Log File Name:")));
         }
 
-        [TestCase(RollingMode.Once, 14)]
-        [TestCase(RollingMode.Size, 15)]
-        [TestCase(RollingMode.Date, 14)]
-        [TestCase(RollingMode.Composite, 16)]
+        [TestCase(RollingMode.Once, 19)]
+        [TestCase(RollingMode.Size, 20)]
+        [TestCase(RollingMode.Date, 19)]
+        [TestCase(RollingMode.Composite, 21)]
         public void Properties_ShouldNotBeDuplicated_WhenTheyAlreadyExist(RollingMode mode, int expectedCount)
         {
             mSut.Initialize();

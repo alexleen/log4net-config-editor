@@ -1,9 +1,8 @@
-﻿// Copyright © 2020 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -14,9 +13,9 @@ using NUnit.Framework;
 namespace Editor.Test.Definitions.Appenders
 {
     [TestFixture]
-    public class EventLogAppenderTest
+    public class NetSendAppenderTest
     {
-        private EventLogAppender mSut;
+        private NetSendAppender mSut;
 
         [SetUp]
         public void SetUp()
@@ -28,13 +27,14 @@ namespace Editor.Test.Definitions.Appenders
             configuration.ConfigXml.Returns(xmlDoc);
             configuration.Log4NetNode.Returns(log4NetNode);
 
-            mSut = new EventLogAppender(configuration);
+            mSut = new NetSendAppender(configuration);
+            mSut.Initialize();
         }
 
         [Test]
         public void Name_ShouldReturnCorrectValue()
         {
-            Assert.AreEqual("Event Log Appender", mSut.Name);
+            Assert.AreEqual("Net Send Appender", mSut.Name);
         }
 
         [Test]
@@ -46,31 +46,26 @@ namespace Editor.Test.Definitions.Appenders
         [Test]
         public void Descriptor_ShouldReturnCorrectValue()
         {
-            Assert.AreEqual(AppenderDescriptor.EventLog, mSut.Descriptor);
+            Assert.AreEqual(AppenderDescriptor.NetSend, mSut.Descriptor);
         }
 
         [Test]
-        public void Initialize_ShouldAddDefaultProperties()
+        public void Initialize_ShouldAddAppenderSkeletonProperties()
         {
-            mSut.Initialize();
-
             TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
         }
 
         [Test]
-        public void Initialize_ShouldAddEventLogProperties()
+        public void Initialize_ShouldAddProperties()
         {
-            mSut.Initialize();
-
-            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(RequiredStringProperty)));
-            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Security Context:");
+            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Recipient:");
+            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Sender:");
+            mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Server:");
         }
 
         [Test]
         public void Initialize_ShouldAddCorrectNumberOfProperties()
         {
-            mSut.Initialize();
-
             Assert.AreEqual(10, mSut.Properties.Count);
         }
     }

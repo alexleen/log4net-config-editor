@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,17 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.LocalSyslog, typeof(LocalSyslogAppender)),
             new TestCaseData(AppenderDescriptor.RemoteSyslog, typeof(RemoteSyslogAppender)),
             new TestCaseData(AppenderDescriptor.Smtp, typeof(SmtpAppender)),
+            new TestCaseData(AppenderDescriptor.Debug, typeof(DebugAppender)),
+            new TestCaseData(AppenderDescriptor.Trace, typeof(TraceAppender)),
+            new TestCaseData(AppenderDescriptor.Telnet, typeof(TelnetAppender)),
+            new TestCaseData(AppenderDescriptor.Remoting, typeof(RemotingAppender)),
+            new TestCaseData(AppenderDescriptor.OutputDebugString, typeof(OutputStringDebugAppender)),
+            new TestCaseData(AppenderDescriptor.NetSend, typeof(NetSendAppender)),
+            new TestCaseData(AppenderDescriptor.Memory, typeof(MemoryAppender)),
+            new TestCaseData(AppenderDescriptor.BufferingForwarding, typeof(BufferingForwardingAppender)),
+            new TestCaseData(AppenderDescriptor.AspNetTrace, typeof(AspNetTraceAppender)),
+            new TestCaseData(AppenderDescriptor.SmtpPickupDir, typeof(SmtpPickupDirAppender)),
+            new TestCaseData(AppenderDescriptor.TextWriter, typeof(TextWriterAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

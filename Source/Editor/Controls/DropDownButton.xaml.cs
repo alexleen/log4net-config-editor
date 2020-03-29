@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -62,13 +62,20 @@ namespace Editor.Controls
             set => SetValue(ItemTemplateProperty, value);
         }
 
+        private double mContextMenuWidth = double.NaN;
+
+        /// <summary>
+        /// Determines the width of the drop down.
+        /// If not set to a custom value, drop down assumes button width.
+        /// </summary>
         public double ContextMenuWidth
         {
             get
             {
-                if (OverrideContextMenuWidth)
+                if (!double.IsNaN(mContextMenuWidth))
                 {
-                    return double.NaN;
+                    //Value was specified  - use that
+                    return mContextMenuWidth;
                 }
 
                 //For some reason, the context menu is 5 pixels smaller than the button
@@ -81,8 +88,15 @@ namespace Editor.Controls
 
                 return xButton.Width + contextMenuExtraWidth;
             }
-        }
+            set
+            {
+                if (Math.Abs(value - mContextMenuWidth) < double.Epsilon)
+                {
+                    return;
+                }
 
-        public bool OverrideContextMenuWidth { get; set; }
+                mContextMenuWidth = value;
+            }
+        }
     }
 }

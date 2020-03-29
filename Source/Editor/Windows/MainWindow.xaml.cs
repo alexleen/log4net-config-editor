@@ -65,18 +65,29 @@ namespace Editor.Windows
 
             xAddAppenderButton.ItemsSource = new[]
             {
-                AppenderDescriptor.Console,
-                AppenderDescriptor.File,
-                AppenderDescriptor.RollingFile,
-                AppenderDescriptor.EventLog,
+                AppenderDescriptor.AspNetTrace,
                 AppenderDescriptor.Async,
+                AppenderDescriptor.BufferingForwarding,
+                AppenderDescriptor.Console,
+                AppenderDescriptor.Debug,
+                AppenderDescriptor.EventLog,
+                AppenderDescriptor.File,
                 AppenderDescriptor.Forwarding,
-                AppenderDescriptor.ManagedColor,
-                AppenderDescriptor.Udp,
                 AppenderDescriptor.LocalSyslog,
+                AppenderDescriptor.ManagedColor,
+                AppenderDescriptor.Memory,
+                AppenderDescriptor.NetSend,
+                AppenderDescriptor.OutputDebugString,
                 AppenderDescriptor.RemoteSyslog,
-                AppenderDescriptor.Smtp
-            }.OrderBy(ad => ad.Name);
+                AppenderDescriptor.Remoting,
+                AppenderDescriptor.RollingFile,
+                AppenderDescriptor.Smtp,
+                AppenderDescriptor.SmtpPickupDir,
+                AppenderDescriptor.Telnet,
+                AppenderDescriptor.TextWriter,
+                AppenderDescriptor.Trace,
+                AppenderDescriptor.Udp
+            };
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 
@@ -103,6 +114,11 @@ namespace Editor.Windows
         private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Paste();
+        }
+
+        private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveToFileAsync();
         }
 
         private void Paste()

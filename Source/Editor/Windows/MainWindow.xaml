@@ -11,6 +11,7 @@
                              UseLayoutRounding="True">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Paste" Executed="PasteExecuted" />
+        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveExecuted" />
     </Window.CommandBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >
@@ -103,7 +104,7 @@
                 </Style>
             </StackPanel.Resources>
 
-            <Controls:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick"/>
+            <Controls:DropDownButton x:Name="xAddAppenderButton" ButtonName="Add Appender" ItemClick="AddAppenderItemOnClick" ContextMenuWidth="140"/>
 
             <Button Click="AddRootClick" ToolTip="Adds a root logger">Add Root</Button>
             

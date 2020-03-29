@@ -13,7 +13,7 @@ A WPF GUI for editing log4net configuration files. This tool can edit log4net co
 - Open log files directly from the UI
 - Copy/Paste log4net elements
 
-![](https://github.com/atown-24/log4net-config-editor/blob/master/gifs/demo.gif?raw=true)
+![](https://github.com/alexleen/log4net-config-editor/blob/master/gifs/demo.gif?raw=true)
 ## Status
 Currently under construction. log4net configuration files can be quite large and complex (hence this editor), so it may take some time to fully support all of the available features. See Support section below for more information.
 ### Support
@@ -22,29 +22,29 @@ Currently under construction. log4net configuration files can be quite large and
 |-------------------------------|-----------|
 | AdoNetAppender                |           |
 | AnsiColorTerminalAppender     |           |
-| AspNetTraceAppender           |           |
+| AspNetTraceAppender           | ✓         |
 | [AsyncForwardingAppender](https://github.com/cjbhaines/Log4Net.Async#asyncforwardingappender)       | ✓         |
-| BufferingForwardingAppender   |           |
+| BufferingForwardingAppender   | ✓         |
 | ColoredConsoleAppender        |           |
 | ConsoleAppender               | ✓         |
-| DebugAppender                 |           |
+| DebugAppender                 | ✓         |
 | EventLogAppender              | ✓         |
 | FileAppender                  | ✓         |
 | ForwardingAppender            | ✓         |
 | LocalSyslogAppender           | ✓         |
 | ManagedColoredConsoleAppender | ✓         |
-| MemoryAppender                |           |
-| NetSendAppender               |           |
-| OutputDebugStringAppender     |           |
+| MemoryAppender                | ✓         |
+| NetSendAppender               | ✓         |
+| OutputDebugStringAppender     | ✓         |
 | [ParallelForwardingAppender](https://github.com/cjbhaines/Log4Net.Async#parallelforwardingappender) |           |
 | RemoteSyslogAppender          | ✓         |
-| RemotingAppender              |           |
+| RemotingAppender              | ✓         |
 | RollingFileAppender           | ✓         |
 | SmtpAppender                  | ✓         |
-| SmtpPickupDirAppender         |           |
-| TelnetAppender                |           |
-| TextWriterAppender            |           |
-| TraceAppender                 |           |
+| SmtpPickupDirAppender         | ✓         |
+| TelnetAppender                | ✓         |
+| TextWriterAppender            | ✓         |
+| TraceAppender                 | ✓         |
 | UdpAppender                   | ✓         |
 #### Filters
 | Filter            | Supported | Notes                                 |

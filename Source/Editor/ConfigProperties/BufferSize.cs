@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties.Base;
@@ -13,20 +13,10 @@ namespace Editor.ConfigProperties
         private readonly string mDefaultBufferSize;
 
         public BufferSize(int defaultSize)
-            : base("Buffer Size:", null)
+            : base("Buffer Size:", BufferSizeName)
         {
             mDefaultBufferSize = defaultSize.ToString();
             Value = mDefaultBufferSize;
-        }
-
-        public override void Load(XmlNode originalNode)
-        {
-            string bufferSizeStr = originalNode.GetValueAttributeValueFromChildElement(BufferSizeName);
-
-            if (int.TryParse(bufferSizeStr, out int _))
-            {
-                Value = bufferSizeStr;
-            }
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)

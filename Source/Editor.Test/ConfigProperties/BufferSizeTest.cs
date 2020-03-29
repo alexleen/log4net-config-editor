@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties;
@@ -19,21 +19,6 @@ namespace Editor.Test.ConfigProperties
 
         private const string DefaultBufferSize = "1000";
         private BufferSize mSut;
-
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase("string")]
-        public void Load_ShouldSetDefaultValue_WhenAttributeValueIsNotAnInt(string value)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           $"    <bufferSize value=\"{value}\" />\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(DefaultBufferSize, mSut.Value);
-        }
 
         [TestCase(null)]
         [TestCase("")]

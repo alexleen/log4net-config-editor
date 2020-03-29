@@ -1,16 +1,22 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Net;
+using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
     internal class Port : StringValueProperty
     {
-        internal Port(string name, string elementName)
+        private readonly string mDefaultPort;
+
+        internal Port(string name, string elementName, int? defaultPort)
             : base(name, elementName)
         {
+            mDefaultPort = defaultPort?.ToString();
+            Value = mDefaultPort;
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
@@ -22,6 +28,14 @@ namespace Editor.ConfigProperties
             }
 
             return base.TryValidate(messageBoxService);
+        }
+
+        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        {
+            if (!string.IsNullOrEmpty(Value) && Value != mDefaultPort)
+            {
+                xmlDoc.CreateElementWithValueAttribute(ElementName, Value).AppendTo(newNode);
+            }
         }
     }
 }

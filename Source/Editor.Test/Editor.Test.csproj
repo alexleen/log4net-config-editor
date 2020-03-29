@@ -76,6 +76,7 @@
     <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
     <Compile Include="ConfigProperties\Base\EnumPropertyTest.cs" />
     <Compile Include="ConfigProperties\BufferSizeTest.cs" />
+    <Compile Include="ConfigProperties\CategoryTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
     <Compile Include="ConfigProperties\EncodingTest.cs" />
@@ -124,8 +125,19 @@
     <Compile Include="Definitions\Appenders\LocalSyslogAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\ManagedColoredConsoleAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RemoteSyslogAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\BufferingForwardingAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\SmtpPickupDirAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\RollingFileAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\SmtpAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\DebugAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\RemotingAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\NetSendAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\TextWriterAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\AspNetTraceAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\OutputStringDebugAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\MemoryAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\TraceAppenderTest.cs" />
+    <Compile Include="Definitions\Appenders\TelnetAppenderTest.cs" />
     <Compile Include="Definitions\Appenders\TestHelpers.cs" />
     <Compile Include="Definitions\Appenders\UdpAppenderTest.cs" />
     <Compile Include="Definitions\Factory\DefinitionFactoryTest.cs" />

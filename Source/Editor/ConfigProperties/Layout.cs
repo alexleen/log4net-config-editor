@@ -16,7 +16,6 @@ namespace Editor.ConfigProperties
     {
         private const string SimplePattern = "%level - %message%newline";
         private const string LayoutName = "layout";
-        private const string ConversionPatternName = "conversionPattern";
         private readonly IHistoryManager mHistoryManager;
         private string mOriginalPattern;
 
@@ -111,7 +110,7 @@ namespace Editor.ConfigProperties
             {
                 SelectedLayout = descriptor;
 
-                string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
+                string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
 
                 if (!string.IsNullOrEmpty(pattern))
                 {
@@ -143,7 +142,7 @@ namespace Editor.ConfigProperties
 
             if (SelectedLayout != LayoutDescriptor.Simple)
             {
-                xmlDoc.CreateElementWithValueAttribute(ConversionPatternName, Pattern).AppendTo(layoutNode);
+                xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Pattern).AppendTo(layoutNode);
             }
 
             newNode.AppendChild(layoutNode);
