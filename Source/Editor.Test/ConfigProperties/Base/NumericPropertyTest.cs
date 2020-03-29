@@ -127,16 +127,14 @@ namespace Editor.Test.ConfigProperties.Base
         [Test]
         public void Save_ShouldNotCreateAndAppendElement_WhenDefault()
         {
-            NumericProperty<int> sut = CreateSut<int>();
-
-            sut.Value = "10000";
+            NumericProperty<int> sut = new NumericProperty<int>("Num Prop:", "numProp", 1234) { Value = "1234" };
 
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
             sut.Save(xmlDoc, appender);
 
-            CollectionAssert.IsEmpty(appender["numProp"]);
+            Assert.IsNull(appender["numProp"]);
         }
 
         [Test]
