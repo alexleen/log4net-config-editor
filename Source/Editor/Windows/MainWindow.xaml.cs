@@ -252,8 +252,7 @@ namespace Editor.Windows
         /// <summary>
         /// Performs the following actions:<para/>
         /// 1. Save the specified file name to the set of historical configs.<para/>
-        /// 2. Sets the config ComboBox's ItemsSource to the set of historical configs.<para/>
-        /// 3. Sets the config ComboBox's to the specified filename.
+        /// 2. Sets the config ComboBox's ItemsSource to the set of historicaXChildren_OnContextMenuOpening3. Sets the config ComboBox's to the specified filename.
         /// </summary>
         /// <param name="fileName"></param>
         private void RefreshConfigComboBox(string fileName)
@@ -285,7 +284,7 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
+        /// ContextMenuOpening to disk at currently selected config location.
         /// </summary>
         private async void SaveToFileAsync()
         {
@@ -500,11 +499,20 @@ namespace Editor.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ContextMenuOpened(object sender, RoutedEventArgs e)
+        private void ChildrenOnContextMenuOpened(object sender, RoutedEventArgs e)
         {
             ModelBase model = (ModelBase)xChildren.SelectedItem;
             xOpenLogFileMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File;
             xOpenLogFolderMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File || model.Descriptor == AppenderDescriptor.RollingFile;
+        }
+
+        private void ChildrenOnContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            //Hides context menu when no item is selected
+            if (xChildren.SelectedItem == null)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
