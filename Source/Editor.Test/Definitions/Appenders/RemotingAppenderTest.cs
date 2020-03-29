@@ -62,7 +62,7 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
-        public void Initialize_ShouldAddPortProperty()
+        public void Initialize_ShouldAddSinkProperty()
         {
             mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Sink:");
         }

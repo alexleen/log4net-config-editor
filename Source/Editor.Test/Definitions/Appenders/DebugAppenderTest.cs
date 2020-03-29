@@ -57,7 +57,7 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
-        public void Initialize_ShouldAddPortProperty()
+        public void Initialize_ShouldAddProperties()
         {
             mSut.Properties.Single(p => p.GetType() == typeof(Category));
             mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase) && ((BooleanPropertyBase)p).Name == "Immediate Flush:");

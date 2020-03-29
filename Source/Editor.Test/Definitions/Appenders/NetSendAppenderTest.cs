@@ -56,7 +56,7 @@ namespace Editor.Test.Definitions.Appenders
         }
 
         [Test]
-        public void Initialize_ShouldAddPortProperty()
+        public void Initialize_ShouldAddProperties()
         {
             mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Recipient:");
             mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Sender:");
