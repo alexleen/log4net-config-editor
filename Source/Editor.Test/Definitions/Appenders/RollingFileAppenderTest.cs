@@ -97,7 +97,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(21, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 14, mSut.Properties.Count);
         }
 
         [TestCase(RollingMode.Once, false)]
@@ -162,10 +162,10 @@ namespace Editor.Test.Definitions.Appenders
             Assert.AreEqual(staticIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p is BooleanPropertyBase bpb && bpb.Name == "Static Log File Name:")));
         }
 
-        [TestCase(RollingMode.Once, 19)]
-        [TestCase(RollingMode.Size, 20)]
-        [TestCase(RollingMode.Date, 19)]
-        [TestCase(RollingMode.Composite, 21)]
+        [TestCase(RollingMode.Once, 20)]
+        [TestCase(RollingMode.Size, 21)]
+        [TestCase(RollingMode.Date, 20)]
+        [TestCase(RollingMode.Composite, 22)]
         public void Properties_ShouldNotBeDuplicated_WhenTheyAlreadyExist(RollingMode mode, int expectedCount)
         {
             mSut.Initialize();

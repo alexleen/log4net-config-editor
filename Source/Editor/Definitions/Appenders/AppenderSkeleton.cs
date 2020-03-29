@@ -1,10 +1,12 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Base;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.Definitions.Appenders
 {
@@ -28,6 +30,7 @@ namespace Editor.Definitions.Appenders
             AddProperty(new TypeAttribute(Descriptor));
             Name nameProperty = new Name(Configuration);
             AddProperty(nameProperty);
+            AddProperty(new StringValueProperty("Error Handler:", "errorHandler", Log4NetXmlConstants.Type) { ToolTip = "Specify a type that implements IErrorHandler to handle appender related errors." });
             AddProperty(new Threshold());
 
             AddAppenderSpecificProperties();

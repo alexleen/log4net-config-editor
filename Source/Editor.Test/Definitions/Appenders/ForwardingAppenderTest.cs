@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
@@ -69,7 +69,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(8, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 1, mSut.Properties.Count);
         }
     }
 }

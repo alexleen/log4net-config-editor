@@ -71,7 +71,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(10, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 3, mSut.Properties.Count);
         }
     }
 }
