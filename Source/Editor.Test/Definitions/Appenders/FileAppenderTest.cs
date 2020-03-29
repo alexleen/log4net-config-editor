@@ -1,8 +1,9 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -53,7 +54,17 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+            TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
+        }
+
+        [Test]
+        public void Initialize_ShouldAddTextWriterProperties()
+        {
+            mSut.Initialize();
+
+            mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase) && ((BooleanPropertyBase)p).Name == "Immediate Flush:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Quiet Writer:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Writer:");
         }
 
         [Test]
@@ -63,6 +74,8 @@ namespace Editor.Test.Definitions.Appenders
 
             mSut.Properties.Single(p => p.GetType() == typeof(File));
             mSut.Properties.Single(p => p.GetType() == typeof(LockingModel));
+            mSut.Properties.Single(p => p.GetType() == typeof(Encoding));
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Security Context:");
         }
 
         [Test]
@@ -70,7 +83,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(9, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 7, mSut.Properties.Count);
         }
     }
 }

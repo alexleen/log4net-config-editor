@@ -21,9 +21,9 @@ namespace Editor.Definitions.Param
 
         public override void Initialize()
         {
-            AddProperty(new Name(Properties, mConfiguration) { IsFocused = true });
-            AddProperty(new Value(Properties));
-            AddProperty(new TypeAttribute(Properties));
+            AddProperty(new Name(mConfiguration) { IsFocused = true });
+            AddProperty(new Value());
+            AddProperty(new TypeAttribute());
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -18,26 +16,38 @@ namespace Editor.ConfigProperties
 
         private static readonly AppenderDescriptor[] sValues =
         {
-            AppenderDescriptor.Console,
-            AppenderDescriptor.File,
-            AppenderDescriptor.RollingFile,
-            AppenderDescriptor.EventLog,
+            AppenderDescriptor.AspNetTrace,
             AppenderDescriptor.Async,
+            AppenderDescriptor.BufferingForwarding,
+            AppenderDescriptor.Console,
+            AppenderDescriptor.Debug,
+            AppenderDescriptor.EventLog,
+            AppenderDescriptor.File,
             AppenderDescriptor.Forwarding,
-            AppenderDescriptor.ManagedColor,
-            AppenderDescriptor.Udp,
             AppenderDescriptor.LocalSyslog,
-            AppenderDescriptor.RemoteSyslog
+            AppenderDescriptor.ManagedColor,
+            AppenderDescriptor.Memory,
+            AppenderDescriptor.NetSend,
+            AppenderDescriptor.OutputDebugString,
+            AppenderDescriptor.RemoteSyslog,
+            AppenderDescriptor.Remoting,
+            AppenderDescriptor.RollingFile,
+            AppenderDescriptor.Smtp,
+            AppenderDescriptor.SmtpPickupDir,
+            AppenderDescriptor.Telnet,
+            AppenderDescriptor.TextWriter,
+            AppenderDescriptor.Trace,
+            AppenderDescriptor.Udp
         };
 
-        public TypeAttribute(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto, "Type:", sValues, WidthValue)
+        public TypeAttribute()
+            : base(GridLength.Auto, "Type:", sValues, WidthValue)
         {
             SelectedValue = sValues.First();
         }
 
-        public TypeAttribute(ReadOnlyCollection<IProperty> container, AppenderDescriptor descriptor)
-            : base(container, GridLength.Auto, "Type:", sValues, WidthValue)
+        public TypeAttribute(AppenderDescriptor descriptor)
+            : base(GridLength.Auto, "Type:", sValues, WidthValue)
         {
             //Will be overwritten when/if load is called
             SelectedValue = descriptor;

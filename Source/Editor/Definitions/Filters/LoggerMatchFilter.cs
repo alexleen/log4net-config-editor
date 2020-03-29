@@ -13,7 +13,7 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new LoggerToMatch(Properties) { IsFocused = true });
+            AddProperty(new RequiredStringProperty("Logger to Match:", "loggerToMatch") { IsFocused = true });
             base.Initialize();
         }
     }

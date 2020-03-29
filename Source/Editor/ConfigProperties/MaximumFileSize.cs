@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -13,8 +12,8 @@ namespace Editor.ConfigProperties
         private const string MaximumFileSizeName = "maximumFileSize";
         private const string DefaultMaxFileSize = "10MB";
 
-        public MaximumFileSize(ReadOnlyCollection<IProperty> container)
-            : base(container, "Maximum File Size:", MaximumFileSizeName)
+        public MaximumFileSize()
+            : base("Maximum File Size:", MaximumFileSizeName)
         {
             Value = DefaultMaxFileSize;
             ToolTip = "The maximum size that the output file is allowed to reach before being rolled over to backup files. Must be suffixed with \"KB\", \"MB\", or \"GB\".";

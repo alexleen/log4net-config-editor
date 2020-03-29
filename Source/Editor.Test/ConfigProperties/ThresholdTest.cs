@@ -1,11 +1,8 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using Editor.Utilities;
 using log4net.Core;
 using NUnit.Framework;
@@ -15,37 +12,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class ThresholdTest
     {
-        private Threshold mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new Threshold(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new Threshold();
         }
 
-        [Test]
-        public void Ctor_ShouldInitializeNameCorrectly()
-        {
-            Assert.AreEqual("Threshold:", mSut.Name);
-        }
-
-        [Test]
-        public void Tooltip_ShouldBeCorrect()
-        {
-            Assert.AreEqual("All log events with lower level than the threshold level are ignored by the appender.", mSut.ToolTip);
-        }
-
-        [Test]
-        public void Levels_ShouldBeAllLevels()
-        {
-            CollectionAssert.AreEqual(new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys), mSut.Values);
-        }
-
-        [Test]
-        public void SelectedLevel_ShouldBeNone()
-        {
-            Assert.AreEqual(string.Empty, mSut.SelectedValue);
-        }
+        private Threshold mSut;
 
         [TestCase("<threshold />", "")]
         [TestCase("<threshold value=\"\" />", "")]
@@ -62,6 +35,18 @@ namespace Editor.Test.ConfigProperties
             mSut.Load(xmlDoc.FirstChild);
 
             Assert.AreEqual(expected, mSut.SelectedValue);
+        }
+
+        [Test]
+        public void Ctor_ShouldInitializeNameCorrectly()
+        {
+            Assert.AreEqual("Threshold:", mSut.Name);
+        }
+
+        [Test]
+        public void Levels_ShouldBeAllLevels()
+        {
+            CollectionAssert.AreEqual(new[] { string.Empty }.Concat(Log4NetUtilities.LevelsByName.Keys), mSut.Values);
         }
 
         [Test]
@@ -88,6 +73,18 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(thresholdNode);
             Assert.AreEqual(Level.All.Name, thresholdNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void SelectedLevel_ShouldBeNone()
+        {
+            Assert.AreEqual(string.Empty, mSut.SelectedValue);
+        }
+
+        [Test]
+        public void Tooltip_ShouldBeCorrect()
+        {
+            Assert.AreEqual("All log events with lower level than the threshold level are ignored by the appender.", mSut.ToolTip);
         }
     }
 }

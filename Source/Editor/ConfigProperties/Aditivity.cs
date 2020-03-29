@@ -1,9 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -12,8 +10,8 @@ namespace Editor.ConfigProperties
     {
         private const string ElementName = "aditivity";
 
-        public Aditivity(ReadOnlyCollection<IProperty> container)
-            : base(container, "Aditivity:", ElementName, true, true)
+        public Aditivity()
+            : base("Aditivity:", ElementName, true)
         {
         }
 

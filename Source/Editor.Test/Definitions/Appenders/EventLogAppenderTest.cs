@@ -1,8 +1,9 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -53,7 +54,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            TestHelpers.AssertDefaultPropertiesExist(mSut.Properties);
+            TestHelpers.AssertAppenderSkeletonPropertiesExist(mSut.Properties);
         }
 
         [Test]
@@ -61,8 +62,10 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(LogName));
-            mSut.Properties.Single(p => p.GetType() == typeof(ApplicationName));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(RequiredStringProperty)));
+            mSut.Properties.Single(p => p.GetType() == typeof(NumericProperty<short>) && ((NumericProperty<short>)p).Name == "Category:");
+            mSut.Properties.Single(p => p.GetType() == typeof(NumericProperty<int>) && ((NumericProperty<int>)p).Name == "Event Id:");
+            mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Security Context:");
         }
 
         [Test]
@@ -70,7 +73,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(9, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 5, mSut.Properties.Count);
         }
     }
 }

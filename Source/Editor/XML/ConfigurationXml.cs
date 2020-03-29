@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.ObjectModel;
@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using SystemInterface.Xml;
 using SystemWrapper.Xml;
-using Editor.Descriptors;
 using Editor.Enums;
 using Editor.Interfaces;
 using Editor.Models;
@@ -68,59 +67,24 @@ namespace Editor.XML
 
             mMutableChildren.Clear();
 
-            bool unrecognized = LoadAppenders();
-            LoadRenderers();
-            LoadParams();
-            foreach (IAcceptAppenderRef logger in XmlUtilities.GetRootLoggerAndLoggers(Log4NetNode))
-            {
-                mMutableChildren.Add((ModelBase)logger);
-            }
-
-            LoadRootAttributes();
-
-            return unrecognized;
-        }
-
-        private bool LoadAppenders()
-        {
-            //Only selects appenders under this log4net element
-            XmlNodeList appenderList = Log4NetNode.SelectNodes("appender");
-
             bool unrecognized = false;
-
-            foreach (XmlNode node in appenderList)
+            foreach (XmlNode node in Log4NetNode.ChildNodes)
             {
-                if (AppenderModel.TryCreate(node, Log4NetNode, out AppenderModel model))
+                ModelCreateResult result = ModelFactory.TryCreate(node, Log4NetNode, out ModelBase model);
+
+                if (result == ModelCreateResult.Success)
                 {
                     mMutableChildren.Add(model);
                 }
-                else
+                else if (result == ModelCreateResult.UnknownAppender)
                 {
                     unrecognized = true;
                 }
             }
 
+            LoadRootAttributes();
+
             return unrecognized;
-        }
-
-        private void LoadRenderers()
-        {
-            XmlNodeList rendererList = Log4NetNode.SelectNodes(RendererDescriptor.Renderer.ElementName);
-
-            foreach (XmlNode renderer in rendererList)
-            {
-                mMutableChildren.Add(new RendererModel(renderer));
-            }
-        }
-
-        private void LoadParams()
-        {
-            XmlNodeList rendererList = Log4NetNode.SelectNodes(ParamDescriptor.Param.ElementName);
-
-            foreach (XmlNode renderer in rendererList)
-            {
-                mMutableChildren.Add(new ParamModel(renderer));
-            }
         }
 
         private void LoadRootAttributes()

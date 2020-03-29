@@ -1,11 +1,9 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Interfaces;
 using Editor.Models;
 using log4net.Core;
 using NUnit.Framework;
@@ -15,64 +13,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class FixTest
     {
-        private Fix mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new Fix(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new Fix();
         }
 
-        [Test]
-        public void Presets_ShouldBeInitializedCorrectly()
-        {
-            CollectionAssert.AreEqual(new[] { Fix.NonePreset, Fix.PartialPreset, Fix.AllPreset, Fix.CustomPreset }, mSut.Presets);
-        }
-
-        [Test]
-        public void SelectedPreset_ShouldBeInitializedToNone()
-        {
-            Assert.AreEqual(Fix.NonePreset, mSut.SelectedPreset);
-        }
-
-        [Test]
-        public void Fixes_ShouldBeInitializedCorrectly()
-        {
-            CollectionAssert.AreEqual(new[]
-                                      {
-                                          new FixModel(FixFlags.Message, false),
-                                          new FixModel(FixFlags.ThreadName, false),
-                                          new FixModel(FixFlags.LocationInfo, true, "Possible performance degradation"),
-                                          new FixModel(FixFlags.UserName, true, "Possible performance degradation"),
-                                          new FixModel(FixFlags.Domain, false),
-                                          new FixModel(FixFlags.Identity, true, "Possible performance degradation"),
-                                          new FixModel(FixFlags.Exception, false),
-                                          new FixModel(FixFlags.Properties, false)
-                                      },
-                                      mSut.Fixes);
-        }
-
-        [Test]
-        public void SelectedPreset_ShouldNotFirePropChange_WhenUnchanged()
-        {
-            bool fired = false;
-            mSut.PropertyChanged += (sender, args) => { fired = true; };
-
-            mSut.SelectedPreset = mSut.SelectedPreset;
-
-            Assert.IsFalse(fired);
-        }
-
-        [Test]
-        public void SelectedPreset_ShouldFirePropChange_WhenChanged()
-        {
-            bool fired = false;
-            mSut.PropertyChanged += (sender, args) => { fired = true; };
-
-            mSut.SelectedPreset = "other";
-
-            Assert.IsTrue(fired);
-        }
+        private Fix mSut;
 
         [TestCase(Fix.NonePreset, FixFlags.None)]
         [TestCase(Fix.PartialPreset, FixFlags.Partial)]
@@ -150,6 +97,57 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(fixNode);
             Assert.AreEqual(((int)flags).ToString(), fixNode.Attributes?["value"].Value);
+        }
+
+        [Test]
+        public void Fixes_ShouldBeInitializedCorrectly()
+        {
+            CollectionAssert.AreEqual(new[]
+                                      {
+                                          new FixModel(FixFlags.Message, false),
+                                          new FixModel(FixFlags.ThreadName, false),
+                                          new FixModel(FixFlags.LocationInfo, true, "Possible performance degradation"),
+                                          new FixModel(FixFlags.UserName, true, "Possible performance degradation"),
+                                          new FixModel(FixFlags.Domain, false),
+                                          new FixModel(FixFlags.Identity, true, "Possible performance degradation"),
+                                          new FixModel(FixFlags.Exception, false),
+                                          new FixModel(FixFlags.Properties, false)
+                                      },
+                                      mSut.Fixes);
+        }
+
+        [Test]
+        public void Presets_ShouldBeInitializedCorrectly()
+        {
+            CollectionAssert.AreEqual(new[] { Fix.NonePreset, Fix.PartialPreset, Fix.AllPreset, Fix.CustomPreset }, mSut.Presets);
+        }
+
+        [Test]
+        public void SelectedPreset_ShouldBeInitializedToNone()
+        {
+            Assert.AreEqual(Fix.NonePreset, mSut.SelectedPreset);
+        }
+
+        [Test]
+        public void SelectedPreset_ShouldFirePropChange_WhenChanged()
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.SelectedPreset = "other";
+
+            Assert.IsTrue(fired);
+        }
+
+        [Test]
+        public void SelectedPreset_ShouldNotFirePropChange_WhenUnchanged()
+        {
+            bool fired = false;
+            mSut.PropertyChanged += (sender, args) => { fired = true; };
+
+            mSut.SelectedPreset = mSut.SelectedPreset;
+
+            Assert.IsFalse(fired);
         }
     }
 }

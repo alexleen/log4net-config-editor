@@ -1,7 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
@@ -14,16 +14,19 @@ namespace Editor.ConfigProperties
 {
     public class Layout : PropertyBase
     {
-        private readonly IHistoryManager mHistoryManager;
         private const string SimplePattern = "%level - %message%newline";
         private const string LayoutName = "layout";
-        private const string ConversionPatternName = "conversionPattern";
+        private readonly IHistoryManager mHistoryManager;
         private string mOriginalPattern;
 
-        public Layout(ReadOnlyCollection<IProperty> container, IHistoryManager historyManager, bool required = true)
-            : base(container, GridLength.Auto)
+        private string mPattern;
+
+        private LayoutDescriptor mSelectedLayout;
+
+        public Layout(IHistoryManagerFactory historyManagerFactory, bool required = true)
+            : base(GridLength.Auto)
         {
-            mHistoryManager = historyManager;
+            mHistoryManager = historyManagerFactory.CreatePatternsHistoryManager();
 
             if (required)
             {
@@ -54,8 +57,6 @@ namespace Editor.ConfigProperties
 
         public IEnumerable<string> HistoricalLayouts { get; }
 
-        private LayoutDescriptor mSelectedLayout;
-
         public LayoutDescriptor SelectedLayout
         {
             get => mSelectedLayout;
@@ -70,21 +71,23 @@ namespace Editor.ConfigProperties
                 {
                     Pattern = string.Empty;
                 }
-                else if (value == LayoutDescriptor.Simple || string.IsNullOrEmpty(mOriginalPattern))
+                else if (!string.IsNullOrEmpty(mOriginalPattern))
                 {
-                    Pattern = SimplePattern;
+                    Pattern = mOriginalPattern;
+                }
+                else if (value == LayoutDescriptor.Pattern && HistoricalLayouts.Any())
+                {
+                    Pattern = HistoricalLayouts.First();
                 }
                 else
                 {
-                    Pattern = mOriginalPattern;
+                    Pattern = SimplePattern;
                 }
 
                 mSelectedLayout = value;
                 OnPropertyChanged();
             }
         }
-
-        private string mPattern;
 
         public string Pattern
         {
@@ -107,7 +110,7 @@ namespace Editor.ConfigProperties
             {
                 SelectedLayout = descriptor;
 
-                string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(ConversionPatternName);
+                string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
 
                 if (!string.IsNullOrEmpty(pattern))
                 {
@@ -139,7 +142,7 @@ namespace Editor.ConfigProperties
 
             if (SelectedLayout != LayoutDescriptor.Simple)
             {
-                xmlDoc.CreateElementWithValueAttribute(ConversionPatternName, Pattern).AppendTo(layoutNode);
+                xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Pattern).AppendTo(layoutNode);
             }
 
             newNode.AppendChild(layoutNode);

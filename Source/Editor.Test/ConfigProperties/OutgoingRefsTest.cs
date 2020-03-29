@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
@@ -16,9 +15,6 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class OutgoingRefsTest
     {
-        private OutgoingRefs mSut;
-        private XmlDocument mXmlDoc;
-
         [SetUp]
         public void SetUp()
         {
@@ -46,20 +42,11 @@ namespace Editor.Test.ConfigProperties
             appenderConfiguration.Log4NetNode.Returns(mXmlDoc.FirstChild);
             appenderConfiguration.OriginalNode.Returns(mXmlDoc.FirstChild["appender"]);
 
-            mSut = new OutgoingRefs(new ReadOnlyCollection<IProperty>(new List<IProperty>()), appenderConfiguration);
+            mSut = new OutgoingRefs(appenderConfiguration);
         }
 
-        [Test]
-        public void Name_ShouldBeInitializedCorrectly()
-        {
-            Assert.AreEqual("↑ Refs:", mSut.Name);
-        }
-
-        [Test]
-        public void Description_ShouldBeInitializedCorrectly()
-        {
-            Assert.AreEqual("This element can reference the following appenders:", mSut.Description);
-        }
+        private OutgoingRefs mSut;
+        private XmlDocument mXmlDoc;
 
         [Test]
         public void Ctor_ShouldLoadAvailableRefs()
@@ -70,12 +57,24 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Description_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("This element can reference the following appenders:", mSut.Description);
+        }
+
+        [Test]
         public void Load_ShouldLoadEnabledRefs()
         {
             mSut.Load(mXmlDoc.FirstChild["appender"]);
 
             Assert.AreEqual(4, mSut.RefsCollection.Count);
             Assert.AreEqual(2, mSut.RefsCollection.Count(r => r.IsEnabled));
+        }
+
+        [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("↑ Refs:", mSut.Name);
         }
 
         [Test]

@@ -1,18 +1,30 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 namespace Editor.Enums
 {
     public enum AppenderType
     {
-        Console,
-        File,
-        RollingFile,
-        EventLog,
+        AspNetTrace,
         Async,
+        BufferingForwarding,
+        Console,
+        Debug,
+        EventLog,
+        File,
         Forwarding,
-        ManagedColor,
-        Udp,
         LocalSyslog,
-        RemoteSyslog
+        ManagedColor,
+        Memory,
+        NetSend,
+        OutputDebugString,
+        RemoteSyslog,
+        Remoting,
+        RollingFile,
+        Smtp,
+        SmtpPickupDir,
+        Telnet,
+        TextWriter,
+        Trace,
+        Udp
     }
 }

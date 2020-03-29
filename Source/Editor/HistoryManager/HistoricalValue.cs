@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Xml.Serialization;
@@ -21,12 +21,7 @@ namespace Editor.HistoryManager
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return string.Equals(Value, other.Value);
+            return ReferenceEquals(this, other) || string.Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -36,12 +31,7 @@ namespace Editor.HistoryManager
                 return false;
             }
 
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            return Equals(obj as HistoricalValue);
+            return ReferenceEquals(this, obj) || Equals(obj as HistoricalValue);
         }
 
         public override int GetHashCode()

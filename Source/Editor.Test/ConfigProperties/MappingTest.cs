@@ -1,7 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Xml;
@@ -14,13 +13,10 @@ using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
 {
-    [TestFixture, Apartment(ApartmentState.STA)]
+    [TestFixture]
+    [Apartment(ApartmentState.STA)]
     public class MappingTest
     {
-        private XmlDocument mXmlDoc;
-        private IMessageBoxService mMessageBoxService;
-        private Mapping mSut;
-
         [SetUp]
         public void SetUp()
         {
@@ -50,7 +46,15 @@ namespace Editor.Test.ConfigProperties
             IConfiguration configuration = Substitute.For<IConfiguration>();
             configuration.ConfigXml.Returns(mXmlDoc);
 
-            mSut = new Mapping(new ReadOnlyCollection<IProperty>(new List<IProperty>()), configuration, mMessageBoxService);
+            mSut = new Mapping(configuration, mMessageBoxService);
+        }
+
+        private XmlDocument mXmlDoc;
+        private IMessageBoxService mMessageBoxService;
+        private Mapping mSut;
+
+        private void Dummy(MappingModel mappingModel)
+        {
         }
 
         [Test]
@@ -59,19 +63,6 @@ namespace Editor.Test.ConfigProperties
             mSut.Add.Execute(null);
 
             mMessageBoxService.Received(1).ShowWindow(Arg.Any<ElementWindow>());
-        }
-
-        [Test]
-        public void Remove_ShouldRemoveModel()
-        {
-            mSut.Load(mXmlDoc.FirstChild);
-
-            //Test sanity check
-            Assert.AreEqual(4, mSut.Mappings.Count);
-
-            mSut.Mappings.First().Remove.Execute(null);
-
-            Assert.AreEqual(3, mSut.Mappings.Count);
         }
 
         [Test]
@@ -91,6 +82,19 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
+        public void Remove_ShouldRemoveModel()
+        {
+            mSut.Load(mXmlDoc.FirstChild);
+
+            //Test sanity check
+            Assert.AreEqual(4, mSut.Mappings.Count);
+
+            mSut.Mappings.First().Remove.Execute(null);
+
+            Assert.AreEqual(3, mSut.Mappings.Count);
+        }
+
+        [Test]
         public void Save_ShouldSaveEachMappingCorrectly()
         {
             mSut.Mappings.Add(new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[0]));
@@ -105,10 +109,6 @@ namespace Editor.Test.ConfigProperties
             XmlNodeList mappings = appender.SelectNodes("/mapping");
 
             CollectionAssert.AreEquivalent(mSut.Mappings.Select(m => m.Node), mappings);
-        }
-
-        private void Dummy(MappingModel mappingModel)
-        {
         }
     }
 }

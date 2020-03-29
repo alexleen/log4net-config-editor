@@ -1,8 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.Definitions.Appenders
 {
@@ -19,8 +21,11 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new LogName(Properties));
-            AddProperty(new ApplicationName(Properties));
+            AddProperty(new RequiredStringProperty("Log Name:", "logName"));
+            AddProperty(new RequiredStringProperty("Application Name:", "applicationName"));
+            AddProperty(new NumericProperty<short>("Category:", "category", 0));
+            AddProperty(new NumericProperty<int>("Event Id:", "eventId", 0));
+            AddProperty(new StringValueProperty("Security Context:", "securityContext", Log4NetXmlConstants.Type));
         }
     }
 }

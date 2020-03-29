@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
@@ -12,8 +11,8 @@ namespace Editor.ConfigProperties
     {
         private const string RenderingClassName = "renderingClass";
 
-        internal RenderingClass(ReadOnlyCollection<IProperty> container)
-            : base(container, "Rendering Class:", null)
+        internal RenderingClass()
+            : base("Rendering Class:", null)
         {
             IsFocused = true;
             ToolTip = "Value must be the type name for this renderer. " +

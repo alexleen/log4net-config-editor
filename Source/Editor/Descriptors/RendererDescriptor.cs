@@ -1,6 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2019 Alex Leendertsen
 
 using Editor.Descriptors.Base;
+using Editor.Utilities;
 
 namespace Editor.Descriptors
 {
@@ -14,7 +15,7 @@ namespace Editor.Descriptors
         }
 
         private RendererDescriptor(string name)
-            : base(name, "renderer", null)
+            : base(name, Log4NetXmlConstants.Renderer, null)
         {
         }
     }

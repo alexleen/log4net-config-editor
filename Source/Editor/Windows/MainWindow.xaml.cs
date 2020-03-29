@@ -1,4 +1,4 @@
-// Copyright © 2019 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
@@ -10,12 +10,15 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Xml;
 using Editor.Definitions.Factory;
 using Editor.Descriptors;
 using Editor.Descriptors.Base;
 using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Models;
 using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.SaveStrategies;
@@ -33,7 +36,7 @@ namespace Editor.Windows
     {
         private readonly IMessageBoxService mMessageBoxService;
         private readonly IToastService mToastService;
-        private readonly HistoryManager.HistoryManager mConfigHistoryManager;
+        private readonly IHistoryManager mConfigHistoryManager;
         private readonly IConfigurationFactory mConfigurationFactory;
 
         private IConfigurationXml mConfig;
@@ -57,21 +60,33 @@ namespace Editor.Windows
 
             mMessageBoxService = new MessageBoxService(this);
             mToastService = new ToastService();
-            mConfigHistoryManager = new HistoryManager.HistoryManager("HistoricalConfigs", new SettingManager<string>());
+            mConfigHistoryManager = new HistoryManagerFactory(new SettingManager<string>()).CreateConfigHistoryManager();
             mConfigurationFactory = new ConfigurationFactory(mToastService);
 
             xAddAppenderButton.ItemsSource = new[]
             {
-                AppenderDescriptor.Console,
-                AppenderDescriptor.File,
-                AppenderDescriptor.RollingFile,
-                AppenderDescriptor.EventLog,
+                AppenderDescriptor.AspNetTrace,
                 AppenderDescriptor.Async,
+                AppenderDescriptor.BufferingForwarding,
+                AppenderDescriptor.Console,
+                AppenderDescriptor.Debug,
+                AppenderDescriptor.EventLog,
+                AppenderDescriptor.File,
                 AppenderDescriptor.Forwarding,
-                AppenderDescriptor.ManagedColor,
-                AppenderDescriptor.Udp,
                 AppenderDescriptor.LocalSyslog,
-                AppenderDescriptor.RemoteSyslog
+                AppenderDescriptor.ManagedColor,
+                AppenderDescriptor.Memory,
+                AppenderDescriptor.NetSend,
+                AppenderDescriptor.OutputDebugString,
+                AppenderDescriptor.RemoteSyslog,
+                AppenderDescriptor.Remoting,
+                AppenderDescriptor.RollingFile,
+                AppenderDescriptor.Smtp,
+                AppenderDescriptor.SmtpPickupDir,
+                AppenderDescriptor.Telnet,
+                AppenderDescriptor.TextWriter,
+                AppenderDescriptor.Trace,
+                AppenderDescriptor.Udp
             };
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
@@ -91,6 +106,51 @@ namespace Editor.Windows
                 RefreshConfigComboBox(config);
                 LoadFromFile(config);
             }
+
+            //Subscribe after RefreshConfigComboBox above is called to avoid an additional load
+            xConfigComboBox.SelectionChanged += ConfigComboBoxOnSelectionChanged;
+        }
+
+        private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            Paste();
+        }
+
+        private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveToFileAsync();
+        }
+
+        private void Paste()
+        {
+            string text = Clipboard.GetText();
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(text);
+                XmlNode imported = mConfig.ConfigXml.ImportNode(doc.FirstChild, true);
+
+                ModelCreateResult result = ModelFactory.TryCreate(imported, mConfig.Log4NetNode, out ModelBase model);
+
+                if (result == ModelCreateResult.Success)
+                {
+                    OpenElementWindow(model, true);
+                    return;
+                }
+
+                if (result == ModelCreateResult.UnknownAppender)
+                {
+                    mToastService.ShowError("Unrecognized appender.");
+                    return;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            mToastService.ShowError("Unrecognized log4net element");
         }
 
         private void ConfigComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,11 +244,15 @@ namespace Editor.Windows
             }
         }
 
+        private void PasteClick(object sender, RoutedEventArgs e)
+        {
+            Paste();
+        }
+
         /// <summary>
         /// Performs the following actions:<para/>
         /// 1. Save the specified file name to the set of historical configs.<para/>
-        /// 2. Sets the config ComboBox's ItemsSource to the set of historical configs.<para/>
-        /// 3. Sets the config ComboBox's to the specified filename.
+        /// 2. Sets the config ComboBox's ItemsSource to the set of historicaXChildren_OnContextMenuOpening3. Sets the config ComboBox's to the specified filename.
         /// </summary>
         /// <param name="fileName"></param>
         private void RefreshConfigComboBox(string fileName)
@@ -205,12 +269,12 @@ namespace Editor.Windows
 
         private void SaveOnClick(object sender, RoutedEventArgs e)
         {
-            SaveToFile();
+            SaveToFileAsync();
         }
 
         private void SandAndCloseOnClick(object sender, RoutedEventArgs e)
         {
-            SaveToFile();
+            SaveToFileAsync();
             Close();
         }
 
@@ -220,11 +284,18 @@ namespace Editor.Windows
         }
 
         /// <summary>
-        /// Writes <see cref="ConfigurationXml"/> to disk at currently selected config location.
+        /// ContextMenuOpening to disk at currently selected config location.
         /// </summary>
-        private void SaveToFile()
+        private async void SaveToFileAsync()
         {
-            ConfigurationXml.SaveAsync();
+            try
+            {
+                await ConfigurationXml.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"An unexpected error occurred while saving:{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ReloadFromFile()
@@ -258,12 +329,12 @@ namespace Editor.Windows
             }
             catch (Exception ex)
             {
-                mToastService.ShowError($"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}");
+                MessageBox.Show(this, $"An unexpected error occurred while loading '{filename}':{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             xChildren.ItemsSource = ConfigurationXml.Children;
-            xAddRefsButton.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
+            xAddRefsToMenuItem.ItemsSource = ConfigurationXml.Children.OfType<IAcceptAppenderRef>().Cast<NamedModel>();
             xRightSp.IsEnabled = true;
             xSaveButton.IsEnabled = true;
             xSaveAndCloseButton.IsEnabled = true;
@@ -321,9 +392,9 @@ namespace Editor.Windows
             LoadFromRam();
         }
 
-        private void AddRefsButtonOnItemClick(object obj)
+        private void AddRefsButtonOnItemClick(object sender, RoutedEventArgs e)
         {
-            ModelBase destination = (ModelBase)obj;
+            ModelBase destination = (ModelBase)((FrameworkElement)sender).DataContext;
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
@@ -343,31 +414,31 @@ namespace Editor.Windows
             OpenElementWindow(null, descriptor.ElementName, descriptor);
         }
 
-        private void OpenElementWindow(ModelBase model)
+        private void OpenElementWindow(ModelBase model, bool forceAppend = false)
         {
-            OpenElementWindow(model, model.Node.Name, model.Descriptor);
+            OpenElementWindow(model, model.Node.Name, model.Descriptor, forceAppend);
         }
 
-        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor)
+        private void OpenElementWindow(ModelBase model, string elementName, DescriptorBase descriptor, bool forceAppend = false)
         {
             IElementConfiguration configuration = ConfigurationXml.CreateElementConfigurationFor(model, elementName);
 
             ElementWindow elementWindow = new ElementWindow(configuration,
                                                             DefinitionFactory.Create(descriptor, configuration),
                                                             WindowSizeLocationFactory.Create(descriptor),
-                                                            new AppendReplaceSaveStrategy(configuration))
+                                                            new AppendReplaceSaveStrategy(configuration, forceAppend))
                 { Owner = this };
             elementWindow.ShowDialog();
             LoadFromRam();
         }
 
-        private void CopyAppenderToClipboard(object sender, RoutedEventArgs e)
+        private void CopyElementToClipboard(object sender, RoutedEventArgs e)
         {
-            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
 
-            Clipboard.SetText(appender.Node.OuterXml);
+            Clipboard.SetText(model.Node.OuterXml);
 
-            mToastService.ShowSuccess("Appender XML copied to clipboard");
+            mToastService.ShowSuccess("XML copied to clipboard");
         }
 
         private void OpenLogFileClick(object sender, RoutedEventArgs e)
@@ -405,7 +476,7 @@ namespace Editor.Windows
 
         private string GetFilePath(object sender)
         {
-            AppenderModel appender = (AppenderModel)((Button)sender).DataContext;
+            AppenderModel appender = (AppenderModel)xChildren.SelectedItem;
 
             IElementConfiguration configuration = mConfig.CreateElementConfigurationFor(appender, appender.Node.Name);
 
@@ -426,6 +497,22 @@ namespace Editor.Windows
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ChildrenOnContextMenuOpened(object sender, RoutedEventArgs e)
+        {
+            ModelBase model = (ModelBase)xChildren.SelectedItem;
+            xOpenLogFileMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File;
+            xOpenLogFolderMenuItem.IsEnabled = model.Descriptor == AppenderDescriptor.File || model.Descriptor == AppenderDescriptor.RollingFile;
+        }
+
+        private void ChildrenOnContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            //Hides context menu when no item is selected
+            if (xChildren.SelectedItem == null)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

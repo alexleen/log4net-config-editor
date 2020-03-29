@@ -1,6 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 
@@ -19,9 +20,9 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new RemoteAddress(Properties));
-            AddProperty(new RemotePort(Properties));
-            AddProperty(new LocalPort(Properties));
+            AddProperty(new RemoteAddress());
+            AddProperty(new NumericProperty<ushort>("Remote Port:", "remotePort", 0));
+            AddProperty(new NumericProperty<ushort>("Local Port:", "localPort", 0));
         }
     }
 }

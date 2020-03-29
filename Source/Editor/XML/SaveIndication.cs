@@ -37,9 +37,14 @@ namespace Editor.XML
         {
             SaveState = SaveState.Saving;
 
-            await base.SaveAsync();
-
-            ReevaluateSaveState();
+            try
+            {
+                await base.SaveAsync();
+            }
+            finally
+            {
+                ReevaluateSaveState();
+            }
         }
 
         public override void RemoveChild(ModelBase child)

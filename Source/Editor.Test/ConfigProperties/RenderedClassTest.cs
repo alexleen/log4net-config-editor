@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,31 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RenderedClassTest
     {
-        private RenderedClass mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new RenderedClass(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new RenderedClass();
         }
 
-        [Test]
-        public void Name_ShouldBeInitializedCorrectly()
-        {
-            Assert.AreEqual("Rendered Class:", mSut.Name);
-        }
-
-        [Test]
-        public void Load_ShouldLoadCorrectRenderedClass()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<renderer renderedClass=\"ColoredConsoleAppender\">\r\n" +
-                           "</renderer>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
-        }
+        private RenderedClass mSut;
 
         [TestCase("renderedClass=\"\"")]
         [TestCase("")]
@@ -65,14 +45,21 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void TryValidate_ShouldNotShowUnassignedMessageBox_WhenValueIsNotNullOrEmpty_AndReturnTrue()
+        public void Load_ShouldLoadCorrectRenderedClass()
         {
-            mSut.Value = "class";
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<renderer renderedClass=\"ColoredConsoleAppender\">\r\n" +
+                           "</renderer>");
 
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+            mSut.Load(xmlDoc.FirstChild);
 
-            Assert.IsTrue(mSut.TryValidate(messageBoxService));
-            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+            Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
+        }
+
+        [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Rendered Class:", mSut.Name);
         }
 
         [Test]
@@ -87,6 +74,17 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(xmlDoc, appender);
 
             Assert.AreEqual(renderedClass, appender.Attributes["renderedClass"].Value);
+        }
+
+        [Test]
+        public void TryValidate_ShouldNotShowUnassignedMessageBox_WhenValueIsNotNullOrEmpty_AndReturnTrue()
+        {
+            mSut.Value = "class";
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsTrue(mSut.TryValidate(messageBoxService));
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
     }
 }

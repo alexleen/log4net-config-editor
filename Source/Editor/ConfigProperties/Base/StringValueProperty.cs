@@ -1,21 +1,21 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml;
-using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
-    public abstract class StringValueProperty : PropertyBase
+    public class StringValueProperty : PropertyBase
     {
-        private readonly string mElementName;
+        protected readonly string ElementName;
+        private readonly string mAttributeName;
 
-        protected StringValueProperty(ReadOnlyCollection<IProperty> container, string name, string elementName)
-            : base(container, GridLength.Auto)
+        internal StringValueProperty(string name, string elementName, string attributeName = Log4NetXmlConstants.Value)
+            : base(GridLength.Auto)
         {
-            mElementName = elementName;
+            ElementName = elementName;
+            mAttributeName = attributeName;
             Name = name;
         }
 
@@ -37,14 +37,14 @@ namespace Editor.ConfigProperties.Base
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode.GetValueAttributeValueFromChildElement(mElementName));
+            SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                xmlDoc.CreateElementWithValueAttribute(mElementName, Value).AppendTo(newNode);
+                xmlDoc.CreateElementWithAttribute(ElementName, mAttributeName, Value).AppendTo(newNode);
             }
         }
     }

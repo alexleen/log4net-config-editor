@@ -1,6 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 
@@ -8,8 +7,8 @@ namespace Editor.ConfigProperties
 {
     public class MaxSizeRollBackups : StringValueProperty
     {
-        public MaxSizeRollBackups(ReadOnlyCollection<IProperty> container)
-            : base(container, "Max Size Roll Backups:", "maxSizeRollBackups")
+        public MaxSizeRollBackups()
+            : base("Max Size Roll Backups:", "maxSizeRollBackups")
         {
             ToolTip = "The maximum number of backup files that are kept before the oldest is erased.";
         }

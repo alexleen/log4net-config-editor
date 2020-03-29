@@ -1,10 +1,11 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Utilities;
 
@@ -16,18 +17,27 @@ namespace Editor.ConfigProperties
         private const string AppendToFileName = "appendToFile";
         private const string TypeName = "type";
         private const string PatternStringTypeName = "log4net.Util.PatternString";
+        private readonly IHistoryManager mHistoryManager;
         private readonly IMessageBoxService mMessageBoxService;
 
-        public File(ReadOnlyCollection<IProperty> container, IMessageBoxService messageBoxService)
-            : base(container, GridLength.Auto)
+        private string mFilePath;
+
+        private bool mOverwrite;
+
+        private bool mPatternString;
+
+        public File(IMessageBoxService messageBoxService, IHistoryManagerFactory historyManagerFactory)
+            : base(GridLength.Auto)
         {
             Open = new Command(OpenFile);
             mMessageBoxService = messageBoxService;
+            mHistoryManager = historyManagerFactory.CreateFilePathHistoryManager();
+            HistoricalFiles = mHistoryManager.Get();
         }
 
         public ICommand Open { get; }
 
-        private string mFilePath;
+        public IEnumerable<string> HistoricalFiles { get; }
 
         public string FilePath
         {
@@ -44,8 +54,6 @@ namespace Editor.ConfigProperties
             }
         }
 
-        private bool mPatternString;
-
         public bool PatternString
         {
             get => mPatternString;
@@ -60,8 +68,6 @@ namespace Editor.ConfigProperties
                 OnPropertyChanged();
             }
         }
-
-        private bool mOverwrite;
 
         public bool Overwrite
         {
@@ -132,6 +138,8 @@ namespace Editor.ConfigProperties
             {
                 xmlDoc.CreateElementWithValueAttribute(AppendToFileName, "false").AppendTo(newNode);
             }
+
+            mHistoryManager.Save(FilePath);
         }
     }
 }

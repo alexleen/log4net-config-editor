@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,37 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RenderingClassTest
     {
-        private RenderingClass mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new RenderingClass(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new RenderingClass();
         }
 
-        [Test]
-        public void Name_ShouldBeInitializedCorrectly()
-        {
-            Assert.AreEqual("Rendering Class:", mSut.Name);
-        }
-
-        [Test]
-        public void IsFocused_ShouldBeTrue()
-        {
-            Assert.IsTrue(mSut.IsFocused);
-        }
-
-        [Test]
-        public void Load_ShouldLoadCorrectRenderingClass()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<renderer renderingClass=\"ColoredConsoleAppender\">\r\n" +
-                           "</renderer>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
-        }
+        private RenderingClass mSut;
 
         [TestCase("renderingClass=\"\"")]
         [TestCase("")]
@@ -71,14 +45,27 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void TryValidate_ShouldNotShowUnassignedMessageBox_WhenValueIsNotNullOrEmpty_AndReturnTrue()
+        public void IsFocused_ShouldBeTrue()
         {
-            mSut.Value = "class";
+            Assert.IsTrue(mSut.IsFocused);
+        }
 
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+        [Test]
+        public void Load_ShouldLoadCorrectRenderingClass()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<renderer renderingClass=\"ColoredConsoleAppender\">\r\n" +
+                           "</renderer>");
 
-            Assert.IsTrue(mSut.TryValidate(messageBoxService));
-            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
+            mSut.Load(xmlDoc.FirstChild);
+
+            Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
+        }
+
+        [Test]
+        public void Name_ShouldBeInitializedCorrectly()
+        {
+            Assert.AreEqual("Rendering Class:", mSut.Name);
         }
 
         [Test]
@@ -93,6 +80,17 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(xmlDoc, appender);
 
             Assert.AreEqual(renderingClass, appender.Attributes["renderingClass"].Value);
+        }
+
+        [Test]
+        public void TryValidate_ShouldNotShowUnassignedMessageBox_WhenValueIsNotNullOrEmpty_AndReturnTrue()
+        {
+            mSut.Value = "class";
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsTrue(mSut.TryValidate(messageBoxService));
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
     }
 }

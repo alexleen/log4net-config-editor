@@ -1,7 +1,5 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
@@ -13,19 +11,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RemoteAddressTest
     {
-        private RemoteAddress mSut;
-
         [SetUp]
         public void SetUp()
         {
-            mSut = new RemoteAddress(new ReadOnlyCollection<IProperty>(new List<IProperty>()));
+            mSut = new RemoteAddress();
         }
 
-        [Test]
-        public void Name_ShouldBeCorrect()
-        {
-            Assert.AreEqual("Remote Address:", mSut.Name);
-        }
+        private RemoteAddress mSut;
 
         [TestCase(null, null)]
         [TestCase("<remoteAddress />", null)]
@@ -75,17 +67,6 @@ namespace Editor.Test.ConfigProperties
             messageBoxService.Received(1).ShowError("Remote address must be a valid IP address.");
         }
 
-        [Test]
-        public void TryValidate_ShouldNotCallShowError()
-        {
-            mSut.Value = "1.2.3.4";
-
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
-            mSut.TryValidate(messageBoxService);
-
-            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
-        }
-
         [TestCase(null)]
         [TestCase("")]
         public void Save_ShouldNotSave_WhenNullOrEmptyValue(string value)
@@ -97,6 +78,12 @@ namespace Editor.Test.ConfigProperties
             mSut.Save(xmlDoc, appenderElement);
 
             CollectionAssert.IsEmpty(appenderElement.ChildNodes);
+        }
+
+        [Test]
+        public void Name_ShouldBeCorrect()
+        {
+            Assert.AreEqual("Remote Address:", mSut.Name);
         }
 
         [Test]
@@ -112,6 +99,17 @@ namespace Editor.Test.ConfigProperties
 
             Assert.IsNotNull(regexNode);
             Assert.AreEqual(mSut.Value, regexNode.Attributes["value"].Value);
+        }
+
+        [Test]
+        public void TryValidate_ShouldNotCallShowError()
+        {
+            mSut.Value = "1.2.3.4";
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+            mSut.TryValidate(messageBoxService);
+
+            messageBoxService.DidNotReceive().ShowError(Arg.Any<string>());
         }
     }
 }

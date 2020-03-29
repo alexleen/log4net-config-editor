@@ -1,6 +1,6 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
-using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -15,7 +15,7 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new AcceptOnMatch(Properties));
+            AddProperty(new BooleanPropertyBase("Accept on Match:", "acceptOnMatch", true));
         }
     }
 }

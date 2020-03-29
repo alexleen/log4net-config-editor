@@ -13,9 +13,9 @@ namespace Editor.Definitions.Mapping
 
         public override void Initialize()
         {
-            AddProperty(new LevelProperty(Properties));
-            AddProperty(new ForeColor(Properties));
-            AddProperty(new BackColor(Properties));
+            AddProperty(new LevelProperty());
+            AddProperty(new ForeColor());
+            AddProperty(new BackColor());
         }
     }
 }

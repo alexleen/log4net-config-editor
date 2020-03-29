@@ -13,8 +13,8 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new MinLevel(Properties));
-            AddProperty(new MaxLevel(Properties));
+            AddProperty(new MinLevel());
+            AddProperty(new MaxLevel());
             base.Initialize();
         }
     }

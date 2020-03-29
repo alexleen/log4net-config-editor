@@ -1,12 +1,10 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using log4net.Core;
@@ -21,8 +19,10 @@ namespace Editor.ConfigProperties
         public const string CustomPreset = "Custom";
         private const string FixName = "Fix";
 
-        public Fix(ReadOnlyCollection<IProperty> container)
-            : base(container, GridLength.Auto)
+        private string mSelectedPreset;
+
+        public Fix()
+            : base(GridLength.Auto)
         {
             Presets = new[] { NonePreset, PartialPreset, AllPreset, CustomPreset };
 
@@ -42,8 +42,6 @@ namespace Editor.ConfigProperties
         }
 
         public IEnumerable<string> Presets { get; }
-
-        private string mSelectedPreset;
 
         public string SelectedPreset
         {

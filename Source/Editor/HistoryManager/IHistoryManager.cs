@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 
@@ -15,6 +15,8 @@ namespace Editor.HistoryManager
 
         /// <summary>
         /// Saves the specified value.
+        /// If value is already saved, usage date is updated.
+        /// Value is not duplicated.
         /// </summary>
         /// <param name="value"></param>
         void Save(string value);

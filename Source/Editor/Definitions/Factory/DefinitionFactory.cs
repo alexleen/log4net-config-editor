@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.ComponentModel;
@@ -62,6 +62,30 @@ namespace Editor.Definitions.Factory
                     return new LocalSyslogAppender(appenderConfiguration);
                 case AppenderType.RemoteSyslog:
                     return new RemoteSyslogAppender(appenderConfiguration);
+                case AppenderType.Smtp:
+                    return new SmtpAppender(appenderConfiguration);
+                case AppenderType.Debug:
+                    return new DebugAppender(appenderConfiguration);
+                case AppenderType.Trace:
+                    return new TraceAppender(appenderConfiguration);
+                case AppenderType.Telnet:
+                    return new TelnetAppender(appenderConfiguration);
+                case AppenderType.Remoting:
+                    return new RemotingAppender(appenderConfiguration);
+                case AppenderType.OutputDebugString:
+                    return new OutputStringDebugAppender(appenderConfiguration);
+                case AppenderType.NetSend:
+                    return new NetSendAppender(appenderConfiguration);
+                case AppenderType.Memory:
+                    return new MemoryAppender(appenderConfiguration);
+                case AppenderType.BufferingForwarding:
+                    return new BufferingForwardingAppender(appenderConfiguration);
+                case AppenderType.AspNetTrace:
+                    return new AspNetTraceAppender(appenderConfiguration);
+                case AppenderType.SmtpPickupDir:
+                    return new SmtpPickupDirAppender(appenderConfiguration);
+                case AppenderType.TextWriter:
+                    return new TextWriterAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

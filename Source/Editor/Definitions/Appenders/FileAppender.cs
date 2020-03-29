@@ -1,12 +1,15 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
+using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.Definitions.Appenders
 {
-    internal class FileAppender : AppenderSkeleton
+    internal class FileAppender : TextWriterAppender
     {
         internal FileAppender(IElementConfiguration configuration)
             : base(configuration, false)
@@ -19,8 +22,11 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new File(Properties, MessageBoxService));
-            AddProperty(new LockingModel(Properties));
+            base.AddAppenderSpecificProperties();
+            AddProperty(new File(MessageBoxService, new HistoryManagerFactory(new SettingManager<string>())));
+            AddProperty(new LockingModel());
+            AddProperty(new Encoding("Encoding:", "encoding"));
+            AddProperty(new StringValueProperty("Security Context:", "securityContext", Log4NetXmlConstants.Type));
         }
     }
 }

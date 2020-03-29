@@ -1,6 +1,5 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -15,22 +14,36 @@ namespace Editor.ConfigProperties.Base
 {
     public abstract class PropertyBase : IProperty, INotifyPropertyChanged
     {
-        private readonly ReadOnlyCollection<IProperty> mContainer;
+        private int mRowIndex;
 
-        protected PropertyBase(ReadOnlyCollection<IProperty> container, GridLength rowHeight)
+        protected PropertyBase(GridLength rowHeight)
         {
-            mContainer = container;
             RowHeight = rowHeight;
             Navigate = new Command(HyperlinkOnRequestNavigate);
         }
 
-        public int RowIndex => mContainer.IndexOf(this);
-
-        public GridLength RowHeight { get; }
-
         public ICommand Navigate { get; }
 
         public string ToolTip { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int RowIndex
+        {
+            get => mRowIndex;
+            set
+            {
+                if (value == mRowIndex)
+                {
+                    return;
+                }
+
+                mRowIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public GridLength RowHeight { get; }
 
         public abstract void Load(XmlNode originalNode);
 
@@ -46,12 +59,15 @@ namespace Editor.ConfigProperties.Base
             Process.Start(new ProcessStartInfo(uri.ToString()));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name} @ {RowIndex}";
         }
     }
 }

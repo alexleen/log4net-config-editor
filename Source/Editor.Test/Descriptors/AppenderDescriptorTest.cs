@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +22,28 @@ namespace Editor.Test.Descriptors
 
         private static readonly IEnumerable<TestCaseData> sAppenderData = new[]
         {
-            new TestCaseData("Console", AppenderType.Console, "log4net.Appender.ConsoleAppender", "appender"),
-            new TestCaseData("File", AppenderType.File, "log4net.Appender.FileAppender", "appender"),
-            new TestCaseData("Rolling File", AppenderType.RollingFile, "log4net.Appender.RollingFileAppender", "appender"),
-            new TestCaseData("Event Log", AppenderType.EventLog, "log4net.Appender.EventLogAppender", "appender"),
+            new TestCaseData("ASP.NET Trace", AppenderType.AspNetTrace, "log4net.Appender.AspNetTraceAppender", "appender"),
             new TestCaseData("Async", AppenderType.Async, "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async", "appender"),
+            new TestCaseData("Buffering Forwarding", AppenderType.BufferingForwarding, "log4net.Appender.BufferingForwardingAppender", "appender"),
+            new TestCaseData("Console", AppenderType.Console, "log4net.Appender.ConsoleAppender", "appender"),
+            new TestCaseData("Debug", AppenderType.Debug, "log4net.Appender.DebugAppender", "appender"),
+            new TestCaseData("Event Log", AppenderType.EventLog, "log4net.Appender.EventLogAppender", "appender"),
+            new TestCaseData("File", AppenderType.File, "log4net.Appender.FileAppender", "appender"),
             new TestCaseData("Forwarding", AppenderType.Forwarding, "log4net.Appender.ForwardingAppender", "appender"),
-            new TestCaseData("Managed Color", AppenderType.ManagedColor, "log4net.Appender.ManagedColoredConsoleAppender", "appender"),
-            new TestCaseData("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender", "appender"),
             new TestCaseData("Local Syslog", AppenderType.LocalSyslog, "log4net.Appender.LocalSyslogAppender", "appender"),
-            new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender")
+            new TestCaseData("Managed Color", AppenderType.ManagedColor, "log4net.Appender.ManagedColoredConsoleAppender", "appender"),
+            new TestCaseData("Memory", AppenderType.Memory, "log4net.Appender.MemoryAppender", "appender"),
+            new TestCaseData("Net Send", AppenderType.NetSend, "log4net.Appender.NetSendAppender", "appender"),
+            new TestCaseData("Output Debug String", AppenderType.OutputDebugString, "log4net.Appender.OutputDebugStringAppender", "appender"),
+            new TestCaseData("Remote Syslog", AppenderType.RemoteSyslog, "log4net.Appender.RemoteSyslogAppender", "appender"),
+            new TestCaseData("Remoting", AppenderType.Remoting, "log4net.Appender.RemotingAppender", "appender"),
+            new TestCaseData("Rolling File", AppenderType.RollingFile, "log4net.Appender.RollingFileAppender", "appender"),
+            new TestCaseData("SMTP Pickup Dir", AppenderType.SmtpPickupDir, "log4net.Appender.SmtpPickupDirAppender", "appender"),
+            new TestCaseData("SMTP", AppenderType.Smtp, "log4net.Appender.SmtpAppender", "appender"),
+            new TestCaseData("Telnet", AppenderType.Telnet, "log4net.Appender.TelnetAppender", "appender"),
+            new TestCaseData("Text Writer", AppenderType.TextWriter, "log4net.Appender.TextWriterAppender", "appender"),
+            new TestCaseData("Trace", AppenderType.Trace, "log4net.Appender.TraceAppender", "appender"),
+            new TestCaseData("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender", "appender")
         };
 
         [TestCaseSource(nameof(sAppenderData))]

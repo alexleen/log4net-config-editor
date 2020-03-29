@@ -1,11 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Models="clr-namespace:Editor.Models"
                     xmlns:Converters="clr-namespace:Editor.Converters"
                     xmlns:Base="clr-namespace:Editor.ConfigProperties.Base"
                     xmlns:ConfigProperties="clr-namespace:Editor.ConfigProperties"
                     xmlns:Controls="clr-namespace:Editor.Controls"
-                    xmlns:ConfigChildren="clr-namespace:Editor.Models.ConfigChildren">
+                    xmlns:ConfigChildren="clr-namespace:Editor.Models.ConfigChildren"
+                    xmlns:Utilities="clr-namespace:Editor.Utilities">
     
     <Converters:BoolInterverConverter x:Key="BoolInvConv" />
 
@@ -13,6 +14,7 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
+    
     <Style TargetType="TextBox">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Height" Value="21" />
@@ -37,6 +39,19 @@
         </Grid>
     </DataTemplate>
 
+    <!-- Password -->
+    <DataTemplate DataType="{x:Type ConfigProperties:Password}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Name}"/>
+            <PasswordBox Grid.Column="1" Height="21" Margin="0,0,5,0" Utilities:PasswordBoxAssistant.BoundPassword="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ToolTip}"/>
+        </Grid>
+    </DataTemplate>
+
     <!-- BooleanPropertyBase -->
     <DataTemplate DataType="{x:Type Base:BooleanPropertyBase}">
         <Grid>
@@ -50,69 +65,8 @@
         </Grid>
     </DataTemplate>
 
-    <!-- LevelPropertyBase -->
-    <DataTemplate DataType="{x:Type Base:LevelPropertyBase}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label Content="{Binding Name}" />
-            <ComboBox Grid.Column="1" 
-                      ItemsSource="{Binding Values}" 
-                      SelectedItem="{Binding SelectedValue}" 
-                      VerticalAlignment="Center" 
-                      HorizontalAlignment="Left" 
-                      Width="{Binding Width}"
-                      Margin="0,0,5,0"
-                      ToolTip="{Binding ToolTip}" />
-        </Grid>
-    </DataTemplate>
-
-    <!-- TypeAttribute -->
-    <DataTemplate DataType="{x:Type ConfigProperties:TypeAttribute}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label Content="{Binding Name}" />
-            <ComboBox Grid.Column="1" 
-                      ItemsSource="{Binding Values}" 
-                      SelectedValue="{Binding SelectedValue}" 
-                      DisplayMemberPath="TypeNamespace"
-                      VerticalAlignment="Center" 
-                      HorizontalAlignment="Left" 
-                      Width="{Binding Width}"
-                      Margin="0,0,5,0"
-                      ToolTip="{Binding ToolTip}" />
-        </Grid>
-    </DataTemplate>
-
-    <!-- LocalSyslogFacility -->
-    <DataTemplate DataType="{x:Type ConfigProperties:LocalSyslogFacility}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label Content="{Binding Name}" />
-            <ComboBox Grid.Column="1" 
-                      ItemsSource="{Binding Values}" 
-                      SelectedItem="{Binding SelectedValue}" 
-                      VerticalAlignment="Center" 
-                      HorizontalAlignment="Left" 
-                      Width="{Binding Width}"
-                      Margin="0,0,5,0"
-                      ToolTip="{Binding ToolTip}" />
-        </Grid>
-    </DataTemplate>
-
-    <!-- RemoteSyslogFacility -->
-    <DataTemplate DataType="{x:Type ConfigProperties:RemoteSyslogFacility}">
+    <!-- MultiValueTemplate -->
+    <DataTemplate x:Key="MultiValueTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn"/>
@@ -199,8 +153,13 @@
             <Label>File:</Label>
             <StackPanel Grid.Column="1">
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Width="50" Height="21" Margin="0,5,5,5" Command="{Binding Open}">Open</Button>
-                    <TextBox Text="{Binding FilePath}" />
+                    <Button DockPanel.Dock="Right" Width="50" Height="22" Margin="0,5,5,5" Command="{Binding Open}">Open</Button>
+                    <ComboBox IsEditable="True" 
+                              Height="22"
+                              ItemsSource="{Binding HistoricalFiles}"
+                              Text="{Binding FilePath}"
+                              Margin="0,0,5,0"
+                              ToolTip="Enter file path here" />
                 </DockPanel>
                 <CheckBox IsChecked="{Binding PatternString}" Margin="0,0,0,5" ToolTip="Should be checked if filename contains a log4net pattern">Pattern String</CheckBox>
                 <StackPanel Orientation="Horizontal">
@@ -485,6 +444,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Type" Binding="{Binding Descriptor.Name}"/>
+                        <DataGridTextColumn Header="Accept" Binding="{Binding AcceptOnMatch}"/>
                         <DataGridTemplateColumn Header="Options">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type Models:FilterModel}">

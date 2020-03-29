@@ -14,8 +14,8 @@ namespace Editor.ConfigProperties
     {
         private readonly IElementConfiguration mConfiguration;
 
-        public OutgoingRefs(ReadOnlyCollection<IProperty> container, IElementConfiguration appenderConfiguration)
-            : base(container, "↑ Refs:", "This element can reference the following appenders:")
+        public OutgoingRefs(IElementConfiguration appenderConfiguration)
+            : base("↑ Refs:", "This element can reference the following appenders:")
         {
             mConfiguration = appenderConfiguration;
             RefsCollection = new ObservableCollection<AppenderModel>();

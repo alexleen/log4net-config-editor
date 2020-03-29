@@ -1,8 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.Utilities;
+using static log4net.Appender.LocalSyslogAppender;
 
 namespace Editor.Definitions.Appenders
 {
@@ -21,8 +23,8 @@ namespace Editor.Definitions.Appenders
         {
             base.AddAppenderSpecificProperties();
 
-            AddProperty(new LocalSyslogFacility(Properties));
-            AddProperty(new LocalIdentity(Properties));
+            AddProperty(new EnumProperty<SyslogFacility>("Facility:", 110, Log4NetXmlConstants.Facility) { SelectedValue = SyslogFacility.User.ToString() });
+            AddProperty(new StringValueProperty("Identity:", Log4NetXmlConstants.Identity));
         }
     }
 }

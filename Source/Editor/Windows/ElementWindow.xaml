@@ -11,6 +11,9 @@
         Title="{Binding PropertyDefinition.Name}" 
         d:DataContext="{d:ElementWindow }">
     <DockPanel>
+        <DockPanel.Resources>
+            <Windows:Selector x:Key="Selector"/>
+        </DockPanel.Resources>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel.Resources>
                 <Style TargetType="Button">
@@ -22,13 +25,13 @@
             <Button Click="CloseOnClick">Close</Button>
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding Properties}" Grid.IsSharedSizeScope="True">
+        <ItemsControl ItemsSource="{Binding PropertyDefinition.Properties}" ItemTemplateSelector="{StaticResource Selector}" Grid.IsSharedSizeScope="True">
             <ItemsControl.Resources>
                 <ResourceDictionary Source="../ConfigProperties/PropertyDictionary.xaml" />
             </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid Utilities:GridHelper.BindableRows="{Binding Properties}" />
+                    <Grid Utilities:GridHelper.BindableRows="{Binding PropertyDefinition.Properties}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
