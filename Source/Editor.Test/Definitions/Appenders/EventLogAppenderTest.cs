@@ -63,6 +63,8 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(RequiredStringProperty)));
+            mSut.Properties.Single(p => p.GetType() == typeof(NumericProperty<short>) && ((NumericProperty<short>)p).Name == "Category:");
+            mSut.Properties.Single(p => p.GetType() == typeof(NumericProperty<int>) && ((NumericProperty<int>)p).Name == "Event Id:");
             mSut.Properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Security Context:");
         }
 
@@ -71,7 +73,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(10, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 5, mSut.Properties.Count);
         }
     }
 }

@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -58,13 +59,13 @@ namespace Editor.Test.Definitions.Appenders
         [Test]
         public void Initialize_ShouldAddPortProperty()
         {
-            mSut.Properties.Single(p => p.GetType() == typeof(Port));
+            mSut.Properties.Single(p => p.GetType() == typeof(NumericProperty<ushort>));
         }
 
         [Test]
         public void Initialize_ShouldAddCorrectNumberOfProperties()
         {
-            Assert.AreEqual(8, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 1, mSut.Properties.Count);
         }
     }
 }

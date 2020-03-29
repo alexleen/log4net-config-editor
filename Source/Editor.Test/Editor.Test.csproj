@@ -75,7 +75,7 @@
     <Compile Include="ConfigProperties\BackColorTest.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
     <Compile Include="ConfigProperties\Base\EnumPropertyTest.cs" />
-    <Compile Include="ConfigProperties\BufferSizeTest.cs" />
+    <Compile Include="ConfigProperties\Base\NumericPropertyTest.cs" />
     <Compile Include="ConfigProperties\CategoryTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
@@ -96,7 +96,6 @@
     <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
-    <Compile Include="ConfigProperties\PortTest.cs" />
     <Compile Include="ConfigProperties\ParamsTest.cs" />
     <Compile Include="ConfigProperties\RegexMatchTest.cs" />
     <Compile Include="ConfigProperties\RemoteAddressTest.cs" />

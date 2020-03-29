@@ -1,6 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 
@@ -20,7 +21,7 @@ namespace Editor.Definitions.Appenders
         protected override void AddAppenderSpecificProperties()
         {
             AddProperty(new Fix { SelectedPreset = Fix.PartialPreset });
-            AddProperty(new BufferSize(1000));
+            AddProperty(new NumericProperty<int>("Buffer Size:", "bufferSize", 1000));
             base.AddAppenderSpecificProperties();
         }
     }

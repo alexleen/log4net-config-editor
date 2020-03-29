@@ -85,6 +85,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
+            mSut.Properties.Single(p => p is StringValueProperty svp && svp.Name == "Date Time Strategy:");
             mSut.Properties.Single(p => p.GetType() == typeof(DatePattern));
             Assert.AreEqual(3, mSut.Properties.Count(p => p.GetType() == typeof(BooleanPropertyBase)));
             mSut.Properties.Single(p => p.GetType() == typeof(MaximumFileSize));
@@ -97,7 +98,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(21, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 15, mSut.Properties.Count);
         }
 
         [TestCase(RollingMode.Once, false)]
@@ -112,6 +113,20 @@ namespace Editor.Test.Definitions.Appenders
             rollingStyle.SelectedMode = mode;
 
             Assert.AreEqual(present, mSut.Properties.FirstOrDefault(p => p.GetType() == typeof(DatePattern)) != null);
+        }
+
+        [TestCase(RollingMode.Once, false)]
+        [TestCase(RollingMode.Size, false)]
+        [TestCase(RollingMode.Date, true)]
+        [TestCase(RollingMode.Composite, true)]
+        public void DateTimeStrategy_ShouldBeAddedRemoved_BasedOnRollingMode(RollingMode mode, bool present)
+        {
+            mSut.Initialize();
+
+            RollingStyle rollingStyle = (RollingStyle)mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
+            rollingStyle.SelectedMode = mode;
+
+            Assert.AreEqual(present, mSut.Properties.FirstOrDefault(p => p is StringValueProperty svp && svp.Name == "Date Time Strategy:") != null);
         }
 
         [TestCase(RollingMode.Once, false)]
@@ -152,20 +167,20 @@ namespace Editor.Test.Definitions.Appenders
 
             RollingStyle rollingStyle = (RollingStyle)mSut.Properties.Single(p => p.GetType() == typeof(RollingStyle));
 
-            //Remove two properties
+            //Remove three properties
             rollingStyle.SelectedMode = RollingMode.Once;
 
             //Add them back
-            rollingStyle.SelectedMode = RollingMode.Composite;
+            rollingStyle.SelectedMode = RollingMode.Composite; //default
 
             Assert.AreEqual(dateIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p.GetType() == typeof(DatePattern))));
             Assert.AreEqual(staticIndex, mSut.Properties.IndexOf(mSut.Properties.Single(p => p is BooleanPropertyBase bpb && bpb.Name == "Static Log File Name:")));
         }
 
-        [TestCase(RollingMode.Once, 19)]
-        [TestCase(RollingMode.Size, 20)]
-        [TestCase(RollingMode.Date, 19)]
-        [TestCase(RollingMode.Composite, 21)]
+        [TestCase(RollingMode.Once, 20)]
+        [TestCase(RollingMode.Size, 21)]
+        [TestCase(RollingMode.Date, 21)]
+        [TestCase(RollingMode.Composite, 23)]
         public void Properties_ShouldNotBeDuplicated_WhenTheyAlreadyExist(RollingMode mode, int expectedCount)
         {
             mSut.Initialize();

@@ -70,7 +70,7 @@ namespace Editor.Test.Definitions.Appenders
             //Single throws if the specified type is not found, which is good enough to fail the test
             //No asserts needed
             mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "Host:");
-            mSut.Properties.Single(p => p.GetType() == typeof(Port));
+            mSut.Properties.Single(p => p.GetType() == typeof(NumericProperty<ushort>));
             mSut.Properties.Single(p => p.GetType() == typeof(EnumProperty<SmtpAuthentication>) && ((EnumProperty<SmtpAuthentication>)p).Name == "Authentication:");
             mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase) && ((BooleanPropertyBase)p).Name == "Enable SSL:");
             mSut.Properties.Single(p => p.GetType() == typeof(RequiredStringProperty) && ((RequiredStringProperty)p).Name == "To:");
@@ -87,7 +87,7 @@ namespace Editor.Test.Definitions.Appenders
         [Test]
         public void Initialize_ShouldAddCorrectNumberOfProperties()
         {
-            Assert.AreEqual(25, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + TestHelpers.BufferingAppenderSkeletonPropertyCount + 13, mSut.Properties.Count);
         }
 
         [Test]

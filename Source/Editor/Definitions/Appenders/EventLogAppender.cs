@@ -23,6 +23,8 @@ namespace Editor.Definitions.Appenders
         {
             AddProperty(new RequiredStringProperty("Log Name:", "logName"));
             AddProperty(new RequiredStringProperty("Application Name:", "applicationName"));
+            AddProperty(new NumericProperty<short>("Category:", "category", 0));
+            AddProperty(new NumericProperty<int>("Event Id:", "eventId", 0));
             AddProperty(new StringValueProperty("Security Context:", "securityContext", Log4NetXmlConstants.Type));
         }
     }

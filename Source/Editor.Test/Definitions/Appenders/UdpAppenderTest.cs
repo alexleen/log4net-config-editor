@@ -1,8 +1,9 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -61,7 +62,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteAddress));
-            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(Port)));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(NumericProperty<ushort>)));
         }
 
         [Test]
@@ -69,7 +70,7 @@ namespace Editor.Test.Definitions.Appenders
         {
             mSut.Initialize();
 
-            Assert.AreEqual(10, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + 3, mSut.Properties.Count);
         }
     }
 }

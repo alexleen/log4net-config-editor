@@ -74,7 +74,7 @@ namespace Editor.Test.Definitions.Appenders
         [Test]
         public void Initialize_ShouldAddCorrectNumberOfProperties()
         {
-            Assert.AreEqual(17, mSut.Properties.Count);
+            Assert.AreEqual(TestHelpers.AppenderSkeletonPropertyCount + TestHelpers.BufferingAppenderSkeletonPropertyCount + 5, mSut.Properties.Count);
         }
     }
 }

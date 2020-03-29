@@ -79,10 +79,10 @@
     <Compile Include="ConfigProperties\Base\EnumProperty.cs" />
     <Compile Include="ConfigProperties\Base\LevelPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\MultiValuePropertyBase.cs" />
+    <Compile Include="ConfigProperties\Base\NumericProperty.cs" />
     <Compile Include="ConfigProperties\Base\PropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\RefsBase.cs" />
     <Compile Include="ConfigProperties\Base\StringValueProperty.cs" />
-    <Compile Include="ConfigProperties\BufferSize.cs" />
     <Compile Include="ConfigProperties\Category.cs" />
     <Compile Include="ConfigProperties\CountDirection.cs" />
     <Compile Include="ConfigProperties\DatePattern.cs" />
@@ -112,7 +112,6 @@
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />
-    <Compile Include="ConfigProperties\Port.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
     <Compile Include="ConfigProperties\Params.cs" />
     <Compile Include="ConfigProperties\RenderedClass.cs" />

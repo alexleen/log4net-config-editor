@@ -1,4 +1,4 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
 using Editor.ConfigProperties.Base;
@@ -15,7 +15,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new BufferSize(512));
+            AddProperty(new NumericProperty<int>("Buffer Size:", "bufferSize", 512));
             AddProperty(new Fix());
             AddProperty(new BooleanPropertyBase("Lossy:", "lossy", false));
             AddProperty(new StringValueProperty("Evaluator:", "evaluator"));
