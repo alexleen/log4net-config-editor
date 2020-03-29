@@ -37,8 +37,8 @@ namespace Editor.Definitions.Appenders
             mDateTimeStrategy = new StringValueProperty("Date Time Strategy:", "dateTimeStrategy", Log4NetXmlConstants.Type)
             {
                 ToolTip = "Sets the strategy for determining the current date and time.\n" +
-                          "The default implementation is to use LocalDateTime (log4net.Appender.RollingFileAppender.LocalDateTime,log4net) which internally calls through to DateTime.Now.\n" +
-                          "DateTime.UtcNow may be used on frameworks newer than .NET 1.0 by specifying UniversalDateTime (log4net.Appender.RollingFileAppender.LocalDateTime,log4net).\n" +
+                          "The default implementation is to use LocalDateTime (log4net.Appender.RollingFileAppender+LocalDateTime,log4net) which internally calls through to DateTime.Now.\n" +
+                          "DateTime.UtcNow may be used on frameworks newer than .NET 1.0 by specifying UniversalDateTime (log4net.Appender.RollingFileAppender+UniversalDateTime,log4net).\n" +
                           "A custom implementation that implements IDateTime can be specified here as well. Leave blank to use LocalDateTime."
             };
         }
