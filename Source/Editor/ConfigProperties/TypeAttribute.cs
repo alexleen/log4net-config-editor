@@ -9,7 +9,7 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
-    public class TypeAttribute : MultiValuePropertyBase<AppenderDescriptor>
+    internal class TypeAttribute : MultiValuePropertyBase<AppenderDescriptor>
     {
         private const double WidthValue = 350;
         private const string TypeName = "type";

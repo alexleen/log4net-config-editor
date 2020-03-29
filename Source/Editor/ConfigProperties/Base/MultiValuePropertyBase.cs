@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Editor.ConfigProperties.Base
 {
-    public abstract class MultiValuePropertyBase<TValueType> : PropertyBase
+    internal abstract class MultiValuePropertyBase<TValueType> : PropertyBase
     {
         private TValueType mSelectedValue;
 
