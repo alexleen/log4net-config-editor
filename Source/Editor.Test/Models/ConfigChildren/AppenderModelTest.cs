@@ -1,7 +1,8 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Editor.Descriptors;
@@ -81,7 +82,7 @@ namespace Editor.Test.Models.ConfigChildren
         {
             get
             {
-                FieldInfo[] appenders = typeof(AppenderDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static);
+                FieldInfo[] appenders = typeof(AppenderDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static).Where(f => f.FieldType == typeof(AppenderDescriptor)).ToArray();
 
                 foreach (FieldInfo fieldInfo in appenders)
                 {

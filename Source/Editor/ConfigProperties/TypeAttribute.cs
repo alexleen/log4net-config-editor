@@ -14,40 +14,14 @@ namespace Editor.ConfigProperties
         private const double WidthValue = 350;
         private const string TypeName = "type";
 
-        private static readonly AppenderDescriptor[] sValues =
-        {
-            AppenderDescriptor.AspNetTrace,
-            AppenderDescriptor.Async,
-            AppenderDescriptor.BufferingForwarding,
-            AppenderDescriptor.Console,
-            AppenderDescriptor.Debug,
-            AppenderDescriptor.EventLog,
-            AppenderDescriptor.File,
-            AppenderDescriptor.Forwarding,
-            AppenderDescriptor.LocalSyslog,
-            AppenderDescriptor.ManagedColor,
-            AppenderDescriptor.Memory,
-            AppenderDescriptor.NetSend,
-            AppenderDescriptor.OutputDebugString,
-            AppenderDescriptor.RemoteSyslog,
-            AppenderDescriptor.Remoting,
-            AppenderDescriptor.RollingFile,
-            AppenderDescriptor.Smtp,
-            AppenderDescriptor.SmtpPickupDir,
-            AppenderDescriptor.Telnet,
-            AppenderDescriptor.TextWriter,
-            AppenderDescriptor.Trace,
-            AppenderDescriptor.Udp
-        };
-
         public TypeAttribute()
-            : base(GridLength.Auto, "Type:", sValues, WidthValue)
+            : base(GridLength.Auto, "Type:", AppenderDescriptor.All, WidthValue)
         {
-            SelectedValue = sValues.First();
+            SelectedValue = AppenderDescriptor.All.First();
         }
 
         public TypeAttribute(AppenderDescriptor descriptor)
-            : base(GridLength.Auto, "Type:", sValues, WidthValue)
+            : base(GridLength.Auto, "Type:", AppenderDescriptor.All, WidthValue)
         {
             //Will be overwritten when/if load is called
             SelectedValue = descriptor;

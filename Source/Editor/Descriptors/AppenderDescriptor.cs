@@ -31,6 +31,11 @@ namespace Editor.Descriptors
                                                   Trace,
                                                   Udp;
 
+        /// <summary>
+        /// All appender descriptors, ordered alphabetically by name.
+        /// </summary>
+        public static readonly IEnumerable<AppenderDescriptor> All;
+
         private static readonly IDictionary<string, AppenderDescriptor> sDescriptorsByTypeNamespace;
 
         static AppenderDescriptor()
@@ -58,31 +63,38 @@ namespace Editor.Descriptors
             Trace = new AppenderDescriptor("Trace", AppenderType.Trace, "log4net.Appender.TraceAppender");
             Udp = new AppenderDescriptor("UDP", AppenderType.Udp, "log4net.Appender.UdpAppender");
 
-            sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>
+            All = new[]
             {
-                { AspNetTrace.TypeNamespace, AspNetTrace },
-                { Async.TypeNamespace, Async },
-                { BufferingForwarding.TypeNamespace, BufferingForwarding },
-                { Console.TypeNamespace, Console },
-                { Debug.TypeNamespace, Debug },
-                { EventLog.TypeNamespace, EventLog },
-                { File.TypeNamespace, File },
-                { Forwarding.TypeNamespace, Forwarding },
-                { LocalSyslog.TypeNamespace, LocalSyslog },
-                { ManagedColor.TypeNamespace, ManagedColor },
-                { Memory.TypeNamespace, Memory },
-                { NetSend.TypeNamespace, NetSend },
-                { OutputDebugString.TypeNamespace, OutputDebugString },
-                { RemoteSyslog.TypeNamespace, RemoteSyslog },
-                { Remoting.TypeNamespace, Remoting },
-                { RollingFile.TypeNamespace, RollingFile },
-                { Smtp.TypeNamespace, Smtp },
-                { SmtpPickupDir.TypeNamespace, SmtpPickupDir },
-                { Telnet.TypeNamespace, Telnet },
-                { TextWriter.TypeNamespace, TextWriter },
-                { Trace.TypeNamespace, Trace },
-                { Udp.TypeNamespace, Udp }
+                AspNetTrace,
+                Async,
+                BufferingForwarding,
+                Console,
+                Debug,
+                EventLog,
+                File,
+                Forwarding,
+                LocalSyslog,
+                ManagedColor,
+                Memory,
+                NetSend,
+                OutputDebugString,
+                RemoteSyslog,
+                Remoting,
+                RollingFile,
+                Smtp,
+                SmtpPickupDir,
+                Telnet,
+                TextWriter,
+                Trace,
+                Udp
             };
+
+            sDescriptorsByTypeNamespace = new Dictionary<string, AppenderDescriptor>();
+
+            foreach (AppenderDescriptor descriptor in All)
+            {
+                sDescriptorsByTypeNamespace.Add(descriptor.TypeNamespace, descriptor);
+            }
         }
 
         private AppenderDescriptor(string name, AppenderType type, string typeNamespace)

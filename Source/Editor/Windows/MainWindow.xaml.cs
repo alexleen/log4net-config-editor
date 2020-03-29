@@ -63,31 +63,7 @@ namespace Editor.Windows
             mConfigHistoryManager = new HistoryManagerFactory(new SettingManager<string>()).CreateConfigHistoryManager();
             mConfigurationFactory = new ConfigurationFactory(mToastService);
 
-            xAddAppenderButton.ItemsSource = new[]
-            {
-                AppenderDescriptor.AspNetTrace,
-                AppenderDescriptor.Async,
-                AppenderDescriptor.BufferingForwarding,
-                AppenderDescriptor.Console,
-                AppenderDescriptor.Debug,
-                AppenderDescriptor.EventLog,
-                AppenderDescriptor.File,
-                AppenderDescriptor.Forwarding,
-                AppenderDescriptor.LocalSyslog,
-                AppenderDescriptor.ManagedColor,
-                AppenderDescriptor.Memory,
-                AppenderDescriptor.NetSend,
-                AppenderDescriptor.OutputDebugString,
-                AppenderDescriptor.RemoteSyslog,
-                AppenderDescriptor.Remoting,
-                AppenderDescriptor.RollingFile,
-                AppenderDescriptor.Smtp,
-                AppenderDescriptor.SmtpPickupDir,
-                AppenderDescriptor.Telnet,
-                AppenderDescriptor.TextWriter,
-                AppenderDescriptor.Trace,
-                AppenderDescriptor.Udp
-            };
+            xAddAppenderButton.ItemsSource = AppenderDescriptor.All;
 
             xUpdateComboBox.ItemsSource = new[] { Update.Merge, Update.Overwrite };
 

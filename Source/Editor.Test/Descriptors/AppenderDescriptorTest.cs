@@ -17,7 +17,7 @@ namespace Editor.Test.Descriptors
         [SetUp]
         public void SetUp()
         {
-            mAppenders = typeof(AppenderDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static);
+            mAppenders = typeof(AppenderDescriptor).GetFields(BindingFlags.Public | BindingFlags.Static).Where(f => f.FieldType == typeof(AppenderDescriptor)).ToArray();
         }
 
         private static readonly IEnumerable<TestCaseData> sAppenderData = new[]
@@ -65,6 +65,12 @@ namespace Editor.Test.Descriptors
             {
                 sAppenderData.Single(f => AreEqual((AppenderDescriptor)info.GetValue(null), (string)f.Arguments[0], (AppenderType)f.Arguments[1], (string)f.Arguments[2], (string)f.Arguments[3]));
             }
+        }
+
+        [Test]
+        public void All_ShouldContainEachAppender()
+        {
+            Assert.AreEqual(mAppenders.Length, AppenderDescriptor.All.Count());
         }
 
         [TestCaseSource(nameof(sAppenderData))]
