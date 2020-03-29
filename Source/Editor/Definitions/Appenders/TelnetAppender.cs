@@ -1,6 +1,7 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 
@@ -19,7 +20,7 @@ namespace Editor.Definitions.Appenders
 
         protected override void AddAppenderSpecificProperties()
         {
-            AddProperty(new Port("Port:", "port", 23));
+            AddProperty(new NumericProperty<ushort>("Port:", "port", 23));
         }
     }
 }

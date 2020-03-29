@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Appenders;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -61,7 +62,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteAddress));
-            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(Port)));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(NumericProperty<ushort>)));
         }
 
         [Test]

@@ -37,7 +37,7 @@ namespace Editor.Definitions.Appenders
             auth.PropertyChanged += AuthenticationOnPropertyChanged;
 
             AddProperty(new RequiredStringProperty("Host:", "smtpHost"));
-            AddProperty(new Port("Port:", "port", 25));
+            AddProperty(new NumericProperty<ushort>("Port:", "port", 25));
             AddProperty(auth);
             AddProperty(new BooleanPropertyBase("Enable SSL:", "enableSsl", false));
 

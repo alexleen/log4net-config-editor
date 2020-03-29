@@ -63,7 +63,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Initialize();
 
             mSut.Properties.Single(p => p.GetType() == typeof(RemoteAddress));
-            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(Port)));
+            Assert.AreEqual(2, mSut.Properties.Count(p => p.GetType() == typeof(NumericProperty<ushort>)));
         }
 
         [Test]
