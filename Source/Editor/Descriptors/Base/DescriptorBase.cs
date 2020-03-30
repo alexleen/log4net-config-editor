@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 namespace Editor.Descriptors.Base
 {
@@ -25,5 +25,10 @@ namespace Editor.Descriptors.Base
         /// log4net type namespace.
         /// </summary>
         public string TypeNamespace { get; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

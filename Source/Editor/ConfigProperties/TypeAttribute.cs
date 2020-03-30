@@ -11,8 +11,7 @@ namespace Editor.ConfigProperties
 {
     internal class TypeAttribute : MultiValuePropertyBase<AppenderDescriptor>
     {
-        private const double WidthValue = 350;
-        private const string TypeName = "type";
+        private const double WidthValue = 150;
 
         public TypeAttribute()
             : base(GridLength.Auto, "Type:", AppenderDescriptor.All, WidthValue)
@@ -29,7 +28,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(XmlNode originalNode)
         {
-            if (AppenderDescriptor.TryFindByTypeNamespace(originalNode.Attributes[TypeName].Value, out AppenderDescriptor descriptor))
+            if (AppenderDescriptor.TryFindByTypeNamespace(originalNode.Attributes[Log4NetXmlConstants.Type].Value, out AppenderDescriptor descriptor))
             {
                 SelectedValue = descriptor;
             }
@@ -37,7 +36,7 @@ namespace Editor.ConfigProperties
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
-            newNode.AppendAttribute(xmlDoc, TypeName, SelectedValue.TypeNamespace);
+            newNode.AppendAttribute(xmlDoc, Log4NetXmlConstants.Type, SelectedValue.TypeNamespace);
         }
     }
 }
