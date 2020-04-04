@@ -10,6 +10,7 @@ namespace Editor.Descriptors
     {
         public static readonly AppenderDescriptor AspNetTrace,
                                                   Async,
+                                                  AwsAppender,
                                                   BufferingForwarding,
                                                   Console,
                                                   Debug,
@@ -37,6 +38,7 @@ namespace Editor.Descriptors
         {
             AspNetTrace = new AppenderDescriptor("ASP.NET Trace", AppenderType.AspNetTrace, "log4net.Appender.AspNetTraceAppender");
             Async = new AppenderDescriptor("Async", AppenderType.Async, "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async");
+            AwsAppender = new AppenderDescriptor("AWS Appender", AppenderType.AwsAppender, "AWS.Logger.Log4net.AWSAppender,AWS.Logger.Log4net");
             BufferingForwarding = new AppenderDescriptor("Buffering Forwarding", AppenderType.BufferingForwarding, "log4net.Appender.BufferingForwardingAppender");
             Console = new AppenderDescriptor("Console", AppenderType.Console, "log4net.Appender.ConsoleAppender");
             Debug = new AppenderDescriptor("Debug", AppenderType.Debug, "log4net.Appender.DebugAppender");
@@ -62,6 +64,7 @@ namespace Editor.Descriptors
             {
                 { AspNetTrace.TypeNamespace, AspNetTrace },
                 { Async.TypeNamespace, Async },
+                { AwsAppender.TypeNamespace, AwsAppender },
                 { BufferingForwarding.TypeNamespace, BufferingForwarding },
                 { Console.TypeNamespace, Console },
                 { Debug.TypeNamespace, Debug },
