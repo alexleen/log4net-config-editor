@@ -24,6 +24,7 @@ Currently under construction. log4net configuration files can be quite large and
 | AnsiColorTerminalAppender     |           |
 | AspNetTraceAppender           | ✓         |
 | [AsyncForwardingAppender](https://github.com/cjbhaines/Log4Net.Async#asyncforwardingappender)       | ✓         |
+| [AWS Appender](https://github.com/aws/aws-logging-dotnet#apache-log4net)   | ✓         |
 | BufferingForwardingAppender   | ✓         |
 | ColoredConsoleAppender        |           |
 | ConsoleAppender               | ✓         |
