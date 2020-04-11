@@ -53,7 +53,7 @@ namespace Editor.Definitions.Appenders
             AddProperty(new StringValueProperty("Batch Push Interval:", "batchPushInterval")
             {
                 ToolTip = "For performance the log messages are sent to AWS in batch sizes. Batch Push Interval dictates the frequency of when batches are sent.\n" +
-                          "If either Batch Push Interval or Batch Size In Bytes are exceeded the batch will be sent."
+                          "If either Batch Push Interval or Batch Size In Bytes are exceeded the batch will be sent. Value must be parsable as a TimeSpan."
             }); //TODO this is a TimeSpan - I think parsed by the parse method. Check validity.
             AddProperty(new NumericProperty<int>("Batch Size In Bytes:", "batchSizeInBytes", 102400)
             {
