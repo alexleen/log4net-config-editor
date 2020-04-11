@@ -24,6 +24,7 @@ namespace Editor.Test.Descriptors
         {
             new TestCaseData("ASP.NET Trace", AppenderType.AspNetTrace, "log4net.Appender.AspNetTraceAppender", "appender"),
             new TestCaseData("Async", AppenderType.Async, "Log4Net.Async.AsyncForwardingAppender,Log4Net.Async", "appender"),
+            new TestCaseData("AWS Appender", AppenderType.AwsAppender, "AWS.Logger.Log4net.AWSAppender,AWS.Logger.Log4net", "appender"),
             new TestCaseData("Buffering Forwarding", AppenderType.BufferingForwarding, "log4net.Appender.BufferingForwardingAppender", "appender"),
             new TestCaseData("Console", AppenderType.Console, "log4net.Appender.ConsoleAppender", "appender"),
             new TestCaseData("Debug", AppenderType.Debug, "log4net.Appender.DebugAppender", "appender"),

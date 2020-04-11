@@ -86,6 +86,8 @@ namespace Editor.Definitions.Factory
                     return new SmtpPickupDirAppender(appenderConfiguration);
                 case AppenderType.TextWriter:
                     return new TextWriterAppender(appenderConfiguration);
+                case AppenderType.AwsAppender:
+                    return new AwsAppender(appenderConfiguration);
                 default:
                     throw new InvalidEnumArgumentException(nameof(appenderDescriptor.Type), (int)appenderDescriptor.Type, typeof(AppenderType));
             }

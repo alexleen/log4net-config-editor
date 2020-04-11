@@ -6,6 +6,7 @@ namespace Editor.Enums
     {
         AspNetTrace,
         Async,
+        AwsAppender,
         BufferingForwarding,
         Console,
         Debug,

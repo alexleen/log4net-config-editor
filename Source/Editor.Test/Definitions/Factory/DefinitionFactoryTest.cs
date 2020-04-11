@@ -46,6 +46,7 @@ namespace Editor.Test.Definitions.Factory
             new TestCaseData(AppenderDescriptor.AspNetTrace, typeof(AspNetTraceAppender)),
             new TestCaseData(AppenderDescriptor.SmtpPickupDir, typeof(SmtpPickupDirAppender)),
             new TestCaseData(AppenderDescriptor.TextWriter, typeof(TextWriterAppender)),
+            new TestCaseData(AppenderDescriptor.AwsAppender, typeof(AwsAppender)),
 
             //Filters
             new TestCaseData(FilterDescriptor.LevelMatch, typeof(LevelMatchFilter)),

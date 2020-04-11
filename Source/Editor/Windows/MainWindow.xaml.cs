@@ -67,6 +67,7 @@ namespace Editor.Windows
             {
                 AppenderDescriptor.AspNetTrace,
                 AppenderDescriptor.Async,
+                AppenderDescriptor.AwsAppender,
                 AppenderDescriptor.BufferingForwarding,
                 AppenderDescriptor.Console,
                 AppenderDescriptor.Debug,
