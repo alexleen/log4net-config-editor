@@ -1,6 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using SystemInterface.Xml;
 using Editor.Descriptors;
@@ -173,6 +175,14 @@ namespace Editor.Utilities
         public static string GetValueAttributeValueFromChildElement(this XmlNode node, string childElementName)
         {
             return node[childElementName]?.Attributes["value"]?.Value;
+        }
+
+        public static string GetAttributeValueFromChildElement(this XmlNode node, string elementName, string attributeName)
+        {
+            //TODO can we output the actual element and attribute name found so that we can save it using the same case?
+            return node.ChildNodes
+                       .Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase))?.Attributes?
+                       .Cast<XmlAttribute>().FirstOrDefault(n => string.Equals(n.LocalName, attributeName, StringComparison.OrdinalIgnoreCase))?.Value;
         }
     }
 }

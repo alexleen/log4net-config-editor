@@ -1,5 +1,7 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.Utilities;
@@ -37,7 +39,8 @@ namespace Editor.ConfigProperties.Base
 
         public override void Load(XmlNode originalNode)
         {
-            SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
+            //SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
+            SetValueIfNotNullOrEmpty(originalNode.GetAttributeValueFromChildElement(ElementName, mAttributeName));
         }
 
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
