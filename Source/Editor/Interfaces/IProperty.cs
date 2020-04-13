@@ -40,5 +40,8 @@ namespace Editor.Interfaces
         /// <param name="xmlDoc"></param>
         /// <param name="newNode"></param>
         void Save(XmlDocument xmlDoc, XmlNode newNode);
+
+        void Load(IElementConfiguration config);
+        void Save(IElementConfiguration config);
     }
 }

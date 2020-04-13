@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
 
@@ -66,6 +67,7 @@ namespace Editor.Windows
             for (int index = 0; index < PropertyDefinition.Properties.Count; index++)
             {
                 PropertyDefinition.Properties[index].Load(mConfiguration.OriginalNode);
+                PropertyDefinition.Properties[index].Load(mConfiguration);
             }
         }
 
@@ -79,6 +81,7 @@ namespace Editor.Windows
             foreach (IProperty appenderProperty in PropertyDefinition.Properties)
             {
                 appenderProperty.Save(mConfiguration.ConfigXml, mConfiguration.NewNode);
+                appenderProperty.Save(mConfiguration);
             }
 
             mSaveStrategy.Execute();

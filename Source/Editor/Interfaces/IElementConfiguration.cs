@@ -16,9 +16,13 @@ namespace Editor.Interfaces
         /// </summary>
         XmlNode OriginalNode { get; }
 
+        bool TryGetAttributeValueOfChildElement(string elementName, string attributeName, out IValueResult result);
+
         /// <summary>
         /// The new node that will replace the original (if it exists).
         /// </summary>
         XmlNode NewNode { get; }
+
+        void SaveAs(string elementName, string attributeName, string value);
     }
 }

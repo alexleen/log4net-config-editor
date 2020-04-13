@@ -45,14 +45,26 @@ namespace Editor.ConfigProperties.Base
 
         public GridLength RowHeight { get; }
 
-        public abstract void Load(XmlNode originalNode);
+        public virtual void Load(XmlNode originalNode)
+        {
+        }
+
+        public virtual void Load(IElementConfiguration config)
+        {
+        }
 
         public virtual bool TryValidate(IMessageBoxService messageBoxService)
         {
             return true;
         }
 
-        public abstract void Save(XmlDocument xmlDoc, XmlNode newNode);
+        public virtual void Save(XmlDocument xmlDoc, XmlNode newNode)
+        {
+        }
+
+        public virtual void Save(IElementConfiguration config)
+        {
+        }
 
         private static void HyperlinkOnRequestNavigate(object uri)
         {

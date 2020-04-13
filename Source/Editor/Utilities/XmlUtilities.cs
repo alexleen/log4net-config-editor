@@ -177,12 +177,20 @@ namespace Editor.Utilities
             return node[childElementName]?.Attributes["value"]?.Value;
         }
 
-        public static string GetAttributeValueFromChildElement(this XmlNode node, string elementName, string attributeName)
+        public static (string Value, string ElementName, string AttributeName)? GetAttributeValueFromChildElement(this XmlNode node, string elementName, string attributeName)
         {
-            //TODO can we output the actual element and attribute name found so that we can save it using the same case?
-            return node.ChildNodes
-                       .Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase))?.Attributes?
-                       .Cast<XmlAttribute>().FirstOrDefault(n => string.Equals(n.LocalName, attributeName, StringComparison.OrdinalIgnoreCase))?.Value;
+            //Find the element
+            XmlNode element = node.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase));
+
+            //Find the attribute on the element
+            XmlAttribute attr = element?.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
+
+            if (attr == null)
+            {
+                return null;
+            }
+
+            return (attr.Value, element.LocalName, attr.LocalName);
         }
     }
 }

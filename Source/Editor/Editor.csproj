@@ -110,6 +110,7 @@
     <Compile Include="HistoryManager\IHistoryManagerFactory.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
+    <Compile Include="Interfaces\IValueResult.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\ForeColor.cs" />
     <Compile Include="ConfigProperties\LevelProperty.cs" />

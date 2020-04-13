@@ -1,9 +1,7 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
-using System;
-using System.Linq;
 using System.Windows;
-using System.Xml;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
@@ -37,17 +35,33 @@ namespace Editor.ConfigProperties.Base
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        // public override void Load(XmlNode originalNode)
+        // {
+        //     SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
+        //     SetValueIfNotNullOrEmpty(originalNode.GetAttributeValueFromChildElement(ElementName, mAttributeName).Value.Value);
+        // }
+
+        public override void Load(IElementConfiguration config)
         {
-            //SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
-            SetValueIfNotNullOrEmpty(originalNode.GetAttributeValueFromChildElement(ElementName, mAttributeName));
+            if (config.TryGetAttributeValueOfChildElement(ElementName, mAttributeName, out IValueResult result))
+            {
+                Value = result.AttributeValue;
+            }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        // public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        // {
+        //     if (!string.IsNullOrEmpty(Value))
+        //     {
+        //         xmlDoc.CreateElementWithAttribute(ElementName, mAttributeName, Value).AppendTo(newNode);
+        //     }
+        // }
+
+        public override void Save(IElementConfiguration config)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                xmlDoc.CreateElementWithAttribute(ElementName, mAttributeName, Value).AppendTo(newNode);
+                config.SaveAs(ElementName, mAttributeName, Value);
             }
         }
     }

@@ -1,7 +1,10 @@
-// Copyright © 2018 Alex Leendertsen
+// Copyright © 2020 Alex Leendertsen
 
+using System;
+using System.Linq;
 using System.Xml;
 using Editor.Interfaces;
+using Editor.Utilities;
 
 namespace Editor.XML
 {
@@ -22,10 +25,49 @@ namespace Editor.XML
 
         public XmlNode OriginalNode { get; }
 
+        public bool TryGetAttributeValueOfChildElement(string elementName, string attributeName, out IValueResult result)
+        {
+            //Find the element
+            XmlNode element = OriginalNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase));
+
+            //Find the attribute on the element
+            XmlAttribute attr = element?.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
+
+            if (attr == null)
+            {
+                result = null;
+                return false;
+            }
+
+            result = new ValueResult(element.LocalName, attr.LocalName, attr.Value);
+            return true;
+        }
+
         public XmlNode NewNode { get; }
+
+        public void SaveAs(string elementName, string attributeName, string value)
+        {
+            ConfigXml.CreateElementWithAttribute(elementName, attributeName, value).AppendTo(NewNode);
+        }
 
         public XmlDocument ConfigXml { get; }
 
         public XmlNode Log4NetNode { get; }
+
+        private class ValueResult : IValueResult
+        {
+            public ValueResult(string actualElementName, string actualAttributeName, string attributeValue)
+            {
+                ActualElementName = actualElementName;
+                ActualAttributeName = actualAttributeName;
+                AttributeValue = attributeValue;
+            }
+
+            public string ActualElementName { get; }
+
+            public string ActualAttributeName { get; }
+
+            public string AttributeValue { get; }
+        }
     }
 }
