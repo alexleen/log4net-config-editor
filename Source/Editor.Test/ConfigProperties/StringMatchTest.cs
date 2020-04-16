@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties;
@@ -27,6 +27,7 @@ namespace Editor.Test.ConfigProperties
             return false;
         }
 
+        //TODO move to ElementConfigurationTest
         [TestCase(null, null)]
         [TestCase("<stringToMatch />", null)]
         [TestCase("<stringToMatch value=\"\" />", null)]
@@ -47,28 +48,24 @@ namespace Editor.Test.ConfigProperties
         [TestCase("")]
         public void Save_ShouldNotSaveStringMatch(string value)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement filterElement = xmlDoc.CreateElement("filter");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.Value = value;
-            mSut.Save(xmlDoc, filterElement);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(filterElement.ChildNodes);
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Test]
         public void Save_ShouldSave()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement filterElement = xmlDoc.CreateElement("filter");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.Value = "match";
-            mSut.Save(xmlDoc, filterElement);
+            mSut.Save(config);
 
-            XmlNode stringNode = filterElement.SelectSingleNode("stringToMatch");
-
-            Assert.IsNotNull(stringNode);
-            Assert.AreEqual(mSut.Value, stringNode.Attributes["value"].Value);
+            config.Received(1).Save("stringToMatch", "value", mSut.Value);
         }
 
         [Test]

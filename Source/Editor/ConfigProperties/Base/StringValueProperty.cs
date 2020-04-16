@@ -35,33 +35,19 @@ namespace Editor.ConfigProperties.Base
             }
         }
 
-        // public override void Load(XmlNode originalNode)
-        // {
-        //     SetValueIfNotNullOrEmpty(originalNode[ElementName]?.Attributes[mAttributeName]?.Value);
-        //     SetValueIfNotNullOrEmpty(originalNode.GetAttributeValueFromChildElement(ElementName, mAttributeName).Value.Value);
-        // }
-
         public override void Load(IElementConfiguration config)
         {
-            if (config.TryGetAttributeValueOfChildElement(ElementName, mAttributeName, out IValueResult result))
+            if (config.Load(ElementName, mAttributeName, out IValueResult result))
             {
                 Value = result.AttributeValue;
             }
         }
 
-        // public override void Save(XmlDocument xmlDoc, XmlNode newNode)
-        // {
-        //     if (!string.IsNullOrEmpty(Value))
-        //     {
-        //         xmlDoc.CreateElementWithAttribute(ElementName, mAttributeName, Value).AppendTo(newNode);
-        //     }
-        // }
-
         public override void Save(IElementConfiguration config)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                config.SaveAs(ElementName, mAttributeName, Value);
+                config.Save(ElementName, mAttributeName, Value);
             }
         }
     }

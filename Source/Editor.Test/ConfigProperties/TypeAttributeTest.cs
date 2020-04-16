@@ -1,8 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -78,13 +80,11 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadCorrectType()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"ColoredConsoleAppender\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
-            Assert.AreEqual("log4net.Appender.ColoredConsoleAppender", mSut.Value);
+            config.Received(1).Load("type", out _);
         }
 
         [Test]
@@ -104,15 +104,14 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveValueToAttribute()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             const string value = "type";
             mSut.Value = value;
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            Assert.AreEqual(value, appender.Attributes["type"].Value);
+            config.Received(1).Save("type", value);
         }
 
         [Test]

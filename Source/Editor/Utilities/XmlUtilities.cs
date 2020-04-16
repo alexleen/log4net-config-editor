@@ -1,8 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 using SystemInterface.Xml;
 using Editor.Descriptors;
@@ -175,22 +173,6 @@ namespace Editor.Utilities
         public static string GetValueAttributeValueFromChildElement(this XmlNode node, string childElementName)
         {
             return node[childElementName]?.Attributes["value"]?.Value;
-        }
-
-        public static (string Value, string ElementName, string AttributeName)? GetAttributeValueFromChildElement(this XmlNode node, string elementName, string attributeName)
-        {
-            //Find the element
-            XmlNode element = node.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase));
-
-            //Find the attribute on the element
-            XmlAttribute attr = element?.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
-
-            if (attr == null)
-            {
-                return null;
-            }
-
-            return (attr.Value, element.LocalName, attr.LocalName);
         }
     }
 }

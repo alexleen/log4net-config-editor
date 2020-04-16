@@ -8,6 +8,7 @@ using Editor.Utilities;
 
 namespace Editor.XML
 {
+    //TODO two implementations: one for a new element (no original node) and one for an existing one (original and new nodes)
     internal class ElementConfiguration : IElementConfiguration
     {
         public ElementConfiguration(XmlDocument xmlDocument, XmlNode log4NetNode, XmlNode originalNode, XmlNode newNode)
@@ -25,7 +26,7 @@ namespace Editor.XML
 
         public XmlNode OriginalNode { get; }
 
-        public bool TryGetAttributeValueOfChildElement(string elementName, string attributeName, out IValueResult result)
+        public bool Load(string elementName, string attributeName, out IValueResult result)
         {
             //Find the element
             XmlNode element = OriginalNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase));
@@ -43,11 +44,31 @@ namespace Editor.XML
             return true;
         }
 
+        public bool Load(string attributeName, out IValueResult result)
+        {
+            //Find the attribute on the element
+            XmlAttribute attr = OriginalNode.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
+
+            if (attr == null)
+            {
+                result = null;
+                return false;
+            }
+
+            result = new ValueResult(null, attr.LocalName, attr.Value);
+            return true;
+        }
+
         public XmlNode NewNode { get; }
 
-        public void SaveAs(string elementName, string attributeName, string value)
+        public void Save(string elementName, string attributeName, string value)
         {
             ConfigXml.CreateElementWithAttribute(elementName, attributeName, value).AppendTo(NewNode);
+        }
+
+        public void Save(string attributeName, string value)
+        {
+            NewNode.AppendAttribute(ConfigXml, attributeName, value);
         }
 
         public XmlDocument ConfigXml { get; }

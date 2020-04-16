@@ -1,16 +1,15 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
     public class TypeAttribute : StringValueProperty
     {
-        private const string TypeName = "type";
-
         public TypeAttribute()
             : base("Type:", null)
         {
@@ -24,16 +23,32 @@ namespace Editor.ConfigProperties
             IsReadOnly = true;
         }
 
-        public override void Load(XmlNode originalNode)
+        // public override void Load(XmlNode originalNode)
+        // {
+        //     SetValueIfNotNullOrEmpty(originalNode.Attributes[Log4NetXmlConstants.Type]?.Value);
+        // }
+
+        public override void Load(IElementConfiguration config)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes[TypeName]?.Value);
+            if (config.Load(Log4NetXmlConstants.Type, out IValueResult result))
+            {
+                Value = result.AttributeValue;
+            }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        // public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        // {
+        //     if (!string.IsNullOrEmpty(Value))
+        //     {
+        //         newNode.AppendAttribute(xmlDoc, TypeName, Value);
+        //     }
+        // }
+
+        public override void Save(IElementConfiguration config)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                newNode.AppendAttribute(xmlDoc, TypeName, Value);
+                config.Save(Log4NetXmlConstants.Type, Value);
             }
         }
     }
