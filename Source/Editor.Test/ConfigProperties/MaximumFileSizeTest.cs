@@ -1,6 +1,5 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NSubstitute;
@@ -11,28 +10,12 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class MaximumFileSizeTest
     {
+        private MaximumFileSize mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new MaximumFileSize();
-        }
-
-        private MaximumFileSize mSut;
-
-        [TestCase(null, "10MB")]
-        [TestCase("<maximumFileSize />", "10MB")]
-        [TestCase("<maximumFileSize value=\"\" />", "10MB")]
-        [TestCase("<maximumFileSize value=\"100MB\" />", "100MB")]
-        public void Load_ShouldLoadCorrectValue(string value, string expected)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.RollingFileAppender\" name=\"rolling\">\n" +
-                           $"    {value}\n" +
-                           "  </appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(expected, mSut.Value);
         }
 
         [TestCase("10KB")]
@@ -62,27 +45,23 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSaveIfDefault()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(appender.ChildNodes);
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Test]
         public void Save_ShouldSaveIfNotDefault()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.Value = "100MB";
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            XmlNode maxFileSizeNode = appender.SelectSingleNode("maximumFileSize");
-
-            Assert.IsNotNull(maxFileSizeNode);
-            Assert.AreEqual(mSut.Value, maxFileSizeNode.Attributes["value"].Value);
+            config.Received(1).Save("maximumFileSize", "value", mSut.Value);
         }
 
         [Test]

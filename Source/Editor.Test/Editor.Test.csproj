@@ -76,6 +76,7 @@
     <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
     <Compile Include="ConfigProperties\Base\EnumPropertyTest.cs" />
     <Compile Include="ConfigProperties\Base\NumericPropertyTest.cs" />
+    <Compile Include="ConfigProperties\Base\StringValuePropertyTest.cs" />
     <Compile Include="ConfigProperties\CategoryTest.cs" />
     <Compile Include="ConfigProperties\CountDirectionTest.cs" />
     <Compile Include="ConfigProperties\DatePatternTest.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="ConfigProperties\MappingTest.cs" />
     <Compile Include="ConfigProperties\MaximumFileSizeTest.cs" />
     <Compile Include="ConfigProperties\MaxLevelTest.cs" />
-    <Compile Include="ConfigProperties\MaxSizeRollBackupsTest.cs" />
     <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />

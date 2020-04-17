@@ -1,9 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
-using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
@@ -31,11 +29,11 @@ namespace Editor.ConfigProperties
             return base.TryValidate(messageBoxService);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (Value != DefaultMaxFileSize)
             {
-                xmlDoc.CreateElementWithValueAttribute(MaximumFileSizeName, Value.Trim()).AppendTo(newNode);
+                base.Save(config);
             }
         }
     }

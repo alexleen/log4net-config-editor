@@ -6,6 +6,7 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
+    //TODO can this be a NumericProperty<IPAddress>???
     internal class RemoteAddress : StringValueProperty
     {
         internal RemoteAddress()

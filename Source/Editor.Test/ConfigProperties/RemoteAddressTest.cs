@@ -1,6 +1,5 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NSubstitute;
@@ -11,28 +10,12 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class RemoteAddressTest
     {
+        private RemoteAddress mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new RemoteAddress();
-        }
-
-        private RemoteAddress mSut;
-
-        [TestCase(null, null)]
-        [TestCase("<remoteAddress />", null)]
-        [TestCase("<remoteAddress value=\"\" />", null)]
-        [TestCase("<remoteAddress value=\"str\" />", "str")]
-        public void Load_ShouldLoadCorrectly(string xml, string expected)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\n" +
-                           $"      {xml}\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(expected, mSut.Value);
         }
 
         [TestCase(null, false)]
@@ -67,38 +50,10 @@ namespace Editor.Test.ConfigProperties
             messageBoxService.Received(1).ShowError("Remote address must be a valid IP address.");
         }
 
-        [TestCase(null)]
-        [TestCase("")]
-        public void Save_ShouldNotSave_WhenNullOrEmptyValue(string value)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
-
-            mSut.Value = value;
-            mSut.Save(xmlDoc, appenderElement);
-
-            CollectionAssert.IsEmpty(appenderElement.ChildNodes);
-        }
-
         [Test]
         public void Name_ShouldBeCorrect()
         {
             Assert.AreEqual("Remote Address:", mSut.Name);
-        }
-
-        [Test]
-        public void Save_ShouldSave()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
-
-            mSut.Value = "1.2.3.4";
-            mSut.Save(xmlDoc, appenderElement);
-
-            XmlNode regexNode = appenderElement.SelectSingleNode("remoteAddress");
-
-            Assert.IsNotNull(regexNode);
-            Assert.AreEqual(mSut.Value, regexNode.Attributes["value"].Value);
         }
 
         [Test]

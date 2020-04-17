@@ -11,6 +11,8 @@ namespace Editor.Test.XML
     [TestFixture]
     public class ElementConfigurationTest
     {
+        private XmlElement mNewNode;
+
         private IElementConfiguration mSut;
 
         [SetUp]
@@ -23,7 +25,8 @@ namespace Editor.Test.XML
                            "  </appender>" +
                            "</log4net>");
 
-            mSut = new ElementConfiguration(xmlDoc, xmlDoc.FirstChild, xmlDoc.FirstChild.FirstChild, xmlDoc.CreateElement("newAppender"));
+            mNewNode = xmlDoc.CreateElement("newAppender");
+            mSut = new ElementConfiguration(xmlDoc, xmlDoc.FirstChild, xmlDoc.FirstChild.FirstChild, mNewNode);
         }
 
         [Test]
@@ -40,7 +43,13 @@ namespace Editor.Test.XML
             Assert.IsNull(result);
         }
 
-        private static readonly IEnumerable<TestCaseData> sPropAttrTestValues = new[] { new TestCaseData("PROPERTY", "ATTR"), new TestCaseData("Property", "Attr"), new TestCaseData("property", "attr") };
+        private static readonly IEnumerable<TestCaseData> sPropAttrTestValues = new[]
+        {
+            new TestCaseData("PROPERTY", "ATTR"),
+            new TestCaseData("PrOpErTy", "AtTr"),
+            new TestCaseData("Property", "Attr"),
+            new TestCaseData("property", "attr")
+        };
 
         [TestCaseSource(nameof(sPropAttrTestValues))]
         public void Load_ShouldLoadCorrectValue(string elementName, string attributeName)
@@ -61,6 +70,27 @@ namespace Editor.Test.XML
         {
             Assert.IsTrue(mSut.Load(elementName, attributeName, out IValueResult result));
             Assert.AreEqual("attr", result.ActualAttributeName);
+        }
+
+        [Test]
+        public void Save_ShouldSaveAsNewElementWithAttributeValue()
+        {
+            const string elementName = "newElement";
+            const string attributeName = "newAttr";
+            const string attrValue = "attrValue";
+            mSut.Save(elementName, attributeName, attrValue);
+
+            Assert.AreEqual(attrValue, mNewNode[elementName].Attributes[attributeName].Value);
+        }
+
+        [Test]
+        public void Save_ShouldSaveAsNewAttributeWithValue()
+        {
+            const string attributeName = "newAttr";
+            const string attrValue = "attrValue";
+            mSut.Save(attributeName, attrValue);
+
+            Assert.AreEqual(attrValue, mNewNode.Attributes[attributeName].Value);
         }
     }
 }

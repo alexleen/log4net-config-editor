@@ -89,7 +89,7 @@ namespace Editor.Test.Definitions.Appenders
             mSut.Properties.Single(p => p.GetType() == typeof(DatePattern));
             Assert.AreEqual(3, mSut.Properties.Count(p => p.GetType() == typeof(BooleanPropertyBase)));
             mSut.Properties.Single(p => p.GetType() == typeof(MaximumFileSize));
-            mSut.Properties.Single(p => p.GetType() == typeof(MaxSizeRollBackups));
+            mSut.Properties.Single(p => p is NumericProperty<int>);
             mSut.Properties.Single(p => p.GetType() == typeof(CountDirection));
         }
 

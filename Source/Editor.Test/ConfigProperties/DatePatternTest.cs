@@ -1,6 +1,5 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NSubstitute;
@@ -11,13 +10,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class DatePatternTest
     {
+        private DatePattern mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new DatePattern();
         }
-
-        private DatePattern mSut;
 
         [TestCase(null)]
         [TestCase("")]
@@ -52,59 +51,6 @@ namespace Editor.Test.ConfigProperties
             Assert.IsFalse(mSut.TryValidate(messageBoxService));
 
             messageBoxService.Received(1).ShowError($"Date pattern must not contain invalid characters: '{invalidChar}'");
-        }
-
-        [Test]
-        public void Load_ShouldNotSetValue_WhenAttributeValueDoesNotExist()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <datePattern />\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsNull(mSut.Value);
-        }
-
-        [Test]
-        public void Load_ShouldNotSetValue_WhenElementDoesNotExist()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsNull(mSut.Value);
-        }
-
-        [Test]
-        public void Load_ShouldSetCorrectValue()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           "    <datePattern value=\"yyyyMMdd\" />\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual("yyyyMMdd", mSut.Value);
-        }
-
-        [Test]
-        public void Save_ShouldCreateAndAppendCorrectElement()
-        {
-            const string value = "yyyyMMdd";
-            mSut.Value = value;
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
-            mSut.Save(xmlDoc, appender);
-
-            XmlElement datePattern = appender["datePattern"];
-            Assert.IsNotNull(datePattern);
-            Assert.AreEqual(value, datePattern.Attributes["value"].Value);
         }
 
         [Test]

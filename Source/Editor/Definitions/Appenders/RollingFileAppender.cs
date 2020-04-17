@@ -68,7 +68,7 @@ namespace Editor.Definitions.Appenders
             mMaximumFileSizeIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mMaximumFileSizeModes, mMaximumFileSizeIndex, mMaximumFileSize);
 
-            AddProperty(new MaxSizeRollBackups());
+            AddProperty(new NumericProperty<int>("Max Size Roll Backups:", "maxSizeRollBackups", 0));
 
             mCountDirectionIndex = Properties.Count;
             AddRemoveBasedOnMode(rollingStyle.SelectedMode, mCountDirectionModes, mCountDirectionIndex, mCountDirection);

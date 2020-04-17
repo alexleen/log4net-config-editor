@@ -141,7 +141,6 @@
     <Compile Include="ConfigProperties\Mapping.cs" />
     <Compile Include="ConfigProperties\MaximumFileSize.cs" />
     <Compile Include="ConfigProperties\MaxLevel.cs" />
-    <Compile Include="ConfigProperties\MaxSizeRollBackups.cs" />
     <Compile Include="ConfigProperties\MinLevel.cs" />
     <Compile Include="ConfigProperties\Name.cs" />
     <Compile Include="ConfigProperties\OutgoingRefs.cs" />
