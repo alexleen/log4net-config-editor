@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties;
@@ -12,6 +12,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class NameTest
     {
+        private const string OriginalName = "appName";
+        private Name mSut;
+        private XmlNode mLog4NetNode;
+        private XmlDocument mXmlDoc;
+        private XmlNode mOriginalAppender;
+        private IElementConfiguration mAppenderConfiguration;
+
         [SetUp]
         public void SetUp()
         {
@@ -28,46 +35,37 @@ namespace Editor.Test.ConfigProperties
             mSut = new Name(mAppenderConfiguration);
         }
 
-        private const string OriginalName = "appName";
-        private Name mSut;
-        private XmlNode mLog4NetNode;
-        private XmlDocument mXmlDoc;
-        private XmlNode mOriginalAppender;
-        private IElementConfiguration mAppenderConfiguration;
-
-        [TestCase("name=\"\"")]
-        [TestCase("")]
-        public void Load_ShouldNotLoadName(string name)
+        [TestCase(null, false)]
+        [TestCase("", true)]
+        public void Load_ShouldNotLoadValue(string value, bool retVal)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender {name} type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("name", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return retVal;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.IsNull(mSut.Value);
-        }
-
-        [TestCase("")]
-        [TestCase(null)]
-        public void TryValidate_ShouldShowUnassignedMessageBox_WhenValueIsNullOrEmpty_AndReturnFalse(string value)
-        {
-            mSut.Value = value;
-
-            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
-
-            Assert.IsFalse(mSut.TryValidate(messageBoxService));
-            messageBoxService.Received(1).ShowError("A name must be assigned to this appender.");
         }
 
         [Test]
         public void Changed_ShouldBeFalse_WhenValueDoesMatchOriginal()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("name", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(OriginalName);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.IsFalse(mSut.Changed);
         }
@@ -83,11 +81,16 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Changed_ShouldBeTrue_WhenValueDoesNotMatchOriginal()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"{OriginalName}\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("name", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(OriginalName);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             mSut.Value = "someOtherName";
 
@@ -103,11 +106,16 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadCorrectName()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"ColoredConsoleAppender\" type=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("name", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("ColoredConsoleAppender");
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
         }
@@ -137,21 +145,41 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveNameToAttribute()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             const string nameValue = "name";
             mSut.Value = nameValue;
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            Assert.AreEqual(nameValue, appender.Attributes["name"].Value);
+            config.Received(1).Save("name", nameValue);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void TryValidate_ShouldShowUnassignedMessageBox_WhenValueIsNullOrEmpty_AndReturnFalse(string value)
+        {
+            mSut.Value = value;
+
+            IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
+
+            Assert.IsFalse(mSut.TryValidate(messageBoxService));
+            messageBoxService.Received(1).ShowError("A name must be assigned to this appender.");
         }
 
         [Test]
         public void TryValidate_ShouldNotShowCollisionMessageBox_WhenAppenderNameCollides_ButIsSameAppender()
         {
-            mSut.Load(mOriginalAppender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("name", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(OriginalName);
+                    ci[1] = result;
+                    return true;
+                });
+
+            mSut.Load(config);
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
 

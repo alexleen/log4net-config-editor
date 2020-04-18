@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties.Base;
@@ -19,15 +19,15 @@ namespace Editor.ConfigProperties
         }
 
         /// <summary>
-        ///     Original name value. Null if no original name (i.e. new appender).
+        /// Original name value. Null if no original name (i.e. new appender).
         /// </summary>
         public string OriginalName => mConfiguration.OriginalNode?.Attributes?[Log4NetXmlConstants.Name]?.Value;
 
         /// <summary>
-        ///     Whether or not the value for the Name property has changed.
-        ///     Null if there was no original appender (and therefore no original name).
-        ///     True if there was an original appender and the name has changed.
-        ///     False otherwise.
+        /// Whether or not the value for the Name property has changed.
+        /// Null if there was no original appender (and therefore no original name).
+        /// True if there was an original appender and the name has changed.
+        /// False otherwise.
         /// </summary>
         public bool? Changed
         {
@@ -42,9 +42,12 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes[Log4NetXmlConstants.Name]?.Value);
+            if (config.Load(Log4NetXmlConstants.Name, out IValueResult result))
+            {
+                SetValueIfNotNullOrEmpty(result.AttributeValue);
+            }
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
@@ -67,9 +70,9 @@ namespace Editor.ConfigProperties
             return base.TryValidate(messageBoxService);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
-            newNode.AppendAttribute(xmlDoc, Log4NetXmlConstants.Name, Value);
+            config.Save(Log4NetXmlConstants.Name, Value);
         }
     }
 }

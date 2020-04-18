@@ -1,30 +1,31 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
     internal class Value : StringValueProperty
     {
-        private const string ValueName = "value";
-
         internal Value()
             : base("Value:", null)
         {
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes[ValueName]?.Value);
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result))
+            {
+                SetValueIfNotNullOrEmpty(result.AttributeValue);
+            }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                newNode.AppendAttribute(xmlDoc, ValueName, Value);
+                config.Save(Log4NetXmlConstants.Value, Value);
             }
         }
     }

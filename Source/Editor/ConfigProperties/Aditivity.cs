@@ -1,8 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
-using Editor.Utilities;
+using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
@@ -15,20 +14,19 @@ namespace Editor.ConfigProperties
         {
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string valueStr = originalNode.Attributes[ElementName]?.Value;
-            if (bool.TryParse(valueStr, out bool value))
+            if (config.Load(ElementName, out IValueResult result) && bool.TryParse(result.AttributeValue, out bool value))
             {
                 Value = value;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (!Value)
             {
-                newNode.AppendAttribute(xmlDoc, ElementName, Value.ToString());
+                config.Save(ElementName, Value.ToString());
             }
         }
     }

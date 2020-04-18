@@ -1,7 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -9,65 +10,60 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class ValueTest
     {
+        private Value mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new Value();
         }
 
-        private Value mSut;
-
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase("value=\"\"")]
-        public void Load_ShouldNotLoadValue(string xml)
+        [TestCase(null, false)]
+        [TestCase("", true)]
+        public void Load_ShouldNotLoadValue(string value, bool retVal)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {xml}>\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return retVal;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.IsNull(mSut.Value);
         }
 
-        [TestCase("value=\"\"")]
-        [TestCase("")]
-        public void Load_ShouldMaintainValue_FromCtor(string value)
+        [Test]
+        public void Load_ShouldLoadCorrectValue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {value}>\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("log4net.Appender.ColoredConsoleAppender");
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
-            Assert.IsNull(mSut.Value);
+            Assert.AreEqual("log4net.Appender.ColoredConsoleAppender", mSut.Value);
         }
 
         [TestCase(null)]
         [TestCase("")]
         public void Save_ShouldNotSaveValueToAttribute_WhenValueIsNullOrEmpty(string value)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.Value = value;
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            Assert.IsNull(appender.Attributes["value"]);
-        }
-
-        [Test]
-        public void Load_ShouldLoadCorrectValue()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"ColoredConsoleAppender\" value=\"log4net.Appender.ColoredConsoleAppender\">\r\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual("log4net.Appender.ColoredConsoleAppender", mSut.Value);
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Test]
@@ -79,15 +75,14 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveValueToAttribute()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             const string value = "whatev";
             mSut.Value = value;
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            Assert.AreEqual(value, appender.Attributes["value"].Value);
+            config.Received(1).Save("value", value);
         }
 
         [Test]

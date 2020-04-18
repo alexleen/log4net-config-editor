@@ -1,7 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -9,25 +10,47 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class AditivityTest
     {
+        private Aditivity mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new Aditivity();
         }
 
-        private Aditivity mSut;
-
-        [TestCase("<logger />", true)]
-        [TestCase("<logger aditivity=\"\" />", true)]
-        [TestCase("<logger aditivity=\"FALSE\" />", false)]
-        [TestCase("<logger aditivity=\"False\" />", false)]
-        [TestCase("<logger aditivity=\"false\" />", false)]
-        public void Load_ShouldLoadTheCorrectValue(string xml, bool expected)
+        [TestCase(null, false)]
+        [TestCase("", true)]
+        public void Load_ShouldNotLoadValue(string value, bool retVal)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xml);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("aditivity", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return retVal;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
+
+            Assert.IsTrue(mSut.Value);
+        }
+
+        [TestCase("FALSE", false)]
+        [TestCase("False", false)]
+        [TestCase("false", false)]
+        public void Load_ShouldLoadTheCorrectValue(string value, bool expected)
+        {
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("aditivity", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
+
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.Value);
         }
@@ -41,24 +64,22 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSaveIfAditive()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement logger = xmlDoc.CreateElement("logger");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, logger);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(logger.Attributes);
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Test]
         public void Save_ShouldSaveIfNotAditive()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement logger = xmlDoc.CreateElement("logger");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.Value = false;
-            mSut.Save(xmlDoc, logger);
+            mSut.Save(config);
 
-            Assert.AreEqual("False", logger.Attributes?["aditivity"].Value);
+            config.Received(1).Save("aditivity", "False");
         }
 
         [Test]
