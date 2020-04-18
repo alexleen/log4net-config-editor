@@ -1,6 +1,5 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using NSubstitute;
@@ -19,15 +18,13 @@ namespace Editor.Test.ConfigProperties
 
         private RenderingClass mSut;
 
-        [TestCase("renderingClass=\"\"")]
-        [TestCase("")]
-        public void Load_ShouldNotLoadRenderingClass(string renderingClass)
+        [Test]
+        public void Load_ShouldNotLoadRenderingClass()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<renderer {renderingClass}>\r\n" +
-                           "</renderer>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("renderingClass", out _).Returns(false);
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.IsNull(mSut.Value);
         }
@@ -53,11 +50,16 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadCorrectRenderingClass()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<renderer renderingClass=\"ColoredConsoleAppender\">\r\n" +
-                           "</renderer>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("renderingClass", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("ColoredConsoleAppender");
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
         }
@@ -71,15 +73,14 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveRenderingClassToAttribute()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("renderer");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             const string renderingClass = "class";
             mSut.Value = renderingClass;
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            Assert.AreEqual(renderingClass, appender.Attributes["renderingClass"].Value);
+            config.Received(1).Save("renderingClass", renderingClass);
         }
 
         [Test]

@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Net;
 using Editor.ConfigProperties.Base;
@@ -6,7 +6,6 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
-    //TODO can this be a NumericProperty<IPAddress>???
     internal class RemoteAddress : StringValueProperty
     {
         internal RemoteAddress()

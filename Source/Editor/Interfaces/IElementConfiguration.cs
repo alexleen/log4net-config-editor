@@ -26,7 +26,7 @@ namespace Editor.Interfaces
         bool Load(string attributeName, out IValueResult result);
 
         /// <summary>
-        /// Attempts to load the specified attribute value from the specified child element.
+        /// Attempts to load the specified attribute value from the specified child element of the original node (appender).
         /// Should not be called if no original node exists.
         /// </summary>
         /// <param name="elementName">Name of the child element where the desired attribute resides</param>

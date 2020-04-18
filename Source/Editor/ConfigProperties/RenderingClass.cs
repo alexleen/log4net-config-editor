@@ -1,9 +1,7 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
-using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
@@ -20,9 +18,12 @@ namespace Editor.ConfigProperties
                       "This is the type of the object that will take responsibility for rendering the 'Rendered Class'.";
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            SetValueIfNotNullOrEmpty(originalNode.Attributes[RenderingClassName]?.Value);
+            if (config.Load(RenderingClassName, out IValueResult result))
+            {
+                Value = result.AttributeValue;
+            }
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
@@ -36,9 +37,9 @@ namespace Editor.ConfigProperties
             return base.TryValidate(messageBoxService);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
-            newNode.AppendAttribute(xmlDoc, RenderingClassName, Value);
+            config.Save(RenderingClassName, Value);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -27,18 +28,16 @@ namespace Editor.Test.ConfigProperties
         [TestCase("unknown", "")]
         public void Load_ShouldLoadCorrectValue(string value, string expected)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("encoding", "value", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[2] = result;
+                    return true;
+                });
 
-            XmlAttribute valueAttribute = xmlDoc.CreateAttribute("value");
-            valueAttribute.Value = value;
-
-            XmlElement encodingElement = xmlDoc.CreateElement("encoding");
-            encodingElement.Attributes.Append(valueAttribute);
-
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
-            appenderElement.AppendChild(encodingElement);
-
-            mSut.Load(appenderElement);
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.SelectedValue);
         }
@@ -52,26 +51,22 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSaveSelectedValue_WhenNotSelected()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, appenderElement);
+            mSut.Save(config);
 
-            Assert.IsNull(appenderElement.SelectSingleNode("encoding"));
+            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Test]
         public void Save_ShouldSaveSelectedValue_WhenSelected()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.SelectedValue = "whatev";
-            mSut.Save(xmlDoc, appenderElement);
+            mSut.Save(config);
 
-            XmlNode encodingElement = appenderElement.SelectSingleNode("encoding");
-            Assert.IsNotNull(encodingElement);
-            Assert.AreEqual(mSut.SelectedValue, encodingElement.Attributes["value"].Value);
+            config.Received(1).Save("encoding", "value", mSut.SelectedValue);
         }
     }
 }

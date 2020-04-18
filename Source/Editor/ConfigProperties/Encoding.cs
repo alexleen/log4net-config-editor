@@ -1,9 +1,9 @@
-﻿// Copyright © 2019 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Windows;
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -30,20 +30,19 @@ namespace Editor.ConfigProperties
             mElementName = elementName;
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string valueStr = originalNode.GetValueAttributeValueFromChildElement(mElementName);
-            if (sValues.Contains(valueStr))
+            if (config.Load(mElementName, Log4NetXmlConstants.Value, out IValueResult result) && sValues.Contains(result.AttributeValue))
             {
-                SelectedValue = valueStr;
+                SelectedValue = result.AttributeValue;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (!string.IsNullOrEmpty(SelectedValue))
             {
-                xmlDoc.CreateElementWithValueAttribute(mElementName, SelectedValue).AppendTo(newNode);
+                config.Save(mElementName, Log4NetXmlConstants.Value, SelectedValue);
             }
         }
     }

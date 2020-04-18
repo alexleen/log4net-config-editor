@@ -487,7 +487,7 @@ namespace Editor.Windows
 
             foreach (IProperty prop in elementDefinition.Properties.ToList())
             {
-                prop.Load(appender.Node);
+                prop.Load(configuration);
             }
 
             return elementDefinition.Properties.OfType<ConfigProperties.File>().Single().FilePath;
