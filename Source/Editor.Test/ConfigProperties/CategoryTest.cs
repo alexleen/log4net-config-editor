@@ -1,10 +1,8 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
-using Editor.Utilities;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -85,18 +83,11 @@ namespace Editor.Test.ConfigProperties
         {
             mSut.Value = "whatev";
 
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            XmlElement category = appender["category"];
-            Assert.IsNotNull(category);
-            Assert.AreEqual(LayoutDescriptor.Pattern.TypeNamespace, category.Attributes[Log4NetXmlConstants.Type].Value);
-
-            XmlElement conversionPattern = category["conversionPattern"];
-            Assert.IsNotNull(conversionPattern);
-            Assert.AreEqual("whatev", conversionPattern.Attributes[Log4NetXmlConstants.Value].Value);
+            config.Received(1).Save(("category", "type", LayoutDescriptor.Pattern.TypeNamespace), ("conversionPattern", "value", mSut.Value));
         }
 
         [TestCase(null)]
@@ -107,12 +98,11 @@ namespace Editor.Test.ConfigProperties
         {
             mSut.Value = value;
 
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(appender.ChildNodes);
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
         }
     }
 }

@@ -1,6 +1,5 @@
 // Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -37,16 +36,14 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (string.IsNullOrWhiteSpace(Value) || Value == DefaultValue)
             {
                 return;
             }
 
-            XmlNode categoryNode = xmlDoc.CreateElementWithAttribute(ElementName, Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace);
-            xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Value).AppendTo(categoryNode);
-            newNode.AppendChild(categoryNode);
+            config.Save((ElementName, Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace), (Log4NetXmlConstants.ConversionPattern, Log4NetXmlConstants.Value, Value));
         }
     }
 }

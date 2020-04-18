@@ -42,12 +42,10 @@ namespace Editor.Interfaces
         void Save(string attributeName, string value);
 
         /// <summary>
-        /// Saves the specified value as an attribute with the specified name to a child element specified by element name.
-        /// Child element with attribute is automatically created and appended to the new node.
+        /// Saves the specified children along with their corresponding attributes to the new node.
+        /// Child elements with attributes are automatically created and appended.
         /// </summary>
-        /// <param name="elementName">Name of the desired child element</param>
-        /// <param name="attributeName">Name of the desired attribute</param>
-        /// <param name="value">Attribute value</param>
-        void Save(string elementName, string attributeName, string value);
+        /// <param name="children">Set of children complete with attributes and values to be added to the new node</param>
+        void Save(params (string ElementName, string AttributeName, string AttributeValue)[] children);
     }
 }

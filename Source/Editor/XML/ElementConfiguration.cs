@@ -69,9 +69,22 @@ namespace Editor.XML
 
         public XmlNode NewNode { get; }
 
-        public void Save(string elementName, string attributeName, string value)
+        public void Save(params (string ElementName, string AttributeName, string AttributeValue)[] children)
         {
-            ConfigXml.CreateElementWithAttribute(elementName, attributeName, value).AppendTo(NewNode);
+            (string elementName, string attributeName, string attributeValue) = children.First();
+            XmlNode firstChild = ConfigXml.CreateElement(elementName);
+            firstChild.AppendAttribute(ConfigXml, attributeName, attributeValue);
+            
+            XmlNode lastChild = firstChild;
+            foreach ((string childElementName, string childAttrName, string childAttrValue) in children.Skip(1))
+            {
+                XmlElement temp = ConfigXml.CreateElement(childElementName);
+                temp.AppendAttribute(ConfigXml, childAttrName, childAttrValue);
+                lastChild.AppendChild(temp);
+                lastChild = temp;
+            }
+
+            NewNode.AppendChild(firstChild);
         }
 
         public void Save(string attributeName, string value)

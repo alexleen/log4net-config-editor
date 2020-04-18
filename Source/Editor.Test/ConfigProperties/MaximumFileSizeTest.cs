@@ -49,7 +49,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
             config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>());
         }
 
@@ -61,7 +61,7 @@ namespace Editor.Test.ConfigProperties
             mSut.Value = "100MB";
             mSut.Save(config);
 
-            config.Received(1).Save("maximumFileSize", "value", mSut.Value);
+            config.Received(1).Save(("maximumFileSize", "value", mSut.Value));
         }
 
         [Test]

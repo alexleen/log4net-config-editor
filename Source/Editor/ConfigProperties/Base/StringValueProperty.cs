@@ -47,7 +47,7 @@ namespace Editor.ConfigProperties.Base
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                config.Save(ElementName, mAttributeName, Value);
+                config.Save((ElementName, mAttributeName, Value));
             }
         }
     }

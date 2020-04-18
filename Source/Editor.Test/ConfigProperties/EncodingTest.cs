@@ -55,7 +55,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Editor.Test.ConfigProperties
             mSut.SelectedValue = "whatev";
             mSut.Save(config);
 
-            config.Received(1).Save("encoding", "value", mSut.SelectedValue);
+            config.Received(1).Save(("encoding", "value", mSut.SelectedValue));
         }
     }
 }

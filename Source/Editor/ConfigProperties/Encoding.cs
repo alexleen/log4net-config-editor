@@ -42,7 +42,7 @@ namespace Editor.ConfigProperties
         {
             if (!string.IsNullOrEmpty(SelectedValue))
             {
-                config.Save(mElementName, Log4NetXmlConstants.Value, SelectedValue);
+                config.Save((mElementName, Log4NetXmlConstants.Value, SelectedValue));
             }
         }
     }
