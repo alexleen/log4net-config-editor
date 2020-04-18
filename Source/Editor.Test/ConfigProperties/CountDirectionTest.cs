@@ -1,8 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
-using Editor.Utilities;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -10,28 +10,32 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class CountDirectionTest
     {
+        private const string Lower = "Lower";
+        private const string Higher = "Higher";
+        private const string CountDirectionName = "countDirection";
+        private CountDirection mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new CountDirection();
         }
 
-        private const string Lower = "Lower";
-        private const string Higher = "Higher";
-        private const string CountDirectionName = "countDirection";
-        private CountDirection mSut;
-
         [TestCase(null)]
         [TestCase("")]
         [TestCase("string")]
         public void Load_ShouldSetDefaultValue_WhenAttributeValueIsNotAnInt(string value)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           $"    <{CountDirectionName} value=\"{value}\" />\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, CountDirectionName).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(Lower, mSut.SelectedDirection);
         }
@@ -41,12 +45,16 @@ namespace Editor.Test.ConfigProperties
         [TestCase(1, Higher)]
         public void Load_ShouldSetCorrectValue(int directionInt, string directionStr)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\r\n" +
-                           $"    <{CountDirectionName} value=\"{directionInt}\" />\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, CountDirectionName).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(directionInt.ToString());
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(directionStr, mSut.SelectedDirection);
         }
@@ -66,25 +74,23 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSaveIfNotHigher()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement parent = xmlDoc.CreateElement("element");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, parent);
+            mSut.Save(config);
 
-            Assert.IsNull(parent[CountDirectionName]);
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
         }
 
         [Test]
         public void Save_ShouldSaveIfHigher()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement parent = xmlDoc.CreateElement("element");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.SelectedDirection = Higher;
 
-            mSut.Save(xmlDoc, parent);
+            mSut.Save(config);
 
-            Assert.AreEqual("0", parent.GetValueAttributeValueFromChildElement(CountDirectionName));
+            config.Received(1).Save((CountDirectionName, "value", "0"));
         }
     }
 }

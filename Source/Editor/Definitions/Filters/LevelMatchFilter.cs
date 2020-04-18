@@ -1,6 +1,6 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 
 namespace Editor.Definitions.Filters
@@ -13,7 +13,7 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new LevelToMatch());
+            AddProperty(new LevelPropertyBase("Level to Match:", "levelToMatch"));
             base.Initialize();
         }
     }

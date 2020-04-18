@@ -1,6 +1,7 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Windows;
+using System.Xml;
 
 namespace Editor.Interfaces
 {
@@ -28,6 +29,8 @@ namespace Editor.Interfaces
         bool TryValidate(IMessageBoxService messageBoxService);
 
         void Load(IElementConfiguration config);
+        void Load(XmlNode originalNode);
         void Save(IElementConfiguration config);
+        void Save(XmlDocument xmlDoc, XmlNode newNode);
     }
 }

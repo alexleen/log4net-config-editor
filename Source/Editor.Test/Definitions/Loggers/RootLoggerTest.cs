@@ -1,8 +1,9 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
 using System.Xml;
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Loggers;
 using Editor.Interfaces;
 using Editor.Utilities;
@@ -46,8 +47,8 @@ namespace Editor.Test.Definitions.Loggers
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(LevelProperty));
-            mSut.Properties.Single(p => p.GetType() == typeof(OutgoingRefs));
+            mSut.Properties.Single(p => p is LevelPropertyBase lpb && lpb.Name == "Level:");
+            mSut.Properties.Single(p => p is OutgoingRefs);
         }
 
         [Test]

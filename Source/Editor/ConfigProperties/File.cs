@@ -94,18 +94,16 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string file = originalNode.GetValueAttributeValueFromChildElement(FileName);
-            if (!string.IsNullOrEmpty(file))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult pathResult, FileName) && !string.IsNullOrEmpty(pathResult.AttributeValue))
             {
-                FilePath = file;
+                FilePath = pathResult.AttributeValue;
             }
 
-            PatternString = originalNode[FileName]?.Attributes[TypeName]?.Value == PatternStringTypeName;
+            PatternString = config.Load(TypeName, out IValueResult patternResult, FileName) && patternResult.AttributeValue == PatternStringTypeName;
 
-            string appendToFile = originalNode.GetValueAttributeValueFromChildElement(AppendToFileName);
-            if (!string.IsNullOrEmpty(appendToFile) && bool.TryParse(appendToFile, out bool append))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult appendResult, AppendToFileName) && !string.IsNullOrEmpty(appendResult.AttributeValue) && bool.TryParse(appendResult.AttributeValue, out bool append))
             {
                 Overwrite = !append;
             }
@@ -122,6 +120,7 @@ namespace Editor.ConfigProperties
             return base.TryValidate(messageBoxService);
         }
 
+        //TODO the file element can have two attributes!!!
         public override void Save(XmlDocument xmlDoc, XmlNode newNode)
         {
             XmlElement fileElement = xmlDoc.CreateElementWithValueAttribute(FileName, FilePath);
@@ -132,11 +131,13 @@ namespace Editor.ConfigProperties
             }
 
             fileElement.AppendTo(newNode);
+            //config.Save((FileName, Log4NetXmlConstants.Value, FilePath));
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (Overwrite)
             {
                 xmlDoc.CreateElementWithValueAttribute(AppendToFileName, "false").AppendTo(newNode);
+                //config.Save((AppendToFileName, Log4NetXmlConstants.Value, "false"));
             }
 
             mHistoryManager.Save(FilePath);

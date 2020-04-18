@@ -1,6 +1,6 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Base;
 
 namespace Editor.Definitions.Mapping
@@ -13,9 +13,9 @@ namespace Editor.Definitions.Mapping
 
         public override void Initialize()
         {
-            AddProperty(new LevelProperty());
-            AddProperty(new ForeColor());
-            AddProperty(new BackColor());
+            AddProperty(new LevelPropertyBase("Level:", "level"));
+            AddProperty(new ColorPropertyBase("Foreground:", "foreColor"));
+            AddProperty(new ColorPropertyBase("Background:", "backColor"));
         }
     }
 }

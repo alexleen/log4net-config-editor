@@ -19,7 +19,7 @@ namespace Editor.Test.Definitions.Appenders
             properties.Single(p => p.GetType() == typeof(TypeAttribute));
             properties.Single(p => p.GetType() == typeof(Name));
             properties.Single(p => p.GetType() == typeof(StringValueProperty) && ((StringValueProperty)p).Name == "Error Handler:");
-            properties.Single(p => p.GetType() == typeof(Threshold));
+            properties.Single(p => p is LevelPropertyBase lpb && lpb.Name == "Threshold:");
             properties.Single(p => p.GetType() == typeof(Layout));
             properties.Single(p => p.GetType() == typeof(Editor.ConfigProperties.Filters));
             properties.Single(p => p.GetType() == typeof(IncomingRefs));

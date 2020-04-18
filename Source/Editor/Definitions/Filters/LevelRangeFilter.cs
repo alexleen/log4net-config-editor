@@ -1,6 +1,6 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 
 namespace Editor.Definitions.Filters
@@ -13,8 +13,8 @@ namespace Editor.Definitions.Filters
 
         public override void Initialize()
         {
-            AddProperty(new MinLevel());
-            AddProperty(new MaxLevel());
+            AddProperty(new LevelPropertyBase("Min Level:", "levelMin", true));
+            AddProperty(new LevelPropertyBase("Max Level:", "levelMax", true));
             base.Initialize();
         }
     }

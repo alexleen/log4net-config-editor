@@ -72,7 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigProperties\AditivityTest.cs" />
-    <Compile Include="ConfigProperties\BackColorTest.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBaseTest.cs" />
     <Compile Include="ConfigProperties\Base\EnumPropertyTest.cs" />
     <Compile Include="ConfigProperties\Base\NumericPropertyTest.cs" />
@@ -84,16 +83,12 @@
     <Compile Include="ConfigProperties\FileTest.cs" />
     <Compile Include="ConfigProperties\FiltersTest.cs" />
     <Compile Include="ConfigProperties\FixTest.cs" />
-    <Compile Include="ConfigProperties\ForeColorTest.cs" />
     <Compile Include="ConfigProperties\RemoteIdentityTest.cs" />
     <Compile Include="ConfigProperties\IncomingRefsTest.cs" />
     <Compile Include="ConfigProperties\LayoutTest.cs" />
-    <Compile Include="ConfigProperties\LevelPropertyTest.cs" />
     <Compile Include="ConfigProperties\LockingModelTest.cs" />
     <Compile Include="ConfigProperties\MappingTest.cs" />
     <Compile Include="ConfigProperties\MaximumFileSizeTest.cs" />
-    <Compile Include="ConfigProperties\MaxLevelTest.cs" />
-    <Compile Include="ConfigProperties\MinLevelTest.cs" />
     <Compile Include="ConfigProperties\NameTest.cs" />
     <Compile Include="ConfigProperties\OutgoingRefsTest.cs" />
     <Compile Include="ConfigProperties\ParamsTest.cs" />
@@ -105,7 +100,6 @@
     <Compile Include="ConfigProperties\RollingStyleTest.cs" />
     <Compile Include="ConfigProperties\StringMatchTest.cs" />
     <Compile Include="ConfigProperties\TargetTest.cs" />
-    <Compile Include="ConfigProperties\ThresholdTest.cs" />
     <Compile Include="ConfigProperties\TypeAttributeTest.cs" />
     <Compile Include="ConfigProperties\ValueTest.cs" />
     <Compile Include="Converters\BoolInterverConverterTest.cs" />

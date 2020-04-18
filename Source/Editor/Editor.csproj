@@ -73,7 +73,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigProperties\Aditivity.cs" />
-    <Compile Include="ConfigProperties\BackColor.cs" />
     <Compile Include="ConfigProperties\Base\BooleanPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\ColorPropertyBase.cs" />
     <Compile Include="ConfigProperties\Base\EnumProperty.cs" />
@@ -112,8 +111,6 @@
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
     <Compile Include="Interfaces\IValueResult.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
-    <Compile Include="ConfigProperties\ForeColor.cs" />
-    <Compile Include="ConfigProperties\LevelProperty.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
     <Compile Include="ConfigProperties\Params.cs" />
     <Compile Include="ConfigProperties\RenderedClass.cs" />
@@ -136,19 +133,15 @@
     <Compile Include="ConfigProperties\Fix.cs" />
     <Compile Include="ConfigProperties\IncomingRefs.cs" />
     <Compile Include="ConfigProperties\Layout.cs" />
-    <Compile Include="ConfigProperties\LevelToMatch.cs" />
     <Compile Include="ConfigProperties\LockingModel.cs" />
     <Compile Include="ConfigProperties\Mapping.cs" />
     <Compile Include="ConfigProperties\MaximumFileSize.cs" />
-    <Compile Include="ConfigProperties\MaxLevel.cs" />
-    <Compile Include="ConfigProperties\MinLevel.cs" />
     <Compile Include="ConfigProperties\Name.cs" />
     <Compile Include="ConfigProperties\OutgoingRefs.cs" />
     <Compile Include="ConfigProperties\RegexMatch.cs" />
     <Compile Include="ConfigProperties\RollingStyle.cs" />
     <Compile Include="ConfigProperties\StringMatch.cs" />
     <Compile Include="ConfigProperties\Target.cs" />
-    <Compile Include="ConfigProperties\Threshold.cs" />
     <Compile Include="Converters\BoolInterverConverter.cs" />
     <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Converters\CapsDelimiterConverter.cs" />

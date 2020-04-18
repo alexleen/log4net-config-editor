@@ -1,10 +1,11 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
 using log4net.Core;
@@ -85,11 +86,9 @@ namespace Editor.ConfigProperties
 
         public IEnumerable<FixModel> Fixes { get; }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string fixValue = originalNode.GetValueAttributeValueFromChildElement(FixName);
-
-            if (!int.TryParse(fixValue, out int fixValueInt))
+            if (!config.Load(Log4NetXmlConstants.Value, out IValueResult result, FixName) || !int.TryParse(result.AttributeValue, out int fixValueInt))
             {
                 return;
             }
@@ -118,9 +117,10 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
-            xmlDoc.CreateElementWithValueAttribute(FixName, ((int)Fixes.Where(fix => fix.Enabled).Aggregate(FixFlags.None, (current, fix) => current | fix.Flag)).ToString()).AppendTo(newNode);
+            string attributeValue = ((int)Fixes.Where(fix => fix.Enabled).Aggregate(FixFlags.None, (current, fix) => current | fix.Flag)).ToString();
+            config.Save((FixName, Log4NetXmlConstants.Value, attributeValue));
         }
     }
 }

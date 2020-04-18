@@ -1,7 +1,6 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Linq;
-using Editor.ConfigProperties;
 using Editor.ConfigProperties.Base;
 using Editor.Definitions.Filters;
 using Editor.Descriptors;
@@ -51,8 +50,8 @@ namespace Editor.Test.Definitions.Filters
         {
             mSut.Initialize();
 
-            mSut.Properties.Single(p => p.GetType() == typeof(BooleanPropertyBase));
-            mSut.Properties.Single(p => p.GetType() == typeof(LevelToMatch));
+            mSut.Properties.Single(p => p is BooleanPropertyBase);
+            mSut.Properties.Single(p => p is LevelPropertyBase lpb && lpb.Name == "Level to Match:");
         }
     }
 }

@@ -13,6 +13,11 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class FileTest
     {
+        private IMessageBoxService mMessageBoxService;
+        private IEnumerable<string> mHistoricalFiles;
+        private IHistoryManager mHistoryManager;
+        private File mSut;
+
         [SetUp]
         public void SetUp()
         {
@@ -28,74 +33,62 @@ namespace Editor.Test.ConfigProperties
             mSut = new File(mMessageBoxService, historyManagerFactory);
         }
 
-        private IMessageBoxService mMessageBoxService;
-        private IEnumerable<string> mHistoricalFiles;
-        private IHistoryManager mHistoryManager;
-        private File mSut;
-
-        [TestCase(null)]
-        [TestCase("<file />")]
-        [TestCase("<file value=\"\" />")]
-        public void Load_ShouldNotLoadNonExistentFile(string file)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.FileAppender\" name=\"file\">\n" +
-                           $"    {file}\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsNull(mSut.FilePath);
-        }
-
-        [TestCase(null)]
-        [TestCase("<appendToFile />")]
-        [TestCase("<appendToFile value=\"\" />")]
-        public void Load_ShouldNotLoadNonExistentAppendToFile(string appendToFile)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.FileAppender\" name=\"file\">\n" +
-                           $"    {appendToFile}\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.IsFalse(mSut.Overwrite);
-        }
-
-        [TestCase(null, false)]
         [TestCase("", false)]
-        [TestCase("type=\"\"", false)]
-        [TestCase("type=\"whatev\"", false)]
-        [TestCase("type=\"log4net.Util.PatternString\"", true)]
-        public void Load_ShouldLoadPatternStringCorrectly(string xml, bool expected)
+        [TestCase("whatev", false)]
+        [TestCase("log4net.Util.PatternString", true)]
+        public void Load_ShouldLoadPatternStringCorrectly(string value, bool expected)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.FileAppender\" name=\"file\">\n" +
-                           $"    <file value=\"file.log\" {xml}/>\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("type", out _, "file").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.PatternString);
         }
 
-        [TestCase("<appendToFile value=\"true\" />", false)]
-        [TestCase("<appendToFile value=\"True\" />", false)]
-        [TestCase("<appendToFile value=\"TRUE\" />", false)]
-        [TestCase("<appendToFile value=\"false\" />", true)]
-        [TestCase("<appendToFile value=\"False\" />", true)]
-        [TestCase("<appendToFile value=\"FALSE\" />", true)]
-        public void Load_ShouldLoadAppendToFile(string appendToFile, bool expected)
+        [TestCase("true", false)]
+        [TestCase("True", false)]
+        [TestCase("TRUE", false)]
+        [TestCase("false", true)]
+        [TestCase("False", true)]
+        [TestCase("FALSE", true)]
+        public void Load_ShouldLoadAppendToFile(string value, bool expected)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.FileAppender\" name=\"file\">\n" +
-                           $"    {appendToFile}\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "appendToFile").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.Overwrite);
+        }
+
+        [Test]
+        public void Load_ShouldLoadFile()
+        {
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "file").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("file.log");
+                    ci[1] = result;
+                    return true;
+                });
+
+            mSut.Load(config);
+
+            Assert.AreEqual("file.log", mSut.FilePath);
         }
 
         [Test]
@@ -123,19 +116,6 @@ namespace Editor.Test.ConfigProperties
             mSut.FilePath = "filepath";
 
             Assert.IsFalse(fired);
-        }
-
-        [Test]
-        public void Load_ShouldLoadFile()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.FileAppender\" name=\"file\">\n" +
-                           "    <file value=\"file.log\" />\n" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual("file.log", mSut.FilePath);
         }
 
         [Test]

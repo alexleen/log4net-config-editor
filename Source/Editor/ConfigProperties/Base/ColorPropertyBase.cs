@@ -1,20 +1,20 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Xml;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
 {
-    public abstract class ColorPropertyBase : PropertyBase
+    internal class ColorPropertyBase : PropertyBase
     {
         private readonly string mElementName;
 
-        protected ColorPropertyBase(GridLength rowHeight, string name, string elementName)
-            : base(rowHeight)
+        internal ColorPropertyBase(string name, string elementName)
+            : base(GridLength.Auto)
         {
             Name = name;
             mElementName = elementName;
@@ -27,21 +27,19 @@ namespace Editor.ConfigProperties.Base
 
         public ConsoleColor? SelectedColor { get; set; }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string value = originalNode.GetValueAttributeValueFromChildElement(mElementName);
-
-            if (Enum.TryParse(value, out ConsoleColor color))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, mElementName) && Enum.TryParse(result.AttributeValue, out ConsoleColor color))
             {
                 SelectedColor = color;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (SelectedColor != null)
             {
-                xmlDoc.CreateElementWithValueAttribute(mElementName, SelectedColor.ToString()).AppendTo(newNode);
+                config.Save((mElementName, Log4NetXmlConstants.Value, SelectedColor.ToString()));
             }
         }
     }

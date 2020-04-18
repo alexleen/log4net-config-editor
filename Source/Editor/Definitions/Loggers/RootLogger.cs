@@ -1,6 +1,7 @@
 ﻿// Copyright © 2018 Alex Leendertsen
 
 using Editor.ConfigProperties;
+using Editor.ConfigProperties.Base;
 using Editor.Definitions.Base;
 using Editor.Interfaces;
 
@@ -21,7 +22,7 @@ namespace Editor.Definitions.Loggers
 
         public override void Initialize()
         {
-            AddProperty(new LevelProperty(true));
+            AddProperty(new LevelPropertyBase("Level:", "level", true));
             AddProperty(new OutgoingRefs(mAppenderConfiguration));
         }
     }

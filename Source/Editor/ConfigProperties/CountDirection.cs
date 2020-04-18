@@ -1,9 +1,9 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Windows;
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -25,19 +25,19 @@ namespace Editor.ConfigProperties
 
         public string SelectedDirection { get; set; }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            if (int.TryParse(originalNode.GetValueAttributeValueFromChildElement(CountDirectionName), out int value))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, CountDirectionName) && int.TryParse(result.AttributeValue, out int value))
             {
                 SelectedDirection = value >= 0 ? Higher : Lower;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (SelectedDirection == Higher)
             {
-                xmlDoc.CreateElementWithValueAttribute(CountDirectionName, 0.ToString()).AppendTo(newNode);
+                config.Save((CountDirectionName, Log4NetXmlConstants.Value, 0.ToString()));
             }
         }
     }

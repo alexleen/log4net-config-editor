@@ -66,6 +66,7 @@ namespace Editor.Windows
             // ReSharper disable once ForCanBeConvertedToForeach
             for (int index = 0; index < PropertyDefinition.Properties.Count; index++)
             {
+                PropertyDefinition.Properties[index].Load(mConfiguration.OriginalNode);
                 PropertyDefinition.Properties[index].Load(mConfiguration);
             }
         }
@@ -79,6 +80,7 @@ namespace Editor.Windows
 
             foreach (IProperty appenderProperty in PropertyDefinition.Properties)
             {
+                appenderProperty.Save(mConfiguration.ConfigXml, mConfiguration.NewNode);
                 appenderProperty.Save(mConfiguration);
             }
 

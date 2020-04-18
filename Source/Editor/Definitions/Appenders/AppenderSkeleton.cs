@@ -31,7 +31,7 @@ namespace Editor.Definitions.Appenders
             Name nameProperty = new Name(Configuration);
             AddProperty(nameProperty);
             AddProperty(new StringValueProperty("Error Handler:", "errorHandler", Log4NetXmlConstants.Type) { ToolTip = "Specify a type that implements IErrorHandler to handle appender related errors." });
-            AddProperty(new Threshold());
+            AddProperty(new LevelPropertyBase("Threshold:", "threshold", true) { ToolTip = "All log events with lower level than the threshold level are ignored by the appender." });
 
             AddAppenderSpecificProperties();
 

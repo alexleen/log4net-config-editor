@@ -1,11 +1,12 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Interfaces;
 using Editor.Models;
 using log4net.Core;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -37,41 +38,50 @@ namespace Editor.Test.ConfigProperties
 
         private static readonly IEnumerable<TestCaseData> sFixTests = new[]
         {
-            new TestCaseData(null, FixFlags.None, Fix.NonePreset),
-            new TestCaseData("<Fix />", FixFlags.None, Fix.NonePreset),
-            new TestCaseData("<Fix value=\"\" />", FixFlags.None, Fix.NonePreset),
-            new TestCaseData("<Fix value=\"0\" />", FixFlags.None, Fix.NonePreset),
-            new TestCaseData("<Fix value=\"0x02\" />", FixFlags.None, Fix.NonePreset), //Hex format is not supported by this tool
-            new TestCaseData("<Fix value=\"10\" />", FixFlags.ThreadName, Fix.CustomPreset),
-            new TestCaseData("<Fix value=\"96\" />", FixFlags.UserName | FixFlags.Domain, Fix.CustomPreset),
-            new TestCaseData("<Fix value=\"512\" />", FixFlags.Properties, Fix.CustomPreset),
-            new TestCaseData("<Fix value=\"844\" />", FixFlags.Partial, Fix.PartialPreset),
-            new TestCaseData("<Fix value=\"268435455\" />", FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties, Fix.AllPreset),
-            new TestCaseData("<Fix value=\"str\" />", FixFlags.None, Fix.NonePreset)
+            //TODO False cases
+            // new TestCaseData(null, FixFlags.None, Fix.NonePreset),
+            // new TestCaseData("<Fix />", FixFlags.None, Fix.NonePreset),
+            new TestCaseData("", FixFlags.None, Fix.NonePreset),
+            new TestCaseData("0", FixFlags.None, Fix.NonePreset),
+            new TestCaseData("0x02", FixFlags.None, Fix.NonePreset), //Hex format is not supported by this tool
+            new TestCaseData("10", FixFlags.ThreadName, Fix.CustomPreset),
+            new TestCaseData("96", FixFlags.UserName | FixFlags.Domain, Fix.CustomPreset),
+            new TestCaseData("512", FixFlags.Properties, Fix.CustomPreset),
+            new TestCaseData("844", FixFlags.Partial, Fix.PartialPreset),
+            new TestCaseData("268435455", FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties, Fix.AllPreset),
+            new TestCaseData("str", FixFlags.None, Fix.NonePreset)
         };
 
         [TestCaseSource(nameof(sFixTests))]
-        public void Load_ShouldLoadPresetCorrectly(string xml, FixFlags expectedFlags, string expectedPreset)
+        public void Load_ShouldLoadPresetCorrectly(string value, FixFlags expectedFlags, string expectedPreset)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"asyncAppender\" type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
-                           $"  {xml}\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "Fix").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(expectedPreset, mSut.SelectedPreset);
         }
 
         [TestCaseSource(nameof(sFixTests))]
-        public void Load_ShouldLoadFixesCorrectly(string xml, FixFlags expectedFlags, string expectedPreset)
+        public void Load_ShouldLoadFixesCorrectly(string value, FixFlags expectedFlags, string expectedPreset)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender name=\"asyncAppender\" type=\"Log4Net.Async.AsyncForwardingAppender,Log4Net.Async\">\n" +
-                           $"  {xml}\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "Fix").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             FixFlags enabled = mSut.Fixes.Where(fix => fix.Enabled).Aggregate(FixFlags.None, (current, fix) => current | fix.Flag);
 
@@ -83,20 +93,16 @@ namespace Editor.Test.ConfigProperties
         [TestCase(FixFlags.Message | FixFlags.ThreadName | FixFlags.LocationInfo | FixFlags.UserName | FixFlags.Domain | FixFlags.Identity | FixFlags.Exception | FixFlags.Properties)]
         public void Save_ShouldSaveCorrectly(FixFlags flags)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             foreach (FixModel fixModel in mSut.Fixes)
             {
                 fixModel.Enabled = flags.HasFlag(fixModel.Flag);
             }
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            XmlNode fixNode = appender.SelectSingleNode("Fix");
-
-            Assert.IsNotNull(fixNode);
-            Assert.AreEqual(((int)flags).ToString(), fixNode.Attributes?["value"].Value);
+            config.Received(1).Save(("Fix", "value", ((int)flags).ToString()));
         }
 
         [Test]
