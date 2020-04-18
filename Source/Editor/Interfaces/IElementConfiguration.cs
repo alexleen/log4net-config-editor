@@ -17,21 +17,15 @@ namespace Editor.Interfaces
         XmlNode OriginalNode { get; }
 
         /// <summary>
-        /// Attempts to load the specified attribute from the original node (e.g. when loading an existing element).
+        /// Attempts to load the specified attribute value from the specified child element of the original node (appender).
         /// Case insensitive. Should not be called if no original node exists.
         /// </summary>
         /// <param name="attributeName">Name of the desired attribute</param>
         /// <param name="result">The value of the desired attribute as well as it's original name</param>
-        /// <returns>False if not found, true otherwise</returns>
-        bool Load(string attributeName, out IValueResult result);
-
-        /// <summary>
-        /// Attempts to load the specified attribute value from the specified child element of the original node (appender).
-        /// Should not be called if no original node exists.
-        /// </summary>
-        /// <param name="attributeName">Name of the desired attribute</param>
-        /// <param name="result">The value of the desired attribute as well as it's original name</param>
-        /// <param name="childElementNames">Hierarchical child elements (each value us a child of the previous), where the last child holds the desired attribute</param>
+        /// <param name="childElementNames">
+        /// Hierarchical child elements (each value us a child of the previous), where the last child holds the desired attribute.
+        /// If no child elements are specified, attribute name is loaded from original node.
+        /// </param>
         /// <returns>False if not found, true otherwise</returns>
         bool Load(string attributeName, out IValueResult result, params string[] childElementNames);
 

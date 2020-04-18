@@ -27,47 +27,31 @@ namespace Editor.XML
 
         public XmlNode OriginalNode { get; }
 
-        public bool Load(string attributeName, out IValueResult result)
-        {
-            //Find the attribute on the element
-            XmlAttribute attr = OriginalNode.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
-
-            if (attr == null)
-            {
-                result = null;
-                return false;
-            }
-
-            result = new ValueResult(null, attr.LocalName, attr.Value);
-            return true;
-        }
-
         public bool Load(string attributeName, out IValueResult result, params string[] childElementNames)
         {
-            if (childElementNames.Length == 0)
-            {
-                throw new ArgumentException(@"Must specify at least one child element.", nameof(childElementNames));
-            }
-
-            XmlNode child = OriginalNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, childElementNames.First(), StringComparison.OrdinalIgnoreCase));
-
+            XmlNode child = OriginalNode;
             IList<string> actualNames = new List<string>();
 
-            if (child != null)
+            if (childElementNames.Length > 0)
             {
-                actualNames.Add(child.LocalName);
-            }
+                child = OriginalNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, childElementNames.First(), StringComparison.OrdinalIgnoreCase));
 
-            foreach (string childElementName in childElementNames.Skip(1))
-            {
-                child = child?.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, childElementName, StringComparison.OrdinalIgnoreCase));
-
-                if (child == null)
+                if (child != null)
                 {
-                    break;
+                    actualNames.Add(child.LocalName);
                 }
 
-                actualNames.Add(child.LocalName);
+                foreach (string childElementName in childElementNames.Skip(1))
+                {
+                    child = child?.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, childElementName, StringComparison.OrdinalIgnoreCase));
+
+                    if (child == null)
+                    {
+                        break;
+                    }
+
+                    actualNames.Add(child.LocalName);
+                }
             }
 
             //Find the attribute on the element

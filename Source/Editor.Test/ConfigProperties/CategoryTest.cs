@@ -3,7 +3,9 @@
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
+using Editor.Interfaces;
 using Editor.Utilities;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -35,14 +37,16 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadCorrectValue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>" +
-                           "  <category type=\"log4net.Layout.PatternLayout\">" +
-                           "    <conversionPattern value=\"%logger %date\" />" +
-                           "  </category>" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "category", "conversionPattern").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("%logger %date");
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual("%logger %date", mSut.Value);
         }
@@ -50,40 +54,28 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldNotLoad_WhenNoCategoryExists()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "category", "conversionPattern").Returns(false);
 
-            mSut.Load(xmlDoc.FirstChild);
-
-            Assert.AreEqual(DefaultValue, mSut.Value);
-        }
-
-        [Test]
-        public void Load_ShouldNotLoad_WhenNoConversionPatternExists()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>" +
-                           "  <category type=\"log4net.Layout.PatternLayout\">" +
-                           "  </category>" +
-                           "</appender>");
-
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(DefaultValue, mSut.Value);
         }
 
-        [Test]
-        public void Load_ShouldNotLoad_WhenEmptyValue()
+        [TestCase(null)]
+        [TestCase("")]
+        public void Load_ShouldNotLoad_WhenNoConversionPatternExists(string attrValue)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>" +
-                           "  <category type=\"log4net.Layout.PatternLayout\">" +
-                           "    <conversionPattern value=\"\" />" +
-                           "  </category>" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "category", "conversionPattern").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(attrValue);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(DefaultValue, mSut.Value);
         }

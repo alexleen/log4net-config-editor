@@ -22,7 +22,9 @@ namespace Editor.Test.XML
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<log4net>" +
                            "  <appender type=\"some.type\">" +
-                           "    <property attr =\"someValue\"/>" +
+                           "    <property attr =\"someValue\">" +
+                           "      <childProp childAttr =\"childValue\"/>" +
+                           "    </property>" +
                            "  </appender>" +
                            "</log4net>");
 
@@ -44,6 +46,16 @@ namespace Editor.Test.XML
             Assert.IsNull(result);
         }
 
+        [TestCase("TYPE")]
+        [TestCase("TyPe")]
+        [TestCase("Type")]
+        [TestCase("type")]
+        public void Load_ShouldOriginalNodeAttribute(string attributeName)
+        {
+            Assert.IsTrue(mSut.Load(attributeName, out IValueResult result));
+            Assert.AreEqual("some.type", result.AttributeValue);
+        }
+
         private static readonly IEnumerable<TestCaseData> sPropAttrTestValues = new[]
         {
             new TestCaseData("PROPERTY", "ATTR"),
@@ -57,6 +69,13 @@ namespace Editor.Test.XML
         {
             Assert.IsTrue(mSut.Load(attributeName, out IValueResult result, elementName));
             Assert.AreEqual("someValue", result.AttributeValue);
+        }
+
+        [Test]
+        public void Load_ShouldChildOfChild()
+        {
+            Assert.IsTrue(mSut.Load("childAttr", out IValueResult result, "property", "childProp"));
+            Assert.AreEqual("childValue", result.AttributeValue);
         }
 
         [TestCaseSource(nameof(sPropAttrTestValues))]

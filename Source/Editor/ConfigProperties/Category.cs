@@ -3,6 +3,7 @@
 using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
+using Editor.Interfaces;
 using Editor.Utilities;
 using log4net.Layout;
 
@@ -28,13 +29,11 @@ namespace Editor.ConfigProperties
             ToolTip = "Formats the category parameter. Defaults to a PatternLayout with %logger as the pattern which will use the logger name of the current LoggingEvent as the category parameter.";
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string pattern = originalNode[ElementName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
-
-            if (!string.IsNullOrEmpty(pattern))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, ElementName, Log4NetXmlConstants.ConversionPattern) && !string.IsNullOrEmpty(result.AttributeValue))
             {
-                Value = pattern;
+                Value = result.AttributeValue;
             }
         }
 
