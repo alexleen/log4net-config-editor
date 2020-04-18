@@ -29,11 +29,11 @@ namespace Editor.Test.ConfigProperties
         public void Load_ShouldLoadCorrectValue(string value, string expected)
         {
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.Load("encoding", "value", out _).Returns(ci =>
+            config.Load("value", out _, "encoding").Returns(ci =>
                 {
                     IValueResult result = Substitute.For<IValueResult>();
                     result.AttributeValue.Returns(value);
-                    ci[2] = result;
+                    ci[1] = result;
                     return true;
                 });
 

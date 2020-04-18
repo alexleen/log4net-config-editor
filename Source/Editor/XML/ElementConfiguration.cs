@@ -1,6 +1,7 @@
 // Copyright © 2020 Alex Leendertsen
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using Editor.Interfaces;
@@ -26,24 +27,6 @@ namespace Editor.XML
 
         public XmlNode OriginalNode { get; }
 
-        public bool Load(string elementName, string attributeName, out IValueResult result)
-        {
-            //Find the element
-            XmlNode element = OriginalNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, elementName, StringComparison.OrdinalIgnoreCase));
-
-            //Find the attribute on the element
-            XmlAttribute attr = element?.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
-
-            if (attr == null)
-            {
-                result = null;
-                return false;
-            }
-
-            result = new ValueResult(element.LocalName, attr.LocalName, attr.Value);
-            return true;
-        }
-
         public bool Load(string attributeName, out IValueResult result)
         {
             //Find the attribute on the element
@@ -56,6 +39,47 @@ namespace Editor.XML
             }
 
             result = new ValueResult(null, attr.LocalName, attr.Value);
+            return true;
+        }
+
+        public bool Load(string attributeName, out IValueResult result, params string[] childElementNames)
+        {
+            if (childElementNames.Length == 0)
+            {
+                throw new ArgumentException(@"Must specify at least one child element.", nameof(childElementNames));
+            }
+
+            XmlNode child = OriginalNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, childElementNames.First(), StringComparison.OrdinalIgnoreCase));
+
+            IList<string> actualNames = new List<string>();
+
+            if (child != null)
+            {
+                actualNames.Add(child.LocalName);
+            }
+
+            foreach (string childElementName in childElementNames.Skip(1))
+            {
+                child = child?.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => string.Equals(n.LocalName, childElementName, StringComparison.OrdinalIgnoreCase));
+
+                if (child == null)
+                {
+                    break;
+                }
+
+                actualNames.Add(child.LocalName);
+            }
+
+            //Find the attribute on the element
+            XmlAttribute attr = child?.Attributes?.Cast<XmlAttribute>().FirstOrDefault(a => string.Equals(a.LocalName, attributeName, StringComparison.OrdinalIgnoreCase));
+
+            if (attr == null)
+            {
+                result = null;
+                return false;
+            }
+
+            result = new ValueResult(actualNames, attr.LocalName, attr.Value);
             return true;
         }
 
@@ -77,14 +101,14 @@ namespace Editor.XML
 
         private class ValueResult : IValueResult
         {
-            public ValueResult(string actualElementName, string actualAttributeName, string attributeValue)
+            public ValueResult(IEnumerable<string> actualElementNames, string actualAttributeName, string attributeValue)
             {
-                ActualElementName = actualElementName;
+                ActualElementNames = actualElementNames;
                 ActualAttributeName = actualAttributeName;
                 AttributeValue = attributeValue;
             }
 
-            public string ActualElementName { get; }
+            public IEnumerable<string> ActualElementNames { get; }
 
             public string ActualAttributeName { get; }
 

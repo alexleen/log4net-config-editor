@@ -37,7 +37,7 @@ namespace Editor.ConfigProperties.Base
 
         public override void Load(IElementConfiguration config)
         {
-            if (config.Load(ElementName, mAttributeName, out IValueResult result))
+            if (config.Load(mAttributeName, out IValueResult result, ElementName))
             {
                 Value = result.AttributeValue;
             }

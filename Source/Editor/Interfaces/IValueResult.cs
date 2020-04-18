@@ -1,10 +1,12 @@
 // Copyright © 2020 Alex Leendertsen
 
+using System.Collections.Generic;
+
 namespace Editor.Interfaces
 {
     public interface IValueResult
     {
-        string ActualElementName { get; }
+        IEnumerable<string> ActualElementNames { get; }
         
         string ActualAttributeName { get; }
         

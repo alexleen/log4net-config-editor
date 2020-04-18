@@ -32,7 +32,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            if (config.Load(mElementName, Log4NetXmlConstants.Value, out IValueResult result) && sValues.Contains(result.AttributeValue))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, mElementName) && sValues.Contains(result.AttributeValue))
             {
                 SelectedValue = result.AttributeValue;
             }

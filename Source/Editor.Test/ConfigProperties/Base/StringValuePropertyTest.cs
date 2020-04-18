@@ -1,6 +1,5 @@
 // Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using NSubstitute;
@@ -12,7 +11,7 @@ namespace Editor.Test.ConfigProperties.Base
     public class StringValuePropertyTest
     {
         private StringValueProperty mSut;
-        
+
         [SetUp]
         public void SetUp()
         {
@@ -24,12 +23,12 @@ namespace Editor.Test.ConfigProperties.Base
         {
             //Sanity check
             Assert.IsNull(mSut.Value);
-            
+
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.Load("element", "value", out _).Returns(false);
-            
+            config.Load("value", out _, "element").Returns(false);
+
             mSut.Load(config);
-            
+
             Assert.IsNull(mSut.Value);
         }
     }

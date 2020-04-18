@@ -1,6 +1,7 @@
 // Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using Editor.Interfaces;
 using Editor.XML;
@@ -32,14 +33,14 @@ namespace Editor.Test.XML
         [Test]
         public void Load_ShouldNotLoad_WhenNoSuchElementExists()
         {
-            Assert.IsFalse(mSut.Load("whatev", "attr", out IValueResult result));
+            Assert.IsFalse(mSut.Load("attr", out IValueResult result, "whatev"));
             Assert.IsNull(result);
         }
 
         [Test]
         public void Load_ShouldNotLoad_WhenNoSuchAttributeExists()
         {
-            Assert.IsFalse(mSut.Load("property", "whatev", out IValueResult result));
+            Assert.IsFalse(mSut.Load("whatev", out IValueResult result, "property"));
             Assert.IsNull(result);
         }
 
@@ -54,21 +55,21 @@ namespace Editor.Test.XML
         [TestCaseSource(nameof(sPropAttrTestValues))]
         public void Load_ShouldLoadCorrectValue(string elementName, string attributeName)
         {
-            Assert.IsTrue(mSut.Load(elementName, attributeName, out IValueResult result));
+            Assert.IsTrue(mSut.Load(attributeName, out IValueResult result, elementName));
             Assert.AreEqual("someValue", result.AttributeValue);
         }
 
         [TestCaseSource(nameof(sPropAttrTestValues))]
         public void Load_ShouldReturnOriginalElementName(string elementName, string attributeName)
         {
-            Assert.IsTrue(mSut.Load(elementName, attributeName, out IValueResult result));
-            Assert.AreEqual("property", result.ActualElementName);
+            Assert.IsTrue(mSut.Load(attributeName, out IValueResult result, elementName));
+            Assert.AreEqual("property", result.ActualElementNames.Single());
         }
 
         [TestCaseSource(nameof(sPropAttrTestValues))]
         public void Load_ShouldReturnOriginalAttributeName(string elementName, string attributeName)
         {
-            Assert.IsTrue(mSut.Load(elementName, attributeName, out IValueResult result));
+            Assert.IsTrue(mSut.Load(attributeName, out IValueResult result, elementName));
             Assert.AreEqual("attr", result.ActualAttributeName);
         }
 
@@ -80,7 +81,7 @@ namespace Editor.Test.XML
             const string attrValue = "attrValue";
             mSut.Save(elementName, attributeName, attrValue);
 
-            Assert.AreEqual(attrValue, mNewNode[elementName].Attributes[attributeName].Value);
+            Assert.AreEqual(attrValue, mNewNode[elementName]?.Attributes[attributeName].Value);
         }
 
         [Test]
