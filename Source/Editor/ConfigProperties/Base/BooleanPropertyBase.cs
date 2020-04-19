@@ -2,7 +2,7 @@
 
 using System;
 using System.Windows;
-using System.Xml;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
@@ -31,20 +31,19 @@ namespace Editor.ConfigProperties.Base
 
         public bool Value { get; set; }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string valueStr = originalNode.GetValueAttributeValueFromChildElement(mElementName);
-            if (bool.TryParse(valueStr, out bool value))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, mElementName) && bool.TryParse(result.AttributeValue, out bool value))
             {
                 Value = value;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (Value != mDefaultValue)
             {
-                xmlDoc.CreateElementWithValueAttribute(mElementName, Value.ToString()).AppendTo(newNode);
+                config.Save((mElementName, Log4NetXmlConstants.Value, Value.ToString()));
             }
         }
     }

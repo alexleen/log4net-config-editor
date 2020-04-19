@@ -1,7 +1,6 @@
 // Copyright © 2020 Alex Leendertsen
 
 using System;
-using System.Xml;
 using Editor.Interfaces;
 using Editor.Utilities;
 
@@ -37,7 +36,7 @@ namespace Editor.ConfigProperties.Base
             return base.TryValidate(messageBoxService);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (!string.IsNullOrEmpty(Value))
             {
@@ -45,7 +44,7 @@ namespace Editor.ConfigProperties.Base
 
                 if (!Equals(value, mDefaultValue))
                 {
-                    xmlDoc.CreateElementWithValueAttribute(ElementName, value.ToString()).AppendTo(newNode);
+                    config.Save((ElementName, Log4NetXmlConstants.Value, value.ToString()));
                 }
             }
         }

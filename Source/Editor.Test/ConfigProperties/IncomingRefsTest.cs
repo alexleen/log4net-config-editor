@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +18,10 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class IncomingRefsTest
     {
+        private IncomingRefs mSut;
+        private XmlDocument mXmlDoc;
+        private Name mNameProperty;
+
         [SetUp]
         public void SetUp()
         {
@@ -41,21 +45,19 @@ namespace Editor.Test.ConfigProperties
                                "  </root>\n" +
                                "</log4net>";
 
+            //root -> asyncAppender -> appender0 -> appender1 -> appender2
+            //                                   -> appender2 
+
             mXmlDoc = new XmlDocument();
 
-            ReadOnlyCollection<IProperty> properties = new ReadOnlyCollection<IProperty>(new List<IProperty>());
             IElementConfiguration appenderConfiguration = GetAppenderConfiguration(mXmlDoc, xml);
             mNameProperty = new Name(appenderConfiguration);
-            mNameProperty.Load(appenderConfiguration.OriginalNode);
+            mNameProperty.Load(appenderConfiguration);
 
             mSut = new IncomingRefs(mNameProperty, appenderConfiguration);
         }
 
-        private IncomingRefs mSut;
-        private XmlDocument mXmlDoc;
-        private Name mNameProperty;
-
-        private IElementConfiguration GetAppenderConfiguration(XmlDocument xmlDoc, string xml)
+        private static IElementConfiguration GetAppenderConfiguration(XmlDocument xmlDoc, string xml)
         {
             xmlDoc.LoadXml(xml);
 
@@ -81,7 +83,6 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadEnabledRefs()
         {
-            mNameProperty.Load(mXmlDoc.FirstChild["appender"]);
             mSut.Load(mXmlDoc.FirstChild["appender"]);
 
             Assert.AreEqual(2, mSut.RefsCollection.Count);

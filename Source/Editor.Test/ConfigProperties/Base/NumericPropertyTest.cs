@@ -1,6 +1,5 @@
 // Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using NSubstitute;
@@ -114,14 +113,11 @@ namespace Editor.Test.ConfigProperties.Base
             const string value = "10000";
 
             sut.Value = value;
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            sut.Save(xmlDoc, appender);
+            sut.Save(config);
 
-            XmlElement numProp = appender["numProp"];
-            Assert.IsNotNull(numProp);
-            Assert.AreEqual(value, numProp.Attributes["value"].Value);
+            config.Received(1).Save(("numProp", "value", value));
         }
 
         [Test]
@@ -129,12 +125,11 @@ namespace Editor.Test.ConfigProperties.Base
         {
             NumericProperty<int> sut = new NumericProperty<int>("Num Prop:", "numProp", 1234) { Value = "1234" };
 
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            sut.Save(xmlDoc, appender);
+            sut.Save(config);
 
-            Assert.IsNull(appender["numProp"]);
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
         }
 
         [Test]
@@ -142,12 +137,11 @@ namespace Editor.Test.ConfigProperties.Base
         {
             NumericProperty<int> sut = CreateSut<int>();
 
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            sut.Save(xmlDoc, appender);
+            sut.Save(config);
 
-            Assert.IsNull(appender["numProp"]);
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
         }
     }
 }

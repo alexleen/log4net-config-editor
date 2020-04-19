@@ -3,8 +3,9 @@
 using System;
 using System.Linq;
 using System.Net.Mail;
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties.Base
@@ -12,13 +13,13 @@ namespace Editor.Test.ConfigProperties.Base
     [TestFixture]
     public class EnumPropertyTest
     {
+        private EnumProperty<MailPriority> mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new EnumProperty<MailPriority>("name", 100, "elementName");
         }
-
-        private EnumProperty<MailPriority> mSut;
 
         [Test]
         public void Ctor_ShouldSelectFirstValue()
@@ -35,18 +36,16 @@ namespace Editor.Test.ConfigProperties.Base
         [Test]
         public void Load_ShouldLoadValue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "elementName").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(MailPriority.High.ToString());
+                    ci[1] = result;
+                    return true;
+                });
 
-            XmlAttribute valueAttribute = xmlDoc.CreateAttribute("value");
-            valueAttribute.Value = MailPriority.High.ToString();
-
-            XmlElement encodingElement = xmlDoc.CreateElement("elementName");
-            encodingElement.Attributes.Append(valueAttribute);
-
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
-            appenderElement.AppendChild(encodingElement);
-
-            mSut.Load(appenderElement);
+            mSut.Load(config);
 
             Assert.AreEqual(MailPriority.High.ToString(), mSut.SelectedValue);
         }
@@ -54,18 +53,16 @@ namespace Editor.Test.ConfigProperties.Base
         [Test]
         public void Load_ShouldNotLoadValuesItCannotParse()
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "elementName").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("whatev"); //Not a valid value
+                    ci[1] = result;
+                    return true;
+                });
 
-            XmlAttribute valueAttribute = xmlDoc.CreateAttribute("value");
-            valueAttribute.Value = "whatev"; // Not a valid MailPriority enum value
-
-            XmlElement encodingElement = xmlDoc.CreateElement("elementName");
-            encodingElement.Attributes.Append(valueAttribute);
-
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
-            appenderElement.AppendChild(encodingElement);
-
-            mSut.Load(appenderElement);
+            mSut.Load(config);
 
             Assert.AreEqual(mSut.Values.First(), mSut.SelectedValue);
         }
@@ -73,15 +70,13 @@ namespace Editor.Test.ConfigProperties.Base
         [Test]
         public void Save_ShouldSave()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appenderElement = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.SelectedValue = MailPriority.High.ToString();
-            mSut.Save(xmlDoc, appenderElement);
 
-            XmlNode element = appenderElement.SelectSingleNode("elementName");
-            Assert.IsNotNull(element);
-            Assert.AreEqual(mSut.SelectedValue, element.Attributes["value"].Value);
+            mSut.Save(config);
+
+            config.Received(1).Save(("elementName", "value", mSut.SelectedValue));
         }
     }
 }

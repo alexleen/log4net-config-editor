@@ -3,7 +3,7 @@
 using System;
 using System.Linq;
 using System.Windows;
-using System.Xml;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties.Base
@@ -19,17 +19,17 @@ namespace Editor.ConfigProperties.Base
             SelectedValue = Values.First();
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            if (Enum.TryParse(originalNode.GetValueAttributeValueFromChildElement(mElementName), out TEnumType enumValue))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, mElementName) && Enum.TryParse(result.AttributeValue, out TEnumType enumValue))
             {
                 SelectedValue = enumValue.ToString();
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
-            xmlDoc.CreateElementWithValueAttribute(mElementName, SelectedValue).AppendTo(newNode);
+            config.Save((mElementName, Log4NetXmlConstants.Value, SelectedValue));
         }
     }
 }

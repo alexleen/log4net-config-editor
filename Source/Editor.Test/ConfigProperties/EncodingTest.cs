@@ -10,13 +10,13 @@ namespace Editor.Test.ConfigProperties
     [TestFixture]
     public class EncodingTest
     {
+        private Encoding mSut;
+
         [SetUp]
         public void SetUp()
         {
             mSut = new Encoding("Encoding:", "encoding");
         }
-
-        private Encoding mSut;
 
         [TestCase("", "")]
         [TestCase("us-ascii", "us-ascii")]

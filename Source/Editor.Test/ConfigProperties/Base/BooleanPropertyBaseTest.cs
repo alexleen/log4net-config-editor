@@ -1,8 +1,9 @@
 // Copyright © 2020 Alex Leendertsen
 
 using System;
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties.Base
@@ -10,6 +11,10 @@ namespace Editor.Test.ConfigProperties.Base
     [TestFixture]
     public class BooleanPropertyBaseTest
     {
+        private string mName;
+        private bool mDefaultValue;
+        private BooleanPropertyBase mSut;
+
         [SetUp]
         public void SetUp()
         {
@@ -18,22 +23,33 @@ namespace Editor.Test.ConfigProperties.Base
             mSut = new BooleanPropertyBase(mName, "elementName", mDefaultValue);
         }
 
-        private string mName;
-        private bool mDefaultValue;
-        private BooleanPropertyBase mSut;
-
-        [TestCase("<boolean />", true)]
-        [TestCase("<boolean><elementName/></boolean>", true)]
-        [TestCase("<boolean><elementName value=\"\"/></boolean>", true)]
-        [TestCase("<boolean><elementName value=\"whatev\"/></boolean>", true)]
-        [TestCase("<boolean><elementName value=\"False\"/></boolean>", false)]
-        [TestCase("<boolean><elementName value=\"false\"/></boolean>", false)]
-        public void Load_ShouldLoadTheCorrectValue(string xml, bool expected)
+        [Test]
+        public void Load_ShouldNotLoad()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xml);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load(Arg.Any<string>(), out _, Arg.Any<string>()).Returns(false);
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
+
+            Assert.AreEqual(mDefaultValue, mSut.Value);
+        }
+
+        [TestCase("", true)]
+        [TestCase("whatev", true)]
+        [TestCase("False", false)]
+        [TestCase("false", false)]
+        public void Load_ShouldLoadTheCorrectValue(string value, bool expected)
+        {
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "elementName").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return true;
+                });
+
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.Value);
         }
@@ -65,24 +81,22 @@ namespace Editor.Test.ConfigProperties.Base
         [Test]
         public void Save_ShouldIgnoreDefaultValue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement node = xmlDoc.CreateElement("boolean");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, node);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(node.ChildNodes);
+            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
         }
 
         [Test]
         public void Save_ShouldSaveNonDefaultValue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement node = xmlDoc.CreateElement("boolean");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.Value = !mDefaultValue;
-            mSut.Save(xmlDoc, node);
+            mSut.Save(config);
 
-            CollectionAssert.IsNotEmpty(node.ChildNodes);
+            config.Received(1).Save(("elementName", "value", mSut.Value.ToString()));
         }
     }
 }
