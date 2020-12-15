@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -120,24 +120,22 @@ namespace Editor.ConfigProperties
             return base.TryValidate(messageBoxService);
         }
 
-        //TODO the file element can have two attributes!!!
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
-            XmlElement fileElement = xmlDoc.CreateElementWithValueAttribute(FileName, FilePath);
+            IList<(string attrName, string attrValue)> attrs = new List<(string attrName, string attrValue)>();
 
             if (PatternString)
             {
-                fileElement.AppendAttribute(xmlDoc, TypeName, PatternStringTypeName);
+                attrs.Add((TypeName, PatternStringTypeName));
             }
 
-            fileElement.AppendTo(newNode);
-            //config.Save((FileName, Log4NetXmlConstants.Value, FilePath));
+            attrs.Add((Log4NetXmlConstants.Value, FilePath));
+            config.Save(new Element(FileName, attrs));
 
             //"appendToFile" is true by default, so we only need to change it to false if Overwrite is true
             if (Overwrite)
             {
-                xmlDoc.CreateElementWithValueAttribute(AppendToFileName, "false").AppendTo(newNode);
-                //config.Save((AppendToFileName, Log4NetXmlConstants.Value, "false"));
+                config.Save(new Element(AppendToFileName, new[] { (Log4NetXmlConstants.Value, "false") }));
             }
 
             mHistoryManager.Save(FilePath);

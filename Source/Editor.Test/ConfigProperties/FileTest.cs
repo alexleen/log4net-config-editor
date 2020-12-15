@@ -1,10 +1,11 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Utilities;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -220,82 +221,61 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSaveAppendTo_WhenOverwriteIsFalse()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            mSut.Save(xmlDoc, appender);
-
-            //1 for file
-            Assert.AreEqual(1, appender.ChildNodes.Count);
+            config.DidNotReceive().Save(new Element("appendToFile", new[] { (Log4NetXmlConstants.Value, "false") }));
         }
 
         [Test]
         public void Save_ShouldNotSavePatternString_WhenPatternStringIsFalse()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
             mSut.PatternString = false;
-            mSut.Save(xmlDoc, appender);
 
-            XmlNode fileNode = appender.SelectSingleNode("file");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            Assert.IsNull(fileNode?.Attributes?["type"]);
+            config.Received(1).Save(new Element("file", new (string attrName, string attrValue)[] { ("value", null) }));
         }
 
         [Test]
         public void Save_ShouldSaveAppendTo_WhenOverwriteIsTrue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
             mSut.Overwrite = true;
-            mSut.Save(xmlDoc, appender);
 
-            XmlNode appendToNode = appender.SelectSingleNode("appendToFile");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            Assert.IsNotNull(appendToNode);
-            Assert.AreEqual("false", appendToNode.Attributes?["value"].Value);
+            config.Received(1).Save(new Element("appendToFile", new[] { (Log4NetXmlConstants.Value, "false") }));
         }
 
         [Test]
         public void Save_ShouldSaveFilePath()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            mSut.FilePath = "filepath";
-            mSut.Save(xmlDoc, appender);
-
-            XmlNode fileNode = appender.SelectSingleNode("file");
-
-            Assert.IsNotNull(fileNode);
-            Assert.AreEqual("filepath", fileNode.Attributes?["value"].Value);
+            config.Received(1).Save(new Element("file", new (string attrName, string attrValue)[] { ("value", null) }));
         }
 
         [Test]
         public void Save_ShouldSavePatternString_WhenPatternStringIsTrue()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
             mSut.PatternString = true;
-            mSut.Save(xmlDoc, appender);
 
-            XmlNode fileNode = appender.SelectSingleNode("file");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            Assert.AreEqual("log4net.Util.PatternString", fileNode?.Attributes?["type"].Value);
+            config.Received(1).Save(new Element("file", new (string attrName, string attrValue)[] { ("type", "log4net.Util.PatternString"), ("value", null) }));
         }
 
         [Test]
         public void Save_ShouldSaveToHistoricalFilePaths()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
             mSut.FilePath = "file3";
 
-            mSut.Save(xmlDoc, appender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
             mHistoryManager.Received(1).Save(mSut.FilePath);
         }
