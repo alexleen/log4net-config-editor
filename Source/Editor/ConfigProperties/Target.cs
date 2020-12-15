@@ -6,6 +6,7 @@ using System.Windows;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -39,7 +40,7 @@ namespace Editor.ConfigProperties
             //Target is "Console.Out" by default, so we only need a target element if "Console.Error"
             if (SelectedItem == ConsoleError)
             {
-                config.Save((TargetName, Log4NetXmlConstants.Value, ConsoleError));
+                config.Save(new Element(TargetName, new[] { (Log4NetXmlConstants.Value, ConsoleError) }));
             }
         }
     }

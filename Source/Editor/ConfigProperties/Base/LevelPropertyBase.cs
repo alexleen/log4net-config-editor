@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 using log4net.Core;
 
 namespace Editor.ConfigProperties.Base
@@ -31,7 +32,7 @@ namespace Editor.ConfigProperties.Base
         {
             if (!string.IsNullOrEmpty(SelectedValue))
             {
-                config.Save((mElementName, Log4NetXmlConstants.Value, SelectedValue));
+                config.Save(new Element(mElementName, new[] { (Log4NetXmlConstants.Value, SelectedValue) }));
             }
         }
     }

@@ -109,6 +109,7 @@
     <Compile Include="HistoryManager\IHistoryManagerFactory.cs" />
     <Compile Include="Interfaces\IAcceptAppenderRef.cs" />
     <Compile Include="Interfaces\ICanLoadAndSaveXml.cs" />
+    <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\IValueResult.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="ConfigProperties\RemoteAddress.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Windows\Selector.cs" />
     <Compile Include="XML\ConfigurationFactory.CanLoadAndSaveXml.cs" />
     <Compile Include="XML\ConfigurationFactory.cs" />
+    <Compile Include="XML\Element.cs" />
     <Compile Include="XML\ElementConfiguration.cs" />
     <Compile Include="Models\ConfigChildren\RendererModel.cs" />
     <Compile Include="SaveStrategies\AddSaveStrategy.cs" />

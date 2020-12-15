@@ -69,17 +69,38 @@ namespace Editor.XML
 
         public XmlNode NewNode { get; }
 
-        public void Save(params (string ElementName, string AttributeName, string AttributeValue)[] children)
+        public void Save(params IElement[] children)
         {
-            (string elementName, string attributeName, string attributeValue) = children.First();
-            XmlNode firstChild = ConfigXml.CreateElement(elementName);
-            firstChild.AppendAttribute(ConfigXml, attributeName, attributeValue);
-            
-            XmlNode lastChild = firstChild;
-            foreach ((string childElementName, string childAttrName, string childAttrValue) in children.Skip(1))
+            foreach (IElement element in children)
             {
-                XmlElement temp = ConfigXml.CreateElement(childElementName);
-                temp.AppendAttribute(ConfigXml, childAttrName, childAttrValue);
+                XmlNode child = ConfigXml.CreateElement(element.Name);
+                foreach ((string attrName, string attrValue) in element.Attributes)
+                {
+                    child.AppendAttribute(ConfigXml, attrName, attrValue);
+                }
+
+                NewNode.AppendChild(child);
+            }
+        }
+
+        public void SaveHierarchical(params IElement[] children)
+        {
+            IElement element = children.First();
+            XmlNode firstChild = ConfigXml.CreateElement(element.Name);
+            foreach ((string attrName, string attrValue) in element.Attributes)
+            {
+                firstChild.AppendAttribute(ConfigXml, attrName, attrValue);
+            }
+
+            XmlNode lastChild = firstChild;
+            foreach (IElement e in children.Skip(1))
+            {
+                XmlElement temp = ConfigXml.CreateElement(e.Name);
+                foreach ((string attrName, string attrValue) in e.Attributes)
+                {
+                    temp.AppendAttribute(ConfigXml, attrName, attrValue);
+                }
+
                 lastChild.AppendChild(temp);
                 lastChild = temp;
             }

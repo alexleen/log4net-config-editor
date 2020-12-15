@@ -3,6 +3,7 @@
 using System.Windows;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties.Base
 {
@@ -47,7 +48,7 @@ namespace Editor.ConfigProperties.Base
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                config.Save((ElementName, mAttributeName, Value));
+                config.Save(new Element(ElementName, new[] { (mAttributeName, Value) }));
             }
         }
     }

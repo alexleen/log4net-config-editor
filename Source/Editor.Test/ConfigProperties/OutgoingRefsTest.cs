@@ -7,6 +7,7 @@ using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Models.ConfigChildren;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -94,7 +95,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(2).Save(("appender-ref", "ref", null));
+            config.Received(2).Save(new Element("appender-ref", new (string attrName, string attrValue)[] { ("ref", null) }));
         }
     }
 }

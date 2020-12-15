@@ -4,6 +4,7 @@ using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 using log4net.Layout;
 
 namespace Editor.ConfigProperties
@@ -43,7 +44,10 @@ namespace Editor.ConfigProperties
                 return;
             }
 
-            config.Save((ElementName, Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace), (Log4NetXmlConstants.ConversionPattern, Log4NetXmlConstants.Value, Value));
+            config.SaveHierarchical(
+                new Element(ElementName, new[] { (Log4NetXmlConstants.Type, LayoutDescriptor.Pattern.TypeNamespace) }),
+                new Element(Log4NetXmlConstants.ConversionPattern, new[] { (Log4NetXmlConstants.Value, Value) })
+            );
         }
     }
 }

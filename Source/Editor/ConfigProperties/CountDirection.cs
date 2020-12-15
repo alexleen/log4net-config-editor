@@ -5,6 +5,7 @@ using System.Windows;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -37,7 +38,7 @@ namespace Editor.ConfigProperties
         {
             if (SelectedDirection == Higher)
             {
-                config.Save((CountDirectionName, Log4NetXmlConstants.Value, 0.ToString()));
+                config.Save(new Element(CountDirectionName, new[] { (Log4NetXmlConstants.Value, 0.ToString()) }));
             }
         }
     }

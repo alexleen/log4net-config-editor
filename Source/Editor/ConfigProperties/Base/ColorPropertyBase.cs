@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties.Base
 {
@@ -39,7 +40,7 @@ namespace Editor.ConfigProperties.Base
         {
             if (SelectedColor != null)
             {
-                config.Save((mElementName, Log4NetXmlConstants.Value, SelectedColor.ToString()));
+                config.Save(new Element(mElementName, new[] { (Log4NetXmlConstants.Value, SelectedColor.ToString()) }));
             }
         }
     }

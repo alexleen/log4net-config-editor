@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties.Base
 {
@@ -43,7 +44,7 @@ namespace Editor.ConfigProperties.Base
         {
             if (Value != mDefaultValue)
             {
-                config.Save((mElementName, Log4NetXmlConstants.Value, Value.ToString()));
+                config.Save(new Element(mElementName, new[] { (Log4NetXmlConstants.Value, Value.ToString()) }));
             }
         }
     }

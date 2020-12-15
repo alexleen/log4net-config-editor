@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties.Base
 {
@@ -29,7 +30,7 @@ namespace Editor.ConfigProperties.Base
 
         public override void Save(IElementConfiguration config)
         {
-            config.Save((mElementName, Log4NetXmlConstants.Value, SelectedValue));
+            config.Save(new Element(mElementName, new[] { (Log4NetXmlConstants.Value, SelectedValue) }));
         }
     }
 }

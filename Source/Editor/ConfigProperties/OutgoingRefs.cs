@@ -6,6 +6,7 @@ using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Models.ConfigChildren;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -55,7 +56,7 @@ namespace Editor.ConfigProperties
         {
             foreach (AppenderModel appenderModel in RefsCollection.Where(@ref => @ref.IsEnabled))
             {
-                config.Save(("appender-ref", "ref", appenderModel.Name));
+                config.Save(new Element("appender-ref", new[] { ("ref", appenderModel.Name) }));
             }
         }
     }

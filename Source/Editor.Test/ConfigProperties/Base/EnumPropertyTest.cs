@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -76,7 +77,7 @@ namespace Editor.Test.ConfigProperties.Base
 
             mSut.Save(config);
 
-            config.Received(1).Save(("elementName", "value", mSut.SelectedValue));
+            config.Received(1).Save(new Element("elementName", new[] { ("value", mSut.SelectedValue) }));
         }
     }
 }

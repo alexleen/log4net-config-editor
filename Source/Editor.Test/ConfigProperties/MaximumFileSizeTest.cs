@@ -2,6 +2,7 @@
 
 using Editor.ConfigProperties;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -49,8 +50,8 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
-            config.DidNotReceive().Save(Arg.Any<string>(), Arg.Any<string>());
+            config.DidNotReceiveWithAnyArgs().Save();
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]
@@ -61,7 +62,7 @@ namespace Editor.Test.ConfigProperties
             mSut.Value = "100MB";
             mSut.Save(config);
 
-            config.Received(1).Save(("maximumFileSize", "value", mSut.Value));
+            config.Received(1).Save(new Element("maximumFileSize", new[] { ("value", mSut.Value) }));
         }
 
         [Test]

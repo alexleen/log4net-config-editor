@@ -3,6 +3,7 @@
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -87,7 +88,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(1).Save(("category", "type", LayoutDescriptor.Pattern.TypeNamespace), ("conversionPattern", "value", mSut.Value));
+            config.Received(1).SaveHierarchical(new Element("category", new[] { ("type", LayoutDescriptor.Pattern.TypeNamespace) }), new Element("conversionPattern", new[] { ("value", mSut.Value) }));
         }
 
         [TestCase(null)]
@@ -102,7 +103,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
+            config.DidNotReceiveWithAnyArgs().Save();
         }
     }
 }

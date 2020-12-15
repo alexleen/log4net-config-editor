@@ -5,6 +5,7 @@ using System.Linq;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
 using Editor.Models;
+using Editor.XML;
 using log4net.Core;
 using NSubstitute;
 using NUnit.Framework;
@@ -102,7 +103,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(1).Save(("Fix", "value", ((int)flags).ToString()));
+            config.Received(1).Save(new Element("Fix", new[] { ("value", ((int)flags).ToString()) }));
         }
 
         [Test]

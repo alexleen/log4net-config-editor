@@ -95,7 +95,7 @@ namespace Editor.Test.XML
         // Save ------------------------------------------------------------------------------------------
 
         [Test]
-        public void Save_ShouldSaveMultipleChildren()
+        public void SaveHierarchical_ShouldSaveMultipleChildren()
         {
             const string firstChild = "child1";
             const string firstAttr = "attr1";
@@ -104,7 +104,7 @@ namespace Editor.Test.XML
             const string attributeName = "newAttr";
             const string attrValue = "attrValue";
 
-            mSut.Save((firstChild, firstAttr, firstValue), (secondChild, attributeName, attrValue));
+            mSut.SaveHierarchical(new Element(firstChild, new[] { (firstAttr, firstValue) }), new Element(secondChild, new[] { (attributeName, attrValue) }));
 
             Assert.AreEqual(firstValue, mNewNode[firstChild]?.Attributes[firstAttr].Value);
             Assert.AreEqual(attrValue, mNewNode[firstChild]?[secondChild]?.Attributes[attributeName].Value);
@@ -116,7 +116,7 @@ namespace Editor.Test.XML
             const string elementName = "newElement";
             const string attributeName = "newAttr";
             const string attrValue = "attrValue";
-            mSut.Save((elementName, attributeName, attrValue));
+            mSut.Save(new Element(elementName, new[] { (attributeName, attrValue) }));
 
             Assert.AreEqual(attrValue, mNewNode[elementName]?.Attributes[attributeName].Value);
         }

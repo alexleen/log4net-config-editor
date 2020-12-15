@@ -2,6 +2,7 @@
 
 using Editor.ConfigProperties;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -78,7 +79,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]
@@ -90,7 +91,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(1).Save((CountDirectionName, "value", "0"));
+            config.Received(1).Save(new Element(CountDirectionName, new[] { ("value", "0") }));
         }
     }
 }

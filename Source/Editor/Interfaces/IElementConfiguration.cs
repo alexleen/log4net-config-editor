@@ -8,6 +8,7 @@ namespace Editor.Interfaces
     /// Encapsulates two nodes to facilitate the loading and saving of new elements.
     /// Typically, the UI is loaded with the <see cref="OriginalNode"/> and values
     /// are saved to the <see cref="NewNode"/>.
+    /// "Nodes" refer to the old (loaded) and new (saved) appender.
     /// </summary>
     public interface IElementConfiguration : IConfiguration
     {
@@ -46,6 +47,12 @@ namespace Editor.Interfaces
         /// Child elements with attributes are automatically created and appended.
         /// </summary>
         /// <param name="children">Set of children complete with attributes and values to be added to the new node</param>
-        void Save(params (string ElementName, string AttributeName, string AttributeValue)[] children);
+        void Save(params IElement[] children);
+
+        /// <summary>
+        /// Saves the specified children in a hierarchical manor (elements are children of the previous element).
+        /// </summary>
+        /// <param name="children"></param>
+        void SaveHierarchical(params IElement[] children);
     }
 }

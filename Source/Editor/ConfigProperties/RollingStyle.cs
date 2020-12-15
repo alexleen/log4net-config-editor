@@ -7,6 +7,7 @@ using System.Windows;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 using log4net.Appender;
 
 namespace Editor.ConfigProperties
@@ -55,7 +56,7 @@ namespace Editor.ConfigProperties
             //Composite is the default and does not need to be specified in the XML if chosen
             if (SelectedMode != RollingFileAppender.RollingMode.Composite)
             {
-                config.Save((RollingStyleName, Log4NetXmlConstants.Value, SelectedMode.ToString()));
+                config.Save(new Element(RollingStyleName, new[] { (Log4NetXmlConstants.Value, SelectedMode.ToString()) }));
             }
         }
     }

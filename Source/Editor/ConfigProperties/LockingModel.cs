@@ -5,6 +5,7 @@ using System.Windows;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -37,7 +38,7 @@ namespace Editor.ConfigProperties
             //Exclusive is the default and does not need to be specified in the XML if chosen
             if (SelectedModel != LockingModelDescriptor.Exclusive)
             {
-                config.Save((LockingModelName, "type", SelectedModel.TypeNamespace));
+                config.Save(new Element(LockingModelName, new[] { ("type", SelectedModel.TypeNamespace) }));
             }
         }
     }

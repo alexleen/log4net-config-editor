@@ -5,6 +5,7 @@ using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -60,7 +61,7 @@ namespace Editor.ConfigProperties
                         RemoveOldRefsFrom(loggerModel, mNameProperty.OriginalName);
                     }
 
-                    XmlUtilities.AddAppenderRefToNode(loggerModel.Node, mNameProperty.Value, () => config.Save(("appender-ref", "ref", mNameProperty.Value)));
+                    XmlUtilities.AddAppenderRefToNode(loggerModel.Node, mNameProperty.Value, () => config.Save(new Element("appender-ref", new[] { ("ref", mNameProperty.Value) })));
                 }
                 else
                 {

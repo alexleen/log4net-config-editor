@@ -253,7 +253,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(1).Save(("appender-ref", "ref", mNameProperty.Value));
+            config.Received(1).Save(new Element("appender-ref", new[] { ("ref", mNameProperty.Value) }));
         }
 
         [Test]
@@ -320,7 +320,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(1).Save(("appender-ref", "ref", mNameProperty.Value));
+            config.Received(1).Save(new Element("appender-ref", new[] { ("ref", mNameProperty.Value) }));
         }
 
         [Test]
@@ -338,7 +338,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.Received(1).Save(("appender-ref", "ref", mNameProperty.Value));
+            config.Received(1).Save(new Element("appender-ref", new[] { ("ref", mNameProperty.Value) }));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Windows;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -42,7 +43,7 @@ namespace Editor.ConfigProperties
         {
             if (!string.IsNullOrEmpty(SelectedValue))
             {
-                config.Save((mElementName, Log4NetXmlConstants.Value, SelectedValue));
+                config.Save(new Element(mElementName, new[] { (Log4NetXmlConstants.Value, SelectedValue) }));
             }
         }
     }

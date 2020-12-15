@@ -4,6 +4,7 @@ using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -72,7 +73,7 @@ namespace Editor.Test.ConfigProperties
 
             XmlNode modelNode = appender.SelectSingleNode("lockingModel");
 
-            config.Received(1).Save(("lockingModel", "type", "log4net.Appender.FileAppender+MinimalLock"));
+            config.Received(1).Save(new Element("lockingModel", new[] { ("type", "log4net.Appender.FileAppender+MinimalLock") }));
         }
 
         [Test]

@@ -2,6 +2,7 @@
 
 using Editor.ConfigProperties;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -45,7 +46,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(("target", "value", ConsoleError));
+            config.DidNotReceive().Save(new Element("target", new[] { ("value", ConsoleError) }));
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace Editor.Test.ConfigProperties
             mSut.SelectedItem = ConsoleError;
             mSut.Save(config);
 
-            config.Received(1).Save(("target", "value", ConsoleError));
+            config.Received(1).Save(new Element("target", new[] { ("value", ConsoleError) }));
         }
 
         [Test]

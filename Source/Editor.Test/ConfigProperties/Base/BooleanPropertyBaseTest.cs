@@ -3,6 +3,7 @@
 using System;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -85,7 +86,7 @@ namespace Editor.Test.ConfigProperties.Base
 
             mSut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]
@@ -96,7 +97,7 @@ namespace Editor.Test.ConfigProperties.Base
             mSut.Value = !mDefaultValue;
             mSut.Save(config);
 
-            config.Received(1).Save(("elementName", "value", mSut.Value.ToString()));
+            config.Received(1).Save(new Element("elementName", new[] { ("value", mSut.Value.ToString()) }));
         }
     }
 }

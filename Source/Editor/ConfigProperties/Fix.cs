@@ -8,6 +8,7 @@ using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Models;
 using Editor.Utilities;
+using Editor.XML;
 using log4net.Core;
 
 namespace Editor.ConfigProperties
@@ -120,7 +121,7 @@ namespace Editor.ConfigProperties
         public override void Save(IElementConfiguration config)
         {
             string attributeValue = ((int)Fixes.Where(fix => fix.Enabled).Aggregate(FixFlags.None, (current, fix) => current | fix.Flag)).ToString();
-            config.Save((FixName, Log4NetXmlConstants.Value, attributeValue));
+            config.Save(new Element(FixName, new[] { (Log4NetXmlConstants.Value, attributeValue) }));
         }
     }
 }

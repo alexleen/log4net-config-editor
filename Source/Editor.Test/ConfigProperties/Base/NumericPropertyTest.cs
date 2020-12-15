@@ -2,6 +2,7 @@
 
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -117,7 +118,7 @@ namespace Editor.Test.ConfigProperties.Base
 
             sut.Save(config);
 
-            config.Received(1).Save(("numProp", "value", value));
+            config.Received(1).Save(new Element("numProp", new[] { ("value", value) }));
         }
 
         [Test]
@@ -129,7 +130,7 @@ namespace Editor.Test.ConfigProperties.Base
 
             sut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]
@@ -141,7 +142,7 @@ namespace Editor.Test.ConfigProperties.Base
 
             sut.Save(config);
 
-            config.DidNotReceive().Save(Arg.Any<(string ElementName, string AttributeName, string AttributeValue)[]>());
+            config.DidNotReceiveWithAnyArgs().Save();
         }
     }
 }

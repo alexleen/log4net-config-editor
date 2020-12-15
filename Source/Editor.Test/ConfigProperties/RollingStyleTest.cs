@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Editor.ConfigProperties;
 using Editor.Interfaces;
+using Editor.XML;
 using log4net.Appender;
 using NSubstitute;
 using NUnit.Framework;
@@ -81,7 +82,7 @@ namespace Editor.Test.ConfigProperties
             mSut.SelectedMode = RollingFileAppender.RollingMode.Date;
             mSut.Save(config);
 
-            config.Received(1).Save(("rollingStyle", "value", "Date"));
+            config.Received(1).Save(new Element("rollingStyle", new[] { ("value", "Date") }));
         }
 
         [Test]
