@@ -58,7 +58,7 @@ namespace Editor.Test.ConfigProperties
                     IValueResult result = Substitute.For<IValueResult>();
                     result.AttributeValue.Returns("ColoredConsoleAppender");
                     ci[1] = result;
-                    return false;
+                    return true;
                 });
 
             mSut.Load(config);

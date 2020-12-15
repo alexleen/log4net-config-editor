@@ -50,7 +50,7 @@ namespace Editor.Test.ConfigProperties
 
             mSut.Load(config);
 
-            Assert.IsNull(mSut.Value);
+            Assert.AreEqual(value, mSut.Value);
         }
 
         [Test]
