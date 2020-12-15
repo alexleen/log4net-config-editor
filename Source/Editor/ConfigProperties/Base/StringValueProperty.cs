@@ -28,14 +28,6 @@ namespace Editor.ConfigProperties.Base
 
         public bool IsReadOnly { get; set; }
 
-        protected void SetValueIfNotNullOrEmpty(string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                Value = value;
-            }
-        }
-
         public override void Load(IElementConfiguration config)
         {
             if (config.Load(mAttributeName, out IValueResult result, ElementName))

@@ -7,12 +7,15 @@ using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
+    /// <summary>
+    /// Represents the name attribute of an appender, logger, or param.
+    /// </summary>
     public class Name : StringValueProperty
     {
         private readonly IElementConfiguration mConfiguration;
 
         public Name(IElementConfiguration configuration)
-            : base("Name:", Log4NetXmlConstants.Name)
+            : base("Name:", null)
         {
             mConfiguration = configuration;
             IsFocused = true;
@@ -46,7 +49,7 @@ namespace Editor.ConfigProperties
         {
             if (config.Load(Log4NetXmlConstants.Name, out IValueResult result))
             {
-                SetValueIfNotNullOrEmpty(result.AttributeValue);
+                Value = result.AttributeValue;
             }
         }
 

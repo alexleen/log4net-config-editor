@@ -5,6 +5,9 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
+    /// <summary>
+    /// Represents the rendering class attribute of a renderer.
+    /// </summary>
     internal class RenderingClass : StringValueProperty
     {
         private const string RenderingClassName = "renderingClass";

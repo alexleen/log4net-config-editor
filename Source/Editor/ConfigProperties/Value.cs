@@ -17,7 +17,7 @@ namespace Editor.ConfigProperties
         {
             if (config.Load(Log4NetXmlConstants.Value, out IValueResult result))
             {
-                SetValueIfNotNullOrEmpty(result.AttributeValue);
+                Value = result.AttributeValue;
             }
         }
 

@@ -5,6 +5,9 @@ using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
+    /// <summary>
+    /// Represents the rendered class attribute of a renderer.
+    /// </summary>
     internal class RenderedClass : StringValueProperty
     {
         private const string RenderedClassName = "renderedClass";
@@ -19,8 +22,10 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            config.Load(RenderedClassName, out IValueResult result);
-            SetValueIfNotNullOrEmpty(result.AttributeValue);
+            if (config.Load(RenderedClassName, out IValueResult result))
+            {
+                Value = result.AttributeValue;
+            }
         }
 
         public override bool TryValidate(IMessageBoxService messageBoxService)
