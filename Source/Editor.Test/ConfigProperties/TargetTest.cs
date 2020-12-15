@@ -1,7 +1,8 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -19,19 +20,20 @@ namespace Editor.Test.ConfigProperties
         private const string ConsoleError = "Console.Error";
         private Target mSut;
 
-        [TestCase(null, ConsoleOut)]
-        [TestCase("<target />", ConsoleOut)]
-        [TestCase("<target value=\"\" />", ConsoleOut)]
-        [TestCase("<target value=\"whatev\" />", ConsoleOut)]
-        [TestCase("<target value=\"Console.Error\" />", ConsoleError)]
-        public void Load_ShouldLoadCorrectly(string xml, string expected)
+        [TestCase(ConsoleOut)]
+        [TestCase(ConsoleError)]
+        public void Load_ShouldLoadCorrectly(string expected)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender>\n" +
-                           $"      {xml}\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "target").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(expected);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.SelectedItem);
         }
@@ -39,27 +41,22 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSaveIfConsoleOut()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(appender.ChildNodes);
+            config.DidNotReceive().Save(("target", "value", ConsoleError));
         }
 
         [Test]
         public void Save_ShouldSaveIfConsoleError()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.SelectedItem = ConsoleError;
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            XmlNode targetNode = appender.SelectSingleNode("target");
-
-            Assert.IsNotNull(targetNode);
-            Assert.AreEqual(ConsoleError, targetNode.Attributes?["value"].Value);
+            config.Received(1).Save(("target", "value", ConsoleError));
         }
 
         [Test]

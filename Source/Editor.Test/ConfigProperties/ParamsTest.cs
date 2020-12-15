@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Threading;
 using System.Xml;
@@ -53,7 +53,10 @@ namespace Editor.Test.ConfigProperties
                            "  <param />\r\n" + //We're going to load invalid params ... for now
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+
+            mSut.Load(config);
 
             Assert.AreEqual(3, mSut.ExistingParams.Count);
 
@@ -74,7 +77,10 @@ namespace Editor.Test.ConfigProperties
                            "  <aram />" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+
+            mSut.Load(config);
 
             CollectionAssert.IsEmpty(mSut.ExistingParams);
         }
@@ -87,7 +93,10 @@ namespace Editor.Test.ConfigProperties
                            "  <param name=\"someName\" value=\"someValue\" />\r\n" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+
+            mSut.Load(config);
 
             //Test sanity check
             Assert.AreEqual(1, mSut.ExistingParams.Count);
@@ -116,7 +125,10 @@ namespace Editor.Test.ConfigProperties
 
             mSut.ExistingParams.Add(new ParamModel(param2));
 
-            mSut.Save(xmlDoc, xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(xmlDoc.FirstChild);
+
+            mSut.Save(config);
 
             Assert.AreEqual(mSut.ExistingParams.Count, xmlDoc.FirstChild.ChildNodes.Count);
             Assert.AreEqual(param1, mSut.ExistingParams[0].Node);

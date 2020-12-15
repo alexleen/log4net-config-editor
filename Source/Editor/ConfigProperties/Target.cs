@@ -1,10 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Utilities;
 
 namespace Editor.ConfigProperties
@@ -26,22 +26,20 @@ namespace Editor.ConfigProperties
 
         public string SelectedItem { get; set; }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string value = originalNode.GetValueAttributeValueFromChildElement(TargetName);
-
-            if (!string.IsNullOrEmpty(value) && Targets.Contains(value))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, TargetName) && !string.IsNullOrEmpty(result.AttributeValue) && Targets.Contains(result.AttributeValue))
             {
-                SelectedItem = value;
+                SelectedItem = result.AttributeValue;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             //Target is "Console.Out" by default, so we only need a target element if "Console.Error"
             if (SelectedItem == ConsoleError)
             {
-                xmlDoc.CreateElementWithValueAttribute(TargetName, ConsoleError).AppendTo(newNode);
+                config.Save((TargetName, Log4NetXmlConstants.Value, ConsoleError));
             }
         }
     }

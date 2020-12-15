@@ -23,7 +23,7 @@ namespace Editor.Interfaces
         /// <param name="attributeName">Name of the desired attribute</param>
         /// <param name="result">The value of the desired attribute as well as it's original name</param>
         /// <param name="childElementNames">
-        /// Hierarchical child elements (each value us a child of the previous), where the last child holds the desired attribute.
+        /// Hierarchical child elements (each value is a child of the previous), where the last child holds the desired attribute.
         /// If no child elements are specified, attribute name is loaded from original node.
         /// </param>
         /// <returns>False if not found, true otherwise</returns>

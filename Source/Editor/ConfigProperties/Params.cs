@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -67,9 +67,9 @@ namespace Editor.ConfigProperties
             ExistingParams.Remove(paramModel);
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            XmlNodeList paramNodes = originalNode.SelectNodes(Log4NetXmlConstants.Param);
+            XmlNodeList paramNodes = config.OriginalNode.SelectNodes(Log4NetXmlConstants.Param);
 
             foreach (XmlNode paramNode in paramNodes)
             {
@@ -77,11 +77,11 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             foreach (ParamModel param in ExistingParams)
             {
-                newNode.AppendChild(param.Node);
+                config.NewNode.AppendChild(param.Node);
             }
         }
     }

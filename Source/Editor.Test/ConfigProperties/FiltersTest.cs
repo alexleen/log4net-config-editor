@@ -94,7 +94,10 @@ namespace Editor.Test.ConfigProperties
             mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace).AppendTo(mAppender);
             mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.LoggerMatch.TypeNamespace).AppendTo(mAppender);
 
-            mSut.Load(mAppender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(mAppender);
+
+            mSut.Load(config);
 
             Assert.AreEqual(2, mSut.ExistingFilters.Count);
             Assert.AreEqual(FilterDescriptor.DenyAll, mSut.ExistingFilters.First().Descriptor);
@@ -104,7 +107,10 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldNotLoadFilters_WhenThereAreNone()
         {
-            mSut.Load(mAppender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(mAppender);
+
+            mSut.Load(config);
 
             CollectionAssert.IsEmpty(mSut.ExistingFilters);
         }
@@ -164,7 +170,10 @@ namespace Editor.Test.ConfigProperties
 
             XmlElement newAppender = mXmlDoc.CreateElement("appender");
 
-            mSut.Save(mXmlDoc, newAppender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(newAppender);
+
+            mSut.Save(config);
 
             XmlNodeList appenderRefs = newAppender.SelectNodes($"filter[@type='{FilterDescriptor.DenyAll.TypeNamespace}']");
 

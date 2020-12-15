@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties;
@@ -19,15 +19,20 @@ namespace Editor.Test.ConfigProperties
 
         private RenderedClass mSut;
 
-        [TestCase("renderedClass=\"\"")]
+        [TestCase(null)]
         [TestCase("")]
         public void Load_ShouldNotLoadRenderedClass(string renderedClass)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<renderer {renderedClass}>\r\n" +
-                           "</renderer>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("renderedClass", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(renderedClass);
+                    ci[1] = result;
+                    return false;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.IsNull(mSut.Value);
         }
@@ -47,11 +52,16 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadCorrectRenderedClass()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<renderer renderedClass=\"ColoredConsoleAppender\">\r\n" +
-                           "</renderer>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("renderedClass", out _).Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("ColoredConsoleAppender");
+                    ci[1] = result;
+                    return false;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual("ColoredConsoleAppender", mSut.Value);
         }
@@ -71,9 +81,10 @@ namespace Editor.Test.ConfigProperties
             const string renderedClass = "class";
             mSut.Value = renderedClass;
 
-            mSut.Save(xmlDoc, appender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            Assert.AreEqual(renderedClass, appender.Attributes["renderedClass"].Value);
+            config.Received(1).Save("renderedClass", renderedClass);
         }
 
         [Test]

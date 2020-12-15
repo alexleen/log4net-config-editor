@@ -1,11 +1,11 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Xml;
 using Editor.ConfigProperties.Base;
+using Editor.Interfaces;
 using Editor.Utilities;
 using log4net.Appender;
 
@@ -41,21 +41,21 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string modeValue = originalNode.GetValueAttributeValueFromChildElement(RollingStyleName);
-            if (!string.IsNullOrEmpty(modeValue) && Enum.TryParse(modeValue, out RollingFileAppender.RollingMode mode))
+            config.Load(Log4NetXmlConstants.Value, out IValueResult result, RollingStyleName);
+            if (!string.IsNullOrEmpty(result.AttributeValue) && Enum.TryParse(result.AttributeValue, out RollingFileAppender.RollingMode mode))
             {
                 SelectedMode = mode;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             //Composite is the default and does not need to be specified in the XML if chosen
             if (SelectedMode != RollingFileAppender.RollingMode.Composite)
             {
-                xmlDoc.CreateElementWithValueAttribute(RollingStyleName, SelectedMode.ToString()).AppendTo(newNode);
+                config.Save((RollingStyleName, Log4NetXmlConstants.Value, SelectedMode.ToString()));
             }
         }
     }

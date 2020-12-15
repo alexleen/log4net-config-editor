@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -65,7 +65,10 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadEnabledRefs()
         {
-            mSut.Load(mXmlDoc.FirstChild["appender"]);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(mXmlDoc.FirstChild["appender"]);
+
+            mSut.Load(config);
 
             Assert.AreEqual(4, mSut.RefsCollection.Count);
             Assert.AreEqual(2, mSut.RefsCollection.Count(r => r.IsEnabled));
@@ -80,19 +83,18 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldSaveEnabledRefs()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.RefsCollection = new ObservableCollection<AppenderModel>
             {
-                new AppenderModel(AppenderDescriptor.Console, appender, 0) { IsEnabled = true },
-                new AppenderModel(AppenderDescriptor.Console, appender, 0) { IsEnabled = true },
-                new AppenderModel(AppenderDescriptor.Console, appender, 0)
+                new AppenderModel(AppenderDescriptor.Console, null, 0) { IsEnabled = true },
+                new AppenderModel(AppenderDescriptor.Console, null, 0) { IsEnabled = true },
+                new AppenderModel(AppenderDescriptor.Console, null, 0)
             };
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            Assert.AreEqual(2, appender.ChildNodes.Count);
+            config.Received(2).Save(("appender-ref", "ref", null));
         }
     }
 }

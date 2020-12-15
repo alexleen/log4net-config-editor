@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -6,7 +6,6 @@ using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Models.ConfigChildren;
-using Editor.Utilities;
 
 namespace Editor.ConfigProperties
 {
@@ -44,19 +43,19 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
             foreach (AppenderModel appenderModel in RefsCollection)
             {
-                appenderModel.IsEnabled = originalNode.SelectSingleNode($"appender-ref[@ref='{appenderModel.Name}']") != null;
+                appenderModel.IsEnabled = config.OriginalNode.SelectSingleNode($"appender-ref[@ref='{appenderModel.Name}']") != null;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             foreach (AppenderModel appenderModel in RefsCollection.Where(@ref => @ref.IsEnabled))
             {
-                xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderModel.Name).AppendTo(newNode);
+                config.Save(("appender-ref", "ref", appenderModel.Name));
             }
         }
     }

@@ -113,9 +113,9 @@ namespace Editor.ConfigProperties
             ExistingFilters.Move(oldIndex, newIndex);
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            XmlNodeList filterNodes = originalNode.SelectNodes(Log4NetXmlConstants.Filter);
+            XmlNodeList filterNodes = config.OriginalNode.SelectNodes(Log4NetXmlConstants.Filter);
 
             if (filterNodes == null)
             {
@@ -131,11 +131,11 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             foreach (FilterModel filter in ExistingFilters)
             {
-                newNode.AppendChild(filter.Node);
+                config.NewNode.AppendChild(filter.Node);
             }
         }
     }

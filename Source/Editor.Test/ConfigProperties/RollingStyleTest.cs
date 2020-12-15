@@ -1,10 +1,11 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Linq;
-using System.Xml;
 using Editor.ConfigProperties;
+using Editor.Interfaces;
 using log4net.Appender;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -21,17 +22,20 @@ namespace Editor.Test.ConfigProperties
         private RollingStyle mSut;
 
         [TestCase(null)]
-        [TestCase("<rollingStyle />")]
-        [TestCase("<rollingStyle value=\"\" />")]
-        [TestCase("<rollingStyle value=\"whatev\" />")]
+        [TestCase("")]
+        [TestCase("whatev")]
         public void Load_ShouldNotLoadMode(string mode)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.RollingFileAppender\" name=\"rolling\">\n" +
-                           $"    {mode}\n" +
-                           "  </appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "rollingStyle").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(mode);
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(RollingFileAppender.RollingMode.Composite, mSut.SelectedMode);
         }
@@ -39,12 +43,16 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadMode()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<appender type=\"log4net.Appender.RollingFileAppender\" name=\"rolling\">\n" +
-                           "    <rollingStyle value=\"Date\" />\n" +
-                           "  </appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "rollingStyle").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns("Date");
+                    ci[1] = result;
+                    return true;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(RollingFileAppender.RollingMode.Date, mSut.SelectedMode);
         }
@@ -58,27 +66,22 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Save_ShouldNotSave_WhenComposite()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            CollectionAssert.IsEmpty(appender.ChildNodes);
+            config.DidNotReceive().Save();
         }
 
         [Test]
         public void Save_ShouldSave_WhenNotComposite()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
             mSut.SelectedMode = RollingFileAppender.RollingMode.Date;
-            mSut.Save(xmlDoc, appender);
+            mSut.Save(config);
 
-            XmlNode rollingStyleNode = appender.SelectSingleNode("rollingStyle");
-
-            Assert.IsNotNull(rollingStyleNode);
-            Assert.AreEqual("Date", rollingStyleNode.Attributes["value"].Value);
+            config.Received(1).Save(("rollingStyle", "value", "Date"));
         }
 
         [Test]
