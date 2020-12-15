@@ -1,11 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Windows;
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
-using Editor.Utilities;
+using Editor.Interfaces;
 
 namespace Editor.ConfigProperties
 {
@@ -24,21 +23,21 @@ namespace Editor.ConfigProperties
 
         public LockingModelDescriptor SelectedModel { get; set; }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            string modelType = originalNode[LockingModelName]?.Attributes["type"]?.Value;
+            string modelType = config.OriginalNode[LockingModelName]?.Attributes["type"]?.Value;
             if (LockingModelDescriptor.TryFindByTypeNamespace(modelType, out LockingModelDescriptor descriptor))
             {
                 SelectedModel = descriptor;
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             //Exclusive is the default and does not need to be specified in the XML if chosen
             if (SelectedModel != LockingModelDescriptor.Exclusive)
             {
-                xmlDoc.CreateElementWithAttribute(LockingModelName, "type", SelectedModel.TypeNamespace).AppendTo(newNode);
+                config.Save((LockingModelName, "type", SelectedModel.TypeNamespace));
             }
         }
     }

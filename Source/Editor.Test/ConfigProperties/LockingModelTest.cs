@@ -1,8 +1,10 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
+using Editor.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -30,7 +32,10 @@ namespace Editor.Test.ConfigProperties
                            $"      {xml}\n" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+
+            mSut.Load(config);
 
             Assert.AreEqual(expected, mSut.SelectedModel.Name);
         }
@@ -47,9 +52,11 @@ namespace Editor.Test.ConfigProperties
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement appender = xmlDoc.CreateElement("appender");
 
-            mSut.Save(xmlDoc, appender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
 
-            CollectionAssert.IsEmpty(appender.ChildNodes);
+            mSut.Save(config);
+
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]
@@ -59,12 +66,13 @@ namespace Editor.Test.ConfigProperties
             XmlElement appender = xmlDoc.CreateElement("appender");
 
             mSut.SelectedModel = LockingModelDescriptor.Minimal;
-            mSut.Save(xmlDoc, appender);
+
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
             XmlNode modelNode = appender.SelectSingleNode("lockingModel");
 
-            Assert.IsNotNull(modelNode);
-            Assert.AreEqual(LockingModelDescriptor.Minimal.TypeNamespace, modelNode.Attributes?["type"].Value);
+            config.Received(1).Save(("lockingModel", "type", "log4net.Appender.FileAppender+MinimalLock"));
         }
 
         [Test]

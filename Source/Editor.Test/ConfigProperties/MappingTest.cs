@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +76,10 @@ namespace Editor.Test.ConfigProperties
                 new MappingModel(Dummy, Dummy, mXmlDoc.FirstChild.ChildNodes[3])
             };
 
-            mSut.Load(mXmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(mXmlDoc.FirstChild);
+
+            mSut.Load(config);
 
             CollectionAssert.AreEquivalent(expectedMappings, mSut.Mappings);
         }
@@ -84,7 +87,10 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Remove_ShouldRemoveModel()
         {
-            mSut.Load(mXmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(mXmlDoc.FirstChild);
+
+            mSut.Load(config);
 
             //Test sanity check
             Assert.AreEqual(4, mSut.Mappings.Count);
@@ -104,7 +110,10 @@ namespace Editor.Test.ConfigProperties
 
             XmlElement appender = mXmlDoc.CreateElement("appender");
 
-            mSut.Save(mXmlDoc, appender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(appender);
+
+            mSut.Save(config);
 
             XmlNodeList mappings = appender.SelectNodes("/mapping");
 

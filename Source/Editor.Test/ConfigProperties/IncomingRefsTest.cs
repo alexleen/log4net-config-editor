@@ -11,6 +11,7 @@ using Editor.Models.Base;
 using Editor.Models.ConfigChildren;
 using Editor.Utilities;
 using Editor.XML;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Editor.Test.ConfigProperties
@@ -83,7 +84,9 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadEnabledRefs()
         {
-            mSut.Load(mXmlDoc.FirstChild["appender"]);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+
+            mSut.Load(config);
 
             Assert.AreEqual(2, mSut.RefsCollection.Count);
             Assert.AreEqual(1, mSut.RefsCollection.Count(r => !r.IsEnabled));
@@ -200,7 +203,10 @@ namespace Editor.Test.ConfigProperties
                 new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
+
+            mSut.Save(config);
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
 
@@ -219,7 +225,10 @@ namespace Editor.Test.ConfigProperties
                 new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
+
+            mSut.Save(config);
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
 
@@ -239,12 +248,12 @@ namespace Editor.Test.ConfigProperties
                 new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
 
-            XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
+            mSut.Save(config);
 
-            Assert.IsNotNull(appenderRefs);
-            Assert.AreEqual(1, appenderRefs.Count);
+            config.Received(1).Save(("appender-ref", "ref", mNameProperty.Value));
         }
 
         [Test]
@@ -259,7 +268,10 @@ namespace Editor.Test.ConfigProperties
                 new LoggerModel(loggerElement, false, LoggerDescriptor.Logger)
             };
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
+
+            mSut.Save(config);
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
 
@@ -282,7 +294,10 @@ namespace Editor.Test.ConfigProperties
             //Original name is "appender0"
             mNameProperty.Value = "someOtherName";
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
+
+            mSut.Save(config);
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}' or @ref='{mNameProperty.OriginalName}']");
 
@@ -300,14 +315,12 @@ namespace Editor.Test.ConfigProperties
             IAcceptAppenderRef loggerModel = mSut.RefsCollection.First(r => ((NamedModel)r).Name == "asyncAppender");
             loggerModel.IsEnabled = true;
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
 
-            //Selects all "appender-ref" nodes with the "ref" attribute
-            XmlNodeList appenderRefs = loggerModel.Node.SelectNodes("appender-ref[@ref]");
+            mSut.Save(config);
 
-            Assert.IsNotNull(appenderRefs);
-            Assert.AreEqual(1, appenderRefs.Count);
-            Assert.AreEqual("someOtherName", appenderRefs[0].Attributes["ref"].Value);
+            config.Received(1).Save(("appender-ref", "ref", mNameProperty.Value));
         }
 
         [Test]
@@ -320,12 +333,12 @@ namespace Editor.Test.ConfigProperties
                 new LoggerModel(loggerElement, true, LoggerDescriptor.Logger)
             };
 
-            mSut.Save(mXmlDoc, mXmlDoc.CreateElement("appender"));
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.NewNode.Returns(mXmlDoc.CreateElement("appender"));
 
-            XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{mNameProperty.Value}']");
+            mSut.Save(config);
 
-            Assert.IsNotNull(appenderRefs);
-            Assert.AreEqual(1, appenderRefs.Count);
+            config.Received(1).Save(("appender-ref", "ref", mNameProperty.Value));
         }
     }
 }

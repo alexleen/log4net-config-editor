@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System.Collections.ObjectModel;
 using System.Xml;
@@ -41,7 +41,7 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
             foreach (IAcceptAppenderRef loggerModel in RefsCollection)
             {
@@ -49,7 +49,7 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             foreach (IAcceptAppenderRef loggerModel in RefsCollection)
             {
@@ -60,7 +60,7 @@ namespace Editor.ConfigProperties
                         RemoveOldRefsFrom(loggerModel, mNameProperty.OriginalName);
                     }
 
-                    XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerModel.Node, mNameProperty.Value);
+                    XmlUtilities.AddAppenderRefToNode(loggerModel.Node, mNameProperty.Value, () => config.Save(("appender-ref", "ref", mNameProperty.Value)));
                 }
                 else
                 {

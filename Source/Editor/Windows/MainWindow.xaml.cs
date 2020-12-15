@@ -399,7 +399,7 @@ namespace Editor.Windows
 
             foreach (AppenderModel appenderModel in xChildren.SelectedItems.OfType<AppenderModel>())
             {
-                XmlUtilities.AddAppenderRefToNode(ConfigurationXml.ConfigXml, destination.Node, appenderModel.Name);
+                XmlUtilities.AddAppenderRefToNode(destination.Node, appenderModel.Name, () => ConfigurationXml.ConfigXml.CreateElementWithAttribute("appender-ref", "ref", appenderModel.Name).AppendTo(destination.Node));
             }
 
             LoadFromRam();

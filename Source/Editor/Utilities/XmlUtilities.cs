@@ -1,5 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using SystemInterface.Xml;
@@ -78,10 +79,10 @@ namespace Editor.Utilities
         /// If an appender-ref for this <paramref name="appenderName"/> already exists, this method does nothing.
         /// If more than one appender-ref for this <paramref name="appenderName"/> exists, the count is reduced to one.
         /// </summary>
-        /// <param name="xmlDoc"></param>
         /// <param name="node"></param>
         /// <param name="appenderName"></param>
-        public static void AddAppenderRefToNode(XmlDocument xmlDoc, XmlNode node, string appenderName)
+        /// <param name="add"></param>
+        public static void AddAppenderRefToNode(XmlNode node, string appenderName, Action add)
         {
             XmlNodeList appenderRefs = node.SelectNodes($"appender-ref[@ref='{appenderName}']");
 
@@ -103,8 +104,7 @@ namespace Editor.Utilities
                 }
             }
 
-            //Add
-            xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(node);
+            add();
         }
 
         /// <summary>

@@ -134,7 +134,7 @@ namespace Editor.Test.Utilities
             XmlElement loggerElement = xmlDoc.CreateElement("logger");
 
             const string appenderName = "appenderName";
-            XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerElement, appenderName);
+            XmlUtilities.AddAppenderRefToNode(loggerElement, appenderName, () => xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement));
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{appenderName}']");
 
@@ -151,7 +151,7 @@ namespace Editor.Test.Utilities
             const string appenderName = "appenderName";
             xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement);
 
-            XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerElement, appenderName);
+            XmlUtilities.AddAppenderRefToNode(loggerElement, appenderName, () => xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement));
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{appenderName}']");
 
@@ -169,7 +169,7 @@ namespace Editor.Test.Utilities
             xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement);
             xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement);
 
-            XmlUtilities.AddAppenderRefToNode(xmlDoc, loggerElement, appenderName);
+            XmlUtilities.AddAppenderRefToNode(loggerElement, appenderName, () => xmlDoc.CreateElementWithAttribute("appender-ref", "ref", appenderName).AppendTo(loggerElement));
 
             XmlNodeList appenderRefs = loggerElement.SelectNodes($"appender-ref[@ref='{appenderName}']");
 
