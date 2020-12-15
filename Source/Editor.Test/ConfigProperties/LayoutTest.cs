@@ -8,6 +8,8 @@ using Editor.Descriptors;
 using Editor.Enums;
 using Editor.HistoryManager;
 using Editor.Interfaces;
+using Editor.Utilities;
+using Editor.XML;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -75,7 +77,9 @@ namespace Editor.Test.ConfigProperties
                            $"    {layoutXml}" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             //Verified they're unchanged
             Assert.AreEqual(expectedLayout, mSut.SelectedLayout.Type);
@@ -95,7 +99,9 @@ namespace Editor.Test.ConfigProperties
                            "    </layout>\r\n" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             //Verified it's unchanged
             Assert.AreEqual(SimplePattern, mSut.Pattern);
@@ -194,16 +200,12 @@ namespace Editor.Test.ConfigProperties
         }
 
         [Test]
-        public void Save_ShouldCreateAndAppendCorrectElement()
+        public void Save_ShouldCreateAndAppendCorrectElement_WhenSimple()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            mSut.Save(xmlDoc, appender);
-
-            XmlElement layout = appender[LayoutName];
-            Assert.IsNotNull(layout);
-            Assert.AreEqual(LayoutDescriptor.Simple.TypeNamespace, layout.Attributes["type"].Value);
+            config.Received(1).SaveHierarchical(new Element(LayoutName, new[] { (Log4NetXmlConstants.Type, "log4net.Layout.SimpleLayout") }));
         }
 
         [Test]
@@ -214,21 +216,11 @@ namespace Editor.Test.ConfigProperties
 
             mSut.SelectedLayout = LayoutDescriptor.Pattern;
             mSut.Pattern = "%date{HH:mm:ss:fff} %message%newline";
-            mSut.Save(xmlDoc, appender);
 
-            Assert.IsNotNull(appender[LayoutName][ConversionPatternName]);
-            Assert.AreEqual(mSut.Pattern, appender[LayoutName][ConversionPatternName].Attributes["value"].Value);
-        }
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-        [Test]
-        public void Save_ShouldNotCreateConversionPatternElement_WhenSimple()
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
-            mSut.Save(xmlDoc, appender);
-
-            Assert.IsNull(appender[LayoutName][ConversionPatternName]);
+            config.Received(1).SaveHierarchical(new Element(LayoutName, new[] { (Log4NetXmlConstants.Type, "log4net.Layout.PatternLayout") }), new Element(Log4NetXmlConstants.ConversionPattern, new[] { (Log4NetXmlConstants.Value, mSut.Pattern) }));
         }
 
         [Test]
@@ -238,9 +230,11 @@ namespace Editor.Test.ConfigProperties
             XmlElement appender = xmlDoc.CreateElement("appender");
 
             mSut.SelectedLayout = LayoutDescriptor.None;
-            mSut.Save(xmlDoc, appender);
 
-            CollectionAssert.IsEmpty(appender.ChildNodes);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
+
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]
@@ -253,9 +247,11 @@ namespace Editor.Test.ConfigProperties
                            "    </layout>\r\n" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+            mSut.Load(config);
 
-            mSut.Save(xmlDoc, xmlDoc.CreateElement("appender"));
+            mSut.Save(config);
 
             mHistoryManager.DidNotReceive().Save(Arg.Any<string>());
         }
@@ -270,11 +266,13 @@ namespace Editor.Test.ConfigProperties
                            "    </layout>\r\n" +
                            "</appender>");
 
-            mSut.Load(xmlDoc.FirstChild);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             mSut.Pattern = "%message%newline";
 
-            mSut.Save(xmlDoc, xmlDoc.CreateElement("appender"));
+            mSut.Save(config);
 
             mHistoryManager.Received(1).Save(mSut.Pattern);
         }
@@ -310,8 +308,11 @@ namespace Editor.Test.ConfigProperties
                            "    </layout>\r\n" +
                            "</appender>");
 
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.OriginalNode.Returns(xmlDoc.FirstChild);
+
             //Loading the XML will set selected layout to Pattern and save the original pattern
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             //Set to Simple to clear pattern
             mSut.SelectedLayout = LayoutDescriptor.Simple;

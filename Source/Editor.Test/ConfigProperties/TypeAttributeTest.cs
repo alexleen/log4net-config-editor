@@ -1,6 +1,5 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
-using System.Xml;
 using Editor.ConfigProperties;
 using Editor.Descriptors;
 using Editor.Interfaces;
@@ -22,29 +21,38 @@ namespace Editor.Test.ConfigProperties
 
         [TestCase(null)]
         [TestCase("")]
-        [TestCase("type=\"\"")]
-        public void Load_ShouldNotLoadType_RegularCtor(string xml)
+        public void Load_ShouldNotLoadType_RegularCtor(string value)
         {
             mSut = new TypeAttribute();
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {xml}>\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "category", "conversionPattern").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(value);
+                    ci[1] = result;
+                    return false;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.IsNull(mSut.Value);
         }
 
-        [TestCase("type=\"\"")]
+        [TestCase(null)]
         [TestCase("")]
         public void Load_ShouldMaintainType_FromCtor(string type)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml($"<appender name=\"ColoredConsoleAppender\" {type}>\r\n" +
-                           "</appender>");
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            config.Load("value", out _, "category", "conversionPattern").Returns(ci =>
+                {
+                    IValueResult result = Substitute.For<IValueResult>();
+                    result.AttributeValue.Returns(type);
+                    ci[1] = result;
+                    return false;
+                });
 
-            mSut.Load(xmlDoc.FirstChild);
+            mSut.Load(config);
 
             Assert.AreEqual(AppenderDescriptor.Async.TypeNamespace, mSut.Value);
         }
@@ -53,14 +61,12 @@ namespace Editor.Test.ConfigProperties
         [TestCase("")]
         public void Save_ShouldNotSaveValueToAttribute_WhenValueIsNullOrEmpty(string value)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement appender = xmlDoc.CreateElement("appender");
-
             mSut.Value = value;
 
-            mSut.Save(xmlDoc, appender);
+            IElementConfiguration config = Substitute.For<IElementConfiguration>();
+            mSut.Save(config);
 
-            Assert.IsNull(appender.Attributes["type"]);
+            config.DidNotReceiveWithAnyArgs().Save();
         }
 
         [Test]

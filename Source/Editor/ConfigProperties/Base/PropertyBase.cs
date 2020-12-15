@@ -45,9 +45,9 @@ namespace Editor.ConfigProperties.Base
 
         public GridLength RowHeight { get; }
 
-        public virtual void Load(XmlNode originalNode)
-        {
-        }
+        // public virtual void Load(XmlNode originalNode)
+        // {
+        // }
 
         public virtual void Load(IElementConfiguration config)
         {
@@ -58,9 +58,9 @@ namespace Editor.ConfigProperties.Base
             return true;
         }
 
-        public virtual void Save(XmlDocument xmlDoc, XmlNode newNode)
-        {
-        }
+        // public virtual void Save(XmlDocument xmlDoc, XmlNode newNode)
+        // {
+        // }
 
         public virtual void Save(IElementConfiguration config)
         {

@@ -29,8 +29,8 @@ namespace Editor.Interfaces
         bool TryValidate(IMessageBoxService messageBoxService);
 
         void Load(IElementConfiguration config);
-        void Load(XmlNode originalNode);
+        // void Load(XmlNode originalNode);
         void Save(IElementConfiguration config);
-        void Save(XmlDocument xmlDoc, XmlNode newNode);
+        // void Save(XmlDocument xmlDoc, XmlNode newNode);
     }
 }

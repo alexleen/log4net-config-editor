@@ -3,12 +3,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.HistoryManager;
 using Editor.Interfaces;
 using Editor.Utilities;
+using Editor.XML;
 
 namespace Editor.ConfigProperties
 {
@@ -104,13 +104,13 @@ namespace Editor.ConfigProperties
             }
         }
 
-        public override void Load(XmlNode originalNode)
+        public override void Load(IElementConfiguration config)
         {
-            if (LayoutDescriptor.TryFindByTypeNamespace(originalNode[LayoutName]?.Attributes["type"]?.Value, out LayoutDescriptor descriptor))
+            if (LayoutDescriptor.TryFindByTypeNamespace(config.OriginalNode[LayoutName]?.Attributes["type"]?.Value, out LayoutDescriptor descriptor))
             {
                 SelectedLayout = descriptor;
 
-                string pattern = originalNode[LayoutName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
+                string pattern = config.OriginalNode[LayoutName]?.GetValueAttributeValueFromChildElement(Log4NetXmlConstants.ConversionPattern);
 
                 if (!string.IsNullOrEmpty(pattern))
                 {
@@ -131,21 +131,21 @@ namespace Editor.ConfigProperties
             return base.TryValidate(messageBoxService);
         }
 
-        public override void Save(XmlDocument xmlDoc, XmlNode newNode)
+        public override void Save(IElementConfiguration config)
         {
             if (SelectedLayout == LayoutDescriptor.None)
             {
                 return;
             }
 
-            XmlNode layoutNode = xmlDoc.CreateElementWithAttribute(LayoutName, "type", SelectedLayout.TypeNamespace);
+            IList<IElement> elements = new List<IElement> { new Element(LayoutName, new[] { (Log4NetXmlConstants.Type, SelectedLayout.TypeNamespace) }) };
 
             if (SelectedLayout != LayoutDescriptor.Simple)
             {
-                xmlDoc.CreateElementWithValueAttribute(Log4NetXmlConstants.ConversionPattern, Pattern).AppendTo(layoutNode);
+                elements.Add(new Element(Log4NetXmlConstants.ConversionPattern, new[] { (Log4NetXmlConstants.Value, Pattern) }));
             }
 
-            newNode.AppendChild(layoutNode);
+            config.SaveHierarchical(elements.ToArray());
 
             if (Pattern != mOriginalPattern)
             {
