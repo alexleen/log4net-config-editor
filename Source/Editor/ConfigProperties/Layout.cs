@@ -106,7 +106,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            if (LayoutDescriptor.TryFindByTypeNamespace(config.OriginalNode[LayoutName]?.Attributes["type"]?.Value, out LayoutDescriptor descriptor))
+            if (LayoutDescriptor.TryFindByTypeNamespace(config.OriginalNode[LayoutName]?.FindNodeAttributeValue(Log4NetXmlConstants.Type), out LayoutDescriptor descriptor))
             {
                 SelectedLayout = descriptor;
 

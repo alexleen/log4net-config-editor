@@ -24,7 +24,7 @@ namespace Editor.ConfigProperties
         /// <summary>
         /// Original name value. Null if no original name (i.e. new appender).
         /// </summary>
-        public string OriginalName => mConfiguration.OriginalNode?.Attributes?[Log4NetXmlConstants.Name]?.Value;
+        public string OriginalName => mConfiguration.OriginalNode?.FindNodeAttributeValue(Log4NetXmlConstants.Name);
 
         /// <summary>
         /// Whether or not the value for the Name property has changed.
@@ -63,7 +63,7 @@ namespace Editor.ConfigProperties
 
             foreach (XmlNode appender in mConfiguration.FindLog4NetNodeChildren("appender"))
             {
-                if (!Equals(appender, mConfiguration.OriginalNode) && appender.Attributes[Log4NetXmlConstants.Name]?.Value == Value)
+                if (!Equals(appender, mConfiguration.OriginalNode) && appender.FindNodeAttributeValue(Log4NetXmlConstants.Name) == Value)
                 {
                     messageBoxService.ShowError("Name must be unique.");
                     return false;

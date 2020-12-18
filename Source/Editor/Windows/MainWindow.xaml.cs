@@ -348,7 +348,7 @@ namespace Editor.Windows
 
         private void AddRootClick(object sender, RoutedEventArgs e)
         {
-            if (xChildren.ItemsSource.Cast<ModelBase>().Any(cm => cm.Node.Name == "root"))
+            if (xChildren.ItemsSource.Cast<ModelBase>().Any(cm => cm.Node.Name.ToLower() == Log4NetXmlConstants.Root))
             {
                 MessageBox.Show(this, "This configuration already contains a root logger.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

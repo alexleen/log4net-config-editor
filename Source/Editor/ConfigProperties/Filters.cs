@@ -119,7 +119,7 @@ namespace Editor.ConfigProperties
 
             foreach (XmlNode filterNode in filterNodes)
             {
-                if (FilterDescriptor.TryFindByTypeNamespace(filterNode.Attributes?[Log4NetXmlConstants.Type]?.Value, out FilterDescriptor filterDescriptor))
+                if (FilterDescriptor.TryFindByTypeNamespace(filterNode.FindNodeAttributeValue(Log4NetXmlConstants.Type), out FilterDescriptor filterDescriptor))
                 {
                     Add(new FilterModel(filterDescriptor, filterNode, ShowFilterWindow, Remove, MoveUp, MoveDown));
                 }

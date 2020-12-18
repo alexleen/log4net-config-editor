@@ -89,7 +89,7 @@ namespace Editor.XML
 
         private void LoadRootAttributes()
         {
-            if (bool.TryParse(Log4NetNode.Attributes[Log4NetXmlConstants.Debug]?.Value, out bool debugResult) && debugResult)
+            if (bool.TryParse(Log4NetNode.FindNodeAttributeValue(Log4NetXmlConstants.Debug), out bool debugResult) && debugResult)
             {
                 Debug = true;
             }
@@ -98,7 +98,7 @@ namespace Editor.XML
                 Debug = false;
             }
 
-            if (Enum.TryParse(Log4NetNode.Attributes[Log4NetXmlConstants.Update]?.Value, out Update update) && Equals(update, Update.Overwrite))
+            if (Enum.TryParse(Log4NetNode.FindNodeAttributeValue(Log4NetXmlConstants.Update), out Update update) && Equals(update, Update.Overwrite))
             {
                 Update = Update.Overwrite;
             }
@@ -107,7 +107,7 @@ namespace Editor.XML
                 Update = Update.Merge;
             }
 
-            if (Log4NetUtilities.TryParseLevel(Log4NetNode.Attributes[Log4NetXmlConstants.Threshold]?.Value, out Level levelResult) && !Equals(levelResult, Level.All))
+            if (Log4NetUtilities.TryParseLevel(Log4NetNode.FindNodeAttributeValue(Log4NetXmlConstants.Threshold), out Level levelResult) && !Equals(levelResult, Level.All))
             {
                 Threshold = levelResult;
             }

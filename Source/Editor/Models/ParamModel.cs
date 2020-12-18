@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.Windows.Input;
@@ -26,9 +26,9 @@ namespace Editor.Models
             Remove = new Command(RemoveFilterOnClick);
         }
 
-        public string Value => Node.Attributes[Log4NetXmlConstants.Value]?.Value;
+        public string Value => Node.FindNodeAttributeValue(Log4NetXmlConstants.Value);
 
-        public string Type => Node.Attributes[Log4NetXmlConstants.Type]?.Value;
+        public string Type => Node.FindNodeAttributeValue(Log4NetXmlConstants.Type);
 
         public override XmlNode Node
         {

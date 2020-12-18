@@ -69,12 +69,12 @@ namespace Editor.XML
 
         public IEnumerable<XmlNode> FindOriginalNodeChildren(string childName)
         {
-            return XmlUtilities.FindNodeChildrenCaseInsensitive(OriginalNode, childName);
+            return XmlUtilities.FindNodeChildren(OriginalNode, childName);
         }
 
         public IEnumerable<XmlNode> FindLog4NetNodeChildren(string childName)
         {
-            return XmlUtilities.FindNodeChildrenCaseInsensitive(Log4NetNode, childName);
+            return XmlUtilities.FindNodeChildren(Log4NetNode, childName);
         }
 
         public XmlNode NewNode { get; }

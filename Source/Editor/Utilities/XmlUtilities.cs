@@ -25,7 +25,7 @@ namespace Editor.Utilities
 
             foreach (XmlNode appenderRef in appenderRefs)
             {
-                if (appenderRef.Attributes?["ref"].Value == appenderName)
+                if (appenderRef.FindNodeAttributeValue("ref") == appenderName)
                 {
                     yield return appenderRef;
                 }
@@ -38,7 +38,7 @@ namespace Editor.Utilities
 
             foreach (XmlNode node in log4NetNode.SelectNodes($"appender[@type='{AppenderDescriptor.Async.TypeNamespace}']"))
             {
-                string name = node.Attributes[Log4NetXmlConstants.Name]?.Value;
+                string name = node.FindNodeAttributeValue(Log4NetXmlConstants.Name);
 
                 if (!string.IsNullOrEmpty(name))
                 {
@@ -55,9 +55,9 @@ namespace Editor.Utilities
         {
             List<IAcceptAppenderRef> loggers = new List<IAcceptAppenderRef>();
 
-            foreach (XmlNode node in FindNodeChildrenCaseInsensitive(log4NetNode, Log4NetXmlConstants.Logger))
+            foreach (XmlNode node in FindNodeChildren(log4NetNode, Log4NetXmlConstants.Logger))
             {
-                string name = node.Attributes[Log4NetXmlConstants.Name]?.Value;
+                string name = node.FindNodeAttributeValue(Log4NetXmlConstants.Name);
 
                 if (!string.IsNullOrEmpty(name))
                 {
@@ -65,7 +65,7 @@ namespace Editor.Utilities
                 }
             }
 
-            XmlNode root = log4NetNode.SelectSingleNode(Log4NetXmlConstants.Root);
+            XmlNode root = log4NetNode.FindNodeChildren(Log4NetXmlConstants.Root).FirstOrDefault();
 
             if (root != null)
             {
@@ -173,7 +173,7 @@ namespace Editor.Utilities
         /// <returns></returns>
         public static string GetValueAttributeValueFromChildElement(this XmlNode node, string childElementName)
         {
-            return node[childElementName]?.Attributes["value"]?.Value;
+            return node.FindNodeChildren(childElementName).FirstOrDefault()?.FindNodeAttributeValue(Log4NetXmlConstants.Value);
         }
 
         /// <summary>
@@ -182,9 +182,20 @@ namespace Editor.Utilities
         /// <param name="parent"></param>
         /// <param name="childName"></param>
         /// <returns></returns>
-        public static IEnumerable<XmlNode> FindNodeChildrenCaseInsensitive(XmlNode parent, string childName)
+        public static IEnumerable<XmlNode> FindNodeChildren(this XmlNode parent, string childName)
         {
             return parent.ChildNodes.Cast<XmlNode>().Where(child => string.Equals(child.LocalName, childName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
+        /// Performs a case insensitive search for the specified attribute by name. Returns value.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="attrName"></param>
+        /// <returns>Value, if found - null if not</returns>
+        public static string FindNodeAttributeValue(this XmlNode node, string attrName)
+        {
+            return node.Attributes?.Cast<XmlAttribute>().FirstOrDefault(attr => string.Equals(attr.LocalName, attrName, StringComparison.OrdinalIgnoreCase))?.Value;
         }
     }
 }

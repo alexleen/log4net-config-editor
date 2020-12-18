@@ -30,11 +30,11 @@ namespace Editor.Models.ConfigChildren
         /// <returns></returns>
         public static bool TryCreate(XmlNode appender, XmlNode log4NetNode, out AppenderModel appenderModel)
         {
-            string type = appender.Attributes[Log4NetXmlConstants.Type]?.Value;
+            string type = appender.FindNodeAttributeValue(Log4NetXmlConstants.Type);
 
             if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
-                string name = appender.Attributes[Log4NetXmlConstants.Name]?.Value;
+                string name = appender.FindNodeAttributeValue(Log4NetXmlConstants.Name);
                 //TODO: this will count refs in locations where a ref doesn't make sense (e.g. in an appender that doesn't accept them). Bug?
                 int incomingReferences = log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
 

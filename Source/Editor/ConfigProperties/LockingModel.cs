@@ -5,6 +5,7 @@ using System.Windows;
 using Editor.ConfigProperties.Base;
 using Editor.Descriptors;
 using Editor.Interfaces;
+using Editor.Utilities;
 using Editor.XML;
 
 namespace Editor.ConfigProperties
@@ -26,7 +27,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            string modelType = config.OriginalNode[LockingModelName]?.Attributes["type"]?.Value;
+            string modelType = config.OriginalNode[LockingModelName]?.FindNodeAttributeValue(Log4NetXmlConstants.Type);
             if (LockingModelDescriptor.TryFindByTypeNamespace(modelType, out LockingModelDescriptor descriptor))
             {
                 SelectedModel = descriptor;
@@ -38,7 +39,7 @@ namespace Editor.ConfigProperties
             //Exclusive is the default and does not need to be specified in the XML if chosen
             if (SelectedModel != LockingModelDescriptor.Exclusive)
             {
-                config.Save(new Element(LockingModelName, new[] { ("type", SelectedModel.TypeNamespace) }));
+                config.Save(new Element(LockingModelName, new[] { (Log4NetXmlConstants.Type, SelectedModel.TypeNamespace) }));
             }
         }
     }

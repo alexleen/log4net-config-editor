@@ -15,7 +15,7 @@ namespace Editor.Models
         {
             model = null;
 
-            switch (node.Name)
+            switch (node.Name.ToLower())
             {
                 case Log4NetXmlConstants.Root:
                     model = new RootLoggerModel(node, false, LoggerDescriptor.Root);

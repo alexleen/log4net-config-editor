@@ -7,6 +7,7 @@ using System.Xml;
 using Editor.ConfigProperties.Base;
 using Editor.Interfaces;
 using Editor.Models.ConfigChildren;
+using Editor.Utilities;
 using Editor.XML;
 
 namespace Editor.ConfigProperties
@@ -27,11 +28,11 @@ namespace Editor.ConfigProperties
 
         private void LoadPossibleReferences()
         {
-            IEnumerable<XmlNode> availableRefs = mConfiguration.FindLog4NetNodeChildren("appender");
+            IEnumerable<XmlNode> availableRefs = mConfiguration.FindLog4NetNodeChildren(Log4NetXmlConstants.Appender);
 
             foreach (XmlNode appender in availableRefs)
             {
-                string name = appender.Attributes["name"].Value;
+                string name = appender.FindNodeAttributeValue(Log4NetXmlConstants.Name);
 
                 if (Equals(appender, mConfiguration.OriginalNode) || RefsCollection.Any(@ref => Equals(@ref.Name, name)))
                 {
