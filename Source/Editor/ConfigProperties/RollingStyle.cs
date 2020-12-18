@@ -44,8 +44,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            config.Load(Log4NetXmlConstants.Value, out IValueResult result, RollingStyleName);
-            if (!string.IsNullOrEmpty(result.AttributeValue) && Enum.TryParse(result.AttributeValue, out RollingFileAppender.RollingMode mode))
+            if (config.Load(Log4NetXmlConstants.Value, out IValueResult result, RollingStyleName) && Enum.TryParse(result.AttributeValue, out RollingFileAppender.RollingMode mode))
             {
                 SelectedMode = mode;
             }
