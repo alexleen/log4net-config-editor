@@ -90,12 +90,12 @@ namespace Editor.Test.ConfigProperties
         [Test]
         public void Load_ShouldLoadCorrectFilters()
         {
-            mXmlDoc.CreateElementWithAttribute("filter", "type", "sometype").AppendTo(mAppender);
-            mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace).AppendTo(mAppender);
-            mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.LoggerMatch.TypeNamespace).AppendTo(mAppender);
+            XmlNode filter1 = mXmlDoc.CreateElementWithAttribute("filter", "type", "sometype");
+            XmlNode filter2 = mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.DenyAll.TypeNamespace);
+            XmlNode filter3 = mXmlDoc.CreateElementWithAttribute("filter", "type", FilterDescriptor.LoggerMatch.TypeNamespace);
 
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.OriginalNode.Returns(mAppender);
+            config.FindOriginalNodeChildren("filter").Returns(new[] { filter1, filter2, filter3 });
 
             mSut.Load(config);
 

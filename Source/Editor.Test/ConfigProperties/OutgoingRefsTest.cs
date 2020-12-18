@@ -21,18 +21,18 @@ namespace Editor.Test.ConfigProperties
         {
             mXmlDoc = new XmlDocument();
             mXmlDoc.LoadXml("<log4net>\n" +
-                            $"  <appender name=\"appender0\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
+                            $" <appender name=\"appender0\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "    <appender-ref ref=\"appender1\" />\n" +
                             "    <appender-ref ref=\"appender2\" />\n" +
                             "  </appender>\n" +
-                            $"  <appender name=\"appender1\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
+                            $" <appender name=\"appender1\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "    <appender-ref ref=\"appender2\" />\n" +
                             "  </appender>\n" +
-                            $"  <appender name=\"appender2\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
+                            $" <appender name=\"appender2\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "  </appender>\n" +
-                            $"  <appender name=\"appender3\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
+                            $" <appender name=\"appender3\" type=\"{AppenderDescriptor.Console.TypeNamespace}\">\n" +
                             "  </appender>\n" +
-                            $"  <appender name=\"asyncAppender\" type=\"{AppenderDescriptor.Async.TypeNamespace}\">\n" +
+                            $" <appender name=\"asyncAppender\" type=\"{AppenderDescriptor.Async.TypeNamespace}\">\n" +
                             "  </appender>\n" +
                             "  <root>\n" +
                             "  </root>\n" +
@@ -42,6 +42,7 @@ namespace Editor.Test.ConfigProperties
             appenderConfiguration.ConfigXml.Returns(mXmlDoc);
             appenderConfiguration.Log4NetNode.Returns(mXmlDoc.FirstChild);
             appenderConfiguration.OriginalNode.Returns(mXmlDoc.FirstChild["appender"]);
+            appenderConfiguration.FindLog4NetNodeChildren("appender").Returns(mXmlDoc.FirstChild.SelectNodes("appender").Cast<XmlNode>());
 
             mSut = new OutgoingRefs(appenderConfiguration);
         }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using SystemInterface.Xml;
 using Editor.Descriptors;
@@ -54,7 +55,7 @@ namespace Editor.Utilities
         {
             List<IAcceptAppenderRef> loggers = new List<IAcceptAppenderRef>();
 
-            foreach (XmlNode node in log4NetNode.SelectNodes(Log4NetXmlConstants.Logger))
+            foreach (XmlNode node in FindNodeChildrenCaseInsensitive(log4NetNode, Log4NetXmlConstants.Logger))
             {
                 string name = node.Attributes[Log4NetXmlConstants.Name]?.Value;
 
@@ -173,6 +174,17 @@ namespace Editor.Utilities
         public static string GetValueAttributeValueFromChildElement(this XmlNode node, string childElementName)
         {
             return node[childElementName]?.Attributes["value"]?.Value;
+        }
+
+        /// <summary>
+        /// Performs a case insensitive search for the specified child on the specified parent.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="childName"></param>
+        /// <returns></returns>
+        public static IEnumerable<XmlNode> FindNodeChildrenCaseInsensitive(XmlNode parent, string childName)
+        {
+            return parent.ChildNodes.Cast<XmlNode>().Where(child => string.Equals(child.LocalName, childName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

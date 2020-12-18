@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Alex Leendertsen
+﻿// Copyright © 2020 Alex Leendertsen
 
 using System;
 using System.ComponentModel;
@@ -15,7 +15,7 @@ namespace Editor.Models.Base
             Node = node;
             Descriptor = descriptor ?? throw new ArgumentNullException(nameof(descriptor));
 
-            if (Node != null && Node.Name != descriptor.ElementName)
+            if (Node != null && !string.Equals(Node.Name, descriptor.ElementName, StringComparison.OrdinalIgnoreCase))
             {
                 throw new ArgumentException($"Specified node has incorrect element name ({Node.Name}) for {GetType().Name} ({descriptor.ElementName}).");
             }

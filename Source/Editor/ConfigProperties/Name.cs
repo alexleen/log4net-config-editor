@@ -61,7 +61,7 @@ namespace Editor.ConfigProperties
                 return false;
             }
 
-            foreach (XmlNode appender in mConfiguration.Log4NetNode.SelectNodes("appender"))
+            foreach (XmlNode appender in mConfiguration.FindLog4NetNodeChildren("appender"))
             {
                 if (!Equals(appender, mConfiguration.OriginalNode) && appender.Attributes[Log4NetXmlConstants.Name]?.Value == Value)
                 {

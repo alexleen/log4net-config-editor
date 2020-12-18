@@ -226,7 +226,7 @@ namespace Editor.Test.ConfigProperties
         public void TryValidate_ShouldShowCollisionMessageBox_WhenAppenderNameCollides()
         {
             mSut.Value = OriginalName;
-            mXmlDoc.CreateElementWithAttribute("appender", "name", mSut.Value).AppendTo(mLog4NetNode);
+            mAppenderConfiguration.FindLog4NetNodeChildren("appender").Returns(new[] { mXmlDoc.CreateElementWithAttribute("appender", "name", mSut.Value) });
 
             IMessageBoxService messageBoxService = Substitute.For<IMessageBoxService>();
 

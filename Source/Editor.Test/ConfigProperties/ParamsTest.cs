@@ -1,5 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using Editor.ConfigProperties;
@@ -54,7 +55,7 @@ namespace Editor.Test.ConfigProperties
                            "</appender>");
 
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.OriginalNode.Returns(xmlDoc.FirstChild);
+            config.FindOriginalNodeChildren("param").Returns(xmlDoc.FirstChild.ChildNodes.Cast<XmlNode>());
 
             mSut.Load(config);
 
@@ -94,7 +95,7 @@ namespace Editor.Test.ConfigProperties
                            "</appender>");
 
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.OriginalNode.Returns(xmlDoc.FirstChild);
+            config.FindOriginalNodeChildren("param").Returns(xmlDoc.FirstChild.ChildNodes.Cast<XmlNode>());
 
             mSut.Load(config);
 

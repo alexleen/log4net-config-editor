@@ -1,5 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -63,7 +64,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            XmlNodeList mappings = config.OriginalNode.SelectNodes(MappingName);
+            IEnumerable<XmlNode> mappings = config.FindOriginalNodeChildren(MappingName);
 
             foreach (XmlNode mappingNode in mappings)
             {

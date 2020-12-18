@@ -1,5 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Editor.Interfaces
@@ -29,6 +30,20 @@ namespace Editor.Interfaces
         /// </param>
         /// <returns>False if not found, true otherwise</returns>
         bool Load(string attributeName, out IValueResult result, params string[] childElementNames);
+
+        /// <summary>
+        /// Performs a case insensitive search for the specified child element name on the original node.
+        /// </summary>
+        /// <param name="childName"></param>
+        /// <returns></returns>
+        IEnumerable<XmlNode> FindOriginalNodeChildren(string childName);
+
+        /// <summary>
+        /// Performs a case insensitive search for the specified child element name on the log4net node.
+        /// </summary>
+        /// <param name="childName"></param>
+        /// <returns></returns>
+        IEnumerable<XmlNode> FindLog4NetNodeChildren(string childName);
 
         /// <summary>
         /// The new node that will replace the original (if it exists).

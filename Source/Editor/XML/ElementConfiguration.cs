@@ -67,6 +67,16 @@ namespace Editor.XML
             return true;
         }
 
+        public IEnumerable<XmlNode> FindOriginalNodeChildren(string childName)
+        {
+            return XmlUtilities.FindNodeChildrenCaseInsensitive(OriginalNode, childName);
+        }
+
+        public IEnumerable<XmlNode> FindLog4NetNodeChildren(string childName)
+        {
+            return XmlUtilities.FindNodeChildrenCaseInsensitive(Log4NetNode, childName);
+        }
+
         public XmlNode NewNode { get; }
 
         public void Save(params IElement[] children)

@@ -77,7 +77,13 @@ namespace Editor.Test.ConfigProperties
             };
 
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.OriginalNode.Returns(mXmlDoc.FirstChild);
+            config.FindOriginalNodeChildren("mapping").Returns(new[]
+            {
+                mXmlDoc.FirstChild.ChildNodes[0],
+                mXmlDoc.FirstChild.ChildNodes[1],
+                mXmlDoc.FirstChild.ChildNodes[2],
+                mXmlDoc.FirstChild.ChildNodes[3],
+            });
 
             mSut.Load(config);
 
@@ -88,7 +94,13 @@ namespace Editor.Test.ConfigProperties
         public void Remove_ShouldRemoveModel()
         {
             IElementConfiguration config = Substitute.For<IElementConfiguration>();
-            config.OriginalNode.Returns(mXmlDoc.FirstChild);
+            config.FindOriginalNodeChildren("mapping").Returns(new[]
+            {
+                mXmlDoc.FirstChild.ChildNodes[0],
+                mXmlDoc.FirstChild.ChildNodes[1],
+                mXmlDoc.FirstChild.ChildNodes[2],
+                mXmlDoc.FirstChild.ChildNodes[3],
+            });
 
             mSut.Load(config);
 

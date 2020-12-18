@@ -1,5 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -69,7 +70,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            XmlNodeList paramNodes = config.OriginalNode.SelectNodes(Log4NetXmlConstants.Param);
+            IEnumerable<XmlNode> paramNodes = config.FindOriginalNodeChildren(Log4NetXmlConstants.Param);
 
             foreach (XmlNode paramNode in paramNodes)
             {

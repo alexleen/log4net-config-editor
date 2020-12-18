@@ -115,12 +115,7 @@ namespace Editor.ConfigProperties
 
         public override void Load(IElementConfiguration config)
         {
-            XmlNodeList filterNodes = config.OriginalNode.SelectNodes(Log4NetXmlConstants.Filter);
-
-            if (filterNodes == null)
-            {
-                return;
-            }
+            IEnumerable<XmlNode> filterNodes = config.FindOriginalNodeChildren(Log4NetXmlConstants.Filter);
 
             foreach (XmlNode filterNode in filterNodes)
             {

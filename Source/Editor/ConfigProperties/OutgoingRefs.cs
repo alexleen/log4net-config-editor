@@ -1,5 +1,6 @@
 ﻿// Copyright © 2020 Alex Leendertsen
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
@@ -26,7 +27,7 @@ namespace Editor.ConfigProperties
 
         private void LoadPossibleReferences()
         {
-            XmlNodeList availableRefs = mConfiguration.Log4NetNode.SelectNodes("appender");
+            IEnumerable<XmlNode> availableRefs = mConfiguration.FindLog4NetNodeChildren("appender");
 
             foreach (XmlNode appender in availableRefs)
             {
