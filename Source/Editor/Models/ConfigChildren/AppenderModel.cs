@@ -35,6 +35,7 @@ namespace Editor.Models.ConfigChildren
             if (AppenderDescriptor.TryFindByTypeNamespace(type, out AppenderDescriptor descriptor))
             {
                 string name = appender.Attributes[Log4NetXmlConstants.Name]?.Value;
+                //TODO: this will count refs in locations where a ref doesn't make sense (e.g. in an appender that doesn't accept them). Bug?
                 int incomingReferences = log4NetNode.SelectNodes($"//appender-ref[@ref='{name}']").Count;
 
                 if (descriptor == AppenderDescriptor.Async)

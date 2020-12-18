@@ -61,7 +61,7 @@ namespace Editor.ConfigProperties
                         RemoveOldRefsFrom(loggerModel, mNameProperty.OriginalName);
                     }
 
-                    XmlUtilities.AddAppenderRefToNode(loggerModel.Node, mNameProperty.Value, () => config.Save(new Element("appender-ref", new[] { ("ref", mNameProperty.Value) })));
+                    XmlUtilities.AddAppenderRefToNode(loggerModel.Node, mNameProperty.Value, () => config.SaveToNode(loggerModel.Node, new Element("appender-ref", new[] { ("ref", mNameProperty.Value) })));
                 }
                 else
                 {

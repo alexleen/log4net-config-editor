@@ -71,6 +71,16 @@ namespace Editor.XML
 
         public void Save(params IElement[] children)
         {
+            SaveTo(NewNode, children);
+        }
+
+        public void SaveToNode(XmlNode parent, params IElement[] children)
+        {
+            SaveTo(parent, children);
+        }
+
+        private void SaveTo(XmlNode node, params IElement[] children)
+        {
             foreach (IElement element in children)
             {
                 XmlNode child = ConfigXml.CreateElement(element.Name);
@@ -79,7 +89,7 @@ namespace Editor.XML
                     child.AppendAttribute(ConfigXml, attrName, attrValue);
                 }
 
-                NewNode.AppendChild(child);
+                node.AppendChild(child);
             }
         }
 

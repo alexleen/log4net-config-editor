@@ -50,6 +50,14 @@ namespace Editor.Interfaces
         void Save(params IElement[] children);
 
         /// <summary>
+        /// Saves the specified children along with their corresponding attributes to the specified parent node.
+        /// Child elements with attributes are automatically created and appended.
+        /// </summary>
+        /// <param name="parent">Parent node to save to</param>
+        /// <param name="children"></param>
+        void SaveToNode(XmlNode parent, params IElement[] children);
+
+        /// <summary>
         /// Saves the specified children in a hierarchical manor (elements are children of the previous element).
         /// </summary>
         /// <param name="children"></param>
